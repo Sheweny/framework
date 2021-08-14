@@ -4,7 +4,7 @@ Represents a command.
 
 | Name    | Type                                                                                              | Description                | Default | Required |
 | ------- | ------------------------------------------------------------------------------------------------- | -------------------------- | ------- | -------- |
-| Client  | [ShewenyClient](./SHEWENY-CLIENT)                                                                 | The client.                | None    | Yes      |
+| Client  | [ShewenyClient](./SHEWENY-CLIENT.md)                                                              | The client.                | None    | Yes      |
 | name    | [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) | The name of the command.   | None    | Yes      |
 | options | [CommandOptions](./typedef/CommandOptions.md)                                                     | The options of the command | None    | Yes      |
 

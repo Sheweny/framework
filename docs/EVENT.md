@@ -4,7 +4,7 @@ Represents a event.
 
 | Name    | Type                                                                                              | Description              | Default | Required |
 | ------- | ------------------------------------------------------------------------------------------------- | ------------------------ | ------- | -------- |
-| Client  | [ShewenyClient](./SHEWENY-CLIENT)                                                                 | The client.              | None    | Yes      |
+| Client  | [ShewenyClient](./SHEWENY-CLIENT.md)                                                              | The client.              | None    | Yes      |
 | name    | [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) | The name of the event.   | None    | Yes      |
 | options | [EventOptions](./typedef/EventOptions.md)                                                         | The options of the event | None    | Yes      |
 
