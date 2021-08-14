@@ -1,0 +1,1 @@
+Boolean(str.includes(/\([0-9]\)/))
