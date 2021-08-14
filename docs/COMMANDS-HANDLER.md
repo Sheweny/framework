@@ -7,7 +7,7 @@ Create an handler for bot commands. The commands can be in as many subfolders as
 | client    | [ShewenyClientOptions](./SHEWENY-CLIENT.md)                                                       | The client                | None    | Yes      |
 | directory | [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) | The directory of commands | None    | Yes      |
 
-## Methods
+## Properties
 
 ### CommandsHandler.client
 
@@ -20,6 +20,8 @@ Return : [ShewenyClientOptions](./SHEWENY-CLIENT.md)
 The directory of commands.
 
 Return : String
+
+## Methods
 
 ### CommandsHandler#registerAll()
 
