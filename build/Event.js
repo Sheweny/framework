@@ -11,7 +11,7 @@ class Event {
         this.once = options.once;
     }
     unregister() {
-        this.client.events.delete(this.name);
+        this.client.events?.delete(this.name);
         delete require.cache[require.resolve(this.path)];
         return true;
     }
@@ -25,7 +25,7 @@ class Event {
     async register() {
         const event = (await Promise.resolve().then(() => require(this.path))).default;
         const cmd = new event(this.client);
-        return this.client.events.set(cmd.name, cmd);
+        return this.client.events?.set(cmd.name, cmd);
     }
 }
 exports.Event = Event;

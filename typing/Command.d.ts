@@ -1,21 +1,21 @@
-import type { ApplicationCommandData } from 'discord.js';
-import { ICommandMeta } from './typescript/CommandsInterfaces';
+import { ICommandMeta } from './typescript/interfaces/CommandType';
+import type { ApplicationCommandOptionData, ApplicationCommandType } from 'discord.js';
+import type { ShewenyClient } from './index';
 export declare class Command {
     client: any;
-    util: any;
     path: string | undefined;
     name: string;
     description: string;
-    type: string | undefined;
+    type: ApplicationCommandType | undefined;
     aliases: string[];
-    options: Array<ApplicationCommandData> | undefined;
+    options: Array<ApplicationCommandOptionData> | undefined;
     category: string;
     cooldown: number;
     userPermissions: string[];
     botPermissions: string[];
     subCommands: string[];
-    defaultPermissions: boolean | undefined;
-    constructor(client: any, name: string, options: ICommandMeta);
+    defaultPermission: boolean | undefined;
+    constructor(client: ShewenyClient, name: string, options: ICommandMeta);
     unregister(): boolean;
     reload(): Promise<any>;
     register(): Promise<any>;

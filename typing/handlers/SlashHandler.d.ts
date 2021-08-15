@@ -1,11 +1,12 @@
 import type { Collection } from 'collection-data';
 import type { ApplicationCommandResolvable } from 'discord.js';
 import type { ShewenyClient, Command } from '../index';
+import type { CommandType } from '../typescript/interfaces/CommandType';
 export declare class SlashHandler {
     private commands;
     private client;
     constructor(client: ShewenyClient);
-    getData(commands: Collection<string, Command>): any;
+    getData(commands: Collection<string, CommandType>): any[];
     registerCommands(commands?: Collection<string, any>, guildId?: string): Promise<import("discord.js").Collection<string, import("discord.js").ApplicationCommand<{}>>>;
     createCommand(command: Command, guildId?: string): Promise<import("discord.js").ApplicationCommand<{
         guild: import("discord.js").GuildResolvable;

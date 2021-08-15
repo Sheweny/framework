@@ -39,9 +39,9 @@ async function run(client, interaction) {
         const tStamps = client.cooldowns.get(command.name);
         const cdAmount = (command.cooldown || 5) * 1000;
         if (tStamps.has(interaction.user.id)) {
-            const cdExpirationTime = tStamps.get(interaction.user.id) + cdAmount;
+            const cdExpirationTime = (tStamps.get(interaction.user.id) || 0) + cdAmount;
             if (timeNow < cdExpirationTime) {
-                const timeLeft = (cdExpirationTime - timeNow) / 1000;
+                // const timeLeft = (cdExpirationTime - timeNow) / 1000;
                 return client.emit('cooldownLimite', interaction);
             }
         }

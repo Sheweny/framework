@@ -37,7 +37,6 @@ class EventsHandler {
     async readDirAndPush(d) {
         const files = [];
         async function read(dir) {
-            const data = [];
             const result = await promises_1.readdir(dir);
             for (const item of result) {
                 const infos = await promises_1.stat(path_1.join(dir, item));
@@ -46,7 +45,7 @@ class EventsHandler {
                 else
                     files.push(path_1.join(dir, item));
             }
-            return data;
+            return;
         }
         await read(d);
         return files;

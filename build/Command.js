@@ -10,7 +10,6 @@ class Command {
         this.botPermissions = [];
         this.subCommands = [];
         this.client = client;
-        this.util = this.client.util;
         this.name = name;
         this.description = options.description;
         this.type = options.type;
@@ -26,10 +25,10 @@ class Command {
             this.botPermissions = options.botPermissions;
         if (options.subCommands)
             this.subCommands = options.subCommands;
-        this.defaultPermissions = options.defaultPermissions;
+        this.defaultPermission = options.defaultPermission;
     }
     unregister() {
-        this.client.commands.delete(this.name);
+        this.client.commands?.delete(this.name);
         delete require.cache[require.resolve(this.path)];
         return true;
     }
@@ -43,7 +42,7 @@ class Command {
     async register() {
         const Command = (await Promise.resolve().then(() => require(this.path))).default;
         const cmd = new Command(this.client);
-        return this.client.commands.set(cmd.name, cmd);
+        return this.client.commands?.set(cmd.name, cmd);
     }
 }
 exports.Command = Command;

@@ -1,10 +1,11 @@
 import { readdir, stat } from 'fs/promises';
 import { join } from 'path';
 import { Collection } from 'collection-data';
+import type { ShewenyClient } from '../index'
 export class EventsHandler {
-	private client: any;
+	private client: ShewenyClient;
 	private dir: string;
-	constructor(client: any, dir: string) {
+	constructor(client: ShewenyClient, dir: string) {
 		if (!dir) throw new TypeError("Directory must be provided.")
 		this.client = client;
 		this.dir = dir;
@@ -26,20 +27,19 @@ export class EventsHandler {
 	async loadAll() {
 		if (!this.client.events) await this.registerAll()
 		for (const [name, evt] of this.client.events) {
-			this.client.on(name, (...args: any) => evt.execute(args));
+			this.client.on(name, (...args: string[]) => evt.execute(args));
 		}
 	}
 	async readDirAndPush(d: string): Promise<Array<string>> {
-		const files: any = []
+		const files: string[] = []
 		async function read(dir: string) {
-			const data: any[] = []
 			const result = await readdir(dir);
 			for (const item of result) {
 				const infos = await stat(join(dir, item));
 				if (infos.isDirectory()) await read(join(dir, item))
 				else files.push(join(dir, item));
 			}
-			return data;
+			return;
 		}
 
 		await read(d)

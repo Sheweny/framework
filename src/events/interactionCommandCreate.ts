@@ -1,4 +1,4 @@
-import type { CommandInteraction, PermissionString } from 'discord.js';
+import type { CommandInteraction, PermissionString, CommandInteractionOptionResolver } from 'discord.js';
 import { Collection } from 'collection-data';
 import type { ShewenyClient } from '../index';
 
@@ -36,12 +36,12 @@ export default async function run(client: ShewenyClient, interaction: CommandInt
 			client.cooldowns.set(command.name, new Collection());
 		};
 		const timeNow = Date.now();
-		const tStamps = client.cooldowns.get(command.name);
+		const tStamps = client.cooldowns.get(command.name)!;
 		const cdAmount = (command.cooldown || 5) * 1000;
 		if (tStamps.has(interaction.user.id)) {
-			const cdExpirationTime = tStamps.get(interaction.user.id) + cdAmount;
+			const cdExpirationTime = (tStamps.get(interaction.user.id) || 0) + cdAmount;
 			if (timeNow < cdExpirationTime) {
-				const timeLeft = (cdExpirationTime - timeNow) / 1000;
+				// const timeLeft = (cdExpirationTime - timeNow) / 1000;
 				return client.emit('cooldownLimite', interaction)
 			}
 		}
@@ -56,7 +56,7 @@ export default async function run(client: ShewenyClient, interaction: CommandInt
 	//interaction.subcommand = interaction.options
 	/* ---------------OPTIONS--------------- */
 
-	let args: any = interaction.options;
+	let args: CommandInteractionOptionResolver = interaction.options;
 	// if (interaction.subcommand) args = interaction.options.get(interaction.subcommand)?.options;
 
 	/* ---------------COMMAND--------------- */

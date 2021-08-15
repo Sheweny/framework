@@ -1,23 +1,22 @@
-import type { ApplicationCommandData } from 'discord.js';
-import { ICommandMeta } from './typescript/CommandsInterfaces';
+import { ICommandMeta } from './typescript/interfaces/CommandType';
+import type { ApplicationCommandOptionData, ApplicationCommandType } from 'discord.js';
+import type { ShewenyClient } from './index'
 export class Command {
 	public client;
-	public util;
 	public path: string | undefined;
 	public name: string;
 	public description: string;
-	public type: string | undefined;
+	public type: ApplicationCommandType | undefined;
 	public aliases: string[] = [];
-	public options: Array<ApplicationCommandData> | undefined;
+	public options: Array<ApplicationCommandOptionData> | undefined;
 	public category: string = 'Bot';
 	public cooldown: number = 0;
 	public userPermissions: string[] = [];
 	public botPermissions: string[] = [];
 	public subCommands: string[] = [];
-	public defaultPermissions: boolean | undefined;
-	constructor(client: any, name: string, options: ICommandMeta) {
+	public defaultPermission: boolean | undefined;
+	constructor(client: ShewenyClient, name: string, options: ICommandMeta) {
 		this.client = client;
-		this.util = this.client.util;
 		this.name = name;
 		this.description = options.description;
 		this.type = options.type;
@@ -28,11 +27,11 @@ export class Command {
 		if (options.userPermissions) this.userPermissions = options.userPermissions;
 		if (options.botPermissions) this.botPermissions = options.botPermissions;
 		if (options.subCommands) this.subCommands = options.subCommands;
-		this.defaultPermissions = options.defaultPermissions;
+		this.defaultPermission = options.defaultPermission;
 	}
 
 	unregister() {
-		this.client.commands.delete(this.name);
+		this.client.commands?.delete(this.name);
 		delete require.cache[require.resolve(this.path!)];
 		return true;
 	}
@@ -46,6 +45,6 @@ export class Command {
 	async register() {
 		const Command = (await import(this.path!)).default;
 		const cmd = new Command(this.client)
-		return this.client.commands.set(cmd.name, cmd)
+		return this.client.commands?.set(cmd.name, cmd)
 	}
 }

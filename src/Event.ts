@@ -1,18 +1,19 @@
-import { IEventMeta } from './typescript/CommandsInterfaces';
+import { IEventMeta } from './typescript/interfaces/CommandType';
+import type { ShewenyClient } from './index';
 export class Event {
 	protected client;
 	protected path: string | undefined;
 	protected name: string;
 	protected description: string = '';
 	protected once: boolean = false;
-	constructor(client: any, name: string, options: IEventMeta) {
+	constructor(client: ShewenyClient, name: string, options: IEventMeta) {
 		this.client = client;
 		this.name = name
 		this.description = options.description
 		this.once = options.once
 	}
 	unregister() {
-		this.client.events.delete(this.name);
+		this.client.events?.delete(this.name);
 		delete require.cache[require.resolve(this.path!)];
 		return true;
 	}
@@ -26,6 +27,6 @@ export class Event {
 	async register() {
 		const event = (await import(this.path!)).default;
 		const cmd = new event(this.client)
-		return this.client.events.set(cmd.name, cmd)
+		return this.client.events?.set(cmd.name, cmd)
 	}
 }

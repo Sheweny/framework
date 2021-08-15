@@ -1,7 +1,8 @@
 import type { Collection } from 'collection-data';
-import type { ApplicationCommandResolvable } from 'discord.js'
+import type { ApplicationCommandResolvable, ApplicationCommandData, ApplicationCommandType } from 'discord.js'
 
 import type { ShewenyClient, Command } from '../index';
+import type { CommandType } from '../typescript/interfaces/CommandType'
 export class SlashHandler {
 	private commands: Collection<string, any>;
 	private client: ShewenyClient;
@@ -10,16 +11,16 @@ export class SlashHandler {
 		this.client = client;
 		this.commands = client.commands!
 	}
-	getData(commands: Collection<string, Command>) {
-		const data: any = [];
+	getData(commands: Collection<string, CommandType>) {
+		const data: any[] = [];
 		const commandsCategories: string[] = [];
-		commands.forEach((c: any) => commandsCategories.push(c.category))
+		commands.forEach((c: CommandType) => commandsCategories.push(c.category))
 		const categories = [... new Set(commandsCategories)];
 		for (const category of categories) {
 			const commandsCategory = [...commands].filter(([_, c]) => c.category === category);
 			for (const c of commandsCategory) {
 				if (c[1].subCommands?.length) {
-					const commandOptions: any = [];
+					const commandOptions: any[] = [];
 					c[1].subCommands.forEach((sc: any) => {
 						commandOptions.push({
 							type: 'SUB_COMMAND',
@@ -84,25 +85,25 @@ export class SlashHandler {
 
 	async createCommand(command: Command, guildId?: string) {
 		await this.client.awaitReady()
-		const data: any = {
+		const data: ApplicationCommandData = {
 			name: command.name,
 			description: command.description,
 		}
-		if (command.type) data.type = command.type;
+		if (command.type) data.type = (command.type as any);
 		if (command.options) data.options = command.options;
-		if (command.defaultPermissions) data.defaultPermissions = command.defaultPermissions;
+		if (command.defaultPermission) data.defaultPermission = command.defaultPermission;
 		if (guildId) return this.client.application?.commands.create(data, guildId)
 		return this.client.application?.commands.create(data)
 	}
 	async editCommand(oldCmd: ApplicationCommandResolvable, newCmd: Command, guildId?: string) {
 		await this.client.awaitReady()
-		const data: any = {
+		const data: ApplicationCommandData = {
 			name: newCmd.name,
 			description: newCmd.description,
 		}
-		if (newCmd.type) data.type = newCmd.type;
+		if (newCmd.type) data.type = (newCmd.type as any);
 		if (newCmd.options) data.options = newCmd.options;
-		if (newCmd.defaultPermissions) data.defaultPermissions = newCmd.defaultPermissions;
+		if (newCmd.defaultPermission) data.defaultPermission = newCmd.defaultPermission;
 		if (guildId) return this.client.application?.commands.edit(oldCmd, data, guildId)
 		return this.client.application?.commands.edit(oldCmd, data)
 	}

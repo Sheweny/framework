@@ -87,8 +87,8 @@ class SlashHandler {
             data.type = command.type;
         if (command.options)
             data.options = command.options;
-        if (command.defaultPermissions)
-            data.defaultPermissions = command.defaultPermissions;
+        if (command.defaultPermission)
+            data.defaultPermission = command.defaultPermission;
         if (guildId)
             return this.client.application?.commands.create(data, guildId);
         return this.client.application?.commands.create(data);
@@ -103,8 +103,8 @@ class SlashHandler {
             data.type = newCmd.type;
         if (newCmd.options)
             data.options = newCmd.options;
-        if (newCmd.defaultPermissions)
-            data.defaultPermissions = newCmd.defaultPermissions;
+        if (newCmd.defaultPermission)
+            data.defaultPermission = newCmd.defaultPermission;
         if (guildId)
             return this.client.application?.commands.edit(oldCmd, data, guildId);
         return this.client.application?.commands.edit(oldCmd, data);

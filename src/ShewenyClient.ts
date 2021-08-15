@@ -3,33 +3,21 @@ import { join } from 'path';
 import { Client } from 'discord.js';
 
 import { CommandsHandler, EventsHandler } from './index';
-import type { Event } from './index';
-import type { Command } from './typescript/CommandsInterfaces'
+import type { CommandType } from './typescript/interfaces/CommandType'
+import type { EventType } from './typescript/interfaces/EventType'
+import type { IOptions, IClientHandlers } from './typescript/interfaces/ShewenyClient'
 
-import type { ClientOptions } from 'discord.js';
 import { Collection } from 'collection-data'
 
-
-
-
-interface IOptions extends ClientOptions {
-	handlers: {
-		commands: string;
-		events: string;
-	}
-	commands: Collection<string, Command>;
-	events: Collection<string, Event>;
-	admins: string[];
-}
 
 export class ShewenyClient extends Client {
 	shewenyOptions: IOptions;
 	admins: string[] | undefined;
-	handlers: any = {};
-	commands: Collection<string, Command> | undefined = new Collection();
-	events: Collection<string, Event> | undefined = new Collection();
+	handlers: IClientHandlers = {};
+	commands: Collection<string, CommandType> = new Collection();
+	events: Collection<string, EventType> = new Collection();
 	commandsType: string | undefined;
-	cooldowns: Collection<string, any> = new Collection();
+	cooldowns: Collection<string, Collection<string, number>> = new Collection();
 	constructor(options: IOptions) {
 		super(options)
 		this.shewenyOptions = options;
@@ -39,7 +27,7 @@ export class ShewenyClient extends Client {
 				this.handlers.commands = new CommandsHandler(this, options.handlers.commands)
 			}
 			if (options.handlers.events) {
-				this.handlers.events = new EventsHandler(this, options.handlers.events)
+				this.handlers.events = new EventsHandler(this, options.handlers.events.directory)
 			}
 		}
 		this.init()

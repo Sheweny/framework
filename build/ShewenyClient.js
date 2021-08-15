@@ -21,7 +21,7 @@ class ShewenyClient extends discord_js_1.Client {
                 this.handlers.commands = new index_1.CommandsHandler(this, options.handlers.commands);
             }
             if (options.handlers.events) {
-                this.handlers.events = new index_1.EventsHandler(this, options.handlers.events);
+                this.handlers.events = new index_1.EventsHandler(this, options.handlers.events.directory);
             }
         }
         this.init();
