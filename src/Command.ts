@@ -1,30 +1,34 @@
 import type { ApplicationCommandData } from 'discord.js';
 import { ICommandInfosArgs, ICommandMeta } from './typescript/interfaces';
 export class Command {
-	protected client;
-	protected util;
-	protected path: string | undefined;
-	protected name: string;
-	protected aliases: string[] = [];
-	protected options: Array<ApplicationCommandData> | undefined = [];
-	protected category: string = 'Bot';
-	protected description: string;
-	protected cooldown: number = 0;
-	protected userPermissions: string[] = [];
-	protected botPermissions: string[] = [];
-	protected subCommands: string[] = [];
+	public client;
+	public util;
+	public path: string | undefined;
+	public name: string;
+	public description: string;
+	public type: string;
+	public aliases: string[] = [];
+	public options: Array<ApplicationCommandData> | undefined = [];
+	public category: string = 'Bot';
+	public cooldown: number = 0;
+	public userPermissions: string[] = [];
+	public botPermissions: string[] = [];
+	public subCommands: string[] = [];
+	public defaultPermissions: boolean | undefined;
 	constructor(client: any, name: string, options: ICommandMeta) {
 		this.client = client;
 		this.util = this.client.util;
-		this.name = name
-		this.aliases = options.aliases
-		this.options = options.options
-		this.category = options.category
-		this.description = options.description
-		this.cooldown = options.cooldown
-		this.userPermissions = options.userPermissions
-		this.botPermissions = options.botPermissions
-		this.subCommands = options.subCommands
+		this.name = name;
+		this.description = options.description;
+		this.type = options.type;
+		this.aliases = options.aliases;
+		this.options = options.options;
+		this.category = options.category;
+		this.cooldown = options.cooldown;
+		this.userPermissions = options.userPermissions;
+		this.botPermissions = options.botPermissions;
+		this.subCommands = options.subCommands;
+		this.defaultPermissions = options.defaultPermissions;
 	}
 	before() {
 

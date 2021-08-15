@@ -1,17 +1,22 @@
-import type { Collection } from 'collection-data'
+import type { Collection } from 'collection-data';
+import type { ApplicationCommandResolvable } from 'discord.js'
 
+import type { ShewenyClient, Command } from '../index';
 export class SlashHandler {
 	private commands: Collection<string, any>;
-	constructor(commands: Collection<string, any>) {
-		this.commands = commands
+	private client: ShewenyClient;
+	constructor(client: ShewenyClient, commands: Collection<string, any>) {
+		if (!client.commands) throw new Error('No commands found');
+		this.client = client;
+		this.commands = client.commands!
 	}
-	register() {
+	getData(commands: Collection<string, Command>) {
 		const data: any = [];
 		const commandsCategories: string[] = [];
-		this.commands.forEach((c: any) => commandsCategories.push(c.category))
+		commands.forEach((c: any) => commandsCategories.push(c.category))
 		const categories = [... new Set(commandsCategories)];
 		for (const category of categories) {
-			const commandsCategory = [...this.commands].filter(([_, c]) => c.category === category);
+			const commandsCategory = [...commands].filter(([_, c]) => c.category === category);
 			for (const c of commandsCategory) {
 				if (c[1].subCommands?.length) {
 					const commandOptions: any = [];
@@ -61,6 +66,45 @@ export class SlashHandler {
 			}
 		}
 		return data;
+	}
+	registerCommands(commands = this.commands, guildId?: string) {
+		const data = this.getData(commands);
+		if (data && data.length > 0) {
+			if (guildId) return this.client.application?.commands.set(data, guildId)
+			return this.client.application?.commands.set(data)
+		}
+		return null
+	}
+
+	createCommand(command: Command, guildId?: string) {
+		const data: any = {
+			name: command.name,
+			description: command.description,
+		}
+		if (command.type) data.type = command.type;
+		if (command.options) data.options = command.options;
+		if (command.defaultPermissions) data.defaultPermissions = command.defaultPermissions;
+		if (guildId) return this.client.application?.commands.create(data, guildId)
+		return this.client.application?.commands.create(data)
+	}
+	editCommand(oldCmd: ApplicationCommandResolvable, newCmd: Command, guildId?: string) {
+		const data: any = {
+			name: newCmd.name,
+			description: newCmd.description,
+		}
+		if (newCmd.type) data.type = newCmd.type;
+		if (newCmd.options) data.options = newCmd.options;
+		if (newCmd.defaultPermissions) data.defaultPermissions = newCmd.defaultPermissions;
+		if (guildId) return this.client.application?.commands.edit(oldCmd, data, guildId)
+		return this.client.application?.commands.edit(oldCmd, data)
+	}
+	deleteCommand(oldCmd: ApplicationCommandResolvable, guildId?: string) {
+		if (guildId) return this.client.application?.commands.delete(oldCmd, guildId)
+		return this.client.application?.commands.delete(oldCmd)
+	}
+	deleteAllCommands(guildId?: string) {
+		if (guildId) return this.client.application?.commands.set([], guildId)
+		return this.client.application?.commands.set([])
 	}
 }
 

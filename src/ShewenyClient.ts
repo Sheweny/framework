@@ -24,6 +24,8 @@ interface IOptions extends ClientOptions {
 export class ShewenyClient extends Client {
 	shewenyOptions: IOptions;
 	handlers: any;
+	commands: Collection<string, Command> | undefined;
+	events: Collection<string, Event> | undefined;
 	constructor(options: IOptions) {
 		super(options)
 		this.shewenyOptions = options;
