@@ -10,19 +10,19 @@ Represents a event.
 
 ## Methods
 
-### unregister()
+### Event#unregister()
 
 Unregister a event from the bot.
 
 Return true
 
-### [async] reload()
+### [async] Event#reload()
 
 Reload a event of bot.
 
 Return Promise\<Event>|null
 
-### [async] register()
+### [async] Event#register()
 
 Register the event.
 
