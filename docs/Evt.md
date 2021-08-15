@@ -20,10 +20,10 @@ Return true
 
 Reload a event of bot.
 
-Return Promise\<Event>|null
+Return Promise\<[Event](.)>|null
 
 ### [async] Event#register()
 
 Register the event.
 
-Return Promise\<Event>|null
+Return Promise\<[Event](.)>|null
