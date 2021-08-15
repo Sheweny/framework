@@ -14,7 +14,7 @@ Parameters :
 
 The handlers of the client.
 
-Return : [HandlersOptions](./typedef/HandlersOptions.md).
+Return : [ClientHandlers](./typedef/ClientHandlers.md).
 
 ### ShewenyClient.commands
 
