@@ -1,4 +1,4 @@
-const { ShewenyClient } = require('../build/index');
+const { ShewenyClient } = require('../../../build');
 
 
 const client = new ShewenyClient({
@@ -10,7 +10,7 @@ const client = new ShewenyClient({
 		}
 	}
 })
-client.handlers.commands.loadAll().then((a) => {
+client.handlers.commands.loadAll().then(() => {
 	client.handlers.commands.slashCommands.registerCommands(client.commands, "809702809196560405")
 })
 

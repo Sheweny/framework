@@ -67,16 +67,23 @@ export class SlashHandler {
 		}
 		return data;
 	}
-	registerCommands(commands = this.commands, guildId?: string) {
+	async registerCommands(commands = this.commands, guildId?: string) {
+		await this.client.awaitReady()
 		const data = this.getData(commands);
 		if (data && data.length > 0) {
-			if (guildId) return this.client.application?.commands.set(data, guildId)
-			return this.client.application?.commands.set(data)
+			if (guildId) {
+				console.log('OK');
+				console.log(data);
+
+				return await this.client.application?.commands.set(data, guildId)
+			}
+			return await this.client.application?.commands.set(data)
 		}
 		return null
 	}
 
-	createCommand(command: Command, guildId?: string) {
+	async createCommand(command: Command, guildId?: string) {
+		await this.client.awaitReady()
 		const data: any = {
 			name: command.name,
 			description: command.description,
@@ -87,7 +94,8 @@ export class SlashHandler {
 		if (guildId) return this.client.application?.commands.create(data, guildId)
 		return this.client.application?.commands.create(data)
 	}
-	editCommand(oldCmd: ApplicationCommandResolvable, newCmd: Command, guildId?: string) {
+	async editCommand(oldCmd: ApplicationCommandResolvable, newCmd: Command, guildId?: string) {
+		await this.client.awaitReady()
 		const data: any = {
 			name: newCmd.name,
 			description: newCmd.description,
@@ -98,11 +106,12 @@ export class SlashHandler {
 		if (guildId) return this.client.application?.commands.edit(oldCmd, data, guildId)
 		return this.client.application?.commands.edit(oldCmd, data)
 	}
-	deleteCommand(oldCmd: ApplicationCommandResolvable, guildId?: string) {
+	async deleteCommand(oldCmd: ApplicationCommandResolvable, guildId?: string) {
+		await this.client.awaitReady()
 		if (guildId) return this.client.application?.commands.delete(oldCmd, guildId)
 		return this.client.application?.commands.delete(oldCmd)
 	}
-	deleteAllCommands(guildId?: string) {
+	async deleteAllCommands(guildId?: string) {
 		if (guildId) return this.client.application?.commands.set([], guildId)
 		return this.client.application?.commands.set([])
 	}

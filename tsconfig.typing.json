@@ -4,10 +4,17 @@
 		"src/**/*"
 	],
 	"compilerOptions": {
-		"target": "ES2020",
+		"target": "ES2021",
 		"allowJs": true,
 		"declaration": true,
 		"emitDeclarationOnly": true,
-		"outDir": "typing"
-	}
+		"outDir": "typing",
+		"moduleResolution": "node",
+		"module": "CommonJS",
+
+	},
+	"exclude": [
+		"node_modules",
+		"test"
+	]
 }

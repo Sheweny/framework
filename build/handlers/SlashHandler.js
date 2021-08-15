@@ -2,16 +2,19 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SlashHandler = void 0;
 class SlashHandler {
-    constructor(commands) {
-        this.commands = commands;
+    constructor(client) {
+        if (!client.commands)
+            throw new Error('No commands found. Please use CommandsHandler.loadAll() for load commands.');
+        this.client = client;
+        this.commands = client.commands;
     }
-    register() {
+    getData(commands) {
         const data = [];
         const commandsCategories = [];
-        this.commands.forEach((c) => commandsCategories.push(c.category));
+        commands.forEach((c) => commandsCategories.push(c.category));
         const categories = [...new Set(commandsCategories)];
         for (const category of categories) {
-            const commandsCategory = [...this.commands].filter(([_, c]) => c.category === category);
+            const commandsCategory = [...commands].filter(([_, c]) => c.category === category);
             for (const c of commandsCategory) {
                 if (c[1].subCommands?.length) {
                     const commandOptions = [];
@@ -60,6 +63,62 @@ class SlashHandler {
             }
         }
         return data;
+    }
+    async registerCommands(commands = this.commands, guildId) {
+        await this.client.awaitReady();
+        const data = this.getData(commands);
+        if (data && data.length > 0) {
+            if (guildId) {
+                console.log('OK');
+                console.log(data);
+                return await this.client.application?.commands.set(data, guildId);
+            }
+            return await this.client.application?.commands.set(data);
+        }
+        return null;
+    }
+    async createCommand(command, guildId) {
+        await this.client.awaitReady();
+        const data = {
+            name: command.name,
+            description: command.description,
+        };
+        if (command.type)
+            data.type = command.type;
+        if (command.options)
+            data.options = command.options;
+        if (command.defaultPermissions)
+            data.defaultPermissions = command.defaultPermissions;
+        if (guildId)
+            return this.client.application?.commands.create(data, guildId);
+        return this.client.application?.commands.create(data);
+    }
+    async editCommand(oldCmd, newCmd, guildId) {
+        await this.client.awaitReady();
+        const data = {
+            name: newCmd.name,
+            description: newCmd.description,
+        };
+        if (newCmd.type)
+            data.type = newCmd.type;
+        if (newCmd.options)
+            data.options = newCmd.options;
+        if (newCmd.defaultPermissions)
+            data.defaultPermissions = newCmd.defaultPermissions;
+        if (guildId)
+            return this.client.application?.commands.edit(oldCmd, data, guildId);
+        return this.client.application?.commands.edit(oldCmd, data);
+    }
+    async deleteCommand(oldCmd, guildId) {
+        await this.client.awaitReady();
+        if (guildId)
+            return this.client.application?.commands.delete(oldCmd, guildId);
+        return this.client.application?.commands.delete(oldCmd);
+    }
+    async deleteAllCommands(guildId) {
+        if (guildId)
+            return this.client.application?.commands.set([], guildId);
+        return this.client.application?.commands.set([]);
     }
 }
 exports.SlashHandler = SlashHandler;

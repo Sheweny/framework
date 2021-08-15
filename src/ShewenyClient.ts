@@ -3,11 +3,11 @@ import { join } from 'path';
 import { Client } from 'discord.js';
 
 import { CommandsHandler, EventsHandler } from './index';
-import type { Command, Event } from './index';
-
+import type { Event } from './index';
+import type { Command } from './typescript/CommandsInterfaces'
 
 import type { ClientOptions } from 'discord.js';
-import type { Collection } from 'collection-data'
+import { Collection } from 'collection-data'
 
 
 
@@ -19,16 +19,21 @@ interface IOptions extends ClientOptions {
 	}
 	commands: Collection<string, Command>;
 	events: Collection<string, Event>;
+	admins: string[];
 }
 
 export class ShewenyClient extends Client {
 	shewenyOptions: IOptions;
-	handlers: any;
-	commands: Collection<string, Command> | undefined;
-	events: Collection<string, Event> | undefined;
+	admins: string[] | undefined;
+	handlers: any = {};
+	commands: Collection<string, Command> | undefined = new Collection();
+	events: Collection<string, Event> | undefined = new Collection();
+	commandsType: string | undefined;
+	cooldowns: Collection<string, any> = new Collection();
 	constructor(options: IOptions) {
 		super(options)
 		this.shewenyOptions = options;
+		if (options.admins) this.admins = options.admins
 		if (options.handlers) {
 			if (options.handlers.commands) {
 				this.handlers.commands = new CommandsHandler(this, options.handlers.commands)
@@ -47,5 +52,11 @@ export class ShewenyClient extends Client {
 			console.log(`Event loaded: ${evtName}`);
 		});
 	};
-
+	awaitReady(): Promise<void> {
+		return new Promise((resolve) => {
+			if (this.isReady()) return resolve()
+			const that: ShewenyClient = this
+			that.once('ready', () => resolve())
+		})
+	}
 }

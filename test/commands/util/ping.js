@@ -1,12 +1,7 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-	return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
 const { Command } = require('../../../build')
 class default_1 extends Command {
 	constructor(spiritus) {
-		super(spiritus, 'ping', {
+		super(spiritus, 'pingss', {
 			aliases: [],
 			options: [],
 			description: 'Get ping of the bot',

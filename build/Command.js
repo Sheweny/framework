@@ -4,7 +4,6 @@ exports.Command = void 0;
 class Command {
     constructor(client, name, options) {
         this.aliases = [];
-        this.options = [];
         this.category = 'Bot';
         this.cooldown = 0;
         this.userPermissions = [];
@@ -13,16 +12,21 @@ class Command {
         this.client = client;
         this.util = this.client.util;
         this.name = name;
-        this.aliases = options.aliases;
+        this.description = options.description;
+        this.type = options.type;
+        if (options.aliases)
+            this.aliases = options.aliases;
         this.options = options.options;
         this.category = options.category;
-        this.description = options.description;
-        this.cooldown = options.cooldown;
-        this.userPermissions = options.userPermissions;
-        this.botPermissions = options.botPermissions;
-        this.subCommands = options.subCommands;
-    }
-    before() {
+        if (options.cooldown)
+            this.cooldown = options.cooldown;
+        if (options.userPermissions)
+            this.userPermissions = options.userPermissions;
+        if (options.botPermissions)
+            this.botPermissions = options.botPermissions;
+        if (options.subCommands)
+            this.subCommands = options.subCommands;
+        this.defaultPermissions = options.defaultPermissions;
     }
     unregister() {
         this.client.commands.delete(this.name);

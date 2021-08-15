@@ -1,4 +1,4 @@
-import { IEventMeta } from './typescript/interfaces';
+import { IEventMeta } from './typescript/CommandsInterfaces';
 export class Event {
 	protected client;
 	protected path: string | undefined;

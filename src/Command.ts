@@ -1,14 +1,14 @@
 import type { ApplicationCommandData } from 'discord.js';
-import { ICommandInfosArgs, ICommandMeta } from './typescript/interfaces';
+import { ICommandMeta } from './typescript/CommandsInterfaces';
 export class Command {
 	public client;
 	public util;
 	public path: string | undefined;
 	public name: string;
 	public description: string;
-	public type: string;
+	public type: string | undefined;
 	public aliases: string[] = [];
-	public options: Array<ApplicationCommandData> | undefined = [];
+	public options: Array<ApplicationCommandData> | undefined;
 	public category: string = 'Bot';
 	public cooldown: number = 0;
 	public userPermissions: string[] = [];
@@ -21,18 +21,16 @@ export class Command {
 		this.name = name;
 		this.description = options.description;
 		this.type = options.type;
-		this.aliases = options.aliases;
+		if (options.aliases) this.aliases = options.aliases;
 		this.options = options.options;
 		this.category = options.category;
-		this.cooldown = options.cooldown;
-		this.userPermissions = options.userPermissions;
-		this.botPermissions = options.botPermissions;
-		this.subCommands = options.subCommands;
+		if (options.cooldown) this.cooldown = options.cooldown;
+		if (options.userPermissions) this.userPermissions = options.userPermissions;
+		if (options.botPermissions) this.botPermissions = options.botPermissions;
+		if (options.subCommands) this.subCommands = options.subCommands;
 		this.defaultPermissions = options.defaultPermissions;
 	}
-	before() {
 
-	}
 	unregister() {
 		this.client.commands.delete(this.name);
 		delete require.cache[require.resolve(this.path!)];

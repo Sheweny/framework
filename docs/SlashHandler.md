@@ -28,7 +28,7 @@ Create an array with all commands data for register it.
 
 Return promise Collection\<string, [Event](./Event.md)>
 
-### EventsHandler#registerCommands(commands, guildId)
+### [async] EventsHandler#registerCommands(commands, guildId)
 
 Register commands.
 
@@ -37,9 +37,9 @@ Parameters :
 - commands : [Optional] The commands to register (type Collection\<[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String), [Command](./Command.md))>. Default : All commands loaded in loader.
 - guildId : [Optional] The guild id to register commands.
 
-Return Promise<Collection<string, ApplicationCommand<{guild: GuildResolvable;}>>>
+Return Promise<Collection<Snowflake, ApplicationCommand>>;
 
-### EventsHandler#createCommand(command, guildId)
+### [async] EventsHandler#createCommand(command, guildId)
 
 Create single commands.
 
@@ -48,9 +48,9 @@ Parameters :
 - command : The commands to register (type [Command](./Command.md)).
 - guildId : [Optional] The guild id to register command.
 
-Return Promise<Collection<string, ApplicationCommand<{guild: GuildResolvable;}>>>
+Return Promise<Collection<Snowflake, ApplicationCommand>>;
 
-### EventsHandler#editCommand(oldCommand, newCommand, guildId)
+### [async] EventsHandler#editCommand(oldCommand, newCommand, guildId)
 
 Create single commands.
 
@@ -60,9 +60,9 @@ Parameters :
 - newCommand : The new command (type [Command](./Command.md)).
 - guildId : [Optional] The guild id to register command.
 
-Return Promise<Collection<string, ApplicationCommand<{guild: GuildResolvable;}>>>
+Return Promise<Collection<Snowflake, ApplicationCommand>>;
 
-### EventsHandler#deleteCommand(command, guildId)
+### [async] EventsHandler#deleteCommand(command, guildId)
 
 Create single commands.
 
@@ -71,9 +71,9 @@ Parameters :
 - command : The old command (type [ApplicationCommandResolvable](https://discord.js.org/#/docs/main/stable/typedef/ApplicationCommandResolvable)).
 - guildId : [Optional] The guild id to register command.
 
-Return Promise<Collection<string, ApplicationCommand<{guild: GuildResolvable;}>>>
+Return Promise<Collection<Snowflake, ApplicationCommand>>;
 
-### EventsHandler#deleteAllCommands( guildId)
+### [async] EventsHandler#deleteAllCommands( guildId)
 
 Create single commands.
 
@@ -81,4 +81,4 @@ Parameters :
 
 - guildId : [Optional] The guild id to delete commands.
 
-Return Promise<Collection<string, ApplicationCommand<{guild: GuildResolvable;}>>>
+Return Promise<Collection<Snowflake, ApplicationCommand>>;
