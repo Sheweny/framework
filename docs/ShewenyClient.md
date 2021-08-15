@@ -12,7 +12,7 @@ Parameters :
 
 ### ShewenyClient.handlers
 
-The handlers options or undefined if no handler provided
+The handlers of the client.
 
 Return : [HandlersOptions](./typedef/HandlersOptions.md).
 
