@@ -2,9 +2,9 @@
 
 Create an handler for bot events. The events can be in as many subfolders as desired.
 
-| Name   | Type                                       | Description | Default | Required |
-| ------ | ------------------------------------------ | ----------- | ------- | -------- |
-| client | [ShewenyClientOptions](./ShewenyClient.md) | The client  | None    | Yes      |
+| Name   | Type                                | Description | Default | Required |
+| ------ | ----------------------------------- | ----------- | ------- | -------- |
+| client | [ShewenyClient](./ShewenyClient.md) | The client  | None    | Yes      |
 
 ## Properties
 
@@ -12,7 +12,7 @@ Create an handler for bot events. The events can be in as many subfolders as des
 
 The client of framework.
 
-Return : [ShewenyClientOptions](./ShewenyClient.md)
+Return : [ShewenyClient](./ShewenyClient.md)
 
 ### EventsHandler.commands
 

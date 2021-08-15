@@ -6,7 +6,7 @@ export class SlashHandler {
 	private commands: Collection<string, any>;
 	private client: ShewenyClient;
 	constructor(client: ShewenyClient) {
-		if (!client.commands) throw new Error('No commands found');
+		if (!client.commands) throw new Error('No commands found. Please use CommandsHandler.loadAll() for load commands.');
 		this.client = client;
 		this.commands = client.commands!
 	}
