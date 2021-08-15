@@ -34,6 +34,8 @@ A collection of commands or undefined if no command handler provided
 
 Return : Collection\<[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String), [Event](./Event.md)>.
 
+# Events
+
 ## Events permissions
 
 ### ShewenyClient#userMissingPermissions

@@ -7,8 +7,12 @@ export declare class SlashHandler {
     constructor(client: ShewenyClient);
     getData(commands: Collection<string, Command>): any;
     registerCommands(commands?: Collection<string, any>, guildId?: string): Promise<import("discord.js").Collection<string, import("discord.js").ApplicationCommand<{}>>>;
-    createCommand(command: Command, guildId?: string): Promise<import("discord.js").ApplicationCommand<{}>>;
-    editCommand(oldCmd: ApplicationCommandResolvable, newCmd: Command, guildId?: string): Promise<import("discord.js").ApplicationCommand<{}>>;
+    createCommand(command: Command, guildId?: string): Promise<import("discord.js").ApplicationCommand<{
+        guild: import("discord.js").GuildResolvable;
+    }>>;
+    editCommand(oldCmd: ApplicationCommandResolvable, newCmd: Command, guildId?: string): Promise<import("discord.js").ApplicationCommand<{
+        guild: import("discord.js").GuildResolvable;
+    }>>;
     deleteCommand(oldCmd: ApplicationCommandResolvable, guildId?: string): Promise<import("discord.js").ApplicationCommand<{
         guild: import("discord.js").GuildResolvable;
     }>>;

@@ -12,7 +12,7 @@ class EventsHandler {
         this.dir = dir;
         this.client.events = new collection_data_1.Collection();
     }
-    async loadAll() {
+    async registerAll() {
         const baseDir = path_1.join(require.main.path, this.dir);
         const evtsPaths = await this.readDirAndPush(baseDir);
         for (const evtPath of evtsPaths) {
@@ -27,7 +27,9 @@ class EventsHandler {
         }
         return this.client.events;
     }
-    async registerAll() {
+    async loadAll() {
+        if (!this.client.events)
+            await this.registerAll();
         for (const [name, evt] of this.client.events) {
             this.client.on(name, (...args) => evt.execute(args));
         }

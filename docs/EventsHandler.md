@@ -25,12 +25,12 @@ Return : String
 
 ### EventsHandler#registerAll()
 
-Regsiter all events in Collection of events.
+Regsiter all events in client.events Collection.
 
 Return promise Collection\<string, [Event](./Event.md)>
 
 ### EventsHandler#loadAll()
 
-Load registereds events;
+Load registereds events and register them if no events exist.
 
 Return Promise\<undefined>
