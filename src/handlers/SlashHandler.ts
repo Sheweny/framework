@@ -5,7 +5,7 @@ import type { ShewenyClient, Command } from '../index';
 export class SlashHandler {
 	private commands: Collection<string, any>;
 	private client: ShewenyClient;
-	constructor(client: ShewenyClient, commands: Collection<string, any>) {
+	constructor(client: ShewenyClient) {
 		if (!client.commands) throw new Error('No commands found');
 		this.client = client;
 		this.commands = client.commands!

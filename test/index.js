@@ -10,5 +10,5 @@ const client = new ShewenyClient({
 		}
 	}
 })
-client.
-	client.login('Njg5MjExNjEwMzA0MzQ4MzMx.Xm_kVA.Q7U_VPFx_9T0Qb_mDh1Qd6fv88w')
+client.handlers.commands.registerAll()
+client.login('Njg5MjExNjEwMzA0MzQ4MzMx.Xm_kVA.Q7U_VPFx_9T0Qb_mDh1Qd6fv88w')

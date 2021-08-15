@@ -1,13 +1,18 @@
 import { readdir, stat } from 'fs/promises';
 import { join } from 'path';
 import { Collection } from 'collection-data';
+import { SlashHandler } from '../index';
 export class CommandsHandler {
 	private client: any;
 	private dir: string;
+	public slashCommands: SlashHandler | undefined;
 	constructor(client: any, options: any) {
 		if (!options.directory) throw new TypeError("Directory must be provided.")
 		if (options.type && !['MESSAGE_COMMANDS', 'SLASH_COMMANDS'].includes(options.type)) throw new TypeError("Unknown type of command: " + options.type + "\nThe type must be MESSAGE_COMMANDS or SLASH_COMMANDS")
 		if (!options.type) options.type = 'MESSAGE_COMMANDS';
+		if (options.type === 'SLASH_COMMANDS') {
+			this.slashCommands = new SlashHandler(client)
+		}
 		this.client = client;
 		this.dir = options.directory;
 		this.client.commands = new Collection()
