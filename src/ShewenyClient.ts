@@ -2,7 +2,9 @@ import { readdirSync } from 'fs';
 import { join } from 'path';
 import { Client } from 'discord.js';
 
+import { CommandsHandler, EventsHandler } from './index';
 import type { Command, Event } from './index';
+
 
 import type { ClientOptions } from 'discord.js';
 import type { Collection } from 'collection-data'
@@ -21,17 +23,18 @@ interface IOptions extends ClientOptions {
 
 export class ShewenyClient extends Client {
 	shewenyOptions: IOptions;
+	handlers: any;
 	constructor(options: IOptions) {
 		super(options)
 		this.shewenyOptions = options;
-		// if (options.handlers) {
-		// if (options.handlers.commands) {
-		// 	this.handleCommands(options.handlers.commands)
-		// }
-		// if (options.handlers.events) {
-		// 	this.handleEvents(options.handlers.events)
-		// }
-		// }
+		if (options.handlers) {
+			if (options.handlers.commands) {
+				this.handlers.commands = new CommandsHandler(this, options.handlers.commands)
+			}
+			if (options.handlers.events) {
+				this.handlers.events = new EventsHandler(this, options.handlers.events)
+			}
+		}
 		this.init()
 	}
 	async init(dir = join(__dirname, "./events")) {

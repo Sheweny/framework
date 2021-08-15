@@ -4,11 +4,14 @@ import { Collection } from 'collection-data';
 export class CommandsHandler {
 	private client: any;
 	private dir: string;
-	constructor(client: any, dir: string) {
-		if (!dir) throw new TypeError("Directory must be provided.")
+	constructor(client: any, options: any) {
+		if (!options.directory) throw new TypeError("Directory must be provided.")
+		if (options.type && !['MESSAGE_COMMANDS', 'SLASH_COMMANDS'].includes(options.type)) throw new TypeError("Unknown type of command: " + options.type + "\nThe type must be MESSAGE_COMMANDS or SLASH_COMMANDS")
+		if (!options.type) options.type = 'MESSAGE_COMMANDS';
 		this.client = client;
-		this.dir = dir;
+		this.dir = options.directory;
 		this.client.commands = new Collection()
+		this.client.commandsType = options.type
 	}
 	async registerAll() {
 		const baseDir = join(require.main!.path, this.dir);
@@ -23,21 +26,21 @@ export class CommandsHandler {
 		}
 		return this.client.commands
 	}
-	async readDirAndPush(d: string): Promise<Array<string>> {
+	async readDirAndPush(d: string): Promise<Array<[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)>> {
 		const files: any = []
 		async function read(dir: string) {
-			const data: any[] = []
-			const result = await readdir(dir);
-			for (const item of result) {
-				const infos = await stat(join(dir, item));
-				if (infos.isDirectory()) await read(join(dir, item))
-				else files.push(join(dir, item));
-			}
-			return data;
-		}
+	const data: any[] = []
+	const result = await readdir(dir);
+	for (const item of result) {
+		const infos = await stat(join(dir, item));
+		if (infos.isDirectory()) await read(join(dir, item))
+		else files.push(join(dir, item));
+	}
+	return data;
+}
 
-		await read(d)
+await read(d)
 
-		return files;
+return files;
 	}
 }

@@ -28,21 +28,21 @@ export class EventsHandler {
 			this.client.on(name, (...args: any) => evt.execute(args));
 		}
 	}
-	async readDirAndPush(d: string): Promise<Array<string>> {
+	async readDirAndPush(d: string): Promise<Array<[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)>> {
 		const files: any = []
 		async function read(dir: string) {
-			const data: any[] = []
-			const result = await readdir(dir);
-			for (const item of result) {
-				const infos = await stat(join(dir, item));
-				if (infos.isDirectory()) await read(join(dir, item))
-				else files.push(join(dir, item));
-			}
-			return data;
-		}
+	const data: any[] = []
+	const result = await readdir(dir);
+	for (const item of result) {
+		const infos = await stat(join(dir, item));
+		if (infos.isDirectory()) await read(join(dir, item))
+		else files.push(join(dir, item));
+	}
+	return data;
+}
 
-		await read(d)
+await read(d)
 
-		return files;
+return files;
 	}
 }

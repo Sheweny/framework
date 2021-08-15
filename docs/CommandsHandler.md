@@ -4,7 +4,7 @@ Create an handler for bot commands. The commands can be in as many subfolders as
 
 | Name      | Type                                                                                              | Description               | Default | Required |
 | --------- | ------------------------------------------------------------------------------------------------- | ------------------------- | ------- | -------- |
-| client    | [ShewenyClientOptions](./SHEWENY-CLIENT.md)                                                       | The client                | None    | Yes      |
+| client    | [ShewenyClientOptions](./ShewenyClient.md)                                                        | The client                | None    | Yes      |
 | directory | [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) | The directory of commands | None    | Yes      |
 
 ## Properties
@@ -13,7 +13,7 @@ Create an handler for bot commands. The commands can be in as many subfolders as
 
 The client of framework.
 
-Return : [ShewenyClientOptions](./SHEWENY-CLIENT.md)
+Return : [ShewenyClientOptions](./ShewenyClient.md)
 
 ### CommandsHandler.directory
 
@@ -27,4 +27,4 @@ Return : String
 
 Load all commands in directory of commands.
 
-Return promise Collection\<string, [Command](./COMMAND.md)>
+Return promise Collection\<string, [Command](./Command.md)>

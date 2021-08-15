@@ -4,7 +4,7 @@ Create an handler for bot events. The events can be in as many subfolders as des
 
 | Name      | Type                                                                                              | Description             | Default | Required |
 | --------- | ------------------------------------------------------------------------------------------------- | ----------------------- | ------- | -------- |
-| client    | [ShewenyClientOptions](./SHEWENY-CLIENT.md)                                                       | The client              | None    | Yes      |
+| client    | [ShewenyClientOptions](./ShewenyClient.md)                                                        | The client              | None    | Yes      |
 | directory | [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) | The directory of events | None    | Yes      |
 
 ## Properties
@@ -13,7 +13,7 @@ Create an handler for bot events. The events can be in as many subfolders as des
 
 The client of framework.
 
-Return : [ShewenyClientOptions](./SHEWENY-CLIENT.md)
+Return : [ShewenyClientOptions](./ShewenyClient.md)
 
 ### EventsHandler.directory
 
@@ -27,7 +27,7 @@ Return : String
 
 Regsiter all events in Collection of events.
 
-Return promise Collection\<string, [Event](./EVENT.md)>
+Return promise Collection\<string, [Event](./Event.md)>
 
 ### EventsHandler#loadAll()
 
