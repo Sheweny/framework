@@ -23,9 +23,14 @@ export class CommandsHandler {
 		const baseDir = join(require.main!.path, this.dir);
 		const cmds: string[] = await this.readDirAndPush(baseDir);
 		for (const cmdPath of cmds) {
-			const Command = (await import(cmdPath)).default;
+			const commandImport = (await import(cmdPath));
+			const key = Object.keys(commandImport)[0];
+			const Command = commandImport[key];
+
 			if (!Command) continue;
+			console.log('-----------------');
 			const instance = new Command(this.client)
+
 			if (!instance.name) continue;
 			instance.path = cmdPath;
 			this.client.commands.set(instance.name, instance)

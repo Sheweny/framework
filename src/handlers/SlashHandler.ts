@@ -69,13 +69,12 @@ export class SlashHandler {
 		return data;
 	}
 	async registerCommands(commands = this.commands, guildId?: string) {
+
 		await this.client.awaitReady()
+
 		const data = this.getData(commands);
 		if (data && data.length > 0) {
 			if (guildId) {
-				console.log('OK');
-				console.log(data);
-
 				return await this.client.application?.commands.set(data, guildId)
 			}
 			return await this.client.application?.commands.set(data)

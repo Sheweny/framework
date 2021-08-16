@@ -69,8 +69,6 @@ class SlashHandler {
         const data = this.getData(commands);
         if (data && data.length > 0) {
             if (guildId) {
-                console.log('OK');
-                console.log(data);
                 return await this.client.application?.commands.set(data, guildId);
             }
             return await this.client.application?.commands.set(data);
