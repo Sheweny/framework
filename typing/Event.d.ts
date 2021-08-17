@@ -1,4 +1,4 @@
-import { IEventMeta } from './typescript/interfaces/CommandType';
+import { IEventMeta } from './typescript/interfaces/Command';
 import type { ShewenyClient } from './index';
 export declare class Event {
     protected client: any;

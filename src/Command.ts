@@ -1,4 +1,4 @@
-import { ICommandMeta } from './typescript/interfaces/CommandType';
+import { ICommandMeta } from './typescript/interfaces/Command';
 import type { ApplicationCommandOptionData, ApplicationCommandType } from 'discord.js';
 import type { ShewenyClient } from './index'
 export class Command {

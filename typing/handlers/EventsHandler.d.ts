@@ -4,7 +4,7 @@ export declare class EventsHandler {
     private client;
     private dir;
     constructor(client: ShewenyClient, dir: string);
-    registerAll(): Promise<Collection<string, import("../typescript/interfaces/EventType").EventType>>;
+    registerAll(): Promise<Collection<string, import("../typescript/interfaces/Event").Event>>;
     loadAll(): Promise<void>;
     readDirAndPush(d: string): Promise<Array<string>>;
 }

@@ -8,6 +8,6 @@ export declare class CommandsHandler {
     slashCommands: SlashHandler | undefined;
     options: IOptions;
     constructor(client: ShewenyClient, options: IOptions);
-    loadAll(): Promise<Collection<string, import("../typescript/interfaces/CommandType").CommandType>>;
+    loadAll(): Promise<Collection<string, import("../typescript/interfaces/Command").Command>>;
     readDirAndPush(d: string): Promise<Array<string>>;
 }
