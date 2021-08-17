@@ -8,7 +8,7 @@ Sheweny is a framework for create discord bots with javascript (or typescript).
 
 Prerequisites
 
-Node.js 16.0.0 or newer is required.
+Node.js 16.6.0 or newer is required.
 
 ### Instalation
 
