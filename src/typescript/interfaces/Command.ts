@@ -3,6 +3,8 @@ import type { Command as Cmd } from "../../Command";
 
 export interface ICommandMeta {
   description: string;
+  guildOnly?: boolean;
+  DMOnly?: boolean;
   type?: ApplicationCommandType;
   aliases?: string[];
   options?: Array<ApplicationCommandOptionData>;
