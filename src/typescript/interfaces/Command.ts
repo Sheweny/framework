@@ -1,8 +1,8 @@
-import type { ApplicationCommand, ApplicationCommandOptionData } from 'discord.js';
+import type { ApplicationCommandType, ApplicationCommand, ApplicationCommandOptionData } from 'discord.js';
 import type { Command as Cmd } from '../../Command'
 export interface ICommandMeta {
 	description: string;
-	type?: ApplicationCommand;
+	type?: ApplicationCommandType;
 	aliases?: string[];
 	options?: Array<ApplicationCommandOptionData>;
 	category: string;

@@ -1,7 +1,7 @@
 import type { Collection } from 'collection-data';
-import type { ApplicationCommandResolvable, ApplicationCommandData, ApplicationCommand } from 'discord.js'
+import type { ApplicationCommandResolvable, ApplicationCommandData } from 'discord.js'
 
-import type { ShewenyClient, Command } from '../index';
+import type { ShewenyClient } from '../index';
 import type { Command } from '../typescript/interfaces/Command'
 export class SlashHandler {
 	private commands: Collection<string, any>;
