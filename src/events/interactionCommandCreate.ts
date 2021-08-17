@@ -1,10 +1,10 @@
 import type {
   CommandInteraction,
-  PermissionString,
   CommandInteractionOptionResolver,
 } from "discord.js";
 import { Collection } from "collection-data";
 import type { ShewenyClient } from "../index";
+import type { IPermissionString } from '../typescript/types/extends';
 
 interface CommandInteractionExtend extends CommandInteraction {
   subCommand: string | null;
@@ -34,14 +34,14 @@ export default async function run(
       if (
         !interaction.guild?.members.cache
           .get(interaction.user.id)!
-          .permissions.has(permission as PermissionString)
+          .permissions.has(permission as IPermissionString)
       )
         return client.emit("userMissingPermissions", interaction, permission);
     }
   }
   if (command.botPermissions.length) {
     for (const permission of command.botPermissions) {
-      if (!interaction.guild!.me!.permissions.has(permission as PermissionString))
+      if (!interaction.guild!.me!.permissions.has(permission as IPermissionString))
         return client.emit("botMissingPermissions", interaction, permission);
     }
   }

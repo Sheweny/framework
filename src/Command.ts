@@ -5,6 +5,8 @@ import type { ShewenyClient } from "./index";
 export class Command {
   public client;
   public path: string | undefined;
+  public guildOnly: boolean;
+  public DMOnly: boolean;
   public name: string;
   public description: string;
   public type: ApplicationCommandType | undefined;
@@ -16,9 +18,11 @@ export class Command {
   public botPermissions: string[] = [];
   public subCommands: string[] = [];
   public defaultPermission: boolean | undefined;
-	
+
   constructor(client: ShewenyClient, name: string, options: ICommandMeta) {
     this.client = client;
+    this.guildOnly = options.guildOnly || false;
+    this.DMOnly = options.DMOnly || false;
     this.name = name;
     this.description = options.description;
     this.type = options.type;
