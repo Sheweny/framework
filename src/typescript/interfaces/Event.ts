@@ -1,7 +1,7 @@
 import type { Event as Evt } from '../../Event'
 
 
-export interface EventType extends Evt {
+export interface Event extends Evt {
 	before: Function,
 	execute: Function,
 }

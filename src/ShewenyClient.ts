@@ -3,8 +3,8 @@ import { join } from 'path';
 import { Client } from 'discord.js';
 
 import { CommandsHandler, EventsHandler } from './index';
-import type { CommandType } from './typescript/interfaces/CommandType'
-import type { EventType } from './typescript/interfaces/EventType'
+import type { Command } from './typescript/interfaces/Command'
+import type { Event } from './typescript/interfaces/Event'
 import type { IOptions, IClientHandlers } from './typescript/interfaces/ShewenyClient'
 
 import { Collection } from 'collection-data'
@@ -14,8 +14,8 @@ export class ShewenyClient extends Client {
 	shewenyOptions: IOptions;
 	admins: string[] | undefined;
 	handlers: IClientHandlers = {};
-	commands: Collection<string, CommandType> = new Collection();
-	events: Collection<string, EventType> = new Collection();
+	commands: Collection<string, Command> = new Collection();
+	events: Collection<string, Event> = new Collection();
 	commandsType: string | undefined;
 	cooldowns: Collection<string, Collection<string, number>> = new Collection();
 	constructor(options: IOptions) {

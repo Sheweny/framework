@@ -1,8 +1,8 @@
 import type { Collection } from 'collection-data';
-import type { ApplicationCommandResolvable, ApplicationCommandData, ApplicationCommandType } from 'discord.js'
+import type { ApplicationCommandResolvable, ApplicationCommandData, ApplicationCommand } from 'discord.js'
 
 import type { ShewenyClient, Command } from '../index';
-import type { CommandType } from '../typescript/interfaces/CommandType'
+import type { Command } from '../typescript/interfaces/Command'
 export class SlashHandler {
 	private commands: Collection<string, any>;
 	private client: ShewenyClient;
@@ -11,10 +11,10 @@ export class SlashHandler {
 		this.client = client;
 		this.commands = client.commands!
 	}
-	getData(commands: Collection<string, CommandType>) {
+	getData(commands: Collection<string, Command>) {
 		const data: any[] = [];
 		const commandsCategories: string[] = [];
-		commands.forEach((c: CommandType) => commandsCategories.push(c.category))
+		commands.forEach((c: Command) => commandsCategories.push(c.category))
 		const categories = [... new Set(commandsCategories)];
 		for (const category of categories) {
 			const commandsCategory = [...commands].filter(([_, c]) => c.category === category);
