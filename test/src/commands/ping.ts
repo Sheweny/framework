@@ -1,14 +1,15 @@
 import { Command, ShewenyClient } from '../../../';
-import type { CommandInteraction } from 'discord.js'
+import type { Message } from 'discord.js'
 
 export class PingCommand extends Command {
 	constructor(client: ShewenyClient) {
 		super(client, 'ping', {
 			description: 'Ping the bot',
-			category: 'Misc'
+			category: 'Misc',
+			DMOnly: true,
 		})
 	}
-	execute(interaction: CommandInteraction) {
-		interaction.reply('Pong !')
+	execute(message: Message) {
+		message.reply('Pong !')
 	}
 }

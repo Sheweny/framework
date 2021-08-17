@@ -1,10 +1,15 @@
 import { ShewenyClient, CommandsHandler } from '../../';
 
-const client = new ShewenyClient({ intents: ["GUILDS", 'GUILD_MESSAGES'] });
+const client = new ShewenyClient(
+	{
+		intents: ["GUILDS", 'GUILD_MESSAGES', 'DIRECT_MESSAGES'],
+		partials: ["CHANNEL"]
+	});
 
 const commandsHandler = new CommandsHandler(client, {
 	type: 'MESSAGE_COMMANDS',
-	directory: './commands'
+	directory: './commands',
+	prefix: "!"
 })
 commandsHandler.loadAll()
 // .then(async () => {
@@ -12,4 +17,4 @@ commandsHandler.loadAll()
 // })
 client.handlers.commands = commandsHandler;
 
-client.login('')
+client.login('Njg5MjExNjEwMzA0MzQ4MzMx.Xm_kVA.lQJCcOLtXNiU5vQ7VMZXQI8mGf4')
