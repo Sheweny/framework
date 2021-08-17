@@ -1,4 +1,4 @@
-import type { Event as Evt } from "../../Event";
+import type { Event as Evt } from "../../structures/Event";
 
 export interface Event extends Evt {
   before: Function;
