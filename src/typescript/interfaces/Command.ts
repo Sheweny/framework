@@ -1,4 +1,4 @@
-import type { ApplicationCommandType, ApplicationCommand, ApplicationCommandOptionData } from 'discord.js';
+import type { ApplicationCommandType, ApplicationCommandOptionData } from 'discord.js';
 import type { Command as Cmd } from '../../Command'
 export interface ICommandMeta {
 	description: string;
