@@ -1,20 +1,13 @@
-  
 {
-	"include": [
-		"src/**/*"
-	],
-	"compilerOptions": {
-		"target": "ES2021",
-		"allowJs": true,
-		"declaration": true,
-		"emitDeclarationOnly": true,
-		"outDir": "typing",
-		"moduleResolution": "node",
-		"module": "CommonJS",
-
-	},
-	"exclude": [
-		"node_modules",
-		"test"
-	]
+  "include": ["src/**/*"],
+  "compilerOptions": {
+    "target": "ES2021",
+    "allowJs": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "outDir": "typings",
+    "moduleResolution": "node",
+    "module": "CommonJS"
+  },
+  "exclude": ["node_modules", "test"]
 }

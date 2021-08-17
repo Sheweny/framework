@@ -1,5 +1,5 @@
-import { IEventMeta } from "./typescript/interfaces/Event";
-import type { ShewenyClient } from "./index";
+import { IEventMeta } from "../typescript/interfaces/Event";
+import type { ShewenyClient } from "../index";
 export declare class Event {
     protected client: any;
     protected path: string | undefined;
