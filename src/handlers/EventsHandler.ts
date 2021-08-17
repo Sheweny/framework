@@ -30,7 +30,7 @@ export class EventsHandler {
   async loadAll() {
     if (!this.client.events) await this.registerAll();
     for (const [name, evt] of this.client.events) {
-      this.client.on(name, (...args: string[]) => evt.execute(args));
+      this.client.on(name, (...args: any[]) => evt.execute(args));
     }
   }
   async readDirAndPush(d: string): Promise<Array<string>> {
