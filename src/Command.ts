@@ -1,12 +1,12 @@
 import { ICommandMeta } from './typescript/interfaces/Command';
-import type { ApplicationCommandOptionData, ApplicationCommand } from 'discord.js';
+import type { ApplicationCommandOptionData, ApplicationCommandType } from 'discord.js';
 import type { ShewenyClient } from './index'
 export class Command {
 	public client;
 	public path: string | undefined;
 	public name: string;
 	public description: string;
-	public type: ApplicationCommand | undefined;
+	public type: ApplicationCommandType | undefined;
 	public aliases: string[] = [];
 	public options: Array<ApplicationCommandOptionData> | undefined;
 	public category: string = 'Bot';
