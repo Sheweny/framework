@@ -4,6 +4,8 @@ import type { ShewenyClient } from "./index";
 export declare class Command {
     client: any;
     path: string | undefined;
+    guildOnly: boolean;
+    DMOnly: boolean;
     name: string;
     description: string;
     type: ApplicationCommandType | undefined;

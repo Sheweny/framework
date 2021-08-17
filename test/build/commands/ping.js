@@ -6,11 +6,12 @@ class PingCommand extends __1.Command {
     constructor(client) {
         super(client, 'ping', {
             description: 'Ping the bot',
-            category: 'Misc'
+            category: 'Misc',
+            DMOnly: true,
         });
     }
-    execute(interaction) {
-        interaction.reply('Pong !');
+    execute(message) {
+        message.reply('Pong !');
     }
 }
 exports.PingCommand = PingCommand;

@@ -1,10 +1,10 @@
 import type {
   CommandInteraction,
-  PermissionString,
   CommandInteractionOptionResolver,
 } from "discord.js";
 import { Collection } from "collection-data";
 import type { ShewenyClient } from "../index";
+import type { IPermissionString } from '../typescript/types/extends';
 
 interface CommandInteractionExtend extends CommandInteraction {
   subCommand: string | null;
@@ -16,8 +16,6 @@ export default async function run(
 ) {
   if (!client.commands) return;
   if (client.commandsType !== "SLASH_COMMANDS") return;
-  let member = interaction.guild!.members.cache.get(interaction.user.id);
-  if (!member) member = await interaction.guild!.members.fetch(interaction.user.id);
   /* -----------------COMMAND----------------- */
   const command = client.commands.get(interaction.commandName);
   if (!command) return;
@@ -29,23 +27,27 @@ export default async function run(
   ) {
     return client.emit("userMissingPermissions", interaction, "BOT_ADMIN");
   }
-  if (command.userPermissions.length) {
-    for (const permission of command.userPermissions) {
-      if (
-        !interaction.guild?.members.cache
-          .get(interaction.user.id)!
-          .permissions.has(permission as PermissionString)
-      )
-        return client.emit("userMissingPermissions", interaction, permission);
+  /* ---------------IN-GUILD--------------- */
+  if (interaction.inGuild()) {
+    let member = interaction.guild!.members.cache.get(interaction.user.id);
+    if (!member) member = await interaction.guild!.members.fetch(interaction.user.id);
+    if (command.userPermissions.length) {
+      for (const permission of command.userPermissions) {
+        if (member.permissions.has(permission as IPermissionString))
+          return client.emit("userMissingPermissions", interaction, permission);
+      }
+    }
+    if (command.botPermissions.length) {
+      for (const permission of command.botPermissions) {
+        if (!interaction.guild!.me!.permissions.has(permission as IPermissionString))
+          return client.emit("botMissingPermissions", interaction, permission);
+      }
     }
   }
-  if (command.botPermissions.length) {
-    for (const permission of command.botPermissions) {
-      if (!interaction.guild!.me!.permissions.has(permission as PermissionString))
-        return client.emit("botMissingPermissions", interaction, permission);
-    }
+  /* ---------------IN-DM--------------- */
+  else {
+    if (command.guildOnly) return;
   }
-
   /* ---------------COOLDOWNS--------------- */
   if (!client.admins?.includes(interaction.user.id)) {
     if (!client.cooldowns.has(command.name)) {

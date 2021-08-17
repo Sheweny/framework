@@ -16,8 +16,8 @@ export class CommandsHandler {
     if (options.type && !["MESSAGE_COMMANDS", "SLASH_COMMANDS"].includes(options.type))
       throw new TypeError(
         "Unknown type of command: " +
-          options.type +
-          "\nThe type must be MESSAGE_COMMANDS or SLASH_COMMANDS"
+        options.type +
+        "\nThe type must be MESSAGE_COMMANDS or SLASH_COMMANDS"
       );
     if (!options.type) options.type = "MESSAGE_COMMANDS";
     this.client = client;
