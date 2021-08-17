@@ -1,5 +1,5 @@
-import type { ApplicationCommandType, ApplicationCommandOptionData } from 'discord.js';
-import type { Command as Cmd } from '../../Command';
+import type { ApplicationCommandType, ApplicationCommandOptionData } from "discord.js";
+import type { Command as Cmd } from "../../Command";
 export interface ICommandMeta {
     description: string;
     type?: ApplicationCommandType;
@@ -17,11 +17,6 @@ export interface ICommandInfosArgs {
     description: string;
     type: string;
     required: boolean;
-}
-export interface IEventMeta {
-    name: string;
-    description: string;
-    once: boolean;
 }
 export interface Command extends Cmd {
     before: Function;

@@ -1,5 +1,5 @@
-import { Collection } from 'collection-data';
-import type { ShewenyClient } from '../index';
+import { Collection } from "collection-data";
+import type { ShewenyClient } from "../index";
 export declare class EventsHandler {
     private client;
     private dir;
