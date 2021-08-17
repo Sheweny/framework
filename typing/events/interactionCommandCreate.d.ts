@@ -1,5 +1,5 @@
-import type { CommandInteraction } from 'discord.js';
-import type { ShewenyClient } from '../index';
+import type { CommandInteraction } from "discord.js";
+import type { ShewenyClient } from "../index";
 interface CommandInteractionExtend extends CommandInteraction {
     subCommand: string | null;
 }

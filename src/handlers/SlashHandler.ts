@@ -1,120 +1,127 @@
-import type { Collection } from 'collection-data';
-import type { ApplicationCommandResolvable, ApplicationCommandData } from 'discord.js'
+import type { Collection } from "collection-data";
+import type { ApplicationCommandResolvable, ApplicationCommandData } from "discord.js";
+import type { ShewenyClient } from "../index";
+import type { Command } from "../typescript/interfaces/Command";
 
-import type { ShewenyClient } from '../index';
-import type { Command } from '../typescript/interfaces/Command'
 export class SlashHandler {
-	private commands: Collection<string, any>;
-	private client: ShewenyClient;
-	constructor(client: ShewenyClient) {
-		if (!client.commands) throw new Error('No commands found. Please use CommandsHandler.loadAll() for load commands.');
-		this.client = client;
-		this.commands = client.commands!
-	}
-	getData(commands: Collection<string, Command>) {
-		const data: any[] = [];
-		const commandsCategories: string[] = [];
-		commands.forEach((c: Command) => commandsCategories.push(c.category))
-		const categories = [... new Set(commandsCategories)];
-		for (const category of categories) {
-			const commandsCategory = [...commands].filter(([_, c]) => c.category === category);
-			for (const c of commandsCategory) {
-				if (c[1].subCommands?.length) {
-					const commandOptions: any[] = [];
-					c[1].subCommands.forEach((sc: any) => {
-						commandOptions.push({
-							type: 'SUB_COMMAND',
-							name: sc.name,
-							description: sc.description,
-							required: sc.required,
-							choices: sc.choices,
-							options: sc.options
-						})
-					})
-					data.push({
-						type: 'SUB_COMMAND_GROUP',
-						name: c[1].name,
-						description: c[1].description,
-						options: commandOptions
-					})
-				}
-				else if (c[1].options && c[1].options.length) {
-					const commandOptions: any = [];
-					c[1].options.forEach((a: any) => {
-						commandOptions.push({
-							type: 'STRING',
-							name: a.name,
-							description: a.description,
-							required: a.required,
-							choices: a.choices,
-							options: a.options
-						})
-					})
-					data.push({
-						name: c[1].name,
-						description: c[1].description,
-						options: commandOptions
-					})
-				}
-				else {
-					// No commands args and no subcommands
-					data.push({
-						name: c[1].name,
-						description: c[1].description,
-					})
-				}
+  private commands: Collection<string, any>;
+  private client: ShewenyClient;
 
-			}
-		}
-		return data;
-	}
-	async registerCommands(commands = this.commands, guildId?: string) {
+  constructor(client: ShewenyClient) {
+    if (!client.commands)
+      throw new Error(
+        "No commands found. Please use CommandsHandler.loadAll() for load commands."
+      );
+    this.client = client;
+    this.commands = client.commands!;
+  }
 
-		await this.client.awaitReady()
+  getData(commands: Collection<string, Command>) {
+    const data: any[] = [];
+    const commandsCategories: string[] = [];
+    commands.forEach((c: Command) => commandsCategories.push(c.category));
+    const categories = [...new Set(commandsCategories)];
+    for (const category of categories) {
+      const commandsCategory = [...commands].filter(([_, c]) => c.category === category);
+      for (const c of commandsCategory) {
+        if (c[1].subCommands?.length) {
+          const commandOptions: any[] = [];
+          c[1].subCommands.forEach((sc: any) => {
+            commandOptions.push({
+              type: "SUB_COMMAND",
+              name: sc.name,
+              description: sc.description,
+              required: sc.required,
+              choices: sc.choices,
+              options: sc.options,
+            });
+          });
+          data.push({
+            type: "SUB_COMMAND_GROUP",
+            name: c[1].name,
+            description: c[1].description,
+            options: commandOptions,
+          });
+        } else if (c[1].options && c[1].options.length) {
+          const commandOptions: any = [];
+          c[1].options.forEach((a: any) => {
+            commandOptions.push({
+              type: "STRING",
+              name: a.name,
+              description: a.description,
+              required: a.required,
+              choices: a.choices,
+              options: a.options,
+            });
+          });
+          data.push({
+            name: c[1].name,
+            description: c[1].description,
+            options: commandOptions,
+          });
+        } else {
+          // No commands args and no subcommands
+          data.push({
+            name: c[1].name,
+            description: c[1].description,
+          });
+        }
+      }
+    }
+    return data;
+  }
 
-		const data = this.getData(commands);
-		if (data && data.length > 0) {
-			if (guildId) {
-				return await this.client.application?.commands.set(data, guildId)
-			}
-			return await this.client.application?.commands.set(data)
-		}
-		return null
-	}
+  async registerCommands(commands = this.commands, guildId?: string) {
+    await this.client.awaitReady();
 
-	async createCommand(command: Command, guildId?: string) {
-		await this.client.awaitReady()
-		const data: ApplicationCommandData = {
-			name: command.name,
-			description: command.description,
-		}
-		if (command.type) data.type = (command.type as any);
-		if (command.options) data.options = command.options;
-		if (command.defaultPermission) data.defaultPermission = command.defaultPermission;
-		if (guildId) return this.client.application?.commands.create(data, guildId)
-		return this.client.application?.commands.create(data)
-	}
-	async editCommand(oldCmd: ApplicationCommandResolvable, newCmd: Command, guildId?: string) {
-		await this.client.awaitReady()
-		const data: ApplicationCommandData = {
-			name: newCmd.name,
-			description: newCmd.description,
-		}
-		if (newCmd.type) data.type = (newCmd.type as any);
-		if (newCmd.options) data.options = newCmd.options;
-		if (newCmd.defaultPermission) data.defaultPermission = newCmd.defaultPermission;
-		if (guildId) return this.client.application?.commands.edit(oldCmd, data, guildId)
-		return this.client.application?.commands.edit(oldCmd, data)
-	}
-	async deleteCommand(oldCmd: ApplicationCommandResolvable, guildId?: string) {
-		await this.client.awaitReady()
-		if (guildId) return this.client.application?.commands.delete(oldCmd, guildId)
-		return this.client.application?.commands.delete(oldCmd)
-	}
-	async deleteAllCommands(guildId?: string) {
-		if (guildId) return this.client.application?.commands.set([], guildId)
-		return this.client.application?.commands.set([])
-	}
+    const data = this.getData(commands);
+    if (data && data.length > 0) {
+      if (guildId) {
+        return await this.client.application?.commands.set(data, guildId);
+      }
+      return await this.client.application?.commands.set(data);
+    }
+    return null;
+  }
+
+  async createCommand(command: Command, guildId?: string) {
+    await this.client.awaitReady();
+    const data: ApplicationCommandData = {
+      name: command.name,
+      description: command.description,
+    };
+    if (command.type) data.type = command.type as any;
+    if (command.options) data.options = command.options;
+    if (command.defaultPermission) data.defaultPermission = command.defaultPermission;
+    if (guildId) return this.client.application?.commands.create(data, guildId);
+    return this.client.application?.commands.create(data);
+  }
+
+  async editCommand(
+    oldCmd: ApplicationCommandResolvable,
+    newCmd: Command,
+    guildId?: string
+  ) {
+    await this.client.awaitReady();
+    const data: ApplicationCommandData = {
+      name: newCmd.name,
+      description: newCmd.description,
+    };
+    if (newCmd.type) data.type = newCmd.type as any;
+    if (newCmd.options) data.options = newCmd.options;
+    if (newCmd.defaultPermission) data.defaultPermission = newCmd.defaultPermission;
+    if (guildId) return this.client.application?.commands.edit(oldCmd, data, guildId);
+    return this.client.application?.commands.edit(oldCmd, data);
+  }
+  async deleteCommand(oldCmd: ApplicationCommandResolvable, guildId?: string) {
+    await this.client.awaitReady();
+    if (guildId) return this.client.application?.commands.delete(oldCmd, guildId);
+    return this.client.application?.commands.delete(oldCmd);
+  }
+  async deleteAllCommands(guildId?: string) {
+    if (guildId) return this.client.application?.commands.set([], guildId);
+    return this.client.application?.commands.set([]);
+  }
 }
 
 // Sub command group
