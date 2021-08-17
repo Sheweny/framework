@@ -11,7 +11,6 @@ export class EventsHandler {
     if (!dir) throw new TypeError("Directory must be provided.");
     this.client = client;
     this.dir = dir;
-    this.client.events = new Collection();
   }
 
   async registerAll() {

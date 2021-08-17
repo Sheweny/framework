@@ -22,7 +22,6 @@ export class CommandsHandler {
     if (!options.type) options.type = "MESSAGE_COMMANDS";
     this.client = client;
     this.dir = options.directory;
-    this.client.commands = new Collection();
     this.client.commandsType = options.type;
     this.options = options;
   }
