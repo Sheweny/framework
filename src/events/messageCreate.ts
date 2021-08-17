@@ -13,7 +13,8 @@ export default async function run(
 	if (!client.commands || client.commandsType !== "MESSAGE_COMMANDS") return;
 	if (client.commandsType !== "MESSAGE_COMMANDS") return;
 	if (!message.content || message.author.bot) return; // It can be empty with the new message_content intent
-	const args = message.content.trim().split(' ');
+	const prefix = client.handlers.commands?.options.prefix || '';
+	const args = message.content.trim().slice(prefix.length).split(/ +/);
 	if (!args[0]) return;
 	/* -----------------COMMAND----------------- */
 	const commandName = args.shift()!.toLowerCase();
