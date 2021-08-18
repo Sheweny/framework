@@ -1,6 +1,5 @@
 import { readdir, stat } from "fs/promises";
 import { join } from "path";
-import { Collection } from "collection-data";
 import type { ShewenyClient } from "../index";
 
 export class EventsHandler {
