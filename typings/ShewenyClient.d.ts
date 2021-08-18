@@ -1,9 +1,26 @@
-import { Client } from "discord.js";
-import type { Command } from "./typescript/interfaces/Command";
-import type { Event } from "./typescript/interfaces/Event";
-import { Button } from "./typescript/interfaces/Button";
-import type { IShewenyClientOptions, IClientHandlers } from "./typescript/interfaces/ShewenyClient";
+import { Client } from 'discord.js';
 import { Collection } from "collection-data";
+import { CommandsHandler, EventsHandler, ButtonsHandler } from './index';
+import type { ClientOptions } from 'discord.js';
+import type { Command, Event, Button, ICommandHandlerOptions } from './typescript/interfaces/interfaces';
+interface IClientHandlers {
+    commands?: CommandsHandler;
+    events?: EventsHandler;
+    buttons?: ButtonsHandler;
+}
+interface IOptionsHandlers {
+    commands?: ICommandHandlerOptions;
+    events?: {
+        directory: string;
+    };
+    buttons?: {
+        directory: string;
+    };
+}
+interface IShewenyClientOptions extends ClientOptions {
+    handlers?: IOptionsHandlers;
+    admins?: string[];
+}
 /**
  * The main hub for interacting with the Discord API, and the starting point for any bot.
  * @class
@@ -32,3 +49,4 @@ export declare class ShewenyClient extends Client {
      */
     awaitReady(): Promise<void>;
 }
+export {};
