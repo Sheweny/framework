@@ -1,10 +1,7 @@
-import type {
-  CommandInteraction,
-  CommandInteractionOptionResolver,
-} from "discord.js";
+import type { CommandInteraction, CommandInteractionOptionResolver } from "discord.js";
 import { Collection } from "collection-data";
 import type { ShewenyClient } from "../index";
-import type { IPermissionString } from '../typescript/types/extends';
+import type { IPermissionString } from "../typescript/types/extends";
 
 interface CommandInteractionExtend extends CommandInteraction {
   subCommand: string | null;
@@ -43,9 +40,8 @@ export default async function run(
           return client.emit("botMissingPermissions", interaction, permission);
       }
     }
-  }
+  } else {
   /* ---------------IN-DM--------------- */
-  else {
     if (command.guildOnly) return;
   }
   /* ---------------COOLDOWNS--------------- */
