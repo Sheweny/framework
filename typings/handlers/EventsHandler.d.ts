@@ -15,7 +15,7 @@ export declare class EventsHandler {
      * Register all events in collection
      * @returns {Collection<string, Event>}
      */
-    registerAll(): Promise<import("collection-data").Collection<string, import("../typescript/interfaces/Event").Event>>;
+    registerAll(): Promise<import("collection-data").Collection<string, import("../typescript/interfaces/interfaces").Event>>;
     /**
      * Load all events and register them in collection if no events are registered
      * @returns {Collection<string, Event>}

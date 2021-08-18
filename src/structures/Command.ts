@@ -1,7 +1,20 @@
-import { ICommandMeta } from "../typescript/interfaces/Command";
 import type { ApplicationCommandOptionData, ApplicationCommandType } from "discord.js";
 import type { ShewenyClient } from "../index";
 
+export interface ICommandMeta {
+  description: string;
+  guildOnly?: boolean;
+  DMOnly?: boolean;
+  type?: ApplicationCommandType;
+  aliases?: string[];
+  options?: Array<ApplicationCommandOptionData>;
+  category: string;
+  cooldown?: number;
+  userPermissions?: string[];
+  botPermissions?: string[];
+  subCommands?: any[];
+  defaultPermission?: boolean;
+}
 /**
  * Represent a command
  * @class

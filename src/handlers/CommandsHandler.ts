@@ -1,7 +1,7 @@
 import { readdir, stat } from "fs/promises";
 import { join } from "path";
 import { SlashHandler } from "../index";
-import type { ICommandHandlerOptions } from "../typescript/interfaces/CommandHandler";
+import type { ICommandHandlerOptions } from "../typescript/interfaces/interfaces";
 import type { ShewenyClient } from "../index";
 
 
