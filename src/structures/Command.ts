@@ -2,6 +2,10 @@ import { ICommandMeta } from "../typescript/interfaces/Command";
 import type { ApplicationCommandOptionData, ApplicationCommandType } from "discord.js";
 import type { ShewenyClient } from "../index";
 
+/**
+ * Represent a command
+ * @class
+ */
 export class Command {
   public client;
   public path: string | undefined;
@@ -19,6 +23,11 @@ export class Command {
   public subCommands: string[] = [];
   public defaultPermission: boolean | undefined;
 
+  /**
+   * @param {ShewenyClient} client - The client
+   * @param {string} name - The name of the command
+   * @param {Object} options - The options of the command
+   */
   constructor(client: ShewenyClient, name: string, options: ICommandMeta) {
     this.client = client;
     this.guildOnly = options.guildOnly || false;
@@ -35,13 +44,19 @@ export class Command {
     if (options.subCommands) this.subCommands = options.subCommands;
     this.defaultPermission = options.defaultPermission;
   }
-
+  /**
+   * Unregister a command
+   * @returns {boolean}
+   */
   unregister() {
     this.client.commands?.delete(this.name);
     delete require.cache[require.resolve(this.path!)];
     return true;
   }
-
+  /**
+   * Reload a command
+   * @returns {boolean|null}
+   */
   async reload() {
     if (this.path) {
       this.unregister();
@@ -49,7 +64,10 @@ export class Command {
     }
     return null;
   }
-
+  /**
+   * Register a command
+   * @returns {Collection} The commands collection
+   */
   async register() {
     const Command = (await import(this.path!)).default;
     const cmd = new Command(this.client);
