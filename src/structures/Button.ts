@@ -1,6 +1,13 @@
-import { IButtonMeta } from "../typescript/interfaces/Button";
 import type { EmojiIdentifierResolvable } from "discord.js";
 import type { ShewenyClient } from "../index";
+
+export interface IButtonMeta {
+  description?: string;
+  style: "PRIMARY" | "SECONDARY" | "SUCCESS" | "DANGER" | "LINK";
+  disabled?: boolean;
+  emoji?: EmojiIdentifierResolvable;
+  label?: string;
+}
 
 export class Button {
   public client;
