@@ -2,7 +2,7 @@ import type { Collection } from "collection-data";
 import type { ApplicationCommandResolvable, ApplicationCommandData, ApplicationCommand } from "discord.js";
 import type { Collection as DJSCollection } from 'discord.js'
 import type { ShewenyClient } from "../index";
-import type { Command } from "../typescript/interfaces/Command";
+import type { Command } from "../typescript/interfaces/interfaces";
 
 
 /**

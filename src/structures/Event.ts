@@ -1,5 +1,10 @@
-import { IEventMeta } from "../typescript/interfaces/Event";
 import type { ShewenyClient } from "../index";
+
+interface IEventMeta {
+  name: string;
+  description: string;
+  once: boolean;
+}
 
 /**
  * Represent a event
