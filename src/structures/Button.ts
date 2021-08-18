@@ -1,32 +1,14 @@
 import type { EmojiIdentifierResolvable } from "discord.js";
 import type { ShewenyClient } from "../index";
 
-export interface IButtonMeta {
-  description?: string;
-  style: "PRIMARY" | "SECONDARY" | "SUCCESS" | "DANGER" | "LINK";
-  disabled?: boolean;
-  emoji?: EmojiIdentifierResolvable;
-  label?: string;
-}
-
 export class Button {
   public client;
   public path?: string;
   public customId: string[];
-  public description?: string;
-  public style: "PRIMARY" | "SECONDARY" | "SUCCESS" | "DANGER" | "LINK";
-  public disabled?: boolean;
-  public emoji?: EmojiIdentifierResolvable;
-  public label?: string;
 
-  constructor(client: ShewenyClient, customId: string[], options: IButtonMeta) {
+  constructor(client: ShewenyClient, customId: string[]) {
     this.client = client;
     this.customId = customId;
-    this.description = options.description;
-    this.style = options.style;
-    this.disabled = options.disabled;
-    this.emoji = options.emoji;
-    this.label = options.label;
   }
 
   unregister() {
