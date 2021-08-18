@@ -2,7 +2,7 @@ import { IEventMeta } from "../typescript/interfaces/Event";
 import type { ShewenyClient } from "../index";
 export declare class Event {
     protected client: any;
-    protected path: string | undefined;
+    protected path?: string;
     protected name: string;
     protected description: string;
     protected once: boolean;

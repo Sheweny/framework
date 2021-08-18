@@ -3,7 +3,7 @@ import type { ShewenyClient } from "../index";
 
 export class Event {
   protected client;
-  protected path: string | undefined;
+  protected path?: string;
   protected name: string;
   protected description: string = "";
   protected once: boolean = false;

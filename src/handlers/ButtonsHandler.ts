@@ -2,7 +2,7 @@ import { readdir, stat } from "fs/promises";
 import { join } from "path";
 import type { ShewenyClient } from "../index";
 
-export class EventsHandler {
+export class ButtonsHandler {
   private client: ShewenyClient;
   private dir: string;
 
@@ -14,24 +14,18 @@ export class EventsHandler {
 
   async registerAll() {
     const baseDir = join(require.main!.path, this.dir);
-    const evtsPaths: string[] = await this.readDirAndPush(baseDir);
-    for (const evtPath of evtsPaths) {
-      const Event = (await import(evtPath)).default;
-      if (!Event) continue;
-      const instance = new Event(this.client);
+    const buttonsPaths: string[] = await this.readDirAndPush(baseDir);
+    for (const buttonPath of buttonsPaths) {
+      const Button = (await import(buttonPath)).default;
+      if (!Button) continue;
+      const instance = new Button(this.client);
       if (!instance.name) continue;
-      instance.path = evtPath;
-      this.client.events.set(instance.name, instance);
+      instance.path = buttonPath;
+      this.client.buttons.set(instance.name, instance);
     }
     return this.client.events;
   }
 
-  async loadAll() {
-    if (!this.client.events) await this.registerAll();
-    for (const [name, evt] of this.client.events) {
-      this.client.on(name, (...args: any[]) => evt.execute(args));
-    }
-  }
   async readDirAndPush(d: string): Promise<Array<string>> {
     const files: string[] = [];
     async function read(dir: string) {
