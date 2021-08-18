@@ -1,16 +1,18 @@
 import type { Collection } from "collection-data";
-import type { ApplicationCommandResolvable, ApplicationCommandData, ApplicationCommand } from "discord.js";
-import type { Collection as DJSCollection } from 'discord.js'
+import type {
+  ApplicationCommandResolvable,
+  ApplicationCommandData,
+  ApplicationCommand,
+} from "discord.js";
+import type { Collection as DJSCollection } from "discord.js";
 import type { ShewenyClient } from "../index";
 import type { Command } from "../typescript/interfaces/interfaces";
-
 
 /**
  * Manage slash-commands.
  * @class
  */
 export class SlashHandler {
-
   private commands: Collection<string, any>;
   private client: ShewenyClient;
 
@@ -83,7 +85,7 @@ export class SlashHandler {
       }
     }
     if (!data.length) {
-      throw new Error('No commands found')
+      throw new Error("No commands found");
     }
     return data;
   }
@@ -93,7 +95,10 @@ export class SlashHandler {
    * @param {string} [guildId] - The guild to register commands
    * @returns {Promise<DJSCollection<string, ApplicationCommand<{}>> | undefined | null>} The application commands
    */
-  async registerCommands(commands = this.commands, guildId?: string): Promise<DJSCollection<string, ApplicationCommand<{}>> | undefined | null> {
+  async registerCommands(
+    commands = this.commands,
+    guildId?: string
+  ): Promise<DJSCollection<string, ApplicationCommand<{}>> | undefined | null> {
     await this.client.awaitReady();
 
     const data = this.getData(commands);
@@ -130,7 +135,11 @@ export class SlashHandler {
    * @param {string} [guildId] - The guild to edit commands
    * @returns {Promise<any>} The application commands
    */
-  async editCommand(cmd: ApplicationCommandResolvable, newCommand: Command, guildId?: string): Promise<any> {
+  async editCommand(
+    cmd: ApplicationCommandResolvable,
+    newCommand: Command,
+    guildId?: string
+  ): Promise<any> {
     await this.client.awaitReady();
     const data: ApplicationCommandData = {
       name: newCommand.name,
@@ -138,7 +147,8 @@ export class SlashHandler {
     };
     if (newCommand.type) data.type = newCommand.type as any;
     if (newCommand.options) data.options = newCommand.options;
-    if (newCommand.defaultPermission) data.defaultPermission = newCommand.defaultPermission;
+    if (newCommand.defaultPermission)
+      data.defaultPermission = newCommand.defaultPermission;
     if (guildId) return this.client.application?.commands.edit(cmd, data, guildId);
     return this.client.application?.commands.edit(cmd, data);
   }
@@ -148,7 +158,10 @@ export class SlashHandler {
    * @param {string} [guildId] - The guild to delete commands
    * @returns {Promise<any>} Delete function
    */
-  async deleteCommand(command: ApplicationCommandResolvable, guildId?: string): Promise<any> {
+  async deleteCommand(
+    command: ApplicationCommandResolvable,
+    guildId?: string
+  ): Promise<any> {
     await this.client.awaitReady();
     if (guildId) return this.client.application?.commands.delete(command, guildId);
     return this.client.application?.commands.delete(command);
@@ -158,7 +171,9 @@ export class SlashHandler {
    * @param {string} [guildId] - The guild to delete commands
    * @returns {Promise<DJSCollection<string, ApplicationCommand<{}>> | undefined | null>} The application commands
    */
-  async deleteAllCommands(guildId?: string): Promise<DJSCollection<string, ApplicationCommand<{}>> | undefined> {
+  async deleteAllCommands(
+    guildId?: string
+  ): Promise<DJSCollection<string, ApplicationCommand<{}>> | undefined> {
     if (guildId) return this.client.application?.commands.set([], guildId);
     return this.client.application?.commands.set([]);
   }

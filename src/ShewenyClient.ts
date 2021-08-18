@@ -1,13 +1,17 @@
-import { readdirSync } from 'fs';
-import { join } from 'path';
-import { Client } from 'discord.js';
+import { readdirSync } from "fs";
+import { join } from "path";
+import { Client } from "discord.js";
 import { Collection } from "collection-data";
 
-import { CommandsHandler, EventsHandler, ButtonsHandler } from './index';
+import { CommandsHandler, EventsHandler, ButtonsHandler } from "./index";
 
-import type { ClientOptions } from 'discord.js';
-import type { Command, Event, Button, ICommandHandlerOptions } from './typescript/interfaces/interfaces';
-
+import type { ClientOptions } from "discord.js";
+import type {
+  Command,
+  Event,
+  Button,
+  ICommandHandlerOptions,
+} from "./typescript/interfaces/interfaces";
 
 interface IClientHandlers {
   commands?: CommandsHandler;
@@ -32,8 +36,8 @@ interface IShewenyClientOptions extends ClientOptions {
 
 /**
  * The main hub for interacting with the Discord API, and the starting point for any bot.
- * @class 
-*/
+ * @class
+ */
 export class ShewenyClient extends Client {
   shewenyOptions: IShewenyClientOptions;
   admins?: string[];
@@ -44,7 +48,7 @@ export class ShewenyClient extends Client {
   commandsType?: string;
   cooldowns: Collection<string, Collection<string, number>> = new Collection();
   /**
-   * @param {Object} options - The options for the client 
+   * @param {Object} options - The options for the client
    */
   constructor(options: IShewenyClientOptions) {
     super(options);
@@ -58,7 +62,10 @@ export class ShewenyClient extends Client {
         this.handlers.events = new EventsHandler(this, options.handlers.events.directory);
       }
       if (options.handlers.buttons) {
-        this.handlers.buttons = new ButtonsHandler(this, options.handlers.buttons.directory);
+        this.handlers.buttons = new ButtonsHandler(
+          this,
+          options.handlers.buttons.directory
+        );
       }
     }
 
