@@ -7,20 +7,20 @@ import type { ShewenyClient } from "../index";
  */
 export declare class Command {
     client: any;
-    path: string | undefined;
+    path?: string;
     guildOnly: boolean;
     DMOnly: boolean;
     name: string;
     description: string;
-    type: ApplicationCommandType | undefined;
+    type?: ApplicationCommandType;
     aliases: string[];
-    options: Array<ApplicationCommandOptionData> | undefined;
+    options?: Array<ApplicationCommandOptionData>;
     category: string;
     cooldown: number;
     userPermissions: string[];
     botPermissions: string[];
     subCommands: string[];
-    defaultPermission: boolean | undefined;
+    defaultPermission?: boolean;
     /**
      * @param {ShewenyClient} client - The client
      * @param {string} name - The name of the command

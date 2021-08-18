@@ -1,5 +1,5 @@
 import type { ClientOptions } from "discord.js";
-import type { CommandsHandler, EventsHandler } from "../../index";
+import type { CommandsHandler, EventsHandler, ButtonsHandler } from "../../index";
 import { ICommandHandlerOptions } from "./CommandHandler";
 
 export interface IShewenyClientOptions extends ClientOptions {
@@ -12,9 +12,13 @@ export interface IOptionsHandlers {
   events?: {
     directory: string;
   };
+  buttons?: {
+    directory: string;
+  };
 }
 
 export interface IClientHandlers {
   commands?: CommandsHandler;
   events?: EventsHandler;
+  buttons?: ButtonsHandler;
 }

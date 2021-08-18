@@ -8,20 +8,20 @@ import type { ShewenyClient } from "../index";
  */
 export class Command {
   public client;
-  public path: string | undefined;
+  public path?: string;
   public guildOnly: boolean;
   public DMOnly: boolean;
   public name: string;
   public description: string;
-  public type: ApplicationCommandType | undefined;
+  public type?: ApplicationCommandType;
   public aliases: string[] = [];
-  public options: Array<ApplicationCommandOptionData> | undefined;
+  public options?: Array<ApplicationCommandOptionData>;
   public category: string = "Bot";
   public cooldown: number = 0;
   public userPermissions: string[] = [];
   public botPermissions: string[] = [];
   public subCommands: string[] = [];
-  public defaultPermission: boolean | undefined;
+  public defaultPermission?: boolean;
 
   /**
    * @param {ShewenyClient} client - The client

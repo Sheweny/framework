@@ -2,9 +2,10 @@ import { readdirSync } from "fs";
 import { join } from "path";
 import { Client } from "discord.js";
 
-import { CommandsHandler, EventsHandler } from "./index";
+import { CommandsHandler, EventsHandler, ButtonsHandler } from "./index";
 import type { Command } from "./typescript/interfaces/Command";
 import type { Event } from "./typescript/interfaces/Event";
+import { Button } from "./typescript/interfaces/Button";
 import type {
   IShewenyClientOptions,
   IClientHandlers,
@@ -18,11 +19,12 @@ import { Collection } from "collection-data";
 */
 export class ShewenyClient extends Client {
   shewenyOptions: IShewenyClientOptions;
-  admins: string[] | undefined;
+  admins?: string[];
   handlers: IClientHandlers = {};
   commands: Collection<string, Command> = new Collection();
   events: Collection<string, Event> = new Collection();
-  commandsType: string | undefined;
+  buttons: Collection<string[], Button> = new Collection();
+  commandsType?: string;
   cooldowns: Collection<string, Collection<string, number>> = new Collection();
   /**
    * @param {Object} options - The options for the client 
@@ -37,6 +39,9 @@ export class ShewenyClient extends Client {
       }
       if (options.handlers.events) {
         this.handlers.events = new EventsHandler(this, options.handlers.events.directory);
+      }
+      if (options.handlers.buttons) {
+        this.handlers.buttons = new ButtonsHandler(this, options.handlers.buttons.directory);
       }
     }
 
