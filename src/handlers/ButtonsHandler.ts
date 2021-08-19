@@ -33,7 +33,7 @@ export class ButtonsHandler {
       const Button = (await import(buttonPath)).default;
       if (!Button) continue;
       const instance = new Button(this.client);
-      if (!instance.name) continue;
+      if (!instance.customId) continue;
       instance.path = buttonPath;
       this.client.buttons.set(instance.name, instance);
     }
