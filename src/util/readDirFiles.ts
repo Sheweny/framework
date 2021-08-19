@@ -4,9 +4,9 @@ import { join } from "path";
 /**
  * Read dir and return array with all paths of files
  * @param {string} directory - The directory to read
- * @returns {Array<string>}
+ * @returns {string[]} Files
  */
-export async function readDirAndPush(d: string): Promise<Array<string>> {
+export async function readDirAndPush(d: string): Promise<string[]> {
   const files: string[] = [];
   async function read(dir: string) {
     const result = await readdir(dir);

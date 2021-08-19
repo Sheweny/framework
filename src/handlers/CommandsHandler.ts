@@ -1,8 +1,10 @@
 import { join } from "path";
+import { Collection } from "collection-data";
 import { SlashHandler } from "../index";
-import { readDirAndPush } from "../util/readDirFiles";
+import { Command } from "../structures/Command";
 import type { ICommandHandlerOptions } from "../typescript/interfaces/interfaces";
 import type { ShewenyClient } from "../index";
+import { readDirAndPush } from "../util/readDirFiles";
 
 /**
  * Loads commands.
@@ -32,10 +34,11 @@ export class CommandsHandler {
     this.client.commandsType = options.type;
     this.options = options;
   }
+
   /**
-   * @returns {Collection<string, Command>} The collection of commands
+   * @returns {Promise<Collection<string, Command>>} The collection of commands
    */
-  async loadAll() {
+  public async loadAll(): Promise<Collection<string, Command>> {
     const baseDir = join(require.main!.path, this.dir);
     const cmds: string[] = await readDirAndPush(baseDir);
     for (const cmdPath of cmds) {

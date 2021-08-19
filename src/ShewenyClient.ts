@@ -17,6 +17,7 @@ interface IClientHandlers {
   commands?: CommandsHandler;
   events?: EventsHandler;
   buttons?: ButtonsHandler;
+  selectmenus?: null;
 }
 
 interface IOptionsHandlers {
@@ -25,6 +26,9 @@ interface IOptionsHandlers {
     directory: string;
   };
   buttons?: {
+    directory: string;
+  };
+  selectmenus?: {
     directory: string;
   };
 }
@@ -73,9 +77,9 @@ export class ShewenyClient extends Client {
   }
   /**
    * @param {string} [dir=./events] - The directory of framework events
-   * @returns {undefined}
+   * @returns {Promise<void>}
    */
-  async init(dir = join(__dirname, "./events")) {
+  public async init(dir: string = join(__dirname, "./events")): Promise<void> {
     readdirSync(dir).forEach(async (file) => {
       const event = await import(`${dir}/${file}`).then((e) => e.default);
       const evtName = file.split(".")[0];
@@ -84,7 +88,7 @@ export class ShewenyClient extends Client {
   }
   /**
    * Resolve when client is ready
-   * @returns {Promise<undefined>}
+   * @returns {Promise<void>}
    */
   awaitReady(): Promise<void> {
     return new Promise((resolve) => {
