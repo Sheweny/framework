@@ -35,8 +35,8 @@ export class SelectMenusHandler {
       const instance = new SelectMenu(this.client);
       if (!instance.customId) continue;
       instance.path = selectmenuPath;
-      this.client.selectmenus.set(instance.name, instance);
+      this.client.selectMenus.set(instance.name, instance);
     }
-    return this.client.selectmenus;
+    return this.client.selectMenus;
   }
 }

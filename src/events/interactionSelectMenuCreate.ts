@@ -5,9 +5,9 @@ export default async function run(
   client: ShewenyClient,
   interaction: SelectMenuInteraction
 ) {
-  if (!client.selectmenus) return;
+  if (!client.selectMenus) return;
 
-  const selectMenu = client.selectmenus.find((value) =>
+  const selectMenu = client.selectMenus.find((value) =>
     value.customId.includes(interaction.customId)
   );
   if (!selectMenu) return;
