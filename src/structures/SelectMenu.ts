@@ -1,5 +1,5 @@
 import { Collection } from "collection-data";
-import type { ShewenyClient } from "../index";
+import type { ShewenyClient } from "..";
 
 /**
  * Represent a select menu

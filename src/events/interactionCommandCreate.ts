@@ -1,6 +1,6 @@
 import type { CommandInteraction, CommandInteractionOptionResolver } from "discord.js";
 import { Collection } from "collection-data";
-import type { ShewenyClient } from "../index";
+import type { ShewenyClient } from "..";
 import type { IPermissionString } from "../typescript/types/extends";
 
 interface CommandInteractionExtend extends CommandInteraction {
@@ -41,7 +41,7 @@ export default async function run(
       }
     }
   } else {
-  /* ---------------IN-DM--------------- */
+    /* ---------------IN-DM--------------- */
     if (command.guildOnly) return;
   }
   /* ---------------COOLDOWNS--------------- */
