@@ -60,15 +60,15 @@ export class ShewenyClient extends Client {
     if (options.admins) this.admins = options.admins;
     if (options.handlers) {
       if (options.handlers.commands) {
-        this.handlers.commands = new CommandsHandler(this, options.handlers.commands);
+        this.handlers.commands = new CommandsHandler(options.handlers.commands, this);
       }
       if (options.handlers.events) {
-        this.handlers.events = new EventsHandler(this, options.handlers.events.directory);
+        this.handlers.events = new EventsHandler(options.handlers.events.directory, this);
       }
       if (options.handlers.buttons) {
         this.handlers.buttons = new ButtonsHandler(
-          this,
-          options.handlers.buttons.directory
+          options.handlers.buttons.directory,
+          this
         );
       }
     }

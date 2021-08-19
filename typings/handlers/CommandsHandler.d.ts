@@ -1,7 +1,6 @@
 import { Collection } from "collection-data";
 import { SlashHandler } from "../index";
-import { Command } from "../structures/Command";
-import type { ICommandHandlerOptions } from "../typescript/interfaces/interfaces";
+import type { Command, ICommandHandlerOptions } from "../typescript/interfaces/interfaces";
 import type { ShewenyClient } from "../index";
 /**
  * Loads commands.
@@ -13,11 +12,12 @@ export declare class CommandsHandler {
     slashCommands: SlashHandler | undefined;
     options: ICommandHandlerOptions;
     /**
-     * @param {ShewenyClient} client - The client
      * @param {ICommandHandlerOptions} options - The options for the commands handler
+     * @param {ShewenyClient} [client] - The client
      */
-    constructor(client: ShewenyClient, options: ICommandHandlerOptions);
+    constructor(options: ICommandHandlerOptions, client?: ShewenyClient);
     /**
+     * Load all commands and register them to a collection.
      * @returns {Promise<Collection<string, Command>>} The collection of commands
      */
     loadAll(): Promise<Collection<string, Command>>;

@@ -5,3 +5,4 @@ export { EventsHandler } from "./handlers/EventsHandler";
 export { ButtonsHandler } from "./handlers/ButtonsHandler";
 export { Command } from "./structures/Command";
 export { Event } from "./structures/Event";
+export { Button } from "./structures/Button";
