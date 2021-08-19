@@ -1,7 +1,6 @@
 import type { Collection } from "collection-data";
-import type { ApplicationCommandResolvable, ApplicationCommandData, ApplicationCommand, GuildResolvable } from "discord.js";
-import type { Collection as DJSCollection } from "discord.js";
-import type { ShewenyClient } from "../index";
+import type { ApplicationCommandResolvable, ApplicationCommandData, ApplicationCommand, GuildResolvable, Collection as DJSCollection } from "discord.js";
+import type { ShewenyClient } from "..";
 import type { Command } from "../typescript/interfaces/interfaces";
 /**
  * Manage slash-commands.

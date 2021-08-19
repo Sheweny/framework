@@ -1,5 +1,5 @@
 import type { ButtonInteraction } from "discord.js";
-import type { ShewenyClient } from "../index";
+import type { ShewenyClient } from "..";
 
 export default async function run(client: ShewenyClient, interaction: ButtonInteraction) {
   if (!client.buttons) return;

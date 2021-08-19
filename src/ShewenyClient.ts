@@ -1,16 +1,9 @@
 import { readdirSync } from "fs";
 import { join } from "path";
-import { Client } from "discord.js";
+import { Client, ClientOptions } from "discord.js";
 import { Collection } from "collection-data";
 
-import {
-  CommandsHandler,
-  EventsHandler,
-  ButtonsHandler,
-  SelectMenusHandler,
-} from "./index";
-
-import type { ClientOptions } from "discord.js";
+import { CommandsHandler, EventsHandler, ButtonsHandler, SelectMenusHandler } from ".";
 import type {
   Command,
   Event,
@@ -58,6 +51,7 @@ export class ShewenyClient extends Client {
   selectMenus: Collection<string[], SelectMenu> = new Collection();
   commandsType?: string;
   cooldowns: Collection<string, Collection<string, number>> = new Collection();
+  
   /**
    * @param {Object} options - The options for the client
    */
@@ -88,6 +82,7 @@ export class ShewenyClient extends Client {
 
     this.init();
   }
+
   /**
    * @param {string} [dir=./events] - The directory of framework events
    * @returns {Promise<void>}
@@ -99,6 +94,7 @@ export class ShewenyClient extends Client {
       this.on(evtName, (...args) => event(this, ...args));
     });
   }
+
   /**
    * Resolve when client is ready
    * @returns {Promise<void>}

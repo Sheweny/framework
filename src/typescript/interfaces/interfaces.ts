@@ -8,34 +8,32 @@ export interface ICommandHandlerOptions {
 /**
  * Structures
  */
+import type {
+  Event as Evt,
+  Command as Cmd,
+  Button as Btn,
+  SelectMenu as SM,
+} from "../../structures";
 
 // Event structure
-import type { Event as Evt } from "../../structures/Event";
-
 export interface Event extends Evt {
   before: Function;
   execute: Function;
 }
 
 // Command structure
-import type { Command as Cmd } from "../../structures/Command";
-
 export interface Command extends Cmd {
   before: Function;
   execute: Function;
 }
 
 // Button structure
-import { Button as Btn } from "../../structures/Button";
-
 export interface Button extends Btn {
   before: Function;
   execute: Function;
 }
 
-// Button structure
-import { SelectMenu as SM } from "../../structures/SelectMenu";
-
+// Select Menu structure
 export interface SelectMenu extends SM {
   before: Function;
   execute: Function;

@@ -4,9 +4,9 @@ import type {
   ApplicationCommandData,
   ApplicationCommand,
   GuildResolvable,
+  Collection as DJSCollection,
 } from "discord.js";
-import type { Collection as DJSCollection } from "discord.js";
-import type { ShewenyClient } from "../index";
+import type { ShewenyClient } from "..";
 import type { Command } from "../typescript/interfaces/interfaces";
 
 /**

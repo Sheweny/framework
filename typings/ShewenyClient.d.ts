@@ -1,7 +1,6 @@
-import { Client } from "discord.js";
+import { Client, ClientOptions } from "discord.js";
 import { Collection } from "collection-data";
-import { CommandsHandler, EventsHandler, ButtonsHandler, SelectMenusHandler } from "./index";
-import type { ClientOptions } from "discord.js";
+import { CommandsHandler, EventsHandler, ButtonsHandler, SelectMenusHandler } from ".";
 import type { Command, Event, Button, ICommandHandlerOptions, SelectMenu } from "./typescript/interfaces/interfaces";
 interface IClientHandlers {
     commands?: CommandsHandler;
