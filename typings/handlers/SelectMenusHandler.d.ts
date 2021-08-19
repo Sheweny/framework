@@ -9,8 +9,8 @@ export declare class SelectMenusHandler {
     private client;
     private dir;
     /**
-     * @param {ShewenyClient} client - The client
      * @param {string} directory - The directory of the select menus
+     * @param {ShewenyClient} client - The client
      */
     constructor(dir: string, client?: ShewenyClient);
     /**
