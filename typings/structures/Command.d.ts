@@ -19,7 +19,7 @@ export interface ICommandMeta {
  * Represent a command
  * @class
  */
-export declare class Command {
+export declare abstract class Command {
     client: any;
     path?: string;
     guildOnly: boolean;

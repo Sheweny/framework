@@ -5,7 +5,7 @@ import type { ShewenyClient } from "..";
  * Represent a button
  * @class
  */
-export class Button {
+export abstract class Button {
   public client;
   public path?: string;
   public customId: string[];
@@ -48,6 +48,8 @@ export class Button {
   public async register(): Promise<Collection<string[], Button>> {
     const Button = (await import(this.path!)).default;
     const btn = new Button(this.client);
-    return this.client.buttons?.set(btn.customId, btn);
+    return this.client.buttons
+      ? this.client.buttons.set(btn.customId, btn)
+      : new Collection<string[], Button>().set(btn.customId, btn);
   }
 }

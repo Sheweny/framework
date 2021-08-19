@@ -4,7 +4,7 @@ import type { ShewenyClient } from "..";
  * Represent a select menu
  * @class
  */
-export declare class SelectMenu {
+export declare abstract class SelectMenu {
     client: any;
     path?: string;
     customId: string[];
