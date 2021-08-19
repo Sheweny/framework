@@ -21,10 +21,8 @@ export class SlashHandler {
    * @param {ShewenyClient} client - The client
    */
   constructor(client: ShewenyClient) {
-    if (!client.commands)
-      throw new Error(
-        "No commands found. Please use CommandsHandler.loadAll() for load commands."
-      );
+    if (!client)
+      throw new ReferenceError("client must be provided for use slash-commands handler.");
     this.client = client;
     this.commands = client.commands!;
   }
