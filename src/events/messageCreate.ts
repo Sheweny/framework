@@ -1,6 +1,6 @@
 import type { Message } from "discord.js";
 import { Collection } from "collection-data";
-import type { ShewenyClient } from "../index";
+import type { ShewenyClient } from "..";
 import type { IPermissionString } from "../typescript/types/extends";
 
 export default async function run(client: ShewenyClient, message: Message) {

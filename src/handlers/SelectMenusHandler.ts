@@ -1,7 +1,7 @@
 import { join } from "path";
 import { Collection } from "collection-data";
 import { readDirAndPush } from "../util/readDirFiles";
-import type { ShewenyClient } from "../index";
+import type { ShewenyClient } from "..";
 import { SelectMenu } from "../typescript/interfaces/interfaces";
 
 /**

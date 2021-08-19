@@ -1,12 +1,12 @@
 import { join } from "path";
 import { Collection } from "collection-data";
-import { SlashHandler } from "../index";
+import { SlashHandler } from ".";
 import { readDirAndPush } from "../util/readDirFiles";
 import type {
   Command,
   ICommandHandlerOptions,
 } from "../typescript/interfaces/interfaces";
-import type { ShewenyClient } from "../index";
+import type { ShewenyClient } from "..";
 
 /**
  * Loads commands.
