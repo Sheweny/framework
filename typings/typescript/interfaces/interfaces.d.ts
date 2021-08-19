@@ -21,3 +21,8 @@ export interface Button extends Btn {
     before: Function;
     execute: Function;
 }
+import { SelectMenu as SM } from "../../structures/SelectMenu";
+export interface SelectMenu extends SM {
+    before: Function;
+    execute: Function;
+}
