@@ -1,4 +1,6 @@
 import type { ShewenyClient } from "../index";
+import { Event } from "../structures/Event";
+import { Collection } from "collection-data";
 /**
  * Loads events.
  * @class
@@ -13,18 +15,12 @@ export declare class EventsHandler {
     constructor(client: ShewenyClient, dir: string);
     /**
      * Register all events in collection
-     * @returns {Collection<string, Event>}
+     * @returns {Promise<Collection<string, Event>>} The events collection
      */
-    registerAll(): Promise<import("collection-data").Collection<string, import("../typescript/interfaces/interfaces").Event>>;
+    registerAll(): Promise<Collection<string, Event>>;
     /**
      * Load all events and register them in collection if no events are registered
-     * @returns {Collection<string, Event>}
+     * @returns {Promise<void>}
      */
     loadAll(): Promise<void>;
-    /**
-     * Read dir and return array with all paths of files
-     * @param {string} directory - The directory to read
-     * @returns {Array<string>}
-     */
-    _readDirAndPush(d: string): Promise<Array<string>>;
 }

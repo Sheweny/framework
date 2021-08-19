@@ -1,3 +1,4 @@
+import { Collection } from "collection-data";
 import type { ShewenyClient } from "../index";
 
 interface IEventMeta {
@@ -20,7 +21,7 @@ export class Event {
   /**
    * @param {ShewenyClient} client - The client
    * @param {string} name - The name of the event
-   * @param {Object} options - The options of the event
+   * @param {IEventMeta} options - The options of the event
    */
   constructor(client: ShewenyClient, name: string, options: IEventMeta) {
     this.client = client;
@@ -28,31 +29,34 @@ export class Event {
     this.description = options.description;
     this.once = options.once;
   }
+
   /**
    * Unregister a event
    * @returns {boolean}
    */
-  unregister() {
+  public unregister(): boolean {
     this.client.events?.delete(this.name);
     delete require.cache[require.resolve(this.path!)];
     return true;
   }
+
   /**
    * Reload a event
-   * @returns {boolean|null}
+   * @returns {Promise<Collection<string, Event> | null>} The events collection
    */
-  async reload() {
+  public async reload(): Promise<Collection<string, Event> | null> {
     if (this.path) {
       this.unregister();
       return this.register();
     }
     return null;
   }
+
   /**
    * Register a event
-   * @returns {Collection} The events collection
+   * @returns {Promise<Collection<string, Event>>} The events collection
    */
-  async register() {
+  public async register(): Promise<Collection<string, Event>> {
     const event = (await import(this.path!)).default;
     const cmd = new event(this.client);
     return this.client.events?.set(cmd.name, cmd);

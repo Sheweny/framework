@@ -1,6 +1,8 @@
 import { join } from "path";
 import { readDirAndPush } from "../util/readDirFiles";
 import type { ShewenyClient } from "../index";
+import { Event } from "../structures/Event";
+import { Collection } from "collection-data";
 
 /**
  * Loads events.
@@ -22,9 +24,9 @@ export class EventsHandler {
 
   /**
    * Register all events in collection
-   * @returns {Collection<string, Event>}
+   * @returns {Promise<Collection<string, Event>>} The events collection
    */
-  async registerAll() {
+  public async registerAll(): Promise<Collection<string, Event>> {
     const baseDir = join(require.main!.path, this.dir);
     const evtsPaths: string[] = await readDirAndPush(baseDir);
     for (const evtPath of evtsPaths) {
@@ -37,11 +39,12 @@ export class EventsHandler {
     }
     return this.client.events;
   }
+
   /**
    * Load all events and register them in collection if no events are registered
-   * @returns {Collection<string, Event>}
+   * @returns {Promise<void>}
    */
-  async loadAll() {
+  public async loadAll(): Promise<void> {
     if (!this.client.events) await this.registerAll();
     for (const [name, evt] of this.client.events) {
       this.client.on(name, (...args: any[]) => evt.execute(args));

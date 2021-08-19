@@ -1,4 +1,5 @@
 import type { ApplicationCommandOptionData, ApplicationCommandType } from "discord.js";
+import { Collection } from "collection-data";
 import type { ShewenyClient } from "../index";
 export interface ICommandMeta {
     description: string;
@@ -37,7 +38,7 @@ export declare class Command {
     /**
      * @param {ShewenyClient} client - The client
      * @param {string} name - The name of the command
-     * @param {Object} options - The options of the command
+     * @param {ICommandMeta} options - The options of the command
      */
     constructor(client: ShewenyClient, name: string, options: ICommandMeta);
     /**
@@ -47,12 +48,12 @@ export declare class Command {
     unregister(): boolean;
     /**
      * Reload a command
-     * @returns {boolean|null}
+     * @returns {Promise<Collection<string, Command> | null>} The commands collection
      */
-    reload(): Promise<any>;
+    reload(): Promise<Collection<string, Command> | null>;
     /**
      * Register a command
-     * @returns {Collection} The commands collection
+     * @returns {Collection<string, Command>} The commands collection
      */
-    register(): Promise<any>;
+    register(): Promise<Collection<string, Command>>;
 }
