@@ -32,10 +32,10 @@ export declare class ShewenyClient extends Client {
     shewenyOptions: IShewenyClientOptions;
     admins?: string[];
     handlers: IClientHandlers;
-    commands: Collection<string, Command>;
-    events: Collection<string, Event>;
-    buttons: Collection<string[], Button>;
-    selectMenus: Collection<string[], SelectMenu>;
+    commands?: Collection<string, Command>;
+    events?: Collection<string, Event>;
+    buttons?: Collection<string[], Button>;
+    selectMenus?: Collection<string[], SelectMenu>;
     commandsType?: string;
     cooldowns: Collection<string, Collection<string, number>>;
     /**

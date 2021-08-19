@@ -5,7 +5,7 @@ import type { ShewenyClient } from "..";
  * Represent a select menu
  * @class
  */
-export class SelectMenu {
+export abstract class SelectMenu {
   public client;
   public path?: string;
   public customId: string[];
@@ -48,6 +48,8 @@ export class SelectMenu {
   public async register(): Promise<Collection<string[], SelectMenu>> {
     const SelectMenu = (await import(this.path!)).default;
     const sm = new SelectMenu(this.client);
-    return this.client.selectMenus?.set(sm.customId, sm);
+    return this.client.selectMenus
+      ? this.client.selectMenus.set(sm.customId, sm)
+      : new Collection<string[], SelectMenu>().set(sm.customId, sm);
   }
 }

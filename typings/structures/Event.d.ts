@@ -9,7 +9,7 @@ interface IEventMeta {
  * Represent a event
  * @class
  */
-export declare class Event {
+export declare abstract class Event {
     protected client: any;
     protected path?: string;
     protected name: string;

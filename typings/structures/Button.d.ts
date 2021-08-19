@@ -4,7 +4,7 @@ import type { ShewenyClient } from "..";
  * Represent a button
  * @class
  */
-export declare class Button {
+export declare abstract class Button {
     client: any;
     path?: string;
     customId: string[];
