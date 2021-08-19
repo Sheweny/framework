@@ -1,5 +1,5 @@
 import { Command, ShewenyClient } from "../../../";
-import type { Message } from "discord.js";
+import type { CommandInteraction } from "discord.js";
 
 export class PingCommand extends Command {
   constructor(client: ShewenyClient) {
@@ -9,7 +9,7 @@ export class PingCommand extends Command {
       guildOnly: true,
     });
   }
-  execute(message: Message) {
-    message.reply("Pong !");
+  execute(interaction: CommandInteraction) {
+    interaction.reply("Pong !");
   }
 }

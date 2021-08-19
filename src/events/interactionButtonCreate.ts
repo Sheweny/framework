@@ -7,6 +7,7 @@ export default async function run(client: ShewenyClient, interaction: ButtonInte
   const button = client.buttons.find((value) =>
     value.customId.includes(interaction.customId)
   );
+
   if (!button) return;
 
   try {
