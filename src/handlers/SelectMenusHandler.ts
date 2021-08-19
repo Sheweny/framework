@@ -30,7 +30,9 @@ export class SelectMenusHandler {
     const baseDir = join(require.main!.path, this.dir);
     const selectmenusPaths: string[] = await readDirAndPush(baseDir);
     for (const selectmenuPath of selectmenusPaths) {
-      const SelectMenu = (await import(selectmenuPath)).default;
+      const selectMenyImport = await import(selectmenuPath);
+      const key = Object.keys(selectMenyImport)[0];
+      const SelectMenu = selectMenyImport[key];
       if (!SelectMenu) continue;
       const instance = new SelectMenu(this.client);
       if (!instance.customId) continue;
