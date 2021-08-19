@@ -3,7 +3,12 @@ import { join } from "path";
 import { Client } from "discord.js";
 import { Collection } from "collection-data";
 
-import { CommandsHandler, EventsHandler, ButtonsHandler } from "./index";
+import {
+  CommandsHandler,
+  EventsHandler,
+  ButtonsHandler,
+  SelectMenusHandler,
+} from "./index";
 
 import type { ClientOptions } from "discord.js";
 import type {
@@ -11,13 +16,14 @@ import type {
   Event,
   Button,
   ICommandHandlerOptions,
+  SelectMenu,
 } from "./typescript/interfaces/interfaces";
 
 interface IClientHandlers {
   commands?: CommandsHandler;
   events?: EventsHandler;
   buttons?: ButtonsHandler;
-  selectmenus?: null;
+  selectMenus?: SelectMenusHandler;
 }
 
 interface IOptionsHandlers {
@@ -28,7 +34,7 @@ interface IOptionsHandlers {
   buttons?: {
     directory: string;
   };
-  selectmenus?: {
+  selectMenus?: {
     directory: string;
   };
 }
@@ -49,6 +55,7 @@ export class ShewenyClient extends Client {
   commands: Collection<string, Command> = new Collection();
   events: Collection<string, Event> = new Collection();
   buttons: Collection<string[], Button> = new Collection();
+  selectMenus: Collection<string[], SelectMenu> = new Collection();
   commandsType?: string;
   cooldowns: Collection<string, Collection<string, number>> = new Collection();
   /**
@@ -69,6 +76,12 @@ export class ShewenyClient extends Client {
         this.handlers.buttons = new ButtonsHandler(
           options.handlers.buttons.directory,
           this
+        );
+      }
+      if (options.handlers.selectMenus) {
+        this.handlers.selectMenus = new SelectMenusHandler(
+          this,
+          options.handlers.selectMenus.directory
         );
       }
     }
