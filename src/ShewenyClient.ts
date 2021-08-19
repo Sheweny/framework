@@ -1,18 +1,23 @@
-import { readdirSync } from 'fs';
-import { join } from 'path';
-import { Client } from 'discord.js';
+import { readdirSync } from "fs";
+import { join } from "path";
+import { Client } from "discord.js";
 import { Collection } from "collection-data";
 
-import { CommandsHandler, EventsHandler, ButtonsHandler } from './index';
+import { CommandsHandler, EventsHandler, ButtonsHandler } from "./index";
 
-import type { ClientOptions } from 'discord.js';
-import type { Command, Event, Button, ICommandHandlerOptions } from './typescript/interfaces/interfaces';
-
+import type { ClientOptions } from "discord.js";
+import type {
+  Command,
+  Event,
+  Button,
+  ICommandHandlerOptions,
+} from "./typescript/interfaces/interfaces";
 
 interface IClientHandlers {
   commands?: CommandsHandler;
   events?: EventsHandler;
   buttons?: ButtonsHandler;
+  selectmenus?: null;
 }
 
 interface IOptionsHandlers {
@@ -21,6 +26,9 @@ interface IOptionsHandlers {
     directory: string;
   };
   buttons?: {
+    directory: string;
+  };
+  selectmenus?: {
     directory: string;
   };
 }
@@ -32,8 +40,8 @@ interface IShewenyClientOptions extends ClientOptions {
 
 /**
  * The main hub for interacting with the Discord API, and the starting point for any bot.
- * @class 
-*/
+ * @class
+ */
 export class ShewenyClient extends Client {
   shewenyOptions: IShewenyClientOptions;
   admins?: string[];
@@ -44,7 +52,7 @@ export class ShewenyClient extends Client {
   commandsType?: string;
   cooldowns: Collection<string, Collection<string, number>> = new Collection();
   /**
-   * @param {Object} options - The options for the client 
+   * @param {Object} options - The options for the client
    */
   constructor(options: IShewenyClientOptions) {
     super(options);
@@ -58,7 +66,10 @@ export class ShewenyClient extends Client {
         this.handlers.events = new EventsHandler(this, options.handlers.events.directory);
       }
       if (options.handlers.buttons) {
-        this.handlers.buttons = new ButtonsHandler(this, options.handlers.buttons.directory);
+        this.handlers.buttons = new ButtonsHandler(
+          this,
+          options.handlers.buttons.directory
+        );
       }
     }
 
@@ -66,9 +77,9 @@ export class ShewenyClient extends Client {
   }
   /**
    * @param {string} [dir=./events] - The directory of framework events
-   * @returns {undefined}
+   * @returns {Promise<void>}
    */
-  async init(dir = join(__dirname, "./events")) {
+  public async init(dir: string = join(__dirname, "./events")): Promise<void> {
     readdirSync(dir).forEach(async (file) => {
       const event = await import(`${dir}/${file}`).then((e) => e.default);
       const evtName = file.split(".")[0];
@@ -77,7 +88,7 @@ export class ShewenyClient extends Client {
   }
   /**
    * Resolve when client is ready
-   * @returns {Promise<undefined>}
+   * @returns {Promise<void>}
    */
   awaitReady(): Promise<void> {
     return new Promise((resolve) => {

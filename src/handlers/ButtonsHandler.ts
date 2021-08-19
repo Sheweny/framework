@@ -1,20 +1,34 @@
-import { readdir, stat } from "fs/promises";
 import { join } from "path";
+import { readDirAndPush } from "../util/readDirFiles";
 import type { ShewenyClient } from "../index";
+import { Button } from "../structures/Button";
+import { Collection } from "collection-data";
 
+/**
+ * Loads buttons.
+ * @class
+ */
 export class ButtonsHandler {
   private client: ShewenyClient;
   private dir: string;
 
+  /**
+   * @param {ShewenyClient} client - The client
+   * @param {string} directory - The directory of the buttons
+   */
   constructor(client: ShewenyClient, dir: string) {
     if (!dir) throw new TypeError("Directory must be provided.");
     this.client = client;
     this.dir = dir;
   }
 
-  async registerAll() {
+  /**
+   * Register all buttons in collection
+   * @returns {Promise<Collection<string[], Event>>} The buttons collection
+   */
+  public async registerAll(): Promise<Collection<string[], Button>> {
     const baseDir = join(require.main!.path, this.dir);
-    const buttonsPaths: string[] = await this.readDirAndPush(baseDir);
+    const buttonsPaths: string[] = await readDirAndPush(baseDir);
     for (const buttonPath of buttonsPaths) {
       const Button = (await import(buttonPath)).default;
       if (!Button) continue;
@@ -23,23 +37,6 @@ export class ButtonsHandler {
       instance.path = buttonPath;
       this.client.buttons.set(instance.name, instance);
     }
-    return this.client.events;
-  }
-
-  async readDirAndPush(d: string): Promise<Array<string>> {
-    const files: string[] = [];
-    async function read(dir: string) {
-      const result = await readdir(dir);
-      for (const item of result) {
-        const infos = await stat(join(dir, item));
-        if (infos.isDirectory()) await read(join(dir, item));
-        else files.push(join(dir, item));
-      }
-      return;
-    }
-
-    await read(d);
-
-    return files;
+    return this.client.buttons;
   }
 }

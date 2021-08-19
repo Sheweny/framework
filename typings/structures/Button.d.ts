@@ -1,23 +1,31 @@
-import type { EmojiIdentifierResolvable } from "discord.js";
+import { Collection } from "collection-data";
 import type { ShewenyClient } from "../index";
-export interface IButtonMeta {
-    description?: string;
-    style: "PRIMARY" | "SECONDARY" | "SUCCESS" | "DANGER" | "LINK";
-    disabled?: boolean;
-    emoji?: EmojiIdentifierResolvable;
-    label?: string;
-}
+/**
+ * Represent a button
+ * @class
+ */
 export declare class Button {
     client: any;
     path?: string;
     customId: string[];
-    description?: string;
-    style: "PRIMARY" | "SECONDARY" | "SUCCESS" | "DANGER" | "LINK";
-    disabled?: boolean;
-    emoji?: EmojiIdentifierResolvable;
-    label?: string;
-    constructor(client: ShewenyClient, customId: string[], options: IButtonMeta);
+    /**
+     * @param {ShewenyClient} client - The client
+     * @param {string[]} customId - The different buttons customid
+     */
+    constructor(client: ShewenyClient, customId: string[]);
+    /**
+     * Unregister a button
+     * @returns {boolean}
+     */
     unregister(): boolean;
-    reload(): Promise<any>;
-    register(): Promise<any>;
+    /**
+     * Reload a button
+     * @returns {Promise<Collection<string[], Button> | null>} The buttons collection
+     */
+    reload(): Promise<Collection<string[], Button> | null>;
+    /**
+     * Register a button
+     * @returns {Collection<string[], Button>} The buttons collection
+     */
+    register(): Promise<Collection<string[], Button>>;
 }

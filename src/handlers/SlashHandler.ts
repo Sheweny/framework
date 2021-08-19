@@ -1,16 +1,19 @@
 import type { Collection } from "collection-data";
-import type { ApplicationCommandResolvable, ApplicationCommandData, ApplicationCommand } from "discord.js";
-import type { Collection as DJSCollection } from 'discord.js'
+import type {
+  ApplicationCommandResolvable,
+  ApplicationCommandData,
+  ApplicationCommand,
+  GuildResolvable,
+} from "discord.js";
+import type { Collection as DJSCollection } from "discord.js";
 import type { ShewenyClient } from "../index";
 import type { Command } from "../typescript/interfaces/interfaces";
-
 
 /**
  * Manage slash-commands.
  * @class
  */
 export class SlashHandler {
-
   private commands: Collection<string, any>;
   private client: ShewenyClient;
 
@@ -29,9 +32,9 @@ export class SlashHandler {
   /**
    * Get an array of commands configuration for register it
    * @param {Collection<string, Command>} commands - The commands
-   * @returns {Array<}
+   * @returns {ApplicationCommandData[]}
    */
-  getData(commands: Collection<string, Command>) {
+  public getData(commands: Collection<string, Command>): ApplicationCommandData[] {
     const data: ApplicationCommandData[] = [];
     const commandsCategories: string[] = [];
     commands.forEach((c: Command) => commandsCategories.push(c.category));
@@ -83,35 +86,48 @@ export class SlashHandler {
       }
     }
     if (!data.length) {
-      throw new Error('No commands found')
+      throw new Error("No commands found");
     }
     return data;
   }
+
   /**
    * Register commands
    * @param {Collection<string, Command>} commands - The commands to register
    * @param {string} [guildId] - The guild to register commands
-   * @returns {Promise<DJSCollection<string, ApplicationCommand<{}>> | undefined | null>} The application commands
+   * @returns {Promise<DJSCollection<string, ApplicationCommand<{}>> | DJSCollection<string, ApplicationCommand<{ guild: GuildResolvable; }>> | undefined>} The application commands
    */
-  async registerCommands(commands = this.commands, guildId?: string): Promise<DJSCollection<string, ApplicationCommand<{}>> | undefined | null> {
+  public async registerCommands(
+    commands = this.commands,
+    guildId?: string
+  ): Promise<
+    | DJSCollection<string, ApplicationCommand<{}>>
+    | DJSCollection<string, ApplicationCommand<{ guild: GuildResolvable }>>
+    | undefined
+  > {
     await this.client.awaitReady();
 
     const data = this.getData(commands);
     if (data && data.length > 0) {
-      if (guildId) {
-        return this.client.application?.commands.set(data, guildId);
-      }
-      return this.client.application?.commands.set(data);
+      return guildId
+        ? this.client.application?.commands.set(data, guildId)
+        : this.client.application?.commands.set(data);
     }
-    return null;
+    return undefined;
   }
+
   /**
    * Create a command
    * @param {Collection<string, Command>} commands - The commands to register
    * @param {string} [guildId] - The guild to register commands
-   * @returns {Promise<any>} The application commands
+   * @returns {Promise<DJSCollection<string, ApplicationCommand<{}>> | DJSCollection<string, ApplicationCommand<{ guild: GuildResolvable; }>> | undefined>} The application commands
    */
-  async createCommand(command: Command, guildId?: string): Promise<any> {
+  public async createCommand(
+    command: Command,
+    guildId?: string
+  ): Promise<
+    ApplicationCommand<{}> | ApplicationCommand<{ guild: GuildResolvable }> | undefined
+  > {
     await this.client.awaitReady();
     const data: ApplicationCommandData = {
       name: command.name,
@@ -120,17 +136,25 @@ export class SlashHandler {
     if (command.type) data.type = command.type as any;
     if (command.options) data.options = command.options;
     if (command.defaultPermission) data.defaultPermission = command.defaultPermission;
-    if (guildId) return this.client.application?.commands.create(data, guildId);
-    return this.client.application?.commands.create(data);
+    return guildId
+      ? this.client.application?.commands.create(data, guildId)
+      : this.client.application?.commands.create(data);
   }
+
   /**
    * Edit a command
-   * @param {ApplicationCommandResolvable} cmd - The commands to edit
+   * @param {ApplicationCommandResolvable} oldCommand - The commands to edit
    * @param {Command} newCommand - The commands to edit
    * @param {string} [guildId] - The guild to edit commands
-   * @returns {Promise<any>} The application commands
+   * @returns {Promise<ApplicationCommand<{}> | ApplicationCommand<{ guild: GuildResolvable }> | undefined>} The application commands
    */
-  async editCommand(cmd: ApplicationCommandResolvable, newCommand: Command, guildId?: string): Promise<any> {
+  async editCommand(
+    oldCommand: ApplicationCommandResolvable,
+    newCommand: Command,
+    guildId?: string
+  ): Promise<
+    ApplicationCommand<{}> | ApplicationCommand<{ guild: GuildResolvable }> | undefined
+  > {
     await this.client.awaitReady();
     const data: ApplicationCommandData = {
       name: newCommand.name,
@@ -138,29 +162,43 @@ export class SlashHandler {
     };
     if (newCommand.type) data.type = newCommand.type as any;
     if (newCommand.options) data.options = newCommand.options;
-    if (newCommand.defaultPermission) data.defaultPermission = newCommand.defaultPermission;
-    if (guildId) return this.client.application?.commands.edit(cmd, data, guildId);
-    return this.client.application?.commands.edit(cmd, data);
+    if (newCommand.defaultPermission)
+      data.defaultPermission = newCommand.defaultPermission;
+    return guildId
+      ? this.client.application?.commands.edit(oldCommand, data, guildId)
+      : this.client.application?.commands.edit(oldCommand, data);
   }
+
   /**
    * Delete command
    * @param {ApplicationCommandResolvable} command - The commands to delete
    * @param {string} [guildId] - The guild to delete commands
-   * @returns {Promise<any>} Delete function
+   * @returns {Promise<ApplicationCommand<{}> | ApplicationCommand<{ guild: GuildResolvable }> | undefined>} Delete function
    */
-  async deleteCommand(command: ApplicationCommandResolvable, guildId?: string): Promise<any> {
+  async deleteCommand(
+    command: ApplicationCommandResolvable,
+    guildId?: string
+  ): Promise<any> {
     await this.client.awaitReady();
-    if (guildId) return this.client.application?.commands.delete(command, guildId);
-    return this.client.application?.commands.delete(command);
+    return guildId
+      ? this.client.application?.commands.delete(command, guildId)
+      : this.client.application?.commands.delete(command);
   }
   /**
    * Delete all commands
    * @param {string} [guildId] - The guild to delete commands
-   * @returns {Promise<DJSCollection<string, ApplicationCommand<{}>> | undefined | null>} The application commands
+   * @returns {Promise<DJSCollection<string, ApplicationCommand<{}>> | DJSCollection<string, ApplicationCommand<{ guild: GuildResolvable; }>> | undefined>} The application commands
    */
-  async deleteAllCommands(guildId?: string): Promise<DJSCollection<string, ApplicationCommand<{}>> | undefined> {
-    if (guildId) return this.client.application?.commands.set([], guildId);
-    return this.client.application?.commands.set([]);
+  async deleteAllCommands(
+    guildId?: string
+  ): Promise<
+    | DJSCollection<string, ApplicationCommand<{}>>
+    | DJSCollection<string, ApplicationCommand<{ guild: GuildResolvable }>>
+    | undefined
+  > {
+    return guildId
+      ? this.client.application?.commands.set([], guildId)
+      : this.client.application?.commands.set([]);
   }
 }
 

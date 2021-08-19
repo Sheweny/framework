@@ -1,41 +1,39 @@
-import type { EmojiIdentifierResolvable } from "discord.js";
+import { Collection } from "collection-data";
 import type { ShewenyClient } from "../index";
 
-export interface IButtonMeta {
-  description?: string;
-  style: "PRIMARY" | "SECONDARY" | "SUCCESS" | "DANGER" | "LINK";
-  disabled?: boolean;
-  emoji?: EmojiIdentifierResolvable;
-  label?: string;
-}
-
+/**
+ * Represent a button
+ * @class
+ */
 export class Button {
   public client;
   public path?: string;
   public customId: string[];
-  public description?: string;
-  public style: "PRIMARY" | "SECONDARY" | "SUCCESS" | "DANGER" | "LINK";
-  public disabled?: boolean;
-  public emoji?: EmojiIdentifierResolvable;
-  public label?: string;
 
-  constructor(client: ShewenyClient, customId: string[], options: IButtonMeta) {
+  /**
+   * @param {ShewenyClient} client - The client
+   * @param {string[]} customId - The different buttons customid
+   */
+  constructor(client: ShewenyClient, customId: string[]) {
     this.client = client;
     this.customId = customId;
-    this.description = options.description;
-    this.style = options.style;
-    this.disabled = options.disabled;
-    this.emoji = options.emoji;
-    this.label = options.label;
   }
 
-  unregister() {
+  /**
+   * Unregister a button
+   * @returns {boolean}
+   */
+  public unregister(): boolean {
     this.client.buttons?.delete(this.customId);
     delete require.cache[require.resolve(this.path!)];
     return true;
   }
 
-  async reload() {
+  /**
+   * Reload a button
+   * @returns {Promise<Collection<string[], Button> | null>} The buttons collection
+   */
+  public async reload(): Promise<Collection<string[], Button> | null> {
     if (this.path) {
       this.unregister();
       return this.register();
@@ -43,7 +41,11 @@ export class Button {
     return null;
   }
 
-  async register() {
+  /**
+   * Register a button
+   * @returns {Collection<string[], Button>} The buttons collection
+   */
+  public async register(): Promise<Collection<string[], Button>> {
     const Button = (await import(this.path!)).default;
     const btn = new Button(this.client);
     return this.client.buttons?.set(btn.customId, btn);

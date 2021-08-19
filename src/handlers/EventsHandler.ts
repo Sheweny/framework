@@ -1,6 +1,8 @@
-import { readdir, stat } from "fs/promises";
 import { join } from "path";
+import { readDirAndPush } from "../util/readDirFiles";
 import type { ShewenyClient } from "../index";
+import { Event } from "../structures/Event";
+import { Collection } from "collection-data";
 
 /**
  * Loads events.
@@ -22,11 +24,11 @@ export class EventsHandler {
 
   /**
    * Register all events in collection
-   * @returns {Collection<string, Event>}
+   * @returns {Promise<Collection<string, Event>>} The events collection
    */
-  async registerAll() {
+  public async registerAll(): Promise<Collection<string, Event>> {
     const baseDir = join(require.main!.path, this.dir);
-    const evtsPaths: string[] = await this._readDirAndPush(baseDir);
+    const evtsPaths: string[] = await readDirAndPush(baseDir);
     for (const evtPath of evtsPaths) {
       const Event = (await import(evtPath)).default;
       if (!Event) continue;
@@ -37,35 +39,15 @@ export class EventsHandler {
     }
     return this.client.events;
   }
+
   /**
    * Load all events and register them in collection if no events are registered
-   * @returns {Collection<string, Event>}
+   * @returns {Promise<void>}
    */
-  async loadAll() {
+  public async loadAll(): Promise<void> {
     if (!this.client.events) await this.registerAll();
     for (const [name, evt] of this.client.events) {
       this.client.on(name, (...args: any[]) => evt.execute(args));
     }
-  }
-  /**
-   * Read dir and return array with all paths of files
-   * @param {string} directory - The directory to read
-   * @returns {Array<string>}
-   */
-  async _readDirAndPush(d: string): Promise<Array<string>> {
-    const files: string[] = [];
-    async function read(dir: string) {
-      const result = await readdir(dir);
-      for (const item of result) {
-        const infos = await stat(join(dir, item));
-        if (infos.isDirectory()) await read(join(dir, item));
-        else files.push(join(dir, item));
-      }
-      return;
-    }
-
-    await read(d);
-
-    return files;
   }
 }

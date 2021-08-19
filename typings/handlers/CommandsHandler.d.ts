@@ -1,4 +1,6 @@
+import { Collection } from "collection-data";
 import { SlashHandler } from "../index";
+import { Command } from "../structures/Command";
 import type { ICommandHandlerOptions } from "../typescript/interfaces/interfaces";
 import type { ShewenyClient } from "../index";
 /**
@@ -16,13 +18,7 @@ export declare class CommandsHandler {
      */
     constructor(client: ShewenyClient, options: ICommandHandlerOptions);
     /**
-     * @returns {Collection<string, Command>} The collection of commands
+     * @returns {Promise<Collection<string, Command>>} The collection of commands
      */
-    loadAll(): Promise<import("collection-data").Collection<string, import("../typescript/interfaces/interfaces").Command>>;
-    /**
-     * Read dir and return array with all paths of files
-     * @param {string} directory - The directory to read
-     * @returns {Array<string>}
-     */
-    _readDirAndPush(d: string): Promise<Array<string>>;
+    loadAll(): Promise<Collection<string, Command>>;
 }

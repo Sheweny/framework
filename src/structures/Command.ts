@@ -1,4 +1,5 @@
 import type { ApplicationCommandOptionData, ApplicationCommandType } from "discord.js";
+import { Collection } from "collection-data";
 import type { ShewenyClient } from "../index";
 
 export interface ICommandMeta {
@@ -15,6 +16,7 @@ export interface ICommandMeta {
   subCommands?: any[];
   defaultPermission?: boolean;
 }
+
 /**
  * Represent a command
  * @class
@@ -39,7 +41,7 @@ export class Command {
   /**
    * @param {ShewenyClient} client - The client
    * @param {string} name - The name of the command
-   * @param {Object} options - The options of the command
+   * @param {ICommandMeta} options - The options of the command
    */
   constructor(client: ShewenyClient, name: string, options: ICommandMeta) {
     this.client = client;
@@ -57,31 +59,34 @@ export class Command {
     if (options.subCommands) this.subCommands = options.subCommands;
     this.defaultPermission = options.defaultPermission;
   }
+
   /**
    * Unregister a command
    * @returns {boolean}
    */
-  unregister() {
+  public unregister(): boolean {
     this.client.commands?.delete(this.name);
     delete require.cache[require.resolve(this.path!)];
     return true;
   }
+
   /**
    * Reload a command
-   * @returns {boolean|null}
+   * @returns {Promise<Collection<string, Command> | null>} The commands collection
    */
-  async reload() {
+  public async reload(): Promise<Collection<string, Command> | null> {
     if (this.path) {
       this.unregister();
       return this.register();
     }
     return null;
   }
+
   /**
    * Register a command
-   * @returns {Collection} The commands collection
+   * @returns {Collection<string, Command>} The commands collection
    */
-  async register() {
+  public async register(): Promise<Collection<string, Command>> {
     const Command = (await import(this.path!)).default;
     const cmd = new Command(this.client);
     return this.client.commands?.set(cmd.name, cmd);

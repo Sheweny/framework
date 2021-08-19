@@ -1,3 +1,4 @@
+import { Collection } from "collection-data";
 import type { ShewenyClient } from "../index";
 interface IEventMeta {
     name: string;
@@ -17,7 +18,7 @@ export declare class Event {
     /**
      * @param {ShewenyClient} client - The client
      * @param {string} name - The name of the event
-     * @param {Object} options - The options of the event
+     * @param {IEventMeta} options - The options of the event
      */
     constructor(client: ShewenyClient, name: string, options: IEventMeta);
     /**
@@ -27,13 +28,13 @@ export declare class Event {
     unregister(): boolean;
     /**
      * Reload a event
-     * @returns {boolean|null}
+     * @returns {Promise<Collection<string, Event> | null>} The events collection
      */
-    reload(): Promise<any>;
+    reload(): Promise<Collection<string, Event> | null>;
     /**
      * Register a event
-     * @returns {Collection} The events collection
+     * @returns {Promise<Collection<string, Event>>} The events collection
      */
-    register(): Promise<any>;
+    register(): Promise<Collection<string, Event>>;
 }
 export {};

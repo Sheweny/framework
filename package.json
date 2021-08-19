@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "build/index.js",
-  "types": "./typing/index.d.ts",
+  "types": "./typings/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "build:typing": "tsc --build tsconfig.typing.json"
+    "build:typings": "tsc --build tsconfig.typing.json"
   },
   "author": "",
   "license": "ISC",
