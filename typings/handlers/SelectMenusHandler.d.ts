@@ -1,6 +1,6 @@
 import { Collection } from "collection-data";
 import type { ShewenyClient } from "../index";
-import { SelectMenu } from "../structures/SelectMenu";
+import { SelectMenu } from "../typescript/interfaces/interfaces";
 /**
  * Loads select menus.
  * @class
@@ -12,7 +12,7 @@ export declare class SelectMenusHandler {
      * @param {ShewenyClient} client - The client
      * @param {string} directory - The directory of the select menus
      */
-    constructor(client: ShewenyClient, dir: string);
+    constructor(dir: string, client?: ShewenyClient);
     /**
      * Register all select menus in collection
      * @returns {Promise<Collection<string[], SelectMenu>>} The select menus collection

@@ -80,8 +80,8 @@ export class ShewenyClient extends Client {
       }
       if (options.handlers.selectMenus) {
         this.handlers.selectMenus = new SelectMenusHandler(
-          this,
-          options.handlers.selectMenus.directory
+          options.handlers.selectMenus.directory,
+          this
         );
       }
     }
