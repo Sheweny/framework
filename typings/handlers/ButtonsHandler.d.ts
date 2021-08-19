@@ -1,6 +1,6 @@
-import type { ShewenyClient } from "../index";
-import { Button } from "../typescript/interfaces/interfaces";
 import { Collection } from "collection-data";
+import type { ShewenyClient } from "..";
+import { Button } from "../typescript/interfaces/interfaces";
 /**
  * Loads buttons.
  * @class

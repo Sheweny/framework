@@ -1,6 +1,6 @@
 import type { ApplicationCommandOptionData, ApplicationCommandType } from "discord.js";
 import { Collection } from "collection-data";
-import type { ShewenyClient } from "../index";
+import type { ShewenyClient } from "..";
 export interface ICommandMeta {
     description: string;
     guildOnly?: boolean;

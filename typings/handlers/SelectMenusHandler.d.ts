@@ -1,5 +1,5 @@
 import { Collection } from "collection-data";
-import type { ShewenyClient } from "../index";
+import type { ShewenyClient } from "..";
 import { SelectMenu } from "../typescript/interfaces/interfaces";
 /**
  * Loads select menus.
@@ -10,7 +10,7 @@ export declare class SelectMenusHandler {
     private dir;
     /**
      * @param {string} directory - The directory of the select menus
-     * @param {ShewenyClient} client - The client
+     * @param {ShewenyClient} [client] - The client
      */
     constructor(dir: string, client?: ShewenyClient);
     /**

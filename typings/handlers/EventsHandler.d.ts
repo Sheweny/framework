@@ -1,5 +1,5 @@
 import { Collection } from "collection-data";
-import type { ShewenyClient } from "../index";
+import type { ShewenyClient } from "..";
 import type { Event } from "../typescript/interfaces/interfaces";
 /**
  * Loads events.
