@@ -5,9 +5,8 @@ const __1 = require("../../../");
 class Ping extends __1.ApplicationCommand {
     constructor(client) {
         super(client, {
-            name: "ping",
+            name: "ping-1851",
             description: "Ping Pong",
-            type: "CHAT_INPUT",
         }, { category: "test" });
     }
     execute(interaction) {

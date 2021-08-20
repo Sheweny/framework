@@ -30,7 +30,11 @@ export abstract class ApplicationCommand {
    * @param {ShewenyClient} client - The client
    * @param {ApplicationCommandData} data - Application Command data
    */
-  constructor(client: ShewenyClient, data: ApplicationCommandData, options: IApplicationCommandMeta) {
+  constructor(
+    client: ShewenyClient,
+    data: ApplicationCommandData,
+    options: IApplicationCommandMeta
+  ) {
     this.client = client;
     this.data = data;
     this.category = options.category;
@@ -50,7 +54,7 @@ export abstract class ApplicationCommand {
    * @returns {boolean}
    */
   public unregister(): boolean {
-    this.client.applicationCommands?.delete(this.data.name);
+    this.client.commands.interaction?.delete(this.data.name);
     delete require.cache[require.resolve(this.path!)];
     return true;
   }
@@ -78,8 +82,8 @@ export abstract class ApplicationCommand {
   public async register(): Promise<Collection<string, ApplicationCommand>> {
     const ApplicationCommand = (await import(this.path!)).default;
     const AC: ApplicationCommand = new ApplicationCommand(this.client);
-    return this.client.applicationCommands
-      ? this.client.applicationCommands.set(AC.data.name, AC)
+    return this.client.commands.interaction
+      ? this.client.commands.interaction.set(AC.data.name, AC)
       : new Collection<string, ApplicationCommand>().set(AC.data.name, AC);
   }
 }

@@ -29,6 +29,7 @@ export class MessageCommandsHandler {
     if (client) this.client = client;
     this.options = options;
     if (registerAll) this.registerAll();
+    if (client && client instanceof ShewenyClient) client.handlers.messageCommands = this;
   }
 
   /**

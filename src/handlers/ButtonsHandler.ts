@@ -22,6 +22,7 @@ export class ButtonsHandler {
     this.client = client;
     this.dir = dir;
     if (registerAll) this.registerAll();
+    if (client && client instanceof ShewenyClient) client.handlers.buttons = this;
   }
 
   /**

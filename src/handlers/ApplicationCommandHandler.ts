@@ -30,7 +30,10 @@ export class ApplicationCommandHandler {
     this.dir = directory;
     this.client = client;
     this.applicationCommands =
-      client instanceof ShewenyClient ? client.applicationCommands! : undefined;
+      client instanceof ShewenyClient ? client.commands.interaction! : undefined;
+    if (registerAll) this.registerAll();
+    if (client && client instanceof ShewenyClient)
+      client.handlers.applicationCommands = this;
   }
   /**
    * Load all commands and register them to a collection.
@@ -96,6 +99,9 @@ export class ApplicationCommandHandler {
 
     const data = this.getData(applicationCommands);
     if (data && data.length > 0) {
+      console.log(data);
+      console.log(guildId);
+
       return guildId
         ? this.client.application?.commands.set(data, guildId)
         : this.client.application?.commands.set(data);

@@ -23,6 +23,7 @@ export class InhibitorsHandler {
     this.client = client;
     this.dir = dir;
     if (registerAll) this.registerAll();
+    if (client && client instanceof ShewenyClient) client.handlers.inhibitors = this;
   }
 
   /**

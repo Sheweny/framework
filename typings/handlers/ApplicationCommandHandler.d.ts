@@ -9,11 +9,19 @@ import { ApplicationCommand } from "../structures";
 export declare class ApplicationCommandHandler {
     private applicationCommands?;
     private client;
+    private dir;
     /**
      * @constructor
      * @param {ShewenyClient | Client} client - The client
      */
-    constructor(client: ShewenyClient | Client);
+    constructor(client: ShewenyClient | Client, directory: string, registerAll?: boolean);
+    /**
+     * Load all commands and register them to a collection.
+     * @public
+     * @async
+     * @returns {Promise<Collection<string, MessageCommand>>} The collection of commands
+     */
+    registerAll(): Promise<Collection<string, ApplicationCommand>>;
     /**
      * Get an array of application commands configuration for register it
      * @public

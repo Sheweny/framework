@@ -1,21 +1,18 @@
-import type { CommandInteraction, CommandInteractionOptionResolver } from "discord.js";
+import type { CommandInteraction, ContextMenuInteraction } from "discord.js";
 import { Collection } from "collection-data";
 import { ShewenyClient } from "..";
 import { IPermissionString } from "../typescript/types/extends";
 import { Inhibitor } from "../structures";
 
-interface CommandInteractionExtend extends CommandInteraction {
-  subCommand: string | null;
-}
-
 export default async function run(
   client: ShewenyClient,
-  interaction: CommandInteractionExtend
+  interaction: CommandInteraction | ContextMenuInteraction
 ) {
-  if (!client.applicationCommands) return;
-  if (client.commandsType !== "APPLICATION_COMMANDS") return;
+  if (!client.commands.interaction) return;
+
   /* -----------------COMMAND----------------- */
-  const command = client.applicationCommands.get(interaction.commandName);
+  const command = client.commands.interaction.get(interaction.commandName);
+
   if (!command) return;
 
   /**
@@ -24,11 +21,13 @@ export default async function run(
   const inhibitors = client.inhibitors?.filter(
     (i: Inhibitor) => i.type === "APPLICATION_COMMAND"
   );
-  if (!inhibitors || !inhibitors.size) return;
-  const sorted = [...inhibitors.values()].sort((a, b) => b.priority - a.priority);
-  for (const i of sorted) {
-    if (!i.execute(client, interaction)) return i.onFailure(client, interaction);
+  if (inhibitors && !inhibitors.size) {
+    const sorted = [...inhibitors.values()].sort((a, b) => b.priority - a.priority);
+    for (const i of sorted) {
+      if (!i.execute(client, interaction)) return i.onFailure(client, interaction);
+    }
   }
+  console.log("1");
 
   /* ---------------PERMISSIONS--------------- */
   if (
@@ -58,6 +57,8 @@ export default async function run(
     /* ---------------IN-DM--------------- */
     if (command.only === "GUILD") return;
   }
+  console.log(2);
+
   /* ---------------COOLDOWNS--------------- */
   if (!client.admins?.includes(interaction.user.id)) {
     if (!client.cooldowns.has(command.data.name)) {
@@ -65,7 +66,7 @@ export default async function run(
     }
     const timeNow = Date.now();
     const tStamps = client.cooldowns.get(command.data.name)!;
-    const cdAmount = (command.cooldown || 5) * 1000;
+    const cdAmount = (command.cooldown || 0) * 1000;
     if (tStamps.has(interaction.user.id)) {
       const cdExpirationTime = (tStamps.get(interaction.user.id) || 0) + cdAmount;
       if (timeNow < cdExpirationTime) {

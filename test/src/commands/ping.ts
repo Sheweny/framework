@@ -6,9 +6,8 @@ export class Ping extends ApplicationCommand {
     super(
       client,
       {
-        name: "ping",
+        name: "ping-1851",
         description: "Ping Pong",
-        type: "CHAT_INPUT",
       },
       { category: "test" }
     );

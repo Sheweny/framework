@@ -25,6 +25,7 @@ export class EventsHandler {
     this.client = client;
     this.dir = dir;
     if (registerAll) this.registerAll();
+    if (client && client instanceof ShewenyClient) client.handlers.events = this;
   }
 
   /**
