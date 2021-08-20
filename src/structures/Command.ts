@@ -21,7 +21,7 @@ export interface ICommandMeta {
  * Represent a command
  * @class
  */
-export class Command {
+export abstract class Command {
   public client;
   public path?: string;
   public guildOnly: boolean;
@@ -89,6 +89,8 @@ export class Command {
   public async register(): Promise<Collection<string, Command>> {
     const Command = (await import(this.path!)).default;
     const cmd = new Command(this.client);
-    return this.client.commands?.set(cmd.name, cmd);
+    return this.client.commands
+      ? this.client.commands.set(cmd.name, cmd)
+      : new Collection<string, Command>().set(cmd.name, cmd);
   }
 }

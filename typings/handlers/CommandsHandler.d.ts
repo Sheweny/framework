@@ -7,9 +7,9 @@ import type { ShewenyClient } from "..";
  * @class
  */
 export declare class CommandsHandler {
-    private client;
+    private client?;
     private dir;
-    slashCommands: SlashHandler | undefined;
+    slashCommands?: SlashHandler;
     options: ICommandHandlerOptions;
     /**
      * @param {ICommandHandlerOptions} options - The options for the commands handler

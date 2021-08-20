@@ -13,9 +13,9 @@ import type { ShewenyClient } from "..";
  * @class
  */
 export class CommandsHandler {
-  private client: ShewenyClient | undefined;
+  private client?: ShewenyClient;
   private dir: string;
-  public slashCommands: SlashHandler | undefined;
+  public slashCommands?: SlashHandler;
   options: ICommandHandlerOptions;
 
   /**
@@ -24,11 +24,8 @@ export class CommandsHandler {
    */
   constructor(options: ICommandHandlerOptions, client?: ShewenyClient) {
     if (!options.directory) throw new TypeError("Directory must be provided.");
-    if (options.type && !["MESSAGE_COMMANDS", "SLASH_COMMANDS"].includes(options.type))
-      throw new TypeError(
-        `Unknown type of command: ${options.type} \nThe type must be MESSAGE_COMMANDS or SLASH_COMMANDS`
-      );
-    if (!options.type) options.type = "MESSAGE_COMMANDS";
+    if (!options.type || !["MESSAGE_COMMANDS", "SLASH_COMMANDS"].includes(options.type))
+      options.type = "MESSAGE_COMMANDS";
     this.dir = options.directory;
     if (client) {
       this.client = client;
@@ -57,9 +54,10 @@ export class CommandsHandler {
     }
     if (this.client) {
       this.client.commands = commands;
-      if (this.options.type === "SLASH_COMMANDS") {
-        this.slashCommands = new SlashHandler(this.client);
-      }
+      this.slashCommands =
+        this.options.type === "SLASH_COMMANDS"
+          ? new SlashHandler(this.client)
+          : undefined;
     }
     return commands;
   }

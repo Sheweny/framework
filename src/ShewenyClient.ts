@@ -45,40 +45,34 @@ export class ShewenyClient extends Client {
   shewenyOptions: IShewenyClientOptions;
   admins?: string[];
   handlers: IClientHandlers = {};
-  commands: Collection<string, Command> = new Collection();
-  events: Collection<string, Event> = new Collection();
-  buttons: Collection<string[], Button> = new Collection();
-  selectMenus: Collection<string[], SelectMenu> = new Collection();
+  commands?: Collection<string, Command>;
+  events?: Collection<string, Event>;
+  buttons?: Collection<string[], Button>;
+  selectMenus?: Collection<string[], SelectMenu>;
   commandsType?: string;
   cooldowns: Collection<string, Collection<string, number>> = new Collection();
-  
+
   /**
    * @param {Object} options - The options for the client
    */
   constructor(options: IShewenyClientOptions) {
     super(options);
+
     this.shewenyOptions = options;
-    if (options.admins) this.admins = options.admins;
-    if (options.handlers) {
-      if (options.handlers.commands) {
-        this.handlers.commands = new CommandsHandler(options.handlers.commands, this);
-      }
-      if (options.handlers.events) {
-        this.handlers.events = new EventsHandler(options.handlers.events.directory, this);
-      }
-      if (options.handlers.buttons) {
-        this.handlers.buttons = new ButtonsHandler(
-          options.handlers.buttons.directory,
-          this
-        );
-      }
-      if (options.handlers.selectMenus) {
-        this.handlers.selectMenus = new SelectMenusHandler(
-          options.handlers.selectMenus.directory,
-          this
-        );
-      }
-    }
+    this.admins = options.admins;
+
+    this.handlers.commands = options.handlers?.commands
+      ? new CommandsHandler(options.handlers.commands, this)
+      : undefined;
+    this.handlers.events = options.handlers?.events
+      ? new EventsHandler(options.handlers.events.directory, this)
+      : undefined;
+    this.handlers.buttons = options.handlers?.buttons
+      ? new ButtonsHandler(options.handlers.buttons.directory, this)
+      : undefined;
+    this.handlers.selectMenus = options.handlers?.selectMenus
+      ? new SelectMenusHandler(options.handlers.selectMenus.directory, this)
+      : undefined;
 
     this.init();
   }
@@ -99,7 +93,7 @@ export class ShewenyClient extends Client {
    * Resolve when client is ready
    * @returns {Promise<void>}
    */
-  awaitReady(): Promise<void> {
+  public awaitReady(): Promise<void> {
     return new Promise((resolve) => {
       if (this.isReady()) return resolve();
       const that: ShewenyClient = this;

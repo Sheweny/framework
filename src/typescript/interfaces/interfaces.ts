@@ -8,6 +8,7 @@ export interface ICommandHandlerOptions {
 /**
  * Structures
  */
+import { ButtonInteraction, SelectMenuInteraction } from "discord.js";
 import type {
   Event as Evt,
   Command as Cmd,
@@ -18,23 +19,24 @@ import type {
 // Event structure
 export interface Event extends Evt {
   before: Function;
-  execute: Function;
+  execute(...args: any[]): any | Promise<any>;
 }
 
 // Command structure
 export interface Command extends Cmd {
   before: Function;
-  execute: Function;
+  // fix
+  execute(arg: any, args: any): any | Promise<any>;
 }
 
 // Button structure
 export interface Button extends Btn {
   before: Function;
-  execute: Function;
+  execute(interaction: ButtonInteraction): any | Promise<any>;
 }
 
 // Select Menu structure
 export interface SelectMenu extends SM {
   before: Function;
-  execute: Function;
+  execute(interaction: SelectMenuInteraction): any | Promise<any>;
 }

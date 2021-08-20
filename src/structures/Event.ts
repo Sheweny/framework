@@ -11,7 +11,7 @@ interface IEventMeta {
  * Represent a event
  * @class
  */
-export class Event {
+export abstract class Event {
   protected client;
   protected path?: string;
   protected name: string;
@@ -59,6 +59,8 @@ export class Event {
   public async register(): Promise<Collection<string, Event>> {
     const event = (await import(this.path!)).default;
     const cmd = new event(this.client);
-    return this.client.events?.set(cmd.name, cmd);
+    return this.client.events
+      ? this.client.events.set(cmd.name, cmd)
+      : new Collection<string, Event>().set(cmd.name, cmd);
   }
 }
