@@ -17,11 +17,12 @@ export class ButtonsHandler {
    * @param {string} directory - The directory of the buttons
    * @param {ShewenyClient} [client] - The client
    */
-  constructor(dir: string, client?: ShewenyClient, registerAll?: boolean) {
+  constructor(dir: string, client?: ShewenyClient, loadAll?: boolean) {
     if (!dir) throw new TypeError("Directory must be provided.");
     this.client = client;
     this.dir = dir;
-    if (registerAll) this.registerAll();
+    if (loadAll) this.loadAll();
+    if (client && client instanceof ShewenyClient) client.handlers.buttons = this;
   }
 
   /**
@@ -30,7 +31,7 @@ export class ButtonsHandler {
    * @async
    * @returns {Promise<Collection<string[], Event>>} The buttons collection
    */
-  public async registerAll(): Promise<Collection<string[], Button>> {
+  public async loadAll(): Promise<Collection<string[], Button>> {
     const buttons = new Collection<string[], Button>();
     const baseDir = join(require.main!.path, this.dir);
     const buttonsPaths: string[] = await readDirAndPush(baseDir);
@@ -45,7 +46,7 @@ export class ButtonsHandler {
       buttons.set(instance.customId, instance);
     }
 
-    if (this.client) this.client.buttons = buttons;
+    if (this.client instanceof ShewenyClient) this.client.buttons = buttons;
     return buttons;
   }
 }

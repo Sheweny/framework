@@ -3,7 +3,7 @@ import { Collection } from "collection-data";
 import { MessageCommandsHandler, ApplicationCommandHandler, EventsHandler, ButtonsHandler, SelectMenusHandler, InhibitorsHandler } from "./handlers";
 import type { IMessageCommandHandlerOptions } from "./typescript/interfaces/interfaces";
 import { ApplicationCommand, MessageCommand, Button, Event, Inhibitor, SelectMenu } from "./structures";
-interface IClientHandlers {
+interface IClientHandlersOptions {
     messageCommands?: MessageCommandsHandler;
     applicationCommands?: ApplicationCommandHandler;
     events?: EventsHandler;
@@ -30,6 +30,10 @@ interface IOptionsHandlers {
         directory: string;
     };
 }
+interface ICommandsManager {
+    interaction?: Collection<string, ApplicationCommand>;
+    message?: Collection<string, MessageCommand>;
+}
 interface IShewenyClientOptions extends ClientOptions {
     handlers?: IOptionsHandlers;
     admins?: string[];
@@ -42,9 +46,8 @@ interface IShewenyClientOptions extends ClientOptions {
 export declare class ShewenyClient extends Client {
     shewenyOptions: IShewenyClientOptions;
     admins?: string[];
-    handlers: IClientHandlers;
-    messageCommands?: Collection<string, MessageCommand>;
-    applicationCommands?: Collection<string, ApplicationCommand>;
+    handlers: IClientHandlersOptions;
+    commands: ICommandsManager;
     events?: Collection<string, Event>;
     buttons?: Collection<string[], Button>;
     selectMenus?: Collection<string[], SelectMenu>;

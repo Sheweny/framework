@@ -3,7 +3,7 @@ import { Collection } from "collection-data";
 import type { ShewenyClient } from "../ShewenyClient";
 
 export interface IMessageCommandMeta {
-  description: string;
+  description?: string;
   category: string;
   only?: "GUILD" | "DM";
   aliases?: string[];
@@ -22,7 +22,7 @@ export abstract class MessageCommand {
   public path?: string;
   public only: "GUILD" | "DM";
   public name: string;
-  public description: string;
+  public description?: string;
   public aliases: string[];
   public category: string;
   public cooldown: number;
@@ -57,7 +57,7 @@ export abstract class MessageCommand {
    * @returns {boolean}
    */
   public unregister(): boolean {
-    this.client.messageCommands?.delete(this.name);
+    this.client.commands.message?.delete(this.name);
     delete require.cache[require.resolve(this.path!)];
     return true;
   }
@@ -85,8 +85,8 @@ export abstract class MessageCommand {
   public async register(): Promise<Collection<string, MessageCommand>> {
     const Command = (await import(this.path!)).default;
     const cmd: MessageCommand = new Command(this.client);
-    return this.client.messageCommands
-      ? this.client.messageCommands.set(cmd.name, cmd)
+    return this.client.commands.message
+      ? this.client.commands.message.set(cmd.name, cmd)
       : new Collection<string, MessageCommand>().set(cmd.name, cmd);
   }
 }

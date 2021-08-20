@@ -13,16 +13,16 @@ export declare class EventsHandler {
      * @constructor
      * @param {string} directory - The directory of the events
      * @param {ShewenyClient | Client} client - The client
-     * @param {boolean} [registerAll] - Register all events in collection
+     * @param {boolean} [loadAll] - Register all events in collection
      */
-    constructor(dir: string, client: ShewenyClient | Client, registerAll?: boolean);
+    constructor(dir: string, client: ShewenyClient | Client, loadAll?: boolean);
     /**
      * Register all events in collection
      * @public
      * @async
      * @returns {Promise<Collection<string, Event>>} The events collection
      */
-    registerAll(): Promise<Collection<string, Event>>;
+    loadAll(): Promise<Collection<string, Event>>;
     /**
      * Load all events and register them in collection if no events are registered
      * @public
@@ -30,5 +30,5 @@ export declare class EventsHandler {
      * @param {Collection<string, Event>} [events] - The events to load.
      * @returns {Promise<void>}
      */
-    loadAll(events?: Collection<string, Event>): Promise<void>;
+    registerAll(events?: Collection<string, Event>): Promise<void>;
 }

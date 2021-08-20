@@ -5,7 +5,7 @@ import { IPermissionString } from "../typescript/types/extends";
 import { Inhibitor } from "../structures";
 
 export default async function run(client: ShewenyClient, message: Message) {
-  if (!client.messageCommands || client.commandsType !== "MESSAGE_COMMANDS") return;
+  if (!client.commands.message || client.commandsType !== "MESSAGE_COMMANDS") return;
 
   if (!message.content || message.author.bot) return; // It can be empty with the new message_content intent
   const prefix = client.handlers.messageCommands!.options.prefix || "";
@@ -14,8 +14,8 @@ export default async function run(client: ShewenyClient, message: Message) {
   /* -----------------COMMAND----------------- */
   const commandName = args.shift()!.toLowerCase();
   const command =
-    client.messageCommands.get(commandName) ||
-    client.messageCommands.find(
+    client.commands.message.get(commandName) ||
+    client.commands.message.find(
       (cmd) => cmd.aliases && cmd.aliases.includes(commandName)
     );
   if (!command) return;
@@ -26,10 +26,11 @@ export default async function run(client: ShewenyClient, message: Message) {
   const inhibitors = client.inhibitors?.filter(
     (i: Inhibitor) => i.type === "MESSAGE_COMMAND"
   );
-  if (!inhibitors || !inhibitors.size) return;
-  const sorted = [...inhibitors.values()].sort((a, b) => b.priority - a.priority);
-  for (const i of sorted) {
-    if (!i.execute(client, message)) return;
+  if (inhibitors && inhibitors.size) {
+    const sorted = [...inhibitors.values()].sort((a, b) => b.priority - a.priority);
+    for (const i of sorted) {
+      if (!i.execute(client, message)) return i.onFailure(client, message);
+    }
   }
 
   /* ---------------PERMISSIONS--------------- */
@@ -67,7 +68,7 @@ export default async function run(client: ShewenyClient, message: Message) {
     }
     const timeNow = Date.now();
     const tStamps = client.cooldowns.get(command.name)!;
-    const cdAmount = (command.cooldown || 5) * 1000;
+    const cdAmount = (command.cooldown || 0) * 1000;
     if (tStamps.has(message.author.id)) {
       const cdExpirationTime = (tStamps.get(message.author.id) || 0) + cdAmount;
       if (timeNow < cdExpirationTime) {

@@ -2,7 +2,8 @@ import { Collection } from "collection-data";
 import { ApplicationCommandData, CommandInteraction } from "discord.js";
 import { ShewenyClient } from "../ShewenyClient";
 
-export interface IApplicationCommandMeta {
+export interface IApplicationCommandOptions {
+  description?: string;
   category: string;
   only?: "GUILD" | "DM";
   cooldown?: number;
@@ -19,6 +20,7 @@ export abstract class ApplicationCommand {
   public client;
   public path?: string;
   public data: ApplicationCommandData;
+  public description?: string;
   public category: string;
   public only: "GUILD" | "DM";
   public cooldown: number;
@@ -30,9 +32,14 @@ export abstract class ApplicationCommand {
    * @param {ShewenyClient} client - The client
    * @param {ApplicationCommandData} data - Application Command data
    */
-  constructor(client: ShewenyClient, data: ApplicationCommandData, options: IApplicationCommandMeta) {
+  constructor(
+    client: ShewenyClient,
+    data: ApplicationCommandData,
+    options: IApplicationCommandOptions
+  ) {
     this.client = client;
     this.data = data;
+    this.description = options.description;
     this.category = options.category;
     this.only = options.only || "GUILD";
     this.cooldown = options.cooldown || 0;
@@ -50,7 +57,7 @@ export abstract class ApplicationCommand {
    * @returns {boolean}
    */
   public unregister(): boolean {
-    this.client.applicationCommands?.delete(this.data.name);
+    this.client.commands.interaction?.delete(this.data.name);
     delete require.cache[require.resolve(this.path!)];
     return true;
   }
@@ -78,8 +85,8 @@ export abstract class ApplicationCommand {
   public async register(): Promise<Collection<string, ApplicationCommand>> {
     const ApplicationCommand = (await import(this.path!)).default;
     const AC: ApplicationCommand = new ApplicationCommand(this.client);
-    return this.client.applicationCommands
-      ? this.client.applicationCommands.set(AC.data.name, AC)
+    return this.client.commands.interaction
+      ? this.client.commands.interaction.set(AC.data.name, AC)
       : new Collection<string, ApplicationCommand>().set(AC.data.name, AC);
   }
 }

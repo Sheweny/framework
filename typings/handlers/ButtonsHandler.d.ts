@@ -13,12 +13,12 @@ export declare class ButtonsHandler {
      * @param {string} directory - The directory of the buttons
      * @param {ShewenyClient} [client] - The client
      */
-    constructor(dir: string, client?: ShewenyClient, registerAll?: boolean);
+    constructor(dir: string, client?: ShewenyClient, loadAll?: boolean);
     /**
      * Register all buttons in collection
      * @public
      * @async
      * @returns {Promise<Collection<string[], Event>>} The buttons collection
      */
-    registerAll(): Promise<Collection<string[], Button>>;
+    loadAll(): Promise<Collection<string[], Button>>;
 }

@@ -20,7 +20,7 @@ import {
   SelectMenu,
 } from "./structures";
 
-interface IClientHandlers {
+interface IClientHandlersOptions {
   messageCommands?: MessageCommandsHandler;
   applicationCommands?: ApplicationCommandHandler;
   events?: EventsHandler;
@@ -49,6 +49,11 @@ interface IOptionsHandlers {
   };
 }
 
+interface ICommandsManager {
+  interaction?: Collection<string, ApplicationCommand>;
+  message?: Collection<string, MessageCommand>;
+}
+
 interface IShewenyClientOptions extends ClientOptions {
   handlers?: IOptionsHandlers;
   admins?: string[];
@@ -62,9 +67,8 @@ interface IShewenyClientOptions extends ClientOptions {
 export class ShewenyClient extends Client {
   shewenyOptions: IShewenyClientOptions;
   admins?: string[];
-  handlers: IClientHandlers = {};
-  messageCommands?: Collection<string, MessageCommand>;
-  applicationCommands?: Collection<string, ApplicationCommand>;
+  handlers: IClientHandlersOptions = {};
+  commands: ICommandsManager = {};
   events?: Collection<string, Event>;
   buttons?: Collection<string[], Button>;
   selectMenus?: Collection<string[], SelectMenu>;
@@ -95,7 +99,11 @@ export class ShewenyClient extends Client {
       ? new SelectMenusHandler(options.handlers.selectMenus.directory, this, true)
       : undefined;
     this.handlers.applicationCommands = options.handlers?.applicationCommands
-      ? new ApplicationCommandHandler(this)
+      ? new ApplicationCommandHandler(
+          this,
+          options.handlers.applicationCommands.directory,
+          true
+        )
       : undefined;
     this.handlers.inhibitors = options.handlers?.inhibitors
       ? new InhibitorsHandler(options.handlers.inhibitors.directory, this, true)
