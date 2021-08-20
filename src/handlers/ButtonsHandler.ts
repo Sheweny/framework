@@ -45,7 +45,7 @@ export class ButtonsHandler {
       buttons.set(instance.customId, instance);
     }
 
-    if (this.client) this.client.buttons = buttons;
+    if (this.client instanceof ShewenyClient) this.client.buttons = buttons;
     return buttons;
   }
 }

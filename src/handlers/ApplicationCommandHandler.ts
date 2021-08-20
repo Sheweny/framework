@@ -9,7 +9,8 @@ import {
 } from "discord.js";
 import { ShewenyClient } from "../ShewenyClient";
 import { ApplicationCommand } from "../structures";
-
+import { join } from "path";
+import { readDirAndPush } from "../util/readDirFiles";
 /**
  * Create Application Command handler
  * @class Application Command Handler
@@ -17,17 +18,42 @@ import { ApplicationCommand } from "../structures";
 export class ApplicationCommandHandler {
   private applicationCommands?: Collection<string, ApplicationCommand>;
   private client: ShewenyClient | Client;
-
+  private dir: string;
   /**
    * @constructor
    * @param {ShewenyClient | Client} client - The client
    */
-  constructor(client: ShewenyClient | Client) {
+  constructor(client: ShewenyClient | Client, directory: string, registerAll?: boolean) {
     if (!client)
       throw new ReferenceError("Client must be provided for use Application handler.");
+    if (!directory) throw new TypeError("Directory must be provided.");
+    this.dir = directory;
     this.client = client;
     this.applicationCommands =
       client instanceof ShewenyClient ? client.applicationCommands! : undefined;
+  }
+  /**
+   * Load all commands and register them to a collection.
+   * @public
+   * @async
+   * @returns {Promise<Collection<string, MessageCommand>>} The collection of commands
+   */
+  public async registerAll(): Promise<Collection<string, ApplicationCommand>> {
+    const commands: Collection<string, ApplicationCommand> = new Collection();
+    const baseDir = join(require.main!.path, this.dir);
+    const cmds: string[] = await readDirAndPush(baseDir);
+    for (const cmdPath of cmds) {
+      const commandImport = await import(cmdPath);
+      const key = Object.keys(commandImport)[0];
+      const Command = commandImport[key];
+      if (!Command) continue;
+      const instance: ApplicationCommand = new Command(this.client);
+      if (!instance.data.name) continue;
+      instance.path = cmdPath;
+      commands.set(instance.data.name, instance);
+    }
+    if (this.client instanceof ShewenyClient) this.client.commands.interaction = commands;
+    return commands;
   }
 
   /**

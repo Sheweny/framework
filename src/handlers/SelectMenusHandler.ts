@@ -44,7 +44,7 @@ export class SelectMenusHandler {
       instance.path = selectmenuPath;
       selectMenus.set(instance.customId, instance);
     }
-    if (this.client) this.client.selectMenus = selectMenus;
+    if (this.client instanceof ShewenyClient) this.client.selectMenus = selectMenus;
     return selectMenus;
   }
 }

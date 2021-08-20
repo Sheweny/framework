@@ -46,7 +46,7 @@ export class InhibitorsHandler {
       inhibitors.set(instance.name, instance);
     }
 
-    if (this.client) this.client.inhibitors = inhibitors;
+    if (this.client instanceof ShewenyClient) this.client.inhibitors = inhibitors;
     return inhibitors;
   }
 }

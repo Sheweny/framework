@@ -51,7 +51,7 @@ export class MessageCommandsHandler {
       instance.path = cmdPath;
       commands.set(instance.name, instance);
     }
-    if (this.client) this.client.messageCommands = commands;
+    if (this.client instanceof ShewenyClient) this.client.commands.message = commands;
     return commands;
   }
 }
