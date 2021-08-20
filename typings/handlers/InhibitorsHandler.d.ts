@@ -1,21 +1,25 @@
 import { Collection } from "collection-data";
-import type { ShewenyClient } from "..";
-import { Inhibitor } from "../typescript/interfaces/interfaces";
+import { ShewenyClient } from "../ShewenyClient";
+import { Inhibitor } from "../structures";
 /**
  * Loads inhibitors.
  * @class
  */
 export declare class InhibitorsHandler {
-    private client;
+    private client?;
     private dir;
     /**
-     * @param {string} directory - The directory of the inhibitors
+     * @constructor
+     * @param {string} dir - The directory of the inhibitors
      * @param {ShewenyClient} [client] - The client
+     * @param {boolean} [registerAll] - Register all inhibitors in collection
      */
     constructor(dir: string, client?: ShewenyClient, registerAll?: boolean);
     /**
      * Register all inhibitors in collection
-     * @returns {Promise<Collection<string, Event>>} The inhibitors collection
+     * @public
+     * @async
+     * @returns {Promise<Collection<string, Inhibitor>>} The inhibitors collection
      */
     registerAll(): Promise<Collection<string, Inhibitor>>;
 }

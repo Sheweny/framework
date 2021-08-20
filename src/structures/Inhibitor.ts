@@ -1,35 +1,43 @@
 import { Collection } from "collection-data";
-import type { ShewenyClient } from "..";
+import { ShewenyClient } from "../ShewenyClient";
 
 interface IInhibitorMeta {
-  type: string;
+  type?: "MESSAGE_COMMAND" | "APPLICATION_COMMAND" | "BUTTON" | "SELECT_MENU";
   priority?: number;
 }
 
 /**
- * Represent an hinibitor
+ * Represent an inhibitor
  * @class
+ * @abstract
  */
 export abstract class Inhibitor {
   public client;
   public path?: string;
   public name: string;
-  public type: string;
-  public priority: number;
+  public type: "MESSAGE_COMMAND" | "APPLICATION_COMMAND" | "BUTTON" | "SELECT_MENU" =
+    "MESSAGE_COMMAND";
+  public priority: number = 0;
 
   /**
+   * @constructor
    * @param {ShewenyClient} client - The client
-   * @param {string[]} customId - The different buttons customid
+   * @param {string[]} customId - The different inhibitor customid
    */
-  constructor(client: ShewenyClient, name: string, options: IInhibitorMeta) {
+  constructor(client: ShewenyClient, name: string, options?: IInhibitorMeta) {
     this.client = client;
     this.name = name;
-    this.type = options.type || "COMMAND";
-    this.priority = options.priority || 0;
+    this.type = options?.type || "MESSAGE_COMMAND";
+    this.priority = options?.priority || 0;
   }
 
+  abstract onFailure(...args: any[]): any | Promise<any>;
+
+  abstract execute(...args: any[]): any | Promise<any>;
+
   /**
-   * Unregister a button
+   * Unregister a inhibitor
+   * @public
    * @returns {boolean}
    */
   public unregister(): boolean {
@@ -40,6 +48,8 @@ export abstract class Inhibitor {
 
   /**
    * Reload a inhibitor
+   * @public
+   * @async
    * @returns {Promise<Collection<string[], Inhibitor> | null>} The inhibitors collection
    */
   public async reload(): Promise<Collection<string, Inhibitor> | null> {
@@ -52,11 +62,13 @@ export abstract class Inhibitor {
 
   /**
    * Register a inhibitor
+   * @public
+   * @async
    * @returns {Collection<string[], Inhibitor>} The inhibitors collection
    */
   public async register(): Promise<Collection<string, Inhibitor>> {
     const Inhibitor = (await import(this.path!)).default;
-    const inhib = new Inhibitor(this.client);
+    const inhib: Inhibitor = new Inhibitor(this.client);
     return this.client.inhibitors
       ? this.client.inhibitors.set(inhib.name, inhib)
       : new Collection<string, Inhibitor>().set(inhib.name, inhib);

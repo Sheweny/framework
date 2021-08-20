@@ -1,9 +1,11 @@
 import { Collection } from "collection-data";
-import type { ShewenyClient } from "..";
+import { ButtonInteraction } from "discord.js";
+import { ShewenyClient } from "../ShewenyClient";
 
 /**
  * Represent a button
- * @class
+ * @class Button structure
+ * @abstract
  */
 export abstract class Button {
   public client;
@@ -11,6 +13,7 @@ export abstract class Button {
   public customId: string[];
 
   /**
+   * @constructor
    * @param {ShewenyClient} client - The client
    * @param {string[]} customId - The different buttons customid
    */
@@ -19,8 +22,13 @@ export abstract class Button {
     this.customId = customId;
   }
 
+  before?(interaction: ButtonInteraction): any | Promise<any>;
+
+  abstract execute(interaction: ButtonInteraction): any | Promise<any>;
+
   /**
    * Unregister a button
+   * @public
    * @returns {boolean}
    */
   public unregister(): boolean {
@@ -31,6 +39,8 @@ export abstract class Button {
 
   /**
    * Reload a button
+   * @public
+   * @async
    * @returns {Promise<Collection<string[], Button> | null>} The buttons collection
    */
   public async reload(): Promise<Collection<string[], Button> | null> {
@@ -43,6 +53,8 @@ export abstract class Button {
 
   /**
    * Register a button
+   * @public
+   * @async
    * @returns {Collection<string[], Button>} The buttons collection
    */
   public async register(): Promise<Collection<string[], Button>> {

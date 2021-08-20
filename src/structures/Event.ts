@@ -1,37 +1,43 @@
 import { Collection } from "collection-data";
-import type { ShewenyClient } from "..";
+import { ShewenyClient } from "../ShewenyClient";
 
 interface IEventMeta {
-  name: string;
-  description: string;
-  once: boolean;
+  description?: string;
+  once?: boolean;
 }
 
 /**
  * Represent a event
- * @class
+ * @class Event structure
+ * @abstract
  */
 export abstract class Event {
-  protected client;
-  protected path?: string;
-  protected name: string;
-  protected description: string = "";
-  protected once: boolean = false;
+  public client;
+  public path?: string;
+  public name: string;
+  public description: string = "";
+  public once: boolean = false;
 
   /**
+   * @constructor
    * @param {ShewenyClient} client - The client
    * @param {string} name - The name of the event
    * @param {IEventMeta} options - The options of the event
    */
-  constructor(client: ShewenyClient, name: string, options: IEventMeta) {
+  constructor(client: ShewenyClient, name: string, options?: IEventMeta) {
     this.client = client;
     this.name = name;
-    this.description = options.description;
-    this.once = options.once;
+    this.description = options?.description || "";
+    this.once = options?.once || false;
   }
+
+  before?(...args: any[]): any | Promise<any>;
+
+  abstract execute(...args: any[]): any | Promise<any>;
 
   /**
    * Unregister a event
+   * @public
    * @returns {boolean}
    */
   public unregister(): boolean {
@@ -42,6 +48,8 @@ export abstract class Event {
 
   /**
    * Reload a event
+   * @public
+   * @async
    * @returns {Promise<Collection<string, Event> | null>} The events collection
    */
   public async reload(): Promise<Collection<string, Event> | null> {
@@ -54,13 +62,15 @@ export abstract class Event {
 
   /**
    * Register a event
+   * @public
+   * @async
    * @returns {Promise<Collection<string, Event>>} The events collection
    */
   public async register(): Promise<Collection<string, Event>> {
     const event = (await import(this.path!)).default;
-    const cmd = new event(this.client);
+    const evt: Event = new event(this.client);
     return this.client.events
-      ? this.client.events.set(cmd.name, cmd)
-      : new Collection<string, Event>().set(cmd.name, cmd);
+      ? this.client.events.set(evt.name, evt)
+      : new Collection<string, Event>().set(evt.name, evt);
   }
 }

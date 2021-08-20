@@ -1,32 +1,16 @@
-import { ShewenyClient, CommandsHandler, ButtonsHandler } from "../../";
+import { ApplicationCommandHandler, ShewenyClient } from "../../";
 
 const client = new ShewenyClient({
-  intents: ["GUILDS", "GUILD_MESSAGES", "DIRECT_MESSAGES"],
-  partials: ["CHANNEL"],
+  intents: ["GUILDS"],
   handlers: {
-    inhibitors: {
-      directory: "./inhibitors",
+    applicationCommands: {
+      directory: "./commands",
     },
   },
 });
 
-const commandsHandler = new CommandsHandler(
-  {
-    type: "SLASH_COMMANDS",
-    directory: "./commands",
-  },
-  client
-);
-commandsHandler.registerAll().then(async () => {
-  await commandsHandler.slashCommands!.registerCommands(
-    client.commands,
-    "877090306103840778"
-  );
-});
+new ApplicationCommandHandler(client)
+  .registerCommands(client.applicationCommands, "877090306103840778")
+  .then(() => console.log("Commands loaded"));
 
-const buttonsHandler = new ButtonsHandler("./buttons", client);
-buttonsHandler.registerAll();
-
-client.handlers.commands = commandsHandler;
-
-client.login("Njg5MjExNjEwMzA0MzQ4MzMx.Xm_kVA.lQJCcOLtXNiU5vQ7VMZXQI8mGf4");
+client.login("ODc3NDI2MDMxMjMxOTAxNzQ2.YRycqw.xSvG2o0kY0dAf3mE58crG0wAgB8");

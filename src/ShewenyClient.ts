@@ -1,34 +1,40 @@
-import { readdirSync } from "fs";
+import { readdir } from "fs/promises";
 import { join } from "path";
 import { Client, ClientOptions } from "discord.js";
 import { Collection } from "collection-data";
-
 import {
-  CommandsHandler,
+  MessageCommandsHandler,
+  ApplicationCommandHandler,
   EventsHandler,
   ButtonsHandler,
   SelectMenusHandler,
   InhibitorsHandler,
-} from ".";
-import type {
-  Command,
-  Event,
+} from "./handlers";
+import type { IMessageCommandHandlerOptions } from "./typescript/interfaces/interfaces";
+import {
+  ApplicationCommand,
+  MessageCommand,
   Button,
-  ICommandHandlerOptions,
-  SelectMenu,
+  Event,
   Inhibitor,
-} from "./typescript/interfaces/interfaces";
+  SelectMenu,
+} from "./structures";
 
 interface IClientHandlers {
-  commands?: CommandsHandler;
+  messageCommands?: MessageCommandsHandler;
+  applicationCommands?: ApplicationCommandHandler;
   events?: EventsHandler;
   buttons?: ButtonsHandler;
   selectMenus?: SelectMenusHandler;
+  contextMenus?: null;
   inhibitors?: InhibitorsHandler;
 }
 
 interface IOptionsHandlers {
-  commands?: ICommandHandlerOptions;
+  messageCommands?: IMessageCommandHandlerOptions;
+  applicationCommands?: {
+    directory: string;
+  };
   events?: {
     directory: string;
   };
@@ -50,22 +56,25 @@ interface IShewenyClientOptions extends ClientOptions {
 
 /**
  * The main hub for interacting with the Discord API, and the starting point for any bot.
- * @class
+ * @class ShewenyClient
+ * @extends Client Discord.js Client
  */
 export class ShewenyClient extends Client {
   shewenyOptions: IShewenyClientOptions;
   admins?: string[];
   handlers: IClientHandlers = {};
-  commands?: Collection<string, Command>;
+  messageCommands?: Collection<string, MessageCommand>;
+  applicationCommands?: Collection<string, ApplicationCommand>;
   events?: Collection<string, Event>;
   buttons?: Collection<string[], Button>;
   selectMenus?: Collection<string[], SelectMenu>;
   inhibitors?: Collection<string, Inhibitor>;
-  commandsType?: string;
+  commandsType?: "MESSAGE_COMMANDS" | "APPLICATION_COMMANDS";
   cooldowns: Collection<string, Collection<string, number>> = new Collection();
 
   /**
-   * @param {Object} options - The options for the client
+   * @constructor Constructor of ShewenyClient
+   * @param {IShewenyClientOptions} options - The options for the client
    */
   constructor(options: IShewenyClientOptions) {
     super(options);
@@ -73,8 +82,8 @@ export class ShewenyClient extends Client {
     this.shewenyOptions = options;
     this.admins = options.admins;
 
-    this.handlers.commands = options.handlers?.commands
-      ? new CommandsHandler(options.handlers.commands, this, true)
+    this.handlers.messageCommands = options.handlers?.messageCommands
+      ? new MessageCommandsHandler(options.handlers.messageCommands, this, true)
       : undefined;
     this.handlers.events = options.handlers?.events
       ? new EventsHandler(options.handlers.events.directory, this, true)
@@ -85,6 +94,9 @@ export class ShewenyClient extends Client {
     this.handlers.selectMenus = options.handlers?.selectMenus
       ? new SelectMenusHandler(options.handlers.selectMenus.directory, this, true)
       : undefined;
+    this.handlers.applicationCommands = options.handlers?.applicationCommands
+      ? new ApplicationCommandHandler(this)
+      : undefined;
     this.handlers.inhibitors = options.handlers?.inhibitors
       ? new InhibitorsHandler(options.handlers.inhibitors.directory, this, true)
       : undefined;
@@ -93,19 +105,25 @@ export class ShewenyClient extends Client {
   }
 
   /**
-   * @param {string} [dir=./events] - The directory of framework events
+   * Init ShewenyClient
+   * @async
+   * @private
    * @returns {Promise<void>}
    */
-  public async init(dir: string = join(__dirname, "./events")): Promise<void> {
-    readdirSync(dir).forEach(async (file) => {
+  private async init(): Promise<void> {
+    const dir = join(__dirname, "./events");
+    const files = await readdir(dir);
+
+    for (const file of files) {
       const event = await import(`${dir}/${file}`).then((e) => e.default);
       const evtName = file.split(".")[0];
       this.on(evtName, (...args) => event(this, ...args));
-    });
+    }
   }
 
   /**
    * Resolve when client is ready
+   * @public
    * @returns {Promise<void>}
    */
   public awaitReady(): Promise<void> {

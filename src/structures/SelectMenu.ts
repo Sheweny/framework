@@ -1,9 +1,11 @@
 import { Collection } from "collection-data";
-import type { ShewenyClient } from "..";
+import { SelectMenuInteraction } from "discord.js";
+import type { ShewenyClient } from "../ShewenyClient";
 
 /**
  * Represent a select menu
- * @class
+ * @class SelectMenu structure
+ * @abstract
  */
 export abstract class SelectMenu {
   public client;
@@ -11,6 +13,7 @@ export abstract class SelectMenu {
   public customId: string[];
 
   /**
+   * @constructor
    * @param {ShewenyClient} client - The client
    * @param {string[]} customId - The different select menu customid
    */
@@ -19,8 +22,13 @@ export abstract class SelectMenu {
     this.customId = customId;
   }
 
+  before?(interaction: SelectMenuInteraction): any | Promise<any>;
+
+  abstract execute(interaction: SelectMenuInteraction): any | Promise<any>;
+
   /**
    * Unregister a select menu
+   * @public
    * @returns {boolean}
    */
   public unregister(): boolean {
@@ -31,6 +39,8 @@ export abstract class SelectMenu {
 
   /**
    * Reload a select menu
+   * @public
+   * @async
    * @returns {Promise<Collection<string[], SelectMenu> | null>} The select menus collection
    */
   public async reload(): Promise<Collection<string[], SelectMenu> | null> {
@@ -43,11 +53,13 @@ export abstract class SelectMenu {
 
   /**
    * Register a select menu
+   * @public
+   * @async
    * @returns {Collection<string[], SelectMenu>} The select menus collection
    */
   public async register(): Promise<Collection<string[], SelectMenu>> {
     const SelectMenu = (await import(this.path!)).default;
-    const sm = new SelectMenu(this.client);
+    const sm: SelectMenu = new SelectMenu(this.client);
     return this.client.selectMenus
       ? this.client.selectMenus.set(sm.customId, sm)
       : new Collection<string[], SelectMenu>().set(sm.customId, sm);
