@@ -1,5 +1,5 @@
-import type { Interaction } from "discord.js";
-import type { ShewenyClient } from "..";
+import { Interaction } from "discord.js";
+import { ShewenyClient } from "../ShewenyClient";
 
 export default function run(client: ShewenyClient, interaction: Interaction) {
   if (interaction.isButton()) return client.emit("interactionButtonCreate", interaction);

@@ -1,25 +1,32 @@
 import { Collection } from "collection-data";
-import type { ShewenyClient } from "..";
-import type { Event } from "../typescript/interfaces/interfaces";
+import { Client } from "discord.js";
+import { ShewenyClient } from "../ShewenyClient";
+import { Event } from "../structures";
 /**
  * Loads events.
- * @class
+ * @class Event Handler
  */
 export declare class EventsHandler {
     private client;
     private dir;
     /**
+     * @constructor
      * @param {string} directory - The directory of the events
-     * @param {ShewenyClient} [client] - The client
+     * @param {ShewenyClient | Client} client - The client
+     * @param {boolean} [registerAll] - Register all events in collection
      */
-    constructor(dir: string, client?: ShewenyClient);
+    constructor(dir: string, client: ShewenyClient | Client, registerAll?: boolean);
     /**
      * Register all events in collection
+     * @public
+     * @async
      * @returns {Promise<Collection<string, Event>>} The events collection
      */
     registerAll(): Promise<Collection<string, Event>>;
     /**
      * Load all events and register them in collection if no events are registered
+     * @public
+     * @async
      * @param {Collection<string, Event>} [events] - The events to load.
      * @returns {Promise<void>}
      */

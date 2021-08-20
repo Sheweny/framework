@@ -1,29 +1,36 @@
 import { join } from "path";
 import { Collection } from "collection-data";
+import { Client } from "discord.js";
 import { readDirAndPush } from "../util/readDirFiles";
-import type { ShewenyClient } from "..";
-import type { Event } from "../typescript/interfaces/interfaces";
+import { ShewenyClient } from "../ShewenyClient";
+import { Event } from "../structures";
 
 /**
  * Loads events.
- * @class
+ * @class Event Handler
  */
 export class EventsHandler {
-  private client: ShewenyClient | undefined;
+  private client: ShewenyClient | Client;
   private dir: string;
 
   /**
+   * @constructor
    * @param {string} directory - The directory of the events
-   * @param {ShewenyClient} [client] - The client
+   * @param {ShewenyClient | Client} client - The client
+   * @param {boolean} [registerAll] - Register all events in collection
    */
-  constructor(dir: string, client?: ShewenyClient) {
+  constructor(dir: string, client: ShewenyClient | Client, registerAll?: boolean) {
     if (!dir) throw new TypeError("Directory must be provided.");
+    if (!client) throw new TypeError("Client muste be provided.");
     this.client = client;
     this.dir = dir;
+    if (registerAll) this.registerAll();
   }
 
   /**
    * Register all events in collection
+   * @public
+   * @async
    * @returns {Promise<Collection<string, Event>>} The events collection
    */
   public async registerAll(): Promise<Collection<string, Event>> {
@@ -33,28 +40,29 @@ export class EventsHandler {
     for (const evtPath of evtsPaths) {
       const Event = (await import(evtPath)).default;
       if (!Event) continue;
-      const instance = new Event(this.client);
+      const instance: Event = new Event(this.client);
       if (!instance.name) continue;
       instance.path = evtPath;
       events.set(instance.name, instance);
     }
-    if (this.client) this.client.events = events;
+    if (this.client instanceof ShewenyClient) this.client.events = events;
     return events;
   }
 
   /**
    * Load all events and register them in collection if no events are registered
+   * @public
+   * @async
    * @param {Collection<string, Event>} [events] - The events to load.
    * @returns {Promise<void>}
    */
   public async loadAll(events?: Collection<string, Event>): Promise<void> {
-    if (!this.client)
-      throw new Error("Client must be provided in constructor for loading events.");
-    let evts: Collection<string, Event> | undefined =
-      events || this.client.events || (await this.registerAll());
+    let evts =
+      events || (this.client instanceof ShewenyClient ? this.client.events : undefined);
     if (!evts) throw new Error("No events found");
+    const client = this.client instanceof ShewenyClient ? this.client : this.client;
     for (const [name, evt] of evts) {
-      this.client.on(name, (...args: any[]) => evt.execute(args));
+      client.on(name, (...args: any[]) => evt.execute(args));
     }
   }
 }

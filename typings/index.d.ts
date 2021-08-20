@@ -1,3 +1,3 @@
 export { ShewenyClient } from "./ShewenyClient";
-export { CommandsHandler, ButtonsHandler, EventsHandler, SelectMenusHandler, SlashHandler, } from "./handlers";
-export { Command, Button, Event, SelectMenu } from "./structures";
+export { MessageCommandsHandler, ButtonsHandler, EventsHandler, SelectMenusHandler, ApplicationCommandHandler, InhibitorsHandler, } from "./handlers";
+export { MessageCommand, Button, Event, SelectMenu, Inhibitor, ApplicationCommand, } from "./structures";
