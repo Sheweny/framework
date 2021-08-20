@@ -27,7 +27,6 @@ export default async function run(
       if (!i.execute(client, interaction)) return i.onFailure(client, interaction);
     }
   }
-  console.log("1");
 
   /* ---------------PERMISSIONS--------------- */
   if (
@@ -57,7 +56,6 @@ export default async function run(
     /* ---------------IN-DM--------------- */
     if (command.only === "GUILD") return;
   }
-  console.log(2);
 
   /* ---------------COOLDOWNS--------------- */
   if (!client.admins?.includes(interaction.user.id)) {

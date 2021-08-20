@@ -99,9 +99,6 @@ export class ApplicationCommandHandler {
 
     const data = this.getData(applicationCommands);
     if (data && data.length > 0) {
-      console.log(data);
-      console.log(guildId);
-
       return guildId
         ? this.client.application?.commands.set(data, guildId)
         : this.client.application?.commands.set(data);
