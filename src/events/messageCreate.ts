@@ -68,7 +68,7 @@ export default async function run(client: ShewenyClient, message: Message) {
     }
     const timeNow = Date.now();
     const tStamps = client.cooldowns.get(command.name)!;
-    const cdAmount = (command.cooldown || 5) * 1000;
+    const cdAmount = (command.cooldown || 0) * 1000;
     if (tStamps.has(message.author.id)) {
       const cdExpirationTime = (tStamps.get(message.author.id) || 0) + cdAmount;
       if (timeNow < cdExpirationTime) {
