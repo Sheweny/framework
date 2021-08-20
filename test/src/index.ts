@@ -14,7 +14,7 @@ const client = new ShewenyClient({
 
 const applicationHandler = new ApplicationCommandHandler(client, "./commands");
 
-applicationHandler.registerAll().then(() => {
+applicationHandler.loadAll().then(() => {
   applicationHandler.registerCommands(client.commands.interaction, "877090306103840778");
 });
 

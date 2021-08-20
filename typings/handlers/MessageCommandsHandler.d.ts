@@ -15,12 +15,12 @@ export declare class MessageCommandsHandler {
      * @param {IMessageCommandHandlerOptions} options - The options for the commands handler
      * @param {ShewenyClient} [client] - The client
      */
-    constructor(options: IMessageCommandHandlerOptions, client?: ShewenyClient, registerAll?: boolean);
+    constructor(options: IMessageCommandHandlerOptions, client?: ShewenyClient, loadAll?: boolean);
     /**
      * Load all commands and register them to a collection.
      * @public
      * @async
      * @returns {Promise<Collection<string, MessageCommand>>} The collection of commands
      */
-    registerAll(): Promise<Collection<string, MessageCommand>>;
+    loadAll(): Promise<Collection<string, MessageCommand>>;
 }

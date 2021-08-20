@@ -17,11 +17,11 @@ export class SelectMenusHandler {
    * @param {string} directory - The directory of the select menus
    * @param {ShewenyClient} [client] - The client
    */
-  constructor(dir: string, client?: ShewenyClient, registerAll?: boolean) {
+  constructor(dir: string, client?: ShewenyClient, loadAll?: boolean) {
     if (!dir) throw new TypeError("Directory must be provided.");
     this.client = client;
     this.dir = dir;
-    if (registerAll) this.registerAll();
+    if (loadAll) this.loadAll();
     if (client && client instanceof ShewenyClient) client.handlers.selectMenus = this;
   }
 
@@ -31,7 +31,7 @@ export class SelectMenusHandler {
    * @async
    * @returns {Promise<Collection<string[], SelectMenu>>} The select menus collection
    */
-  public async registerAll(): Promise<Collection<string[], SelectMenu>> {
+  public async loadAll(): Promise<Collection<string[], SelectMenu>> {
     const selectMenus: Collection<string[], SelectMenu> = new Collection();
     const baseDir = join(require.main!.path, this.dir);
     const selectmenusPaths: string[] = await readDirAndPush(baseDir);

@@ -3,7 +3,7 @@ import { Collection } from "collection-data";
 import type { ShewenyClient } from "../ShewenyClient";
 
 export interface IMessageCommandMeta {
-  description: string;
+  description?: string;
   category: string;
   only?: "GUILD" | "DM";
   aliases?: string[];
@@ -22,7 +22,7 @@ export abstract class MessageCommand {
   public path?: string;
   public only: "GUILD" | "DM";
   public name: string;
-  public description: string;
+  public description?: string;
   public aliases: string[];
   public category: string;
   public cooldown: number;

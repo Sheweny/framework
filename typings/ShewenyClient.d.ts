@@ -47,8 +47,6 @@ export declare class ShewenyClient extends Client {
     shewenyOptions: IShewenyClientOptions;
     admins?: string[];
     handlers: IClientHandlersOptions;
-    messageCommands?: Collection<string, MessageCommand>;
-    applicationCommands?: Collection<string, ApplicationCommand>;
     commands: ICommandsManager;
     events?: Collection<string, Event>;
     buttons?: Collection<string[], Button>;

@@ -17,14 +17,14 @@ export class EventsHandler {
    * @constructor
    * @param {string} directory - The directory of the events
    * @param {ShewenyClient | Client} client - The client
-   * @param {boolean} [registerAll] - Register all events in collection
+   * @param {boolean} [loadAll] - Register all events in collection
    */
-  constructor(dir: string, client: ShewenyClient | Client, registerAll?: boolean) {
+  constructor(dir: string, client: ShewenyClient | Client, loadAll?: boolean) {
     if (!dir) throw new TypeError("Directory must be provided.");
     if (!client) throw new TypeError("Client muste be provided.");
     this.client = client;
     this.dir = dir;
-    if (registerAll) this.registerAll();
+    if (loadAll) this.loadAll();
     if (client && client instanceof ShewenyClient) client.handlers.events = this;
   }
 
@@ -34,7 +34,7 @@ export class EventsHandler {
    * @async
    * @returns {Promise<Collection<string, Event>>} The events collection
    */
-  public async registerAll(): Promise<Collection<string, Event>> {
+  public async loadAll(): Promise<Collection<string, Event>> {
     const events: Collection<string, Event> = new Collection();
     const baseDir = join(require.main!.path, this.dir);
     const evtsPaths: string[] = await readDirAndPush(baseDir);
@@ -57,7 +57,7 @@ export class EventsHandler {
    * @param {Collection<string, Event>} [events] - The events to load.
    * @returns {Promise<void>}
    */
-  public async loadAll(events?: Collection<string, Event>): Promise<void> {
+  public async registerAll(events?: Collection<string, Event>): Promise<void> {
     let evts =
       events || (this.client instanceof ShewenyClient ? this.client.events : undefined);
     if (!evts) throw new Error("No events found");

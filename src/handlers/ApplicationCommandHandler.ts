@@ -23,7 +23,7 @@ export class ApplicationCommandHandler {
    * @constructor
    * @param {ShewenyClient | Client} client - The client
    */
-  constructor(client: ShewenyClient | Client, directory: string, registerAll?: boolean) {
+  constructor(client: ShewenyClient | Client, directory: string, loadAll?: boolean) {
     if (!client)
       throw new ReferenceError("Client must be provided for use Application handler.");
     if (!directory) throw new TypeError("Directory must be provided.");
@@ -31,7 +31,7 @@ export class ApplicationCommandHandler {
     this.client = client;
     this.applicationCommands =
       client instanceof ShewenyClient ? client.commands.interaction! : undefined;
-    if (registerAll) this.registerAll();
+    if (loadAll) this.loadAll();
     if (client && client instanceof ShewenyClient)
       client.handlers.applicationCommands = this;
   }
@@ -39,9 +39,9 @@ export class ApplicationCommandHandler {
    * Load all commands and register them to a collection.
    * @public
    * @async
-   * @returns {Promise<Collection<string, MessageCommand>>} The collection of commands
+   * @returns {Promise<Collection<string, ApplicationCommand>>} The collection of commands
    */
-  public async registerAll(): Promise<Collection<string, ApplicationCommand>> {
+  public async loadAll(): Promise<Collection<string, ApplicationCommand>> {
     const commands: Collection<string, ApplicationCommand> = new Collection();
     const baseDir = join(require.main!.path, this.dir);
     const cmds: string[] = await readDirAndPush(baseDir);

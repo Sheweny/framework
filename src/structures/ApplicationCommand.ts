@@ -2,7 +2,8 @@ import { Collection } from "collection-data";
 import { ApplicationCommandData, CommandInteraction } from "discord.js";
 import { ShewenyClient } from "../ShewenyClient";
 
-export interface IApplicationCommandMeta {
+export interface IApplicationCommandOptions {
+  description?: string;
   category: string;
   only?: "GUILD" | "DM";
   cooldown?: number;
@@ -19,6 +20,7 @@ export abstract class ApplicationCommand {
   public client;
   public path?: string;
   public data: ApplicationCommandData;
+  public description?: string;
   public category: string;
   public only: "GUILD" | "DM";
   public cooldown: number;
@@ -33,10 +35,11 @@ export abstract class ApplicationCommand {
   constructor(
     client: ShewenyClient,
     data: ApplicationCommandData,
-    options: IApplicationCommandMeta
+    options: IApplicationCommandOptions
   ) {
     this.client = client;
     this.data = data;
+    this.description = options.description;
     this.category = options.category;
     this.only = options.only || "GUILD";
     this.cooldown = options.cooldown || 0;

@@ -22,13 +22,13 @@ export class MessageCommandsHandler {
   constructor(
     options: IMessageCommandHandlerOptions,
     client?: ShewenyClient,
-    registerAll?: boolean
+    loadAll?: boolean
   ) {
     if (!options.directory) throw new TypeError("Directory must be provided.");
     this.dir = options.directory;
     if (client) this.client = client;
     this.options = options;
-    if (registerAll) this.registerAll();
+    if (loadAll) this.loadAll();
     if (client && client instanceof ShewenyClient) client.handlers.messageCommands = this;
   }
 
@@ -38,7 +38,7 @@ export class MessageCommandsHandler {
    * @async
    * @returns {Promise<Collection<string, MessageCommand>>} The collection of commands
    */
-  public async registerAll(): Promise<Collection<string, MessageCommand>> {
+  public async loadAll(): Promise<Collection<string, MessageCommand>> {
     const commands: Collection<string, MessageCommand> = new Collection();
     const baseDir = join(require.main!.path, this.dir);
     const cmds: string[] = await readDirAndPush(baseDir);

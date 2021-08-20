@@ -14,14 +14,14 @@ export declare class ApplicationCommandHandler {
      * @constructor
      * @param {ShewenyClient | Client} client - The client
      */
-    constructor(client: ShewenyClient | Client, directory: string, registerAll?: boolean);
+    constructor(client: ShewenyClient | Client, directory: string, loadAll?: boolean);
     /**
      * Load all commands and register them to a collection.
      * @public
      * @async
-     * @returns {Promise<Collection<string, MessageCommand>>} The collection of commands
+     * @returns {Promise<Collection<string, ApplicationCommand>>} The collection of commands
      */
-    registerAll(): Promise<Collection<string, ApplicationCommand>>;
+    loadAll(): Promise<Collection<string, ApplicationCommand>>;
     /**
      * Get an array of application commands configuration for register it
      * @public

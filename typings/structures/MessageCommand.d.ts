@@ -2,7 +2,7 @@ import type { Message } from "discord.js";
 import { Collection } from "collection-data";
 import type { ShewenyClient } from "../ShewenyClient";
 export interface IMessageCommandMeta {
-    description: string;
+    description?: string;
     category: string;
     only?: "GUILD" | "DM";
     aliases?: string[];
@@ -20,7 +20,7 @@ export declare abstract class MessageCommand {
     path?: string;
     only: "GUILD" | "DM";
     name: string;
-    description: string;
+    description?: string;
     aliases: string[];
     category: string;
     cooldown: number;

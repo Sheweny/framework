@@ -12,14 +12,14 @@ export declare class InhibitorsHandler {
      * @constructor
      * @param {string} dir - The directory of the inhibitors
      * @param {ShewenyClient} [client] - The client
-     * @param {boolean} [registerAll] - Register all inhibitors in collection
+     * @param {boolean} [loadAll] - Register all inhibitors in collection
      */
-    constructor(dir: string, client?: ShewenyClient, registerAll?: boolean);
+    constructor(dir: string, client?: ShewenyClient, loadAll?: boolean);
     /**
      * Register all inhibitors in collection
      * @public
      * @async
      * @returns {Promise<Collection<string, Inhibitor>>} The inhibitors collection
      */
-    registerAll(): Promise<Collection<string, Inhibitor>>;
+    loadAll(): Promise<Collection<string, Inhibitor>>;
 }

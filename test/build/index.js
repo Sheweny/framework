@@ -13,7 +13,7 @@ const client = new __1.ShewenyClient({
     },
 });
 const applicationHandler = new __1.ApplicationCommandHandler(client, "./commands");
-applicationHandler.registerAll().then(() => {
+applicationHandler.loadAll().then(() => {
     applicationHandler.registerCommands(client.commands.interaction, "877090306103840778");
 });
 client.login("ODc3NDI2MDMxMjMxOTAxNzQ2.YRycqw.xSvG2o0kY0dAf3mE58crG0wAgB8");
