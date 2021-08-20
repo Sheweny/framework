@@ -17,10 +17,11 @@ export class ButtonsHandler {
    * @param {string} directory - The directory of the buttons
    * @param {ShewenyClient} [client] - The client
    */
-  constructor(dir: string, client?: ShewenyClient) {
+  constructor(dir: string, client?: ShewenyClient, registerAll?: boolean) {
     if (!dir) throw new TypeError("Directory must be provided.");
     this.client = client;
     this.dir = dir;
+    if (registerAll) this.registerAll();
   }
 
   /**

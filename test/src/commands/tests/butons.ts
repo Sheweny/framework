@@ -10,7 +10,7 @@ export class ButtonsCommand extends Command {
       guildOnly: true,
     });
   }
-  execute(interaction: CommandInteraction) {
+  execute(client: ShewenyClient, interaction: CommandInteraction) {
     const row = new MessageActionRow()
       .addComponents(
         new MessageButton().setCustomId("primary").setLabel("Primary").setStyle("PRIMARY")

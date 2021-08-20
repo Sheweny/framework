@@ -1,3 +1,4 @@
+import type { ShewenyClient } from "../..";
 // Options for commands handler
 export interface ICommandHandlerOptions {
   type?: "SLASH_COMMANDS" | "MESSAGE_COMMANDS";
@@ -8,12 +9,20 @@ export interface ICommandHandlerOptions {
 /**
  * Structures
  */
-import { ButtonInteraction, SelectMenuInteraction } from "discord.js";
+import type {
+  ButtonInteraction,
+  SelectMenuInteraction,
+  Message,
+  CommandInteraction,
+  ContextMenuInteraction,
+  CommandInteractionOptionResolver,
+} from "discord.js";
 import type {
   Event as Evt,
   Command as Cmd,
   Button as Btn,
   SelectMenu as SM,
+  Inhibitor as Inhib,
 } from "../../structures";
 
 // Event structure
@@ -26,7 +35,11 @@ export interface Event extends Evt {
 export interface Command extends Cmd {
   before: Function;
   // fix
-  execute(arg: any, args: any): any | Promise<any>;
+  execute(
+    client: ShewenyClient,
+    arg: Message | CommandInteraction,
+    args: string[] | CommandInteractionOptionResolver
+  ): any | Promise<any>;
 }
 
 // Button structure
@@ -39,4 +52,26 @@ export interface Button extends Btn {
 export interface SelectMenu extends SM {
   before: Function;
   execute(interaction: SelectMenuInteraction): any | Promise<any>;
+}
+
+// Inhibitor structure
+export interface Inhibitor extends Inhib {
+  execute(
+    client: ShewenyClient,
+    arg:
+      | Message
+      | CommandInteraction
+      | ButtonInteraction
+      | SelectMenuInteraction
+      | ContextMenuInteraction
+  ): any | Promise<any>;
+  onFailure(
+    client: ShewenyClient,
+    arg:
+      | Message
+      | CommandInteraction
+      | ButtonInteraction
+      | SelectMenuInteraction
+      | ContextMenuInteraction
+  ): any | Promise<any>;
 }

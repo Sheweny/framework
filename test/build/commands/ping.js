@@ -10,7 +10,7 @@ class PingCommand extends __1.Command {
             guildOnly: true,
         });
     }
-    execute(interaction) {
+    execute(client, interaction) {
         interaction.reply("Pong !");
     }
 }

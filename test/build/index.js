@@ -4,12 +4,17 @@ const __1 = require("../../");
 const client = new __1.ShewenyClient({
     intents: ["GUILDS", "GUILD_MESSAGES", "DIRECT_MESSAGES"],
     partials: ["CHANNEL"],
+    handlers: {
+        inhibitors: {
+            directory: "./inhibitors",
+        },
+    },
 });
 const commandsHandler = new __1.CommandsHandler({
     type: "SLASH_COMMANDS",
     directory: "./commands",
 }, client);
-commandsHandler.loadAll().then(async () => {
+commandsHandler.registerAll().then(async () => {
     await commandsHandler.slashCommands.registerCommands(client.commands, "877090306103840778");
 });
 const buttonsHandler = new __1.ButtonsHandler("./buttons", client);

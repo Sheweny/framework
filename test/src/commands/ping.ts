@@ -9,7 +9,7 @@ export class PingCommand extends Command {
       guildOnly: true,
     });
   }
-  execute(interaction: CommandInteraction) {
+  execute(client: ShewenyClient, interaction: CommandInteraction) {
     interaction.reply("Pong !");
   }
 }
