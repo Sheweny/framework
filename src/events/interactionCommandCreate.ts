@@ -2,7 +2,7 @@ import type { CommandInteraction, CommandInteractionOptionResolver } from "disco
 import { Collection } from "collection-data";
 import type { ShewenyClient } from "..";
 import type { IPermissionString } from "../typescript/types/extends";
-
+import type { Inhibitor } from "../structures";
 interface CommandInteractionExtend extends CommandInteraction {
   subCommand: string | null;
 }
@@ -16,6 +16,16 @@ export default async function run(
   /* -----------------COMMAND----------------- */
   const command = client.commands.get(interaction.commandName);
   if (!command) return;
+
+  /**
+   * Handle inhibitors
+   */
+  const inhibitors = client.inhibitors?.filter((i: Inhibitor) => i.type === "COMMAND");
+  if (!inhibitors || !inhibitors.size) return;
+  const sorted = [...inhibitors.values()].sort((a, b) => b.priority - a.priority);
+  for (const i of sorted) {
+    if (!i.execute(client, interaction)) return i.onFailure(client, interaction);
+  }
 
   /* ---------------PERMISSIONS--------------- */
   if (
@@ -75,7 +85,7 @@ export default async function run(
 
   /* ---------------COMMAND--------------- */
   try {
-    await command.execute!(interaction, args);
+    await command.execute!(client, interaction, args);
   } catch (e) {
     console.error(e);
   }

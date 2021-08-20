@@ -3,13 +3,20 @@ import { join } from "path";
 import { Client, ClientOptions } from "discord.js";
 import { Collection } from "collection-data";
 
-import { CommandsHandler, EventsHandler, ButtonsHandler, SelectMenusHandler } from ".";
+import {
+  CommandsHandler,
+  EventsHandler,
+  ButtonsHandler,
+  SelectMenusHandler,
+  InhibitorsHandler,
+} from ".";
 import type {
   Command,
   Event,
   Button,
   ICommandHandlerOptions,
   SelectMenu,
+  Inhibitor,
 } from "./typescript/interfaces/interfaces";
 
 interface IClientHandlers {
@@ -17,6 +24,7 @@ interface IClientHandlers {
   events?: EventsHandler;
   buttons?: ButtonsHandler;
   selectMenus?: SelectMenusHandler;
+  inhibitors?: InhibitorsHandler;
 }
 
 interface IOptionsHandlers {
@@ -28,6 +36,9 @@ interface IOptionsHandlers {
     directory: string;
   };
   selectMenus?: {
+    directory: string;
+  };
+  inhibitors?: {
     directory: string;
   };
 }
@@ -49,6 +60,7 @@ export class ShewenyClient extends Client {
   events?: Collection<string, Event>;
   buttons?: Collection<string[], Button>;
   selectMenus?: Collection<string[], SelectMenu>;
+  inhibitors?: Collection<string, Inhibitor>;
   commandsType?: string;
   cooldowns: Collection<string, Collection<string, number>> = new Collection();
 
@@ -62,16 +74,19 @@ export class ShewenyClient extends Client {
     this.admins = options.admins;
 
     this.handlers.commands = options.handlers?.commands
-      ? new CommandsHandler(options.handlers.commands, this)
+      ? new CommandsHandler(options.handlers.commands, this, true)
       : undefined;
     this.handlers.events = options.handlers?.events
-      ? new EventsHandler(options.handlers.events.directory, this)
+      ? new EventsHandler(options.handlers.events.directory, this, true)
       : undefined;
     this.handlers.buttons = options.handlers?.buttons
-      ? new ButtonsHandler(options.handlers.buttons.directory, this)
+      ? new ButtonsHandler(options.handlers.buttons.directory, this, true)
       : undefined;
     this.handlers.selectMenus = options.handlers?.selectMenus
-      ? new SelectMenusHandler(options.handlers.selectMenus.directory, this)
+      ? new SelectMenusHandler(options.handlers.selectMenus.directory, this, true)
+      : undefined;
+    this.handlers.inhibitors = options.handlers?.inhibitors
+      ? new InhibitorsHandler(options.handlers.inhibitors.directory, this, true)
       : undefined;
 
     this.init();

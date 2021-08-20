@@ -12,7 +12,7 @@ export declare class EventsHandler {
      * @param {string} directory - The directory of the events
      * @param {ShewenyClient} [client] - The client
      */
-    constructor(dir: string, client?: ShewenyClient);
+    constructor(dir: string, client?: ShewenyClient, registerAll?: boolean);
     /**
      * Register all events in collection
      * @returns {Promise<Collection<string, Event>>} The events collection

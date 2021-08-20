@@ -16,10 +16,11 @@ export class SelectMenusHandler {
    * @param {string} directory - The directory of the select menus
    * @param {ShewenyClient} [client] - The client
    */
-  constructor(dir: string, client?: ShewenyClient) {
+  constructor(dir: string, client?: ShewenyClient, registerAll?: boolean) {
     if (!dir) throw new TypeError("Directory must be provided.");
     this.client = client;
     this.dir = dir;
+    if (registerAll) this.registerAll();
   }
 
   /**

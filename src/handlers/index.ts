@@ -3,3 +3,4 @@ export { EventsHandler } from "./EventsHandler";
 export { SlashHandler } from "./SlashHandler";
 export { ButtonsHandler } from "./ButtonsHandler";
 export { SelectMenusHandler } from "./SelectMenusHandler";
+export { InhibitorsHandler } from "./InhibitorsHandler";

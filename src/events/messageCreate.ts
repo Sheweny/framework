@@ -2,6 +2,7 @@ import type { Message } from "discord.js";
 import { Collection } from "collection-data";
 import type { ShewenyClient } from "..";
 import type { IPermissionString } from "../typescript/types/extends";
+import type { Inhibitor } from "../structures";
 
 export default async function run(client: ShewenyClient, message: Message) {
   if (!client.commands || client.commandsType !== "MESSAGE_COMMANDS") return;
@@ -16,6 +17,16 @@ export default async function run(client: ShewenyClient, message: Message) {
     client.commands.get(commandName) ||
     client.commands.find((cmd) => cmd.aliases && cmd.aliases.includes(commandName));
   if (!command) return;
+
+  /**
+   * Handle inhibitors
+   */
+  const inhibitors = client.inhibitors?.filter((i: Inhibitor) => i.type === "COMMAND");
+  if (!inhibitors || !inhibitors.size) return;
+  const sorted = [...inhibitors.values()].sort((a, b) => b.priority - a.priority);
+  for (const i of sorted) {
+    if (!i.execute(client, message)) return;
+  }
 
   /* ---------------PERMISSIONS--------------- */
   if (
@@ -66,7 +77,7 @@ export default async function run(client: ShewenyClient, message: Message) {
   }
   /* ---------------COMMAND--------------- */
   try {
-    await command.execute!(message, args);
+    await command.execute!(client, message, args);
   } catch (e) {
     console.error(e);
   }
