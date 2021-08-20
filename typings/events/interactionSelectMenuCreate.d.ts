@@ -1,3 +1,3 @@
-import type { SelectMenuInteraction } from "discord.js";
-import type { ShewenyClient } from "..";
+import { SelectMenuInteraction } from "discord.js";
+import { ShewenyClient } from "..";
 export default function run(client: ShewenyClient, interaction: SelectMenuInteraction): Promise<any>;

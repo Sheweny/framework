@@ -1,8 +1,9 @@
 import type { CommandInteraction, CommandInteractionOptionResolver } from "discord.js";
 import { Collection } from "collection-data";
-import type { ShewenyClient } from "..";
-import type { IPermissionString } from "../typescript/types/extends";
-import type { Inhibitor } from "../structures";
+import { ShewenyClient } from "..";
+import { IPermissionString } from "../typescript/types/extends";
+import { Inhibitor } from "../structures";
+
 interface CommandInteractionExtend extends CommandInteraction {
   subCommand: string | null;
 }
@@ -11,16 +12,18 @@ export default async function run(
   client: ShewenyClient,
   interaction: CommandInteractionExtend
 ) {
-  if (!client.commands) return;
-  if (client.commandsType !== "SLASH_COMMANDS") return;
+  if (!client.applicationCommands) return;
+  if (client.commandsType !== "APPLICATION_COMMANDS") return;
   /* -----------------COMMAND----------------- */
-  const command = client.commands.get(interaction.commandName);
+  const command = client.applicationCommands.get(interaction.commandName);
   if (!command) return;
 
   /**
    * Handle inhibitors
    */
-  const inhibitors = client.inhibitors?.filter((i: Inhibitor) => i.type === "COMMAND");
+  const inhibitors = client.inhibitors?.filter(
+    (i: Inhibitor) => i.type === "APPLICATION_COMMAND"
+  );
   if (!inhibitors || !inhibitors.size) return;
   const sorted = [...inhibitors.values()].sort((a, b) => b.priority - a.priority);
   for (const i of sorted) {
@@ -36,6 +39,7 @@ export default async function run(
   }
   /* ---------------IN-GUILD--------------- */
   if (interaction.inGuild()) {
+    if (command.only === "DM") return;
     let member = interaction.guild!.members.cache.get(interaction.user.id);
     if (!member) member = await interaction.guild!.members.fetch(interaction.user.id);
     if (command.userPermissions.length) {
@@ -52,15 +56,15 @@ export default async function run(
     }
   } else {
     /* ---------------IN-DM--------------- */
-    if (command.guildOnly) return;
+    if (command.only === "GUILD") return;
   }
   /* ---------------COOLDOWNS--------------- */
   if (!client.admins?.includes(interaction.user.id)) {
-    if (!client.cooldowns.has(command.name)) {
-      client.cooldowns.set(command.name, new Collection());
+    if (!client.cooldowns.has(command.data.name)) {
+      client.cooldowns.set(command.data.name, new Collection());
     }
     const timeNow = Date.now();
-    const tStamps = client.cooldowns.get(command.name)!;
+    const tStamps = client.cooldowns.get(command.data.name)!;
     const cdAmount = (command.cooldown || 5) * 1000;
     if (tStamps.has(interaction.user.id)) {
       const cdExpirationTime = (tStamps.get(interaction.user.id) || 0) + cdAmount;
@@ -75,17 +79,17 @@ export default async function run(
   }
 
   /* ---------------SUB-COMMAND--------------- */
-  interaction.subCommand = interaction.options.getSubcommand(false);
+  // interaction.subCommand = interaction.options.getSubcommand(false);
 
-  //interaction.subcommand = interaction.options
+  // interaction.subCommand = interaction.options
   /* ---------------OPTIONS--------------- */
 
-  let args: CommandInteractionOptionResolver = interaction.options;
-  // if (interaction.subcommand) args = interaction.options.get(interaction.subcommand)?.options;
+  // let args: CommandInteractionOptionResolver = interaction.options;
+  // if (interaction.subCommand) args = interaction.options.get(interaction.subCommand)?.options;
 
   /* ---------------COMMAND--------------- */
   try {
-    await command.execute!(client, interaction, args);
+    await command.execute!(interaction);
   } catch (e) {
     console.error(e);
   }

@@ -1,5 +1,6 @@
 import { Collection } from "collection-data";
-import type { ShewenyClient } from "..";
+import { ButtonInteraction } from "discord.js";
+import { ShewenyClient } from "../ShewenyClient";
 
 /**
  * Represent a button
@@ -20,6 +21,10 @@ export abstract class Button {
     this.client = client;
     this.customId = customId;
   }
+
+  before?(interaction: ButtonInteraction): any | Promise<any>;
+
+  abstract execute(interaction: ButtonInteraction): any | Promise<any>;
 
   /**
    * Unregister a button

@@ -1,8 +1,8 @@
 import { join } from "path";
 import { Collection } from "collection-data";
 import { readDirAndPush } from "../util/readDirFiles";
-import type { ShewenyClient } from "../ShewenyClient";
-import { Button } from "../typescript/interfaces/interfaces";
+import { ShewenyClient } from "../ShewenyClient";
+import { Button } from "../structures";
 
 /**
  * Loads buttons.

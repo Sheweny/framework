@@ -1,32 +1,35 @@
 import { join } from "path";
 import { Collection } from "collection-data";
 import { readDirAndPush } from "../util/readDirFiles";
-import type { ShewenyClient } from "..";
-import { Inhibitor } from "../typescript/interfaces/interfaces";
+import { ShewenyClient } from "../ShewenyClient";
+import { Inhibitor } from "../structures";
 
 /**
  * Loads inhibitors.
  * @class
  */
 export class InhibitorsHandler {
-  private client: ShewenyClient | undefined;
+  private client?: ShewenyClient;
   private dir: string;
 
   /**
-   * @param {string} directory - The directory of the inhibitors
+   * @constructor
+   * @param {string} dir - The directory of the inhibitors
    * @param {ShewenyClient} [client] - The client
+   * @param {boolean} [registerAll] - Register all inhibitors in collection
    */
   constructor(dir: string, client?: ShewenyClient, registerAll?: boolean) {
     if (!dir) throw new TypeError("Directory must be provided.");
     this.client = client;
     this.dir = dir;
-    this.registerAll();
     if (registerAll) this.registerAll();
   }
 
   /**
    * Register all inhibitors in collection
-   * @returns {Promise<Collection<string, Event>>} The inhibitors collection
+   * @public
+   * @async
+   * @returns {Promise<Collection<string, Inhibitor>>} The inhibitors collection
    */
   public async registerAll(): Promise<Collection<string, Inhibitor>> {
     const inhibitors = new Collection<string, Inhibitor>();
@@ -37,7 +40,7 @@ export class InhibitorsHandler {
       const key = Object.keys(inhibitorImport)[0];
       const Inhibitor = inhibitorImport[key];
       if (!Inhibitor) continue;
-      const instance = new Inhibitor(this.client);
+      const instance: Inhibitor = new Inhibitor(this.client);
       if (!instance.name) continue;
       instance.path = inhibitorPath;
       inhibitors.set(instance.name, instance);

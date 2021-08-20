@@ -1,5 +1,6 @@
 import { Collection } from "collection-data";
-import type { ShewenyClient } from "..";
+import { SelectMenuInteraction } from "discord.js";
+import type { ShewenyClient } from "../ShewenyClient";
 
 /**
  * Represent a select menu
@@ -20,6 +21,10 @@ export abstract class SelectMenu {
     this.client = client;
     this.customId = customId;
   }
+
+  before?(interaction: SelectMenuInteraction): any | Promise<any>;
+
+  abstract execute(interaction: SelectMenuInteraction): any | Promise<any>;
 
   /**
    * Unregister a select menu
@@ -54,7 +59,7 @@ export abstract class SelectMenu {
    */
   public async register(): Promise<Collection<string[], SelectMenu>> {
     const SelectMenu = (await import(this.path!)).default;
-    const sm = new SelectMenu(this.client);
+    const sm: SelectMenu = new SelectMenu(this.client);
     return this.client.selectMenus
       ? this.client.selectMenus.set(sm.customId, sm)
       : new Collection<string[], SelectMenu>().set(sm.customId, sm);

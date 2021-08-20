@@ -1,6 +1,6 @@
-import type { ButtonInteraction } from "discord.js";
-import type { ShewenyClient } from "..";
-import type { Inhibitor } from "../structures";
+import { ButtonInteraction } from "discord.js";
+import { ShewenyClient } from "../ShewenyClient";
+import { Inhibitor } from "../structures";
 
 export default async function run(client: ShewenyClient, interaction: ButtonInteraction) {
   if (!client.buttons) return;

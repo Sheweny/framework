@@ -1,17 +1,17 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PingCommand = void 0;
+exports.Ping = void 0;
 const __1 = require("../../../");
-class PingCommand extends __1.Command {
+class Ping extends __1.ApplicationCommand {
     constructor(client) {
-        super(client, "ping", {
-            description: "Ping the bot",
-            category: "Misc",
-            guildOnly: true,
-        });
+        super(client, {
+            name: "ping",
+            description: "Ping Pong",
+            type: "CHAT_INPUT",
+        }, { category: "test" });
     }
-    execute(client, interaction) {
-        interaction.reply("Pong !");
+    execute(interaction) {
+        return interaction.reply({ content: "PONG" });
     }
 }
-exports.PingCommand = PingCommand;
+exports.Ping = Ping;
