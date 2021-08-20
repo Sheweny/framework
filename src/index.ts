@@ -5,5 +5,6 @@ export {
   EventsHandler,
   SelectMenusHandler,
   SlashHandler,
+  InhibitorsHandler,
 } from "./handlers";
 export { Command, Button, Event, SelectMenu } from "./structures";

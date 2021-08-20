@@ -3,7 +3,13 @@ import { join } from "path";
 import { Client, ClientOptions } from "discord.js";
 import { Collection } from "collection-data";
 
-import { CommandsHandler, EventsHandler, ButtonsHandler, SelectMenusHandler } from ".";
+import {
+  CommandsHandler,
+  EventsHandler,
+  ButtonsHandler,
+  SelectMenusHandler,
+  InhibitorsHandler,
+} from ".";
 import type {
   Command,
   Event,
@@ -17,6 +23,7 @@ interface IClientHandlers {
   events?: EventsHandler;
   buttons?: ButtonsHandler;
   selectMenus?: SelectMenusHandler;
+  inhibitors?: InhibitorsHandler;
 }
 
 interface IOptionsHandlers {
