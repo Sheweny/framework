@@ -1,12 +1,13 @@
 import { Client, ClientOptions } from "discord.js";
 import { Collection } from "collection-data";
-import { CommandsHandler, EventsHandler, ButtonsHandler, SelectMenusHandler } from ".";
-import type { Command, Event, Button, ICommandHandlerOptions, SelectMenu } from "./typescript/interfaces/interfaces";
+import { CommandsHandler, EventsHandler, ButtonsHandler, SelectMenusHandler, InhibitorsHandler } from ".";
+import type { Command, Event, Button, ICommandHandlerOptions, SelectMenu, Inhibitor } from "./typescript/interfaces/interfaces";
 interface IClientHandlers {
     commands?: CommandsHandler;
     events?: EventsHandler;
     buttons?: ButtonsHandler;
     selectMenus?: SelectMenusHandler;
+    inhibitors?: InhibitorsHandler;
 }
 interface IOptionsHandlers {
     commands?: ICommandHandlerOptions;
@@ -17,6 +18,9 @@ interface IOptionsHandlers {
         directory: string;
     };
     selectMenus?: {
+        directory: string;
+    };
+    inhibitors?: {
         directory: string;
     };
 }
@@ -36,6 +40,7 @@ export declare class ShewenyClient extends Client {
     events?: Collection<string, Event>;
     buttons?: Collection<string[], Button>;
     selectMenus?: Collection<string[], SelectMenu>;
+    inhibitors?: Collection<string, Inhibitor>;
     commandsType?: string;
     cooldowns: Collection<string, Collection<string, number>>;
     /**

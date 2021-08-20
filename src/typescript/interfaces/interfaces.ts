@@ -14,6 +14,8 @@ import type {
   SelectMenuInteraction,
   Message,
   CommandInteraction,
+  ContextMenuInteraction,
+  CommandInteractionOptionResolver,
 } from "discord.js";
 import type {
   Event as Evt,
@@ -33,7 +35,11 @@ export interface Event extends Evt {
 export interface Command extends Cmd {
   before: Function;
   // fix
-  execute(client: ShewenyClient, arg: Message | CommandInteraction): any | Promise<any>;
+  execute(
+    client: ShewenyClient,
+    arg: Message | CommandInteraction,
+    args: string[] | CommandInteractionOptionResolver
+  ): any | Promise<any>;
 }
 
 // Button structure
@@ -50,5 +56,22 @@ export interface SelectMenu extends SM {
 
 // Inhibitor structure
 export interface Inhibitor extends Inhib {
-  execute(arg: SelectMenuInteraction): any | Promise<any>;
+  execute(
+    client: ShewenyClient,
+    arg:
+      | Message
+      | CommandInteraction
+      | ButtonInteraction
+      | SelectMenuInteraction
+      | ContextMenuInteraction
+  ): any | Promise<any>;
+  onFailure(
+    client: ShewenyClient,
+    arg:
+      | Message
+      | CommandInteraction
+      | ButtonInteraction
+      | SelectMenuInteraction
+      | ContextMenuInteraction
+  ): any | Promise<any>;
 }

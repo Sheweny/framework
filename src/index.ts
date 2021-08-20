@@ -7,4 +7,4 @@ export {
   SlashHandler,
   InhibitorsHandler,
 } from "./handlers";
-export { Command, Button, Event, SelectMenu } from "./structures";
+export { Command, Button, Event, SelectMenu, Inhibitor } from "./structures";

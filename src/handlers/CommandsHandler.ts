@@ -22,7 +22,11 @@ export class CommandsHandler {
    * @param {ICommandHandlerOptions} options - The options for the commands handler
    * @param {ShewenyClient} [client] - The client
    */
-  constructor(options: ICommandHandlerOptions, client?: ShewenyClient) {
+  constructor(
+    options: ICommandHandlerOptions,
+    client?: ShewenyClient,
+    registerAll?: boolean
+  ) {
     if (!options.directory) throw new TypeError("Directory must be provided.");
     if (!options.type || !["MESSAGE_COMMANDS", "SLASH_COMMANDS"].includes(options.type))
       options.type = "MESSAGE_COMMANDS";
@@ -32,13 +36,14 @@ export class CommandsHandler {
       this.client!.commandsType = options.type;
     }
     this.options = options;
+    if (registerAll) this.registerAll();
   }
 
   /**
    * Load all commands and register them to a collection.
    * @returns {Promise<Collection<string, Command>>} The collection of commands
    */
-  public async loadAll(): Promise<Collection<string, Command>> {
+  public async registerAll(): Promise<Collection<string, Command>> {
     const commands: Collection<string, Command> = new Collection();
     const baseDir = join(require.main!.path, this.dir);
     const cmds: string[] = await readDirAndPush(baseDir);

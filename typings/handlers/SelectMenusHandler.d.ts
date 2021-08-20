@@ -12,7 +12,7 @@ export declare class SelectMenusHandler {
      * @param {string} directory - The directory of the select menus
      * @param {ShewenyClient} [client] - The client
      */
-    constructor(dir: string, client?: ShewenyClient);
+    constructor(dir: string, client?: ShewenyClient, registerAll?: boolean);
     /**
      * Register all select menus in collection
      * @returns {Promise<Collection<string[], SelectMenu>>} The select menus collection

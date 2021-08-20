@@ -3,6 +3,11 @@ import { ShewenyClient, CommandsHandler, ButtonsHandler } from "../../";
 const client = new ShewenyClient({
   intents: ["GUILDS", "GUILD_MESSAGES", "DIRECT_MESSAGES"],
   partials: ["CHANNEL"],
+  handlers: {
+    inhibitors: {
+      directory: "./inhibitors",
+    },
+  },
 });
 
 const commandsHandler = new CommandsHandler(
@@ -12,7 +17,7 @@ const commandsHandler = new CommandsHandler(
   },
   client
 );
-commandsHandler.loadAll().then(async () => {
+commandsHandler.registerAll().then(async () => {
   await commandsHandler.slashCommands!.registerCommands(
     client.commands,
     "877090306103840778"
