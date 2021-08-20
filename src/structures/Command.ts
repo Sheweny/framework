@@ -19,7 +19,8 @@ export interface ICommandMeta {
 
 /**
  * Represent a command
- * @class
+ * @class Command structure
+ * @abstract
  */
 export abstract class Command {
   public client;
@@ -28,8 +29,7 @@ export abstract class Command {
   public DMOnly: boolean;
   public name: string;
   public description: string;
-  public type?: ApplicationCommandType;
-  public aliases: string[] = [];
+  public aliases?: string[];
   public options?: Array<ApplicationCommandOptionData>;
   public category: string = "Bot";
   public cooldown: number = 0;
@@ -39,6 +39,7 @@ export abstract class Command {
   public defaultPermission?: boolean;
 
   /**
+   * @constructor
    * @param {ShewenyClient} client - The client
    * @param {string} name - The name of the command
    * @param {ICommandMeta} options - The options of the command
@@ -49,7 +50,6 @@ export abstract class Command {
     this.DMOnly = options.DMOnly || false;
     this.name = name;
     this.description = options.description;
-    this.type = options.type;
     if (options.aliases) this.aliases = options.aliases;
     this.options = options.options;
     this.category = options.category;
@@ -62,6 +62,7 @@ export abstract class Command {
 
   /**
    * Unregister a command
+   * @public
    * @returns {boolean}
    */
   public unregister(): boolean {
@@ -72,6 +73,8 @@ export abstract class Command {
 
   /**
    * Reload a command
+   * @public
+   * @async
    * @returns {Promise<Collection<string, Command> | null>} The commands collection
    */
   public async reload(): Promise<Collection<string, Command> | null> {
@@ -84,6 +87,8 @@ export abstract class Command {
 
   /**
    * Register a command
+   * @public
+   * @async
    * @returns {Collection<string, Command>} The commands collection
    */
   public async register(): Promise<Collection<string, Command>> {

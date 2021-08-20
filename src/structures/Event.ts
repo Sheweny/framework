@@ -9,7 +9,8 @@ interface IEventMeta {
 
 /**
  * Represent a event
- * @class
+ * @class Event structure
+ * @abstract
  */
 export abstract class Event {
   protected client;
@@ -19,6 +20,7 @@ export abstract class Event {
   protected once: boolean = false;
 
   /**
+   * @constructor
    * @param {ShewenyClient} client - The client
    * @param {string} name - The name of the event
    * @param {IEventMeta} options - The options of the event
@@ -32,6 +34,7 @@ export abstract class Event {
 
   /**
    * Unregister a event
+   * @public
    * @returns {boolean}
    */
   public unregister(): boolean {
@@ -42,6 +45,8 @@ export abstract class Event {
 
   /**
    * Reload a event
+   * @public
+   * @async
    * @returns {Promise<Collection<string, Event> | null>} The events collection
    */
   public async reload(): Promise<Collection<string, Event> | null> {
@@ -54,6 +59,8 @@ export abstract class Event {
 
   /**
    * Register a event
+   * @public
+   * @async
    * @returns {Promise<Collection<string, Event>>} The events collection
    */
   public async register(): Promise<Collection<string, Event>> {

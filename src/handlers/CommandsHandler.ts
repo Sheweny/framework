@@ -10,7 +10,7 @@ import type { ShewenyClient } from "..";
 
 /**
  * Loads commands.
- * @class
+ * @class Commands Handler
  */
 export class CommandsHandler {
   private client?: ShewenyClient;
@@ -19,6 +19,7 @@ export class CommandsHandler {
   options: ICommandHandlerOptions;
 
   /**
+   * @constructor
    * @param {ICommandHandlerOptions} options - The options for the commands handler
    * @param {ShewenyClient} [client] - The client
    */
@@ -36,6 +37,8 @@ export class CommandsHandler {
 
   /**
    * Load all commands and register them to a collection.
+   * @public
+   * @async
    * @returns {Promise<Collection<string, Command>>} The collection of commands
    */
   public async loadAll(): Promise<Collection<string, Command>> {

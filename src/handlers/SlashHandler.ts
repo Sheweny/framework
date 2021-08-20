@@ -5,30 +5,34 @@ import type {
   ApplicationCommand,
   GuildResolvable,
   Collection as DJSCollection,
+  Client,
+  ChatInputApplicationCommandData,
 } from "discord.js";
-import type { ShewenyClient } from "..";
+import { ShewenyClient } from "../ShewenyClient";
 import type { Command } from "../typescript/interfaces/interfaces";
 
 /**
  * Manage slash-commands.
- * @class
+ * @class Slash Handler
  */
 export class SlashHandler {
-  private commands: Collection<string, any>;
-  private client: ShewenyClient;
+  private commands?: Collection<string, Command>;
+  private client: ShewenyClient | Client;
 
   /**
+   * @constructor
    * @param {ShewenyClient} client - The client
    */
-  constructor(client: ShewenyClient) {
+  constructor(client: ShewenyClient | Client) {
     if (!client)
-      throw new ReferenceError("client must be provided for use slash-commands handler.");
+      throw new ReferenceError("Client must be provided for use slash-commands handler.");
     this.client = client;
-    this.commands = client.commands!;
+    this.commands = client instanceof ShewenyClient ? client.commands! : undefined;
   }
 
   /**
    * Get an array of commands configuration for register it
+   * @public
    * @param {Collection<string, Command>} commands - The commands
    * @returns {ApplicationCommandData[]}
    */
@@ -91,19 +95,25 @@ export class SlashHandler {
 
   /**
    * Register commands
+   * @public
+   * @async
    * @param {Collection<string, Command>} commands - The commands to register
    * @param {string} [guildId] - The guild to register commands
    * @returns {Promise<DJSCollection<string, ApplicationCommand<{}>> | DJSCollection<string, ApplicationCommand<{ guild: GuildResolvable; }>> | undefined>} The application commands
    */
   public async registerCommands(
-    commands = this.commands,
+    commands: Collection<string, Command> | undefined = this.commands,
     guildId?: string
   ): Promise<
     | DJSCollection<string, ApplicationCommand<{}>>
     | DJSCollection<string, ApplicationCommand<{ guild: GuildResolvable }>>
     | undefined
   > {
-    await this.client.awaitReady();
+    if (this.client instanceof ShewenyClient) await this.client.awaitReady();
+    if (!commands)
+      throw new ReferenceError(
+        "Commands Collection must be provided for use slash-commands handler."
+      );
 
     const data = this.getData(commands);
     if (data && data.length > 0) {
@@ -116,7 +126,9 @@ export class SlashHandler {
 
   /**
    * Create a command
-   * @param {Collection<string, Command>} commands - The commands to register
+   * @public
+   * @async
+   * @param {Command} command - The commands to register
    * @param {string} [guildId] - The guild to register commands
    * @returns {Promise<DJSCollection<string, ApplicationCommand<{}>> | DJSCollection<string, ApplicationCommand<{ guild: GuildResolvable; }>> | undefined>} The application commands
    */
@@ -126,14 +138,15 @@ export class SlashHandler {
   ): Promise<
     ApplicationCommand<{}> | ApplicationCommand<{ guild: GuildResolvable }> | undefined
   > {
-    await this.client.awaitReady();
-    const data: ApplicationCommandData = {
+    if (this.client instanceof ShewenyClient) await this.client.awaitReady();
+
+    const data: ChatInputApplicationCommandData = {
       name: command.name,
       description: command.description,
+      type: "CHAT_INPUT",
+      defaultPermission: command.defaultPermission,
+      options: command.options,
     };
-    if (command.type) data.type = command.type as any;
-    if (command.options) data.options = command.options;
-    if (command.defaultPermission) data.defaultPermission = command.defaultPermission;
     return guildId
       ? this.client.application?.commands.create(data, guildId)
       : this.client.application?.commands.create(data);
@@ -153,12 +166,12 @@ export class SlashHandler {
   ): Promise<
     ApplicationCommand<{}> | ApplicationCommand<{ guild: GuildResolvable }> | undefined
   > {
-    await this.client.awaitReady();
+    if (this.client instanceof ShewenyClient) await this.client.awaitReady();
     const data: ApplicationCommandData = {
       name: newCommand.name,
       description: newCommand.description,
     };
-    if (newCommand.type) data.type = newCommand.type as any;
+    // if (newCommand.type) data.type = newCommand.type as any;
     if (newCommand.options) data.options = newCommand.options;
     if (newCommand.defaultPermission)
       data.defaultPermission = newCommand.defaultPermission;
@@ -177,7 +190,7 @@ export class SlashHandler {
     command: ApplicationCommandResolvable,
     guildId?: string
   ): Promise<any> {
-    await this.client.awaitReady();
+    if (this.client instanceof ShewenyClient) await this.client.awaitReady();
     return guildId
       ? this.client.application?.commands.delete(command, guildId)
       : this.client.application?.commands.delete(command);

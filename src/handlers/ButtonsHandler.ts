@@ -1,18 +1,19 @@
 import { join } from "path";
 import { Collection } from "collection-data";
 import { readDirAndPush } from "../util/readDirFiles";
-import type { ShewenyClient } from "..";
+import type { ShewenyClient } from "../ShewenyClient";
 import { Button } from "../typescript/interfaces/interfaces";
 
 /**
  * Loads buttons.
- * @class
+ * @class Buttons Handler
  */
 export class ButtonsHandler {
-  private client: ShewenyClient | undefined;
+  private client?: ShewenyClient;
   private dir: string;
 
   /**
+   * @constructor
    * @param {string} directory - The directory of the buttons
    * @param {ShewenyClient} [client] - The client
    */
@@ -24,6 +25,8 @@ export class ButtonsHandler {
 
   /**
    * Register all buttons in collection
+   * @public
+   * @async
    * @returns {Promise<Collection<string[], Event>>} The buttons collection
    */
   public async registerAll(): Promise<Collection<string[], Button>> {

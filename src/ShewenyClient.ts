@@ -1,9 +1,13 @@
-import { readdirSync } from "fs";
+import { readdir } from "fs/promises";
 import { join } from "path";
 import { Client, ClientOptions } from "discord.js";
 import { Collection } from "collection-data";
-
-import { CommandsHandler, EventsHandler, ButtonsHandler, SelectMenusHandler } from ".";
+import {
+  CommandsHandler,
+  EventsHandler,
+  ButtonsHandler,
+  SelectMenusHandler,
+} from "./handlers";
 import type {
   Command,
   Event,
@@ -39,7 +43,8 @@ interface IShewenyClientOptions extends ClientOptions {
 
 /**
  * The main hub for interacting with the Discord API, and the starting point for any bot.
- * @class
+ * @class ShewenyClient
+ * @extends Client Discord.js Client
  */
 export class ShewenyClient extends Client {
   shewenyOptions: IShewenyClientOptions;
@@ -53,7 +58,8 @@ export class ShewenyClient extends Client {
   cooldowns: Collection<string, Collection<string, number>> = new Collection();
 
   /**
-   * @param {Object} options - The options for the client
+   * @constructor Constructor of ShewenyClient
+   * @param {IShewenyClientOptions} options - The options for the client
    */
   constructor(options: IShewenyClientOptions) {
     super(options);
@@ -78,19 +84,25 @@ export class ShewenyClient extends Client {
   }
 
   /**
-   * @param {string} [dir=./events] - The directory of framework events
+   * Init ShewenyClient
+   * @async
+   * @private
    * @returns {Promise<void>}
    */
-  public async init(dir: string = join(__dirname, "./events")): Promise<void> {
-    readdirSync(dir).forEach(async (file) => {
+  private async init(): Promise<void> {
+    const dir = join(__dirname, "./events");
+    const files = await readdir(dir);
+
+    for (const file of files) {
       const event = await import(`${dir}/${file}`).then((e) => e.default);
       const evtName = file.split(".")[0];
       this.on(evtName, (...args) => event(this, ...args));
-    });
+    }
   }
 
   /**
    * Resolve when client is ready
+   * @public
    * @returns {Promise<void>}
    */
   public awaitReady(): Promise<void> {

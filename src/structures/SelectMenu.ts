@@ -3,7 +3,8 @@ import type { ShewenyClient } from "..";
 
 /**
  * Represent a select menu
- * @class
+ * @class SelectMenu structure
+ * @abstract
  */
 export abstract class SelectMenu {
   public client;
@@ -11,6 +12,7 @@ export abstract class SelectMenu {
   public customId: string[];
 
   /**
+   * @constructor
    * @param {ShewenyClient} client - The client
    * @param {string[]} customId - The different select menu customid
    */
@@ -21,6 +23,7 @@ export abstract class SelectMenu {
 
   /**
    * Unregister a select menu
+   * @public
    * @returns {boolean}
    */
   public unregister(): boolean {
@@ -31,6 +34,8 @@ export abstract class SelectMenu {
 
   /**
    * Reload a select menu
+   * @public
+   * @async
    * @returns {Promise<Collection<string[], SelectMenu> | null>} The select menus collection
    */
   public async reload(): Promise<Collection<string[], SelectMenu> | null> {
@@ -43,6 +48,8 @@ export abstract class SelectMenu {
 
   /**
    * Register a select menu
+   * @public
+   * @async
    * @returns {Collection<string[], SelectMenu>} The select menus collection
    */
   public async register(): Promise<Collection<string[], SelectMenu>> {

@@ -6,13 +6,14 @@ import { SelectMenu } from "../typescript/interfaces/interfaces";
 
 /**
  * Loads select menus.
- * @class
+ * @class Select Menu Handler
  */
 export class SelectMenusHandler {
   private client: ShewenyClient | undefined;
   private dir: string;
 
   /**
+   * @constructor
    * @param {string} directory - The directory of the select menus
    * @param {ShewenyClient} [client] - The client
    */
@@ -24,6 +25,8 @@ export class SelectMenusHandler {
 
   /**
    * Register all select menus in collection
+   * @public
+   * @async
    * @returns {Promise<Collection<string[], SelectMenu>>} The select menus collection
    */
   public async registerAll(): Promise<Collection<string[], SelectMenu>> {

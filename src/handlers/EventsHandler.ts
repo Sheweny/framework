@@ -6,13 +6,14 @@ import type { Event } from "../typescript/interfaces/interfaces";
 
 /**
  * Loads events.
- * @class
+ * @class Event Handler
  */
 export class EventsHandler {
   private client: ShewenyClient | undefined;
   private dir: string;
 
   /**
+   * @constructor
    * @param {string} directory - The directory of the events
    * @param {ShewenyClient} [client] - The client
    */
@@ -24,6 +25,8 @@ export class EventsHandler {
 
   /**
    * Register all events in collection
+   * @public
+   * @async
    * @returns {Promise<Collection<string, Event>>} The events collection
    */
   public async registerAll(): Promise<Collection<string, Event>> {
