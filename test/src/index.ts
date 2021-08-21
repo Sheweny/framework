@@ -17,6 +17,9 @@ const client = new ShewenyClient({
     events: {
       directory: "./events",
     },
+    inhibitors: {
+      directory: "./inhibitors",
+    },
   },
 });
 declare module "../../" {

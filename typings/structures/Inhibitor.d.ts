@@ -1,7 +1,8 @@
 import { Collection } from "collection-data";
 import { ShewenyClient } from "../ShewenyClient";
+declare type InhibitorType = "MESSAGE_COMMAND" | "APPLICATION_COMMAND" | "BUTTON" | "SELECT_MENU" | "ALL";
 interface IInhibitorMeta {
-    type?: "MESSAGE_COMMAND" | "APPLICATION_COMMAND" | "BUTTON" | "SELECT_MENU";
+    type?: InhibitorType[];
     priority?: number;
 }
 /**
@@ -13,7 +14,7 @@ export declare abstract class Inhibitor {
     client: any;
     path?: string;
     name: string;
-    type: "MESSAGE_COMMAND" | "APPLICATION_COMMAND" | "BUTTON" | "SELECT_MENU" | "ALL";
+    type: InhibitorType[];
     priority: number;
     /**
      * @constructor

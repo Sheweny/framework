@@ -18,6 +18,9 @@ const client = new __1.ShewenyClient({
         events: {
             directory: "./events",
         },
+        inhibitors: {
+            directory: "./inhibitors",
+        },
     },
 });
 const resolve = new resolve_1.DiscordResolve(client);
