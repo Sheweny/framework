@@ -17,7 +17,7 @@ import type { ILoadAllApplicationCommand } from "../typescript/interfaces/interf
  * Create Application Command handler
  * @class Application Command Handler
  */
-export class ApplicationCommandHandler {
+export class ApplicationCommandsHandler {
   private applicationCommands?: Collection<string, ApplicationCommand>;
   private client: ShewenyClient | Client;
   private dir: string;
