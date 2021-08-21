@@ -74,8 +74,6 @@ export class ShewenyClient extends Client {
   buttons?: Collection<string[], Button>;
   selectMenus?: Collection<string[], SelectMenu>;
   inhibitors?: Collection<string, Inhibitor>;
-  commandsType?: "MESSAGE_COMMANDS" | "APPLICATION_COMMANDS";
-  cooldowns: Collection<string, Collection<string, number>> = new Collection();
 
   /**
    * @constructor Constructor of ShewenyClient

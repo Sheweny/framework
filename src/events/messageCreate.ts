@@ -5,7 +5,7 @@ import { IPermissionString } from "../typescript/types/extends";
 import { Inhibitor } from "../structures";
 
 export default async function run(client: ShewenyClient, message: Message) {
-  if (!client.commands.message || client.commandsType !== "MESSAGE_COMMANDS") return;
+  if (!client.commands.message) return;
 
   if (!message.content || message.author.bot) return; // It can be empty with the new message_content intent
   const prefix = client.handlers.messageCommands!.options.prefix || "";
@@ -38,7 +38,11 @@ export default async function run(client: ShewenyClient, message: Message) {
     command.userPermissions.includes("BOT_ADMIN") &&
     !client.admins?.includes(message.author.id)
   )
-    return client.emit("userMissingPermissions", message, "BOT_ADMIN");
+    return client.handlers.messageCommands?.emit(
+      "userMissingPermissions",
+      message,
+      "BOT_ADMIN"
+    );
   /* ---------------IN-GUILD--------------- */
   if (message.guild) {
     if (command.only === "DM") return;
@@ -47,13 +51,21 @@ export default async function run(client: ShewenyClient, message: Message) {
     if (command.userPermissions.length) {
       for (const permission of command.userPermissions) {
         if (!member.permissions.has(permission as IPermissionString))
-          return client.emit("userMissingPermissions", message, permission);
+          return client.handlers.messageCommands?.emit(
+            "userMissingPermissions",
+            message,
+            permission
+          );
       }
     }
-    if (command.botPermissions.length) {
-      for (const permission of command.botPermissions) {
+    if (command.clientPermissions.length) {
+      for (const permission of command.clientPermissions) {
         if (!message.guild!.me!.permissions.has(permission as IPermissionString))
-          return client.emit("botMissingPermissions", message, permission);
+          return client.handlers.messageCommands?.emit(
+            "clientMissingPermissions",
+            message,
+            permission
+          );
       }
     }
   } else {
@@ -63,17 +75,17 @@ export default async function run(client: ShewenyClient, message: Message) {
 
   /* ---------------COOLDOWNS--------------- */
   if (!client.admins?.includes(message.author.id)) {
-    if (!client.cooldowns.has(command.name)) {
-      client.cooldowns.set(command.name, new Collection());
+    if (!command.cooldowns.has(command.name)) {
+      command.cooldowns.set(command.name, new Collection());
     }
     const timeNow = Date.now();
-    const tStamps = client.cooldowns.get(command.name)!;
+    const tStamps = command.cooldowns.get(command.name)!;
     const cdAmount = (command.cooldown || 0) * 1000;
     if (tStamps.has(message.author.id)) {
       const cdExpirationTime = (tStamps.get(message.author.id) || 0) + cdAmount;
       if (timeNow < cdExpirationTime) {
         // const timeLeft = (cdExpirationTime - timeNow) / 1000;
-        return client.emit("cooldownLimite", message);
+        return client.handlers.messageCommands?.emit("cooldownLimit", message);
       }
     }
 

@@ -1,6 +1,6 @@
-import type { Message } from "discord.js";
 import { Collection } from "collection-data";
 import type { ShewenyClient } from "../ShewenyClient";
+import type { Message } from "discord.js";
 export interface IMessageCommandMeta {
     description?: string;
     category: string;
@@ -8,7 +8,7 @@ export interface IMessageCommandMeta {
     aliases?: string[];
     cooldown?: number;
     userPermissions?: string[];
-    botPermissions?: string[];
+    clientPermissions?: string[];
 }
 /**
  * Represent a command
@@ -25,7 +25,8 @@ export declare abstract class MessageCommand {
     category: string;
     cooldown: number;
     userPermissions: string[];
-    botPermissions: string[];
+    clientPermissions: string[];
+    cooldowns: Collection<string, Collection<string, number>>;
     /**
      * @constructor
      * @param {ShewenyClient} client - The client

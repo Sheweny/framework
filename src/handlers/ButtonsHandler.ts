@@ -3,13 +3,14 @@ import { Collection } from "collection-data";
 import { readDirAndPush } from "../util/readDirFiles";
 import { ShewenyClient } from "../ShewenyClient";
 import { Button } from "../structures";
+import type { Client } from "discord.js";
 
 /**
  * Loads buttons.
  * @class Buttons Handler
  */
 export class ButtonsHandler {
-  private client?: ShewenyClient;
+  private client?: ShewenyClient | Client;
   private dir: string;
 
   /**
@@ -17,7 +18,7 @@ export class ButtonsHandler {
    * @param {string} directory - The directory of the buttons
    * @param {ShewenyClient} [client] - The client
    */
-  constructor(dir: string, client?: ShewenyClient, loadAll?: boolean) {
+  constructor(dir: string, client?: ShewenyClient | Client, loadAll?: boolean) {
     if (!dir) throw new TypeError("Directory must be provided.");
     this.client = client;
     this.dir = dir;

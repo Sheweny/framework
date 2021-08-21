@@ -27,13 +27,16 @@ export default async function run(
       if (!i.execute(client, interaction)) return i.onFailure(client, interaction);
     }
   }
-
   /* ---------------PERMISSIONS--------------- */
   if (
     command.userPermissions.includes("BOT_ADMIN") &&
     !client.admins?.includes(interaction.user.id)
   ) {
-    return client.emit("userMissingPermissions", interaction, "BOT_ADMIN");
+    return client.handlers.applicationCommands?.emit(
+      "userMissingPermissions",
+      interaction,
+      "BOT_ADMIN"
+    );
   }
   /* ---------------IN-GUILD--------------- */
   if (interaction.inGuild()) {
@@ -43,13 +46,21 @@ export default async function run(
     if (command.userPermissions.length) {
       for (const permission of command.userPermissions) {
         if (member.permissions.has(permission as IPermissionString))
-          return client.emit("userMissingPermissions", interaction, permission);
+          return client.handlers.applicationCommands?.emit(
+            "userMissingPermissions",
+            interaction,
+            permission
+          );
       }
     }
-    if (command.botPermissions.length) {
-      for (const permission of command.botPermissions) {
+    if (command.clientPermissions.length) {
+      for (const permission of command.clientPermissions) {
         if (!interaction.guild!.me!.permissions.has(permission as IPermissionString))
-          return client.emit("botMissingPermissions", interaction, permission);
+          return client.handlers.applicationCommands?.emit(
+            "clientMissingPermissions",
+            interaction,
+            permission
+          );
       }
     }
   } else {
@@ -59,17 +70,17 @@ export default async function run(
 
   /* ---------------COOLDOWNS--------------- */
   if (!client.admins?.includes(interaction.user.id)) {
-    if (!client.cooldowns.has(command.data.name)) {
-      client.cooldowns.set(command.data.name, new Collection());
+    if (!command.cooldowns.has(command.data.name)) {
+      command.cooldowns.set(command.data.name, new Collection());
     }
     const timeNow = Date.now();
-    const tStamps = client.cooldowns.get(command.data.name)!;
+    const tStamps = command.cooldowns.get(command.data.name)!;
     const cdAmount = (command.cooldown || 0) * 1000;
     if (tStamps.has(interaction.user.id)) {
       const cdExpirationTime = (tStamps.get(interaction.user.id) || 0) + cdAmount;
       if (timeNow < cdExpirationTime) {
         // const timeLeft = (cdExpirationTime - timeNow) / 1000;
-        return client.emit("cooldownLimite", interaction);
+        return client.handlers.applicationCommands?.emit("cooldownLimit", interaction);
       }
     }
 

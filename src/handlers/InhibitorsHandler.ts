@@ -3,13 +3,14 @@ import { Collection } from "collection-data";
 import { readDirAndPush } from "../util/readDirFiles";
 import { ShewenyClient } from "../ShewenyClient";
 import { Inhibitor } from "../structures";
+import type { Client } from "discord.js";
 
 /**
  * Loads inhibitors.
  * @class
  */
 export class InhibitorsHandler {
-  private client?: ShewenyClient;
+  private client?: ShewenyClient | Client;
   private dir: string;
 
   /**
@@ -18,7 +19,7 @@ export class InhibitorsHandler {
    * @param {ShewenyClient} [client] - The client
    * @param {boolean} [loadAll] - Register all inhibitors in collection
    */
-  constructor(dir: string, client?: ShewenyClient, loadAll?: boolean) {
+  constructor(dir: string, client?: ShewenyClient | Client, loadAll?: boolean) {
     if (!dir) throw new TypeError("Directory must be provided.");
     this.client = client;
     this.dir = dir;

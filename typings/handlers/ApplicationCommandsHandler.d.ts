@@ -1,13 +1,15 @@
+/// <reference types="node" />
 import { Collection } from "collection-data";
 import { ApplicationCommandResolvable, ApplicationCommandData, ApplicationCommand as ApplicationCommandDjs, GuildResolvable, Collection as CollectionDjs, Client } from "discord.js";
 import { ShewenyClient } from "../ShewenyClient";
 import { ApplicationCommand } from "../structures";
+import { EventEmitter } from "events";
 import type { ILoadAllApplicationCommand } from "../typescript/interfaces/interfaces";
 /**
  * Create Application Command handler
  * @class Application Command Handler
  */
-export declare class ApplicationCommandsHandler {
+export declare class ApplicationCommandsHandler extends EventEmitter {
     private applicationCommands?;
     private client;
     private dir;
