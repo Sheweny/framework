@@ -15,6 +15,9 @@ const client = new __1.ShewenyClient({
         selectMenus: {
             directory: "./interactions/select-menus",
         },
+        events: {
+            directory: "./events",
+        },
     },
 });
 const resolve = new resolve_1.DiscordResolve(client);

@@ -14,6 +14,9 @@ const client = new ShewenyClient({
     selectMenus: {
       directory: "./interactions/select-menus",
     },
+    events: {
+      directory: "./events",
+    },
   },
 });
 declare module "../../" {
