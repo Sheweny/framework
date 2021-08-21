@@ -3,17 +3,27 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const __1 = require("../../");
 const resolve_1 = require("@discord-util/resolve");
 const client = new __1.ShewenyClient({
-    intents: ["GUILDS"],
+    intents: ["GUILDS", "GUILD_MESSAGES"],
     handlers: {
         applicationCommands: {
             directory: "./commands",
             guildId: "877090306103840778",
+        },
+        messageCommands: {
+            directory: "./messageCommands",
+            prefix: "!",
         },
         buttons: {
             directory: "./interactions/buttons",
         },
         selectMenus: {
             directory: "./interactions/select-menus",
+        },
+        events: {
+            directory: "./events",
+        },
+        inhibitors: {
+            directory: "./inhibitors",
         },
     },
 });

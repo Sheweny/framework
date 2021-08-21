@@ -39,13 +39,16 @@ export class EventsHandler {
     const baseDir = join(require.main!.path, this.dir);
     const evtsPaths: string[] = await readDirAndPush(baseDir);
     for (const evtPath of evtsPaths) {
-      const Event = (await import(evtPath)).default;
+      const evtImport = await import(evtPath);
+      const key = Object.keys(evtImport)[0];
+      const Event = evtImport[key];
       if (!Event) continue;
       const instance: Event = new Event(this.client);
       if (!instance.name) continue;
       instance.path = evtPath;
       events.set(instance.name, instance);
     }
+
     if (this.client instanceof ShewenyClient) this.client.events = events;
     return events;
   }
@@ -58,7 +61,7 @@ export class EventsHandler {
    * @returns {Promise<void>}
    */
   public async registerAll(events?: Collection<string, Event>): Promise<void> {
-    let evts =
+    const evts =
       events || (this.client instanceof ShewenyClient ? this.client.events : undefined);
     if (!evts) throw new Error("No events found");
     const client = this.client instanceof ShewenyClient ? this.client : this.client;

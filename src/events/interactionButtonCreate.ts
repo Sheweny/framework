@@ -15,7 +15,7 @@ export default async function run(client: ShewenyClient, interaction: ButtonInte
    * Handle inhibitors
    */
   const inhibitors = client.inhibitors?.filter(
-    (i: Inhibitor) => i.type === "BUTTON" || i.type === "ALL"
+    (i: Inhibitor) => i.type.includes("BUTTON") || i.type.includes("ALL")
   );
   if (inhibitors && inhibitors.size) {
     const sorted = [...inhibitors.values()].sort((a, b) => b.priority - a.priority);
