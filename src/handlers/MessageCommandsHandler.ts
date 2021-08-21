@@ -4,13 +4,15 @@ import { readDirAndPush } from "../util/readDirFiles";
 import { IMessageCommandHandlerOptions } from "../typescript/interfaces/interfaces";
 import { ShewenyClient } from "../ShewenyClient";
 import { MessageCommand } from "../structures";
+import { EventEmitter } from "events";
+import type { Client } from "discord.js";
 
 /**
  * Loads commands.
  * @class Commands Handler
  */
-export class MessageCommandsHandler {
-  private client?: ShewenyClient;
+export class MessageCommandsHandler extends EventEmitter {
+  private client?: ShewenyClient | Client;
   private dir: string;
   options: IMessageCommandHandlerOptions;
 
@@ -21,9 +23,10 @@ export class MessageCommandsHandler {
    */
   constructor(
     options: IMessageCommandHandlerOptions,
-    client?: ShewenyClient,
+    client?: ShewenyClient | Client,
     loadAll?: boolean
   ) {
+    super();
     if (!options.directory) throw new TypeError("Directory must be provided.");
     this.dir = options.directory;
     if (client) this.client = client;

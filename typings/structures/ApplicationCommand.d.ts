@@ -7,7 +7,7 @@ export interface IApplicationCommandOptions {
     only?: "GUILD" | "DM";
     cooldown?: number;
     userPermissions?: string[];
-    botPermissions?: string[];
+    clientPermissions?: string[];
 }
 /**
  * Represent a Application Command
@@ -23,7 +23,8 @@ export declare abstract class ApplicationCommand {
     only: "GUILD" | "DM";
     cooldown: number;
     userPermissions: string[];
-    botPermissions: string[];
+    clientPermissions: string[];
+    cooldowns: Collection<string, Collection<string, number>>;
     /**
      * @constructor
      * @param {ShewenyClient} client - The client

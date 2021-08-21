@@ -11,13 +11,14 @@ import { ShewenyClient } from "../ShewenyClient";
 import { ApplicationCommand } from "../structures";
 import { join } from "path";
 import { readDirAndPush } from "../util/readDirFiles";
+import { EventEmitter } from "events";
 import type { ILoadAllApplicationCommand } from "../typescript/interfaces/interfaces";
 
 /**
  * Create Application Command handler
  * @class Application Command Handler
  */
-export class ApplicationCommandsHandler {
+export class ApplicationCommandsHandler extends EventEmitter {
   private applicationCommands?: Collection<string, ApplicationCommand>;
   private client: ShewenyClient | Client;
   private dir: string;
@@ -30,6 +31,7 @@ export class ApplicationCommandsHandler {
     directory: string,
     loadAll?: ILoadAllApplicationCommand
   ) {
+    super();
     if (!client)
       throw new ReferenceError("Client must be provided for use Application handler.");
     if (!directory) throw new TypeError("Directory must be provided.");

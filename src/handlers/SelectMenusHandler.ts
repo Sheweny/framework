@@ -3,13 +3,13 @@ import { Collection } from "collection-data";
 import { readDirAndPush } from "../util/readDirFiles";
 import { ShewenyClient } from "../ShewenyClient";
 import { SelectMenu } from "../structures";
-
+import type { Client } from "discord.js";
 /**
  * Loads select menus.
  * @class Select Menu Handler
  */
 export class SelectMenusHandler {
-  private client?: ShewenyClient;
+  private client?: ShewenyClient | Client;
   private dir: string;
 
   /**
@@ -17,7 +17,7 @@ export class SelectMenusHandler {
    * @param {string} directory - The directory of the select menus
    * @param {ShewenyClient} [client] - The client
    */
-  constructor(dir: string, client?: ShewenyClient, loadAll?: boolean) {
+  constructor(dir: string, client?: ShewenyClient | Client, loadAll?: boolean) {
     if (!dir) throw new TypeError("Directory must be provided.");
     this.client = client;
     this.dir = dir;

@@ -8,7 +8,7 @@ export interface IApplicationCommandOptions {
   only?: "GUILD" | "DM";
   cooldown?: number;
   userPermissions?: string[];
-  botPermissions?: string[];
+  clientPermissions?: string[];
 }
 
 /**
@@ -25,8 +25,8 @@ export abstract class ApplicationCommand {
   public only: "GUILD" | "DM";
   public cooldown: number;
   public userPermissions: string[];
-  public botPermissions: string[];
-
+  public clientPermissions: string[];
+  public cooldowns: Collection<string, Collection<string, number>>;
   /**
    * @constructor
    * @param {ShewenyClient} client - The client
@@ -44,7 +44,8 @@ export abstract class ApplicationCommand {
     this.only = options.only || "GUILD";
     this.cooldown = options.cooldown || 0;
     this.userPermissions = options.userPermissions || [];
-    this.botPermissions = options.botPermissions || [];
+    this.clientPermissions = options.clientPermissions || [];
+    this.cooldowns = new Collection();
   }
 
   before?(interaction: CommandInteraction): any | Promise<any>;

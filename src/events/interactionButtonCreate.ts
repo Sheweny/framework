@@ -17,10 +17,11 @@ export default async function run(client: ShewenyClient, interaction: ButtonInte
   const inhibitors = client.inhibitors?.filter(
     (i: Inhibitor) => i.type === "BUTTON" || i.type === "ALL"
   );
-  if (!inhibitors || !inhibitors.size) return;
-  const sorted = [...inhibitors.values()].sort((a, b) => b.priority - a.priority);
-  for (const i of sorted) {
-    if (!i.execute(client, interaction)) return i.onFailure(client, interaction);
+  if (inhibitors && inhibitors.size) {
+    const sorted = [...inhibitors.values()].sort((a, b) => b.priority - a.priority);
+    for (const i of sorted) {
+      if (!i.execute(client, interaction)) return i.onFailure(client, interaction);
+    }
   }
 
   try {

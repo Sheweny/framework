@@ -1,6 +1,6 @@
-import type { Message } from "discord.js";
 import { Collection } from "collection-data";
 import type { ShewenyClient } from "../ShewenyClient";
+import type { Message } from "discord.js";
 
 export interface IMessageCommandMeta {
   description?: string;
@@ -9,7 +9,7 @@ export interface IMessageCommandMeta {
   aliases?: string[];
   cooldown?: number;
   userPermissions?: string[];
-  botPermissions?: string[];
+  clientPermissions?: string[];
 }
 
 /**
@@ -27,7 +27,8 @@ export abstract class MessageCommand {
   public category: string;
   public cooldown: number;
   public userPermissions: string[];
-  public botPermissions: string[];
+  public clientPermissions: string[];
+  public cooldowns: Collection<string, Collection<string, number>>;
 
   /**
    * @constructor
@@ -44,7 +45,8 @@ export abstract class MessageCommand {
     this.aliases = options.aliases || [];
     this.cooldown = options.cooldown || 0;
     this.userPermissions = options.userPermissions || [];
-    this.botPermissions = options.botPermissions || [];
+    this.clientPermissions = options.clientPermissions || [];
+    this.cooldowns = new Collection();
   }
 
   before?(message: Message, args: string[]): any | Promise<any>;
