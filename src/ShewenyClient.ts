@@ -4,7 +4,7 @@ import { Client, ClientOptions } from "discord.js";
 import { Collection } from "collection-data";
 import {
   MessageCommandsHandler,
-  ApplicationCommandHandler,
+  ApplicationCommandsHandler,
   EventsHandler,
   ButtonsHandler,
   SelectMenusHandler,
@@ -22,7 +22,7 @@ import {
 
 interface IClientHandlersOptions {
   messageCommands?: MessageCommandsHandler;
-  applicationCommands?: ApplicationCommandHandler;
+  applicationCommands?: ApplicationCommandsHandler;
   events?: EventsHandler;
   buttons?: ButtonsHandler;
   selectMenus?: SelectMenusHandler;
@@ -34,6 +34,7 @@ interface IOptionsHandlers {
   messageCommands?: IMessageCommandHandlerOptions;
   applicationCommands?: {
     directory: string;
+    guildId?: string;
   };
   events?: {
     directory: string;
@@ -99,10 +100,10 @@ export class ShewenyClient extends Client {
       ? new SelectMenusHandler(options.handlers.selectMenus.directory, this, true)
       : undefined;
     this.handlers.applicationCommands = options.handlers?.applicationCommands
-      ? new ApplicationCommandHandler(
+      ? new ApplicationCommandsHandler(
           this,
           options.handlers.applicationCommands.directory,
-          true
+          { loadAll: true, guildId: options.handlers.applicationCommands.guildId }
         )
       : undefined;
     this.handlers.inhibitors = options.handlers?.inhibitors

@@ -13,7 +13,7 @@ export declare abstract class Inhibitor {
     client: any;
     path?: string;
     name: string;
-    type: "MESSAGE_COMMAND" | "APPLICATION_COMMAND" | "BUTTON" | "SELECT_MENU";
+    type: "MESSAGE_COMMAND" | "APPLICATION_COMMAND" | "BUTTON" | "SELECT_MENU" | "ALL";
     priority: number;
     /**
      * @constructor

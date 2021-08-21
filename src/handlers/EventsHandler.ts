@@ -24,7 +24,7 @@ export class EventsHandler {
     if (!client) throw new TypeError("Client muste be provided.");
     this.client = client;
     this.dir = dir;
-    if (loadAll) this.loadAll();
+    if (loadAll) this.loadAll().then(() => this.registerAll());
     if (client && client instanceof ShewenyClient) client.handlers.events = this;
   }
 

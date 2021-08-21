@@ -1,11 +1,11 @@
 import { Client, ClientOptions } from "discord.js";
 import { Collection } from "collection-data";
-import { MessageCommandsHandler, ApplicationCommandHandler, EventsHandler, ButtonsHandler, SelectMenusHandler, InhibitorsHandler } from "./handlers";
+import { MessageCommandsHandler, ApplicationCommandsHandler, EventsHandler, ButtonsHandler, SelectMenusHandler, InhibitorsHandler } from "./handlers";
 import type { IMessageCommandHandlerOptions } from "./typescript/interfaces/interfaces";
 import { ApplicationCommand, MessageCommand, Button, Event, Inhibitor, SelectMenu } from "./structures";
 interface IClientHandlersOptions {
     messageCommands?: MessageCommandsHandler;
-    applicationCommands?: ApplicationCommandHandler;
+    applicationCommands?: ApplicationCommandsHandler;
     events?: EventsHandler;
     buttons?: ButtonsHandler;
     selectMenus?: SelectMenusHandler;
@@ -16,6 +16,7 @@ interface IOptionsHandlers {
     messageCommands?: IMessageCommandHandlerOptions;
     applicationCommands?: {
         directory: string;
+        guildId?: string;
     };
     events?: {
         directory: string;

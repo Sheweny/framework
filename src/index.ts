@@ -4,7 +4,7 @@ export {
   ButtonsHandler,
   EventsHandler,
   SelectMenusHandler,
-  ApplicationCommandHandler,
+  ApplicationCommandsHandler,
   InhibitorsHandler,
 } from "./handlers";
 export {
