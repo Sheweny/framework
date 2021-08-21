@@ -15,8 +15,12 @@ export abstract class Inhibitor {
   public client;
   public path?: string;
   public name: string;
-  public type: "MESSAGE_COMMAND" | "APPLICATION_COMMAND" | "BUTTON" | "SELECT_MENU" =
-    "MESSAGE_COMMAND";
+  public type:
+    | "MESSAGE_COMMAND"
+    | "APPLICATION_COMMAND"
+    | "BUTTON"
+    | "SELECT_MENU"
+    | "ALL" = "MESSAGE_COMMAND";
   public priority: number = 0;
 
   /**

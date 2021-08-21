@@ -12,7 +12,7 @@ export default async function run(
    * Handle inhibitors
    */
   const inhibitors = client.inhibitors?.filter(
-    (i: Inhibitor) => i.type === "SELECT_MENU"
+    (i: Inhibitor) => i.type === "SELECT_MENU" || i.type === "ALL"
   );
   if (!inhibitors || !inhibitors.size) return;
   const sorted = [...inhibitors.values()].sort((a, b) => b.priority - a.priority);

@@ -11,6 +11,8 @@ import { ShewenyClient } from "../ShewenyClient";
 import { ApplicationCommand } from "../structures";
 import { join } from "path";
 import { readDirAndPush } from "../util/readDirFiles";
+import type { ILoadAllApplicationCommand } from "../typescript/interfaces/interfaces";
+
 /**
  * Create Application Command handler
  * @class Application Command Handler
@@ -23,7 +25,11 @@ export class ApplicationCommandHandler {
    * @constructor
    * @param {ShewenyClient | Client} client - The client
    */
-  constructor(client: ShewenyClient | Client, directory: string, loadAll?: boolean) {
+  constructor(
+    client: ShewenyClient | Client,
+    directory: string,
+    loadAll?: ILoadAllApplicationCommand
+  ) {
     if (!client)
       throw new ReferenceError("Client must be provided for use Application handler.");
     if (!directory) throw new TypeError("Directory must be provided.");
@@ -31,10 +37,23 @@ export class ApplicationCommandHandler {
     this.client = client;
     this.applicationCommands =
       client instanceof ShewenyClient ? client.commands.interaction! : undefined;
-    if (loadAll) this.loadAll();
+    if (loadAll?.loadAll) this.loadAllAndRegister(loadAll?.guildId);
     if (client && client instanceof ShewenyClient)
       client.handlers.applicationCommands = this;
   }
+
+  /**
+   * Load all commands and register them to a collection.
+   * @public
+   * @async
+   * @param {string} [guildId] - The guild to register command
+   * @returns {Promise<CollectionDjs<string, ApplicationCommand<{}>> | CollectionDjs<string, ApplicationCommand<{ guild: GuildResolvable; }>> | undefined>} The application commands
+   */
+  public async loadAllAndRegister(guildId?: string) {
+    const commands = await this.loadAll();
+    return this.registerCommands(commands, guildId);
+  }
+
   /**
    * Load all commands and register them to a collection.
    * @public

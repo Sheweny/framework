@@ -34,6 +34,7 @@ interface IOptionsHandlers {
   messageCommands?: IMessageCommandHandlerOptions;
   applicationCommands?: {
     directory: string;
+    guildId?: string;
   };
   events?: {
     directory: string;
@@ -102,7 +103,7 @@ export class ShewenyClient extends Client {
       ? new ApplicationCommandHandler(
           this,
           options.handlers.applicationCommands.directory,
-          true
+          { loadAll: true, guildId: options.handlers.applicationCommands.guildId }
         )
       : undefined;
     this.handlers.inhibitors = options.handlers?.inhibitors

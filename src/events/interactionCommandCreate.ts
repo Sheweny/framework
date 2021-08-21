@@ -19,7 +19,7 @@ export default async function run(
    * Handle inhibitors
    */
   const inhibitors = client.inhibitors?.filter(
-    (i: Inhibitor) => i.type === "APPLICATION_COMMAND"
+    (i: Inhibitor) => i.type === "APPLICATION_COMMAND" || i.type === "ALL"
   );
   if (inhibitors && !inhibitors.size) {
     const sorted = [...inhibitors.values()].sort((a, b) => b.priority - a.priority);
