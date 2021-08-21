@@ -2,11 +2,15 @@ import { ShewenyClient } from "../../";
 import { DiscordResolve } from "@discord-util/resolve";
 import { CommandInteraction } from "discord.js";
 const client = new ShewenyClient({
-  intents: ["GUILDS"],
+  intents: ["GUILDS", "GUILD_MESSAGES"],
   handlers: {
     applicationCommands: {
       directory: "./commands",
       guildId: "877090306103840778",
+    },
+    messageCommands: {
+      directory: "./messageCommands",
+      prefix: "!",
     },
     buttons: {
       directory: "./interactions/buttons",
