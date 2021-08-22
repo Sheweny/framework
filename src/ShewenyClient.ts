@@ -79,8 +79,8 @@ export class ShewenyClient extends Client {
    * @constructor Constructor of ShewenyClient
    * @param {IShewenyClientOptions} options - The options for the client
    */
-  constructor(options: IShewenyClientOptions) {
-    super(options);
+  constructor(options: IShewenyClientOptions, clientOptions?: ClientOptions) {
+    super(clientOptions || options);
 
     this.shewenyOptions = options;
     this.admins = options.admins;
