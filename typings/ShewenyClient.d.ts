@@ -57,7 +57,7 @@ export declare class ShewenyClient extends Client {
      * @constructor Constructor of ShewenyClient
      * @param {IShewenyClientOptions} options - The options for the client
      */
-    constructor(options: IShewenyClientOptions);
+    constructor(options: IShewenyClientOptions, clientOptions?: ClientOptions);
     /**
      * Init ShewenyClient
      * @async
