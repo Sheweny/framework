@@ -10,7 +10,7 @@ export default async function run(client: ShewenyClient, interaction: ButtonInte
   );
 
   if (!button) return;
-
+  if (button.before) await button.before(interaction);
   /**
    * Handle inhibitors
    */

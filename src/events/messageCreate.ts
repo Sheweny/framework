@@ -19,7 +19,7 @@ export default async function run(client: ShewenyClient, message: Message) {
       (cmd) => cmd.aliases && cmd.aliases.includes(commandName)
     );
   if (!command) return;
-
+  if (command.before) await command.before(message, args);
   /**
    * Handle inhibitors
    */

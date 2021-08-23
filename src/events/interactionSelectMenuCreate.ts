@@ -11,7 +11,7 @@ export default async function run(
     value.customId.includes(interaction.customId)
   );
   if (!selectMenu) return;
-
+  if (selectMenu.before) await selectMenu.before(interaction);
   /**
    * Handle inhibitors
    */
