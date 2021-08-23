@@ -14,7 +14,7 @@ export default async function run(
   const command = client.commands.interaction.get(interaction.commandName);
 
   if (!command) return;
-
+  if (command.before) await command.before(interaction);
   /**
    * Handle inhibitors
    */
@@ -47,7 +47,7 @@ export default async function run(
     if (!member) member = await interaction.guild!.members.fetch(interaction.user.id);
     if (command.userPermissions.length) {
       for (const permission of command.userPermissions) {
-        if (member.permissions.has(permission as IPermissionString))
+        if (!member.permissions.has(permission as IPermissionString))
           return client.handlers.applicationCommands?.emit(
             "userMissingPermissions",
             interaction,
