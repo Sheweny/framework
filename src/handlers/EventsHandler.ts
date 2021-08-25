@@ -66,8 +66,8 @@ export class EventsHandler {
     if (!evts) throw new Error("No events found");
     const client = this.client instanceof ShewenyClient ? this.client : this.client;
     for (const [name, evt] of evts) {
-      if (evt.once) client.once(name, (...args: any[]) => evt.execute(args));
-      else client.on(name, (...args: any[]) => evt.execute(args));
+      if (evt.once) client.once(name, (...args: any[]) => evt.execute(...args));
+      else client.on(name, (...args: any[]) => evt.execute(...args));
     }
   }
 }

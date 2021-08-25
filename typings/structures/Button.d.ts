@@ -7,7 +7,7 @@ import { ShewenyClient } from "../ShewenyClient";
  * @abstract
  */
 export declare abstract class Button {
-    client: any;
+    client: ShewenyClient;
     path?: string;
     customId: string[];
     /**

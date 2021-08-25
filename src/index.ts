@@ -15,3 +15,4 @@ export {
   Inhibitor,
   ApplicationCommand,
 } from "./structures";
+export { Collection } from "collection-data";
