@@ -1,5 +1,5 @@
 import { Collection } from "collection-data";
-import { ApplicationCommandData, CommandInteraction } from "discord.js";
+import { ApplicationCommandData, CommandInteraction, ContextMenuInteraction } from "discord.js";
 import { ShewenyClient } from "../ShewenyClient";
 export interface IApplicationCommandOptions {
     description?: string;
@@ -31,8 +31,8 @@ export declare abstract class ApplicationCommand {
      * @param {ApplicationCommandData} data - Application Command data
      */
     constructor(client: ShewenyClient, data: ApplicationCommandData, options: IApplicationCommandOptions);
-    before?(interaction: CommandInteraction): any | Promise<any>;
-    abstract execute(interaction: CommandInteraction): any | Promise<any>;
+    before?(interaction: CommandInteraction | ContextMenuInteraction): any | Promise<any>;
+    abstract execute(interaction: CommandInteraction | ContextMenuInteraction): any | Promise<any>;
     /**
      * Unregister a application command
      * @public
