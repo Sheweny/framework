@@ -3,26 +3,28 @@ import { Collection } from "collection-data";
 import { readDirAndPush } from "../util/readDirFiles";
 import { ShewenyClient } from "../ShewenyClient";
 import { Inhibitor } from "../structures";
+import type { Client } from "discord.js";
 
 /**
  * Loads inhibitors.
  * @class
  */
 export class InhibitorsHandler {
-  private client?: ShewenyClient;
+  private client?: ShewenyClient | Client;
   private dir: string;
 
   /**
    * @constructor
    * @param {string} dir - The directory of the inhibitors
    * @param {ShewenyClient} [client] - The client
-   * @param {boolean} [registerAll] - Register all inhibitors in collection
+   * @param {boolean} [loadAll] - Register all inhibitors in collection
    */
-  constructor(dir: string, client?: ShewenyClient, registerAll?: boolean) {
+  constructor(dir: string, client?: ShewenyClient | Client, loadAll?: boolean) {
     if (!dir) throw new TypeError("Directory must be provided.");
     this.client = client;
     this.dir = dir;
-    if (registerAll) this.registerAll();
+    if (loadAll) this.loadAll();
+    if (client && client instanceof ShewenyClient) client.handlers.inhibitors = this;
   }
 
   /**
@@ -31,7 +33,7 @@ export class InhibitorsHandler {
    * @async
    * @returns {Promise<Collection<string, Inhibitor>>} The inhibitors collection
    */
-  public async registerAll(): Promise<Collection<string, Inhibitor>> {
+  public async loadAll(): Promise<Collection<string, Inhibitor>> {
     const inhibitors = new Collection<string, Inhibitor>();
     const baseDir = join(require.main!.path, this.dir);
     const inhibitorsPaths: string[] = await readDirAndPush(baseDir);
@@ -46,7 +48,7 @@ export class InhibitorsHandler {
       inhibitors.set(instance.name, instance);
     }
 
-    if (this.client) this.client.inhibitors = inhibitors;
+    if (this.client instanceof ShewenyClient) this.client.inhibitors = inhibitors;
     return inhibitors;
   }
 }

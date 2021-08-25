@@ -1,12 +1,13 @@
 import { Collection } from "collection-data";
 import { ApplicationCommandData, CommandInteraction } from "discord.js";
 import { ShewenyClient } from "../ShewenyClient";
-export interface IApplicationCommandMeta {
+export interface IApplicationCommandOptions {
+    description?: string;
     category: string;
     only?: "GUILD" | "DM";
     cooldown?: number;
     userPermissions?: string[];
-    botPermissions?: string[];
+    clientPermissions?: string[];
 }
 /**
  * Represent a Application Command
@@ -17,17 +18,19 @@ export declare abstract class ApplicationCommand {
     client: any;
     path?: string;
     data: ApplicationCommandData;
+    description?: string;
     category: string;
     only: "GUILD" | "DM";
     cooldown: number;
     userPermissions: string[];
-    botPermissions: string[];
+    clientPermissions: string[];
+    cooldowns: Collection<string, Collection<string, number>>;
     /**
      * @constructor
      * @param {ShewenyClient} client - The client
      * @param {ApplicationCommandData} data - Application Command data
      */
-    constructor(client: ShewenyClient, data: ApplicationCommandData, options: IApplicationCommandMeta);
+    constructor(client: ShewenyClient, data: ApplicationCommandData, options: IApplicationCommandOptions);
     before?(interaction: CommandInteraction): any | Promise<any>;
     abstract execute(interaction: CommandInteraction): any | Promise<any>;
     /**

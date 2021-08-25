@@ -4,13 +4,15 @@ import { readDirAndPush } from "../util/readDirFiles";
 import { IMessageCommandHandlerOptions } from "../typescript/interfaces/interfaces";
 import { ShewenyClient } from "../ShewenyClient";
 import { MessageCommand } from "../structures";
+import { EventEmitter } from "events";
+import type { Client } from "discord.js";
 
 /**
  * Loads commands.
  * @class Commands Handler
  */
-export class MessageCommandsHandler {
-  private client?: ShewenyClient;
+export class MessageCommandsHandler extends EventEmitter {
+  private client?: ShewenyClient | Client;
   private dir: string;
   options: IMessageCommandHandlerOptions;
 
@@ -21,14 +23,16 @@ export class MessageCommandsHandler {
    */
   constructor(
     options: IMessageCommandHandlerOptions,
-    client?: ShewenyClient,
-    registerAll?: boolean
+    client?: ShewenyClient | Client,
+    loadAll?: boolean
   ) {
+    super();
     if (!options.directory) throw new TypeError("Directory must be provided.");
     this.dir = options.directory;
     if (client) this.client = client;
     this.options = options;
-    if (registerAll) this.registerAll();
+    if (loadAll) this.loadAll();
+    if (client && client instanceof ShewenyClient) client.handlers.messageCommands = this;
   }
 
   /**
@@ -37,7 +41,7 @@ export class MessageCommandsHandler {
    * @async
    * @returns {Promise<Collection<string, MessageCommand>>} The collection of commands
    */
-  public async registerAll(): Promise<Collection<string, MessageCommand>> {
+  public async loadAll(): Promise<Collection<string, MessageCommand>> {
     const commands: Collection<string, MessageCommand> = new Collection();
     const baseDir = join(require.main!.path, this.dir);
     const cmds: string[] = await readDirAndPush(baseDir);
@@ -51,7 +55,7 @@ export class MessageCommandsHandler {
       instance.path = cmdPath;
       commands.set(instance.name, instance);
     }
-    if (this.client) this.client.messageCommands = commands;
+    if (this.client instanceof ShewenyClient) this.client.commands.message = commands;
     return commands;
   }
 }

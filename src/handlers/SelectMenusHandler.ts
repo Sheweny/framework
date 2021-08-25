@@ -3,13 +3,13 @@ import { Collection } from "collection-data";
 import { readDirAndPush } from "../util/readDirFiles";
 import { ShewenyClient } from "../ShewenyClient";
 import { SelectMenu } from "../structures";
-
+import type { Client } from "discord.js";
 /**
  * Loads select menus.
  * @class Select Menu Handler
  */
 export class SelectMenusHandler {
-  private client?: ShewenyClient;
+  private client?: ShewenyClient | Client;
   private dir: string;
 
   /**
@@ -17,11 +17,12 @@ export class SelectMenusHandler {
    * @param {string} directory - The directory of the select menus
    * @param {ShewenyClient} [client] - The client
    */
-  constructor(dir: string, client?: ShewenyClient, registerAll?: boolean) {
+  constructor(dir: string, client?: ShewenyClient | Client, loadAll?: boolean) {
     if (!dir) throw new TypeError("Directory must be provided.");
     this.client = client;
     this.dir = dir;
-    if (registerAll) this.registerAll();
+    if (loadAll) this.loadAll();
+    if (client && client instanceof ShewenyClient) client.handlers.selectMenus = this;
   }
 
   /**
@@ -30,7 +31,7 @@ export class SelectMenusHandler {
    * @async
    * @returns {Promise<Collection<string[], SelectMenu>>} The select menus collection
    */
-  public async registerAll(): Promise<Collection<string[], SelectMenu>> {
+  public async loadAll(): Promise<Collection<string[], SelectMenu>> {
     const selectMenus: Collection<string[], SelectMenu> = new Collection();
     const baseDir = join(require.main!.path, this.dir);
     const selectmenusPaths: string[] = await readDirAndPush(baseDir);
@@ -44,7 +45,7 @@ export class SelectMenusHandler {
       instance.path = selectmenuPath;
       selectMenus.set(instance.customId, instance);
     }
-    if (this.client) this.client.selectMenus = selectMenus;
+    if (this.client instanceof ShewenyClient) this.client.selectMenus = selectMenus;
     return selectMenus;
   }
 }

@@ -1,11 +1,11 @@
 import { Client, ClientOptions } from "discord.js";
 import { Collection } from "collection-data";
-import { MessageCommandsHandler, ApplicationCommandHandler, EventsHandler, ButtonsHandler, SelectMenusHandler, InhibitorsHandler } from "./handlers";
+import { MessageCommandsHandler, ApplicationCommandsHandler, EventsHandler, ButtonsHandler, SelectMenusHandler, InhibitorsHandler } from "./handlers";
 import type { IMessageCommandHandlerOptions } from "./typescript/interfaces/interfaces";
 import { ApplicationCommand, MessageCommand, Button, Event, Inhibitor, SelectMenu } from "./structures";
-interface IClientHandlers {
+interface IClientHandlersOptions {
     messageCommands?: MessageCommandsHandler;
-    applicationCommands?: ApplicationCommandHandler;
+    applicationCommands?: ApplicationCommandsHandler;
     events?: EventsHandler;
     buttons?: ButtonsHandler;
     selectMenus?: SelectMenusHandler;
@@ -16,6 +16,7 @@ interface IOptionsHandlers {
     messageCommands?: IMessageCommandHandlerOptions;
     applicationCommands?: {
         directory: string;
+        guildId?: string;
     };
     events?: {
         directory: string;
@@ -30,6 +31,10 @@ interface IOptionsHandlers {
         directory: string;
     };
 }
+interface ICommandsManager {
+    interaction?: Collection<string, ApplicationCommand>;
+    message?: Collection<string, MessageCommand>;
+}
 interface IShewenyClientOptions extends ClientOptions {
     handlers?: IOptionsHandlers;
     admins?: string[];
@@ -42,20 +47,17 @@ interface IShewenyClientOptions extends ClientOptions {
 export declare class ShewenyClient extends Client {
     shewenyOptions: IShewenyClientOptions;
     admins?: string[];
-    handlers: IClientHandlers;
-    messageCommands?: Collection<string, MessageCommand>;
-    applicationCommands?: Collection<string, ApplicationCommand>;
+    handlers: IClientHandlersOptions;
+    commands: ICommandsManager;
     events?: Collection<string, Event>;
     buttons?: Collection<string[], Button>;
     selectMenus?: Collection<string[], SelectMenu>;
     inhibitors?: Collection<string, Inhibitor>;
-    commandsType?: "MESSAGE_COMMANDS" | "APPLICATION_COMMANDS";
-    cooldowns: Collection<string, Collection<string, number>>;
     /**
      * @constructor Constructor of ShewenyClient
      * @param {IShewenyClientOptions} options - The options for the client
      */
-    constructor(options: IShewenyClientOptions);
+    constructor(options: IShewenyClientOptions, clientOptions?: ClientOptions);
     /**
      * Init ShewenyClient
      * @async

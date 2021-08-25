@@ -1,8 +1,14 @@
 import { Collection } from "collection-data";
 import { ShewenyClient } from "../ShewenyClient";
 
+type InhibitorType =
+  | "MESSAGE_COMMAND"
+  | "APPLICATION_COMMAND"
+  | "BUTTON"
+  | "SELECT_MENU"
+  | "ALL";
 interface IInhibitorMeta {
-  type?: "MESSAGE_COMMAND" | "APPLICATION_COMMAND" | "BUTTON" | "SELECT_MENU";
+  type?: InhibitorType[];
   priority?: number;
 }
 
@@ -15,8 +21,7 @@ export abstract class Inhibitor {
   public client;
   public path?: string;
   public name: string;
-  public type: "MESSAGE_COMMAND" | "APPLICATION_COMMAND" | "BUTTON" | "SELECT_MENU" =
-    "MESSAGE_COMMAND";
+  public type: InhibitorType[] = ["MESSAGE_COMMAND"];
   public priority: number = 0;
 
   /**
@@ -27,7 +32,7 @@ export abstract class Inhibitor {
   constructor(client: ShewenyClient, name: string, options?: IInhibitorMeta) {
     this.client = client;
     this.name = name;
-    this.type = options?.type || "MESSAGE_COMMAND";
+    this.type = options?.type || ["MESSAGE_COMMAND"];
     this.priority = options?.priority || 0;
   }
 

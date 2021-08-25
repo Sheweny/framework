@@ -4,7 +4,7 @@ import { Client, ClientOptions } from "discord.js";
 import { Collection } from "collection-data";
 import {
   MessageCommandsHandler,
-  ApplicationCommandHandler,
+  ApplicationCommandsHandler,
   EventsHandler,
   ButtonsHandler,
   SelectMenusHandler,
@@ -20,9 +20,9 @@ import {
   SelectMenu,
 } from "./structures";
 
-interface IClientHandlers {
+interface IClientHandlersOptions {
   messageCommands?: MessageCommandsHandler;
-  applicationCommands?: ApplicationCommandHandler;
+  applicationCommands?: ApplicationCommandsHandler;
   events?: EventsHandler;
   buttons?: ButtonsHandler;
   selectMenus?: SelectMenusHandler;
@@ -34,6 +34,7 @@ interface IOptionsHandlers {
   messageCommands?: IMessageCommandHandlerOptions;
   applicationCommands?: {
     directory: string;
+    guildId?: string;
   };
   events?: {
     directory: string;
@@ -49,6 +50,11 @@ interface IOptionsHandlers {
   };
 }
 
+interface ICommandsManager {
+  interaction?: Collection<string, ApplicationCommand>;
+  message?: Collection<string, MessageCommand>;
+}
+
 interface IShewenyClientOptions extends ClientOptions {
   handlers?: IOptionsHandlers;
   admins?: string[];
@@ -62,22 +68,19 @@ interface IShewenyClientOptions extends ClientOptions {
 export class ShewenyClient extends Client {
   shewenyOptions: IShewenyClientOptions;
   admins?: string[];
-  handlers: IClientHandlers = {};
-  messageCommands?: Collection<string, MessageCommand>;
-  applicationCommands?: Collection<string, ApplicationCommand>;
+  handlers: IClientHandlersOptions = {};
+  commands: ICommandsManager = {};
   events?: Collection<string, Event>;
   buttons?: Collection<string[], Button>;
   selectMenus?: Collection<string[], SelectMenu>;
   inhibitors?: Collection<string, Inhibitor>;
-  commandsType?: "MESSAGE_COMMANDS" | "APPLICATION_COMMANDS";
-  cooldowns: Collection<string, Collection<string, number>> = new Collection();
 
   /**
    * @constructor Constructor of ShewenyClient
    * @param {IShewenyClientOptions} options - The options for the client
    */
-  constructor(options: IShewenyClientOptions) {
-    super(options);
+  constructor(options: IShewenyClientOptions, clientOptions?: ClientOptions) {
+    super(clientOptions || options);
 
     this.shewenyOptions = options;
     this.admins = options.admins;
@@ -95,7 +98,11 @@ export class ShewenyClient extends Client {
       ? new SelectMenusHandler(options.handlers.selectMenus.directory, this, true)
       : undefined;
     this.handlers.applicationCommands = options.handlers?.applicationCommands
-      ? new ApplicationCommandHandler(this)
+      ? new ApplicationCommandsHandler(
+          this,
+          options.handlers.applicationCommands.directory,
+          { loadAll: true, guildId: options.handlers.applicationCommands.guildId }
+        )
       : undefined;
     this.handlers.inhibitors = options.handlers?.inhibitors
       ? new InhibitorsHandler(options.handlers.inhibitors.directory, this, true)

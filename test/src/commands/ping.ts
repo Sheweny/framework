@@ -1,20 +1,21 @@
-import { CommandInteraction } from "discord.js";
 import { ApplicationCommand, ShewenyClient } from "../../../";
+import type { CommandInteraction } from "discord.js";
 
-export class Ping extends ApplicationCommand {
+export class PingCommand extends ApplicationCommand {
   constructor(client: ShewenyClient) {
     super(
       client,
       {
         name: "ping",
-        description: "Ping Pong",
-        type: "CHAT_INPUT",
+        description: "Ping the bot",
       },
-      { category: "test" }
+      {
+        category: "Misc",
+        userPermissions: ["BOT_ADMIN"],
+      }
     );
   }
-
   execute(interaction: CommandInteraction) {
-    return interaction.reply({ content: "PONG" });
+    interaction.reply("Pong !");
   }
 }

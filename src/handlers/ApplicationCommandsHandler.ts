@@ -9,25 +9,75 @@ import {
 } from "discord.js";
 import { ShewenyClient } from "../ShewenyClient";
 import { ApplicationCommand } from "../structures";
+import { join } from "path";
+import { readDirAndPush } from "../util/readDirFiles";
+import { EventEmitter } from "events";
+import type { ILoadAllApplicationCommand } from "../typescript/interfaces/interfaces";
 
 /**
  * Create Application Command handler
  * @class Application Command Handler
  */
-export class ApplicationCommandHandler {
+export class ApplicationCommandsHandler extends EventEmitter {
   private applicationCommands?: Collection<string, ApplicationCommand>;
   private client: ShewenyClient | Client;
-
+  private dir: string;
   /**
    * @constructor
    * @param {ShewenyClient | Client} client - The client
    */
-  constructor(client: ShewenyClient | Client) {
+  constructor(
+    client: ShewenyClient | Client,
+    directory: string,
+    loadAll?: ILoadAllApplicationCommand
+  ) {
+    super();
     if (!client)
       throw new ReferenceError("Client must be provided for use Application handler.");
+    if (!directory) throw new TypeError("Directory must be provided.");
+    this.dir = directory;
     this.client = client;
     this.applicationCommands =
-      client instanceof ShewenyClient ? client.applicationCommands! : undefined;
+      client instanceof ShewenyClient ? client.commands.interaction! : undefined;
+    if (loadAll?.loadAll) this.loadAllAndRegister(loadAll?.guildId);
+    if (client && client instanceof ShewenyClient)
+      client.handlers.applicationCommands = this;
+  }
+
+  /**
+   * Load all commands and register them to a collection.
+   * @public
+   * @async
+   * @param {string} [guildId] - The guild to register command
+   * @returns {Promise<CollectionDjs<string, ApplicationCommandDjs<{}>> | CollectionDjs<string, ApplicationCommandDjs<{ guild: GuildResolvable; }>> | undefined>} The application commands
+   */
+  public async loadAllAndRegister(guildId?: string): Promise<CollectionDjs<string, ApplicationCommandDjs<{}>> | CollectionDjs<string, ApplicationCommandDjs<{ guild: GuildResolvable; }>> | undefined> {
+    const commands = await this.loadAll();
+    return this.registerCommands(commands, guildId);
+  }
+
+  /**
+   * Load all commands and register them to a collection.
+   * @public
+   * @async
+   * @returns {Promise<Collection<string, ApplicationCommand>>} The collection of commands
+   */
+  public async loadAll(): Promise<Collection<string, ApplicationCommand>> {
+    const commands: Collection<string, ApplicationCommand> = new Collection();
+    const baseDir = join(require.main!.path, this.dir);
+    const cmds: string[] = await readDirAndPush(baseDir);
+    for (const cmdPath of cmds) {
+      const commandImport = await import(cmdPath);
+      const key = Object.keys(commandImport)[0];
+      const Command = commandImport[key];
+      if (!Command) continue;
+      const instance: ApplicationCommand = new Command(this.client);
+      if (!instance.data.name) continue;
+      instance.path = cmdPath;
+      commands.set(instance.data.name, instance);
+    }
+    if (this.client instanceof ShewenyClient) this.client.commands.interaction = commands;
+    return commands;
   }
 
   /**
