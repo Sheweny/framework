@@ -1,5 +1,6 @@
 import { Collection } from "collection-data";
 import { ShewenyClient } from "../ShewenyClient";
+import { BaseStructure } from ".";
 
 interface IEventMeta {
   description?: string;
@@ -11,9 +12,7 @@ interface IEventMeta {
  * @class Event structure
  * @abstract
  */
-export abstract class Event {
-  public client: ShewenyClient | any;
-  public path?: string;
+export abstract class Event extends BaseStructure {
   public name: string;
   public description: string = "";
   public once: boolean = false;
@@ -25,7 +24,7 @@ export abstract class Event {
    * @param {IEventMeta} options - The options of the event
    */
   constructor(client: ShewenyClient, name: string, options?: IEventMeta) {
-    this.client = client;
+    super(client);
     this.name = name;
     this.description = options?.description || "";
     this.once = options?.once || false;

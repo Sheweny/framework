@@ -1,15 +1,13 @@
 import { Collection } from "collection-data";
 import { ButtonInteraction } from "discord.js";
 import { ShewenyClient } from "../ShewenyClient";
-
+import { BaseStructure } from ".";
 /**
  * Represent a button
  * @class Button structure
  * @abstract
  */
-export abstract class Button {
-  public client: ShewenyClient | any;
-  public path?: string;
+export abstract class Button extends BaseStructure {
   public customId: string[];
 
   /**
@@ -18,7 +16,7 @@ export abstract class Button {
    * @param {string[]} customId - The different buttons customid
    */
   constructor(client: ShewenyClient, customId: string[]) {
-    this.client = client;
+    super(client);
     this.customId = customId;
   }
 

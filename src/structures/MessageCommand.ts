@@ -1,4 +1,5 @@
 import { Collection } from "collection-data";
+import { BaseStructure } from ".";
 import type { ShewenyClient } from "../ShewenyClient";
 import type { Message } from "discord.js";
 
@@ -17,9 +18,7 @@ export interface IMessageCommandMeta {
  * @class Command structure
  * @abstract
  */
-export abstract class MessageCommand {
-  public client: ShewenyClient | any;
-  public path?: string;
+export abstract class MessageCommand extends BaseStructure {
   public only: "GUILD" | "DM";
   public name: string;
   public description?: string;
@@ -37,7 +36,7 @@ export abstract class MessageCommand {
    * @param {ICommandMeta} options - The options of the command
    */
   constructor(client: ShewenyClient, name: string, options: IMessageCommandMeta) {
-    this.client = client;
+    super(client);
     this.name = name;
     this.description = options.description;
     this.category = options.category;

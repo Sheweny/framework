@@ -1,3 +1,4 @@
+export { BaseStructure } from "./BaseStructure";
 export { MessageCommand } from "./MessageCommand";
 export { Event } from "./Event";
 export { Button } from "./Button";

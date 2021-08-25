@@ -5,6 +5,7 @@ import {
   ContextMenuInteraction,
 } from "discord.js";
 import { ShewenyClient } from "../ShewenyClient";
+import { BaseStructure } from ".";
 
 export interface IApplicationCommandOptions {
   description?: string;
@@ -24,9 +25,7 @@ interface IArgs {
  * @class Application Command structure
  * @abstract
  */
-export abstract class ApplicationCommand {
-  public client: ShewenyClient | any;
-  public path?: string;
+export abstract class ApplicationCommand extends BaseStructure {
   public data: ApplicationCommandData;
   public description?: string;
   public category: string;
@@ -45,6 +44,7 @@ export abstract class ApplicationCommand {
     data: ApplicationCommandData,
     options: IApplicationCommandOptions
   ) {
+    super(client);
     this.client = client;
     this.data = data;
     this.description = options.description;

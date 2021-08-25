@@ -1,5 +1,6 @@
 import { Collection } from "collection-data";
 import { ShewenyClient } from "../ShewenyClient";
+import { BaseStructure } from ".";
 
 type InhibitorType =
   | "MESSAGE_COMMAND"
@@ -17,9 +18,7 @@ interface IInhibitorMeta {
  * @class
  * @abstract
  */
-export abstract class Inhibitor {
-  public client: ShewenyClient | any;
-  public path?: string;
+export abstract class Inhibitor extends BaseStructure {
   public name: string;
   public type: InhibitorType[] = ["MESSAGE_COMMAND"];
   public priority: number = 0;
@@ -30,7 +29,7 @@ export abstract class Inhibitor {
    * @param {string[]} customId - The different inhibitor customid
    */
   constructor(client: ShewenyClient, name: string, options?: IInhibitorMeta) {
-    this.client = client;
+    super(client);
     this.name = name;
     this.type = options?.type || ["MESSAGE_COMMAND"];
     this.priority = options?.priority || 0;
