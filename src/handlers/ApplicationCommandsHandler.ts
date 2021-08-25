@@ -49,9 +49,9 @@ export class ApplicationCommandsHandler extends EventEmitter {
    * @public
    * @async
    * @param {string} [guildId] - The guild to register command
-   * @returns {Promise<CollectionDjs<string, ApplicationCommand<{}>> | CollectionDjs<string, ApplicationCommand<{ guild: GuildResolvable; }>> | undefined>} The application commands
+   * @returns {Promise<CollectionDjs<string, ApplicationCommandDjs<{}>> | CollectionDjs<string, ApplicationCommandDjs<{ guild: GuildResolvable; }>> | undefined>} The application commands
    */
-  public async loadAllAndRegister(guildId?: string) {
+  public async loadAllAndRegister(guildId?: string): Promise<CollectionDjs<string, ApplicationCommandDjs<{}>> | CollectionDjs<string, ApplicationCommandDjs<{ guild: GuildResolvable; }>> | undefined> {
     const commands = await this.loadAll();
     return this.registerCommands(commands, guildId);
   }
