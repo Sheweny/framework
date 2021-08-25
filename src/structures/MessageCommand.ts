@@ -18,7 +18,7 @@ export interface IMessageCommandMeta {
  * @abstract
  */
 export abstract class MessageCommand {
-  public client: ShewenyClient;
+  public client: ShewenyClient | any;
   public path?: string;
   public only: "GUILD" | "DM";
   public name: string;
