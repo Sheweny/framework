@@ -10,7 +10,7 @@ interface IEventMeta {
  * @abstract
  */
 export declare abstract class Event {
-    client: any;
+    client: ShewenyClient;
     path?: string;
     name: string;
     description: string;
