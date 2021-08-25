@@ -18,7 +18,7 @@ interface IInhibitorMeta {
  * @abstract
  */
 export abstract class Inhibitor {
-  public client: ShewenyClient;
+  public client: ShewenyClient | any;
   public path?: string;
   public name: string;
   public type: InhibitorType[] = ["MESSAGE_COMMAND"];
