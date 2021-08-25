@@ -14,7 +14,11 @@ export interface IApplicationCommandOptions {
   userPermissions?: string[];
   clientPermissions?: string[];
 }
-
+interface IArgs {
+  id: string;
+  type: "USER" | "ROLE";
+  permission: boolean;
+}
 /**
  * Represent a Application Command
  * @class Application Command structure
