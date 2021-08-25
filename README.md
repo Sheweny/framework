@@ -15,11 +15,11 @@ Node.js 16.6.0 or newer is required.
 With npm :
 
 ```sh-session
-npm install @sheweny/framework
+npm install sheweny
 ```
 
 With yarn :
 
 ```sh-session
-yarn add @sheweny/framework
+yarn add sheweny
 ```
