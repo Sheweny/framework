@@ -15,7 +15,7 @@ export interface IApplicationCommandOptions {
  * @abstract
  */
 export declare abstract class ApplicationCommand {
-    client: any;
+    client: ShewenyClient;
     path?: string;
     data: ApplicationCommandData;
     description?: string;
