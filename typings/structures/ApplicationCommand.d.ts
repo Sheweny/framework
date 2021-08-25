@@ -1,6 +1,7 @@
 import { Collection } from "collection-data";
 import { ApplicationCommandData, CommandInteraction, ContextMenuInteraction } from "discord.js";
 import { ShewenyClient } from "../ShewenyClient";
+import { BaseStructure } from ".";
 export interface IApplicationCommandOptions {
     description?: string;
     category: string;
@@ -14,9 +15,7 @@ export interface IApplicationCommandOptions {
  * @class Application Command structure
  * @abstract
  */
-export declare abstract class ApplicationCommand {
-    client: ShewenyClient | any;
-    path?: string;
+export declare abstract class ApplicationCommand extends BaseStructure {
     data: ApplicationCommandData;
     description?: string;
     category: string;

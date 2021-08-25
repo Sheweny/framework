@@ -1,5 +1,6 @@
 import { Collection } from "collection-data";
 import { ShewenyClient } from "../ShewenyClient";
+import { BaseStructure } from ".";
 declare type InhibitorType = "MESSAGE_COMMAND" | "APPLICATION_COMMAND" | "BUTTON" | "SELECT_MENU" | "ALL";
 interface IInhibitorMeta {
     type?: InhibitorType[];
@@ -10,9 +11,7 @@ interface IInhibitorMeta {
  * @class
  * @abstract
  */
-export declare abstract class Inhibitor {
-    client: ShewenyClient | any;
-    path?: string;
+export declare abstract class Inhibitor extends BaseStructure {
     name: string;
     type: InhibitorType[];
     priority: number;

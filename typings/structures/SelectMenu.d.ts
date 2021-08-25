@@ -1,14 +1,13 @@
 import { Collection } from "collection-data";
 import { SelectMenuInteraction } from "discord.js";
+import { BaseStructure } from ".";
 import type { ShewenyClient } from "../ShewenyClient";
 /**
  * Represent a select menu
  * @class SelectMenu structure
  * @abstract
  */
-export declare abstract class SelectMenu {
-    client: ShewenyClient | any;
-    path?: string;
+export declare abstract class SelectMenu extends BaseStructure {
     customId: string[];
     /**
      * @constructor

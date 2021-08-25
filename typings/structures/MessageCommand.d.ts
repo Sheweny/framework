@@ -1,4 +1,5 @@
 import { Collection } from "collection-data";
+import { BaseStructure } from ".";
 import type { ShewenyClient } from "../ShewenyClient";
 import type { Message } from "discord.js";
 export interface IMessageCommandMeta {
@@ -15,9 +16,7 @@ export interface IMessageCommandMeta {
  * @class Command structure
  * @abstract
  */
-export declare abstract class MessageCommand {
-    client: ShewenyClient | any;
-    path?: string;
+export declare abstract class MessageCommand extends BaseStructure {
     only: "GUILD" | "DM";
     name: string;
     description?: string;

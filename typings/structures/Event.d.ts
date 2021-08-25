@@ -1,5 +1,6 @@
 import { Collection } from "collection-data";
 import { ShewenyClient } from "../ShewenyClient";
+import { BaseStructure } from ".";
 interface IEventMeta {
     description?: string;
     once?: boolean;
@@ -9,9 +10,7 @@ interface IEventMeta {
  * @class Event structure
  * @abstract
  */
-export declare abstract class Event {
-    client: ShewenyClient | any;
-    path?: string;
+export declare abstract class Event extends BaseStructure {
     name: string;
     description: string;
     once: boolean;
