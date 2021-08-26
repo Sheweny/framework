@@ -44,9 +44,9 @@ export class CommandsManager {
       const Command = cmdImport[key];
       if (!Command) continue;
       const instance: Command = new Command(this.client);
-      if (!instance.data.name) continue;
+      if (!instance.name) continue;
       instance.path = cmdPath;
-      commands.set(instance.data.name, instance);
+      commands.set(instance.name, instance);
     }
 
     this.client.handlers.collections.commands = commands;
@@ -76,54 +76,54 @@ export class CommandsManager {
     if (commands instanceof Collection) {
       const data: any[] = [];
       for (let [, cmd] of commands) {
-        if (cmd.data.type === "MESSAGE") continue;
+        if (cmd.type === "MESSAGE") continue;
 
-        const newType = this.renameCommandType(cmd.data.type);
+        const newType = this.renameCommandType(cmd.type);
         if (!newType) continue;
 
-        if (cmd.data.type === "SLASH_COMMAND") {
+        if (cmd.type === "SLASH_COMMAND") {
           data.push({
             type: newType,
-            name: cmd.data.name,
-            description: cmd.data.description,
-            options: cmd.data.options,
-            defaultPermission: cmd.data.defaultPermission,
+            name: cmd.name,
+            description: cmd.description,
+            options: cmd.options,
+            defaultPermission: cmd.defaultPermission,
           });
         } else if (
-          cmd.data.type === "CONTEXT_MENU_MESSAGE" ||
-          cmd.data.type === "CONTEXT_MENU_USER"
+          cmd.type === "CONTEXT_MENU_MESSAGE" ||
+          cmd.type === "CONTEXT_MENU_USER"
         ) {
           data.push({
             type: newType,
-            name: cmd.data.name,
-            defaultPermission: cmd.data.defaultPermission,
+            name: cmd.name,
+            defaultPermission: cmd.defaultPermission,
           });
         }
       }
 
       return data as ApplicationCommandData[];
     } else {
-      if (commands.data.type === "MESSAGE") return undefined;
+      if (commands.type === "MESSAGE") return undefined;
 
-      const newType = this.renameCommandType(commands.data.type);
+      const newType = this.renameCommandType(commands.type);
       if (!newType) return undefined;
 
-      if (commands.data.type === "SLASH_COMMAND") {
+      if (commands.type === "SLASH_COMMAND") {
         return {
           type: newType,
-          name: commands.data.name,
-          description: commands.data.description,
-          options: commands.data.options,
-          defaultPermission: commands.data.defaultPermission,
+          name: commands.name,
+          description: commands.description,
+          options: commands.options,
+          defaultPermission: commands.defaultPermission,
         } as ApplicationCommandData;
       } else if (
-        commands.data.type === "CONTEXT_MENU_MESSAGE" ||
-        commands.data.type === "CONTEXT_MENU_USER"
+        commands.type === "CONTEXT_MENU_MESSAGE" ||
+        commands.type === "CONTEXT_MENU_USER"
       ) {
         return {
           type: newType,
-          name: commands.data.name,
-          defaultPermission: commands.data.defaultPermission,
+          name: commands.name,
+          defaultPermission: commands.defaultPermission,
         } as ApplicationCommandData;
       }
     }
