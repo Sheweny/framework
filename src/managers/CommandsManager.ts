@@ -36,7 +36,6 @@ export class CommandsManager {
     const commands: Collection<string, Command> = new Collection();
     const baseDir = join(require.main!.path, this.directory);
     const cmdsPath = await readDirAndPush(baseDir);
-
     for (const cmdPath of cmdsPath) {
       const cmdImport = await import(cmdPath);
       const key = Object.keys(cmdImport)[0];
@@ -44,6 +43,7 @@ export class CommandsManager {
       if (!Command) continue;
       const instance: Command = new Command(this.client);
       if (!instance.name) continue;
+
       instance.path = cmdPath;
       commands.set(instance.name, instance);
     }
@@ -137,8 +137,8 @@ export class CommandsManager {
     | undefined
   > {
     if (!commands) throw new Error("Commands not found");
-
     const data = this.getData();
+    await this.client.awaitReady();
     if (data instanceof Array && data.length > 0)
       return guildId
         ? this.client.application?.commands.set(data, guildId)

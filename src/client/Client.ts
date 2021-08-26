@@ -50,4 +50,11 @@ export class ShewenyClient extends Client {
       ? new InhibitorsManager(this, options.handlers.inhibitors.directory, true)
       : undefined;
   }
+  public awaitReady() {
+    return new Promise((resolve) => {
+      this.on("ready", () => {
+        resolve(true);
+      });
+    });
+  }
 }
