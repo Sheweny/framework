@@ -16,7 +16,12 @@ export class ShewenyClient extends Client {
 
     this.handlers.manager.commands =
       options.handlers?.commands?.type === "applications"
-        ? new CommandsManager(this, options.handlers.commands.directory, true)
+        ? new CommandsManager(
+            this,
+            options.handlers.commands.directory,
+            true,
+            options.handlers.commands.guildId
+          )
         : undefined;
 
     this.handlers.manager.events = options.handlers?.events

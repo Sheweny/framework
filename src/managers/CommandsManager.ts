@@ -13,14 +13,21 @@ import { readDirAndPush } from "../utils/readDirFiles";
 export class CommandsManager {
   private client: ShewenyClient;
   private directory: string;
+  private guildId?: string;
   public commands?: Collection<string, Command>;
 
-  constructor(client: ShewenyClient, directory: string, loadAll?: boolean) {
+  constructor(
+    client: ShewenyClient,
+    directory: string,
+    loadAll?: boolean,
+    guildId?: string
+  ) {
     if (!client) throw new TypeError("Client must be provided.");
     if (!directory) throw new TypeError("Directory must be provided.");
 
     this.client = client;
     this.directory = directory;
+    this.guildId = guildId;
 
     if (loadAll) this.loadAndRegisterAll();
     client.handlers.manager.commands = this;
@@ -48,8 +55,8 @@ export class CommandsManager {
   }
 
   public async loadAndRegisterAll(): Promise<void> {
-    await this.loadAll();
-    // await this.registerAll();
+    const commands = await this.loadAll();
+    await this.registerAllApplicationCommands(commands, this.guildId);
   }
 
   private renameCommandType(
