@@ -1,4 +1,4 @@
-import { Collection } from "discord.js";
+import { Collection } from "collection-data";
 import { join } from "path";
 import { ShewenyClient } from "../client/Client";
 import { Inhibitor } from "../structures/Inhibitor";

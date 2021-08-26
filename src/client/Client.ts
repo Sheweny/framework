@@ -28,25 +28,20 @@ export class ShewenyClient extends Client {
             true,
             options.handlers.commands.guildId
           )
+        : options.handlers?.commands?.type === "messages"
+        ? new CommandsManager(this, options.handlers.commands.directory, true)
         : undefined;
 
     this.handlers.events = options.handlers?.events
       ? new EventsManager(this, options.handlers.events.directory, true)
       : undefined;
 
-    this.handlers.buttons = options.handlers?.interactions?.buttons
-      ? new ButtonsManager(
-          this,
-          options.handlers.interactions.buttons.directory,
-          true
-        )
+    this.handlers.buttons = options.handlers?.buttons
+      ? new ButtonsManager(this, options.handlers.buttons.directory, true)
       : undefined;
 
-    this.handlers.selectMenus = options.handlers?.interactions?.selectMenus
-      ? new SelectMenusManager(
-          this,
-          options.handlers.interactions.selectMenus.directory
-        )
+    this.handlers.selectMenus = options.handlers?.selectMenus
+      ? new SelectMenusManager(this, options.handlers.selectMenus.directory)
       : undefined;
 
     this.handlers.inhibitors = options.handlers?.inhibitors

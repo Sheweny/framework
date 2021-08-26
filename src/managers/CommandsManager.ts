@@ -2,9 +2,10 @@ import {
   ApplicationCommand,
   ApplicationCommandData,
   ApplicationCommandResolvable,
-  Collection,
   GuildResolvable,
 } from "discord.js";
+import type { Collection as CollectionDjs } from "discord.js";
+import { Collection } from "collection-data";
 import { join } from "path";
 import { ShewenyClient } from "../client/Client";
 import { Command } from "../structures/Command";
@@ -133,8 +134,8 @@ export class CommandsManager {
     commands: Collection<string, Command> | undefined = this.commands,
     guildId?: string
   ): Promise<
-    | Collection<string, ApplicationCommand<{}>>
-    | Collection<string, ApplicationCommand<{ guild: GuildResolvable }>>
+    | CollectionDjs<string, ApplicationCommand<{}>>
+    | CollectionDjs<string, ApplicationCommand<{ guild: GuildResolvable }>>
     | undefined
   > {
     if (!commands) throw new Error("Commands not found");
@@ -202,8 +203,8 @@ export class CommandsManager {
   public async deleteAllCommands(
     guildId?: string
   ): Promise<
-    | Collection<string, ApplicationCommand<{}>>
-    | Collection<string, ApplicationCommand<{ guild: GuildResolvable }>>
+    | CollectionDjs<string, ApplicationCommand<{}>>
+    | CollectionDjs<string, ApplicationCommand<{ guild: GuildResolvable }>>
     | undefined
   > {
     return guildId
