@@ -12,7 +12,7 @@ import { readDirAndPush } from "../utils/readDirFiles";
 
 export class CommandsManager {
   private client: ShewenyClient;
-  private directory: string;
+  public directory: string;
   private guildId?: string;
   public commands?: Collection<string, Command>;
 

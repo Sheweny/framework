@@ -1,4 +1,4 @@
-import { Collection, Snowflake } from "discord.js";
+import { ClientEvents, Collection, Snowflake } from "discord.js";
 import { join } from "path";
 import { ShewenyClient } from "../client/Client";
 import { Event } from "../structures/Event";
@@ -6,8 +6,8 @@ import { readDirAndPush } from "../utils/readDirFiles";
 
 export class EventsManager {
   private client: ShewenyClient;
-  private directory: string;
-  public events?: Collection<string, Event>;
+  public directory: string;
+  public events?: Collection<keyof ClientEvents, Event>;
 
   constructor(client: ShewenyClient, directory: string, loadAll?: boolean) {
     if (!client) throw new TypeError("Client must be provided.");
@@ -20,8 +20,8 @@ export class EventsManager {
     client.handlers.manager.events = this;
   }
 
-  public async loadAll(): Promise<Collection<string, Event>> {
-    const events: Collection<string, Event> = new Collection();
+  public async loadAll(): Promise<Collection<keyof ClientEvents, Event>> {
+    const events: Collection<keyof ClientEvents, Event> = new Collection();
     const baseDir = join(require.main!.path, this.directory);
     const evtsPaths = await readDirAndPush(baseDir);
 
@@ -42,7 +42,7 @@ export class EventsManager {
   }
 
   public async registerAll(
-    events: Collection<string, Event> | undefined = this.events
+    events: Collection<keyof ClientEvents, Event> | undefined = this.events
   ): Promise<void> {
     if (!events) throw new Error("No events found");
 

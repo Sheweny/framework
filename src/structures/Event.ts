@@ -9,11 +9,11 @@ interface EventOptions {
 export abstract class Event {
   public client: ShewenyClient;
   public path: string = "";
-  public name: ClientEvents;
+  public name: keyof ClientEvents;
   public description: string;
   public once: boolean;
 
-  constructor(client: ShewenyClient, name: ClientEvents, options?: EventOptions) {
+  constructor(client: ShewenyClient, name: keyof ClientEvents, options?: EventOptions) {
     this.client = client;
     this.name = name;
     this.description = options?.description || "";
