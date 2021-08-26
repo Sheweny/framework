@@ -5,6 +5,7 @@ import { EventsManager } from "../managers/EventsManager";
 import { CommandsManager } from "../managers/CommandsManager";
 import { ButtonsManager } from "../managers/ButtonsManager";
 import { SelectMenusManager } from "../managers/SelectMenusManager";
+import { InhibitorsManager } from "../managers/InhibitorsManager";
 
 export class ShewenyClient extends Client {
   public admins: Snowflake[];
@@ -39,6 +40,8 @@ export class ShewenyClient extends Client {
       ? new SelectMenusManager(this, options.handlers.interactions.selectMenus.directory)
       : undefined;
 
-    this.handlers.manager.inhibitors = options.handlers?.inhibitors ? "ok" : undefined;
+    this.handlers.manager.inhibitors = options.handlers?.inhibitors
+      ? new InhibitorsManager(this, options.handlers.inhibitors.directory, true)
+      : undefined;
   }
 }

@@ -2,10 +2,12 @@ import type { ClientEvents, Collection } from "discord.js";
 import type { ButtonsManager } from "../managers/ButtonsManager";
 import type { CommandsManager } from "../managers/CommandsManager";
 import type { EventsManager } from "../managers/EventsManager";
+import { InhibitorsManager } from "../managers/InhibitorsManager";
 import type { SelectMenusManager } from "../managers/SelectMenusManager";
 import type { Button } from "../structures/Button";
 import type { Command } from "../structures/Command";
 import type { Event } from "../structures/Event";
+import { Inhibitor } from "../structures/Inhibitor";
 import type { SelectMenu } from "../structures/SelectMenu";
 
 //#region Interfaces
@@ -28,7 +30,7 @@ interface HandlersCollectionsManager {
     buttons?: Collection<string[], Button>;
     selectMenus?: Collection<string[], SelectMenu>;
   };
-  inhibitors?: string;
+  inhibitors?: Collection<string, Inhibitor>;
 }
 
 interface HandlersManager {
@@ -38,7 +40,7 @@ interface HandlersManager {
     buttons?: ButtonsManager;
     selectMenus?: SelectMenusManager;
   };
-  inhibitors?: string;
+  inhibitors?: InhibitorsManager;
 }
 
 export interface HandlersOptions {

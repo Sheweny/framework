@@ -108,7 +108,11 @@ export class CommandsManager {
 }
 
 export abstract class Event {
-  public constructor(client: ShewenyClient, name: keyof ClientEvents, options?: EventOptions);
+  public constructor(
+    client: ShewenyClient,
+    name: keyof ClientEvents,
+    options?: EventOptions
+  );
 
   public client: ShewenyClient;
   public path: string;
@@ -129,6 +133,30 @@ export class EventsManager {
 
   public loadAll(): Promise<Collection<keyof ClientEvents, Event>>;
   public registerAll(events?: Collection<keyof ClientEvents, Event>): Promise<void>;
+}
+
+export abstract class Inhibitor {
+  constructor(client: ShewenyClient, name: string, options?: InhibitorOptions);
+
+  public client: ShewenyClient;
+  public path?: string;
+  public name: string;
+  public type: InhibitorType[];
+  public priority: number;
+
+  abstract onFailure(...args: any[]): any | Promise<any>;
+
+  abstract execute(...args: any[]): any | Promise<any>;
+}
+
+export class InhibitorsManager {
+  constructor(client: ShewenyClient, directory: string, loadAll?: boolean);
+
+  private client: ShewenyClient;
+  public directory: string;
+  public inhibitors?: Collection<string, Inhibitor>;
+
+  public loadAll(): Promise<Collection<string, Inhibitor>>;
 }
 
 export abstract class SelectMenu {
@@ -208,20 +236,20 @@ interface HandlersCollectionsManager {
   commands?: Collection<string, Command>;
   events?: Collection<keyof ClientEvents, Event>;
   interactions: {
-    buttons?: string;
-    selectMenus?: string;
+    buttons?: Collection<string[], Button>;
+    selectMenus?: Collection<string[], SelectMenu>;
   };
-  inhibitors?: string;
+  inhibitors?: Collection<string, Inhibitor>;
 }
 
 interface HandlersManager {
   commands: CommandsManager;
   events?: EventsManager;
   interactions: {
-    buttons?: string;
-    selectMenus?: string;
+    buttons?: ButtonsManager;
+    selectMenus?: SelectMenusManager;
   };
-  inhibitors?: string;
+  inhibitors?: InhibitorsManager;
 }
 
 interface HandlersOptions {
@@ -240,6 +268,11 @@ interface HandlersOptions {
   inhibitors?: {
     directory: string;
   };
+}
+
+interface InhibitorOptions {
+  type?: InhibitorType[];
+  priority?: number;
 }
 
 interface MessageCommands {
@@ -290,5 +323,12 @@ export type CommandData =
   | MessageData;
 
 export type CommandsOptions = MessageCommands | ApplicationCommands;
+
+type InhibitorType =
+  | "MESSAGE_COMMAND"
+  | "APPLICATION_COMMAND"
+  | "BUTTON"
+  | "SELECT_MENU"
+  | "ALL";
 
 //#endregion Types
