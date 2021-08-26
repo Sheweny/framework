@@ -1,8 +1,12 @@
-import { Collection } from "discord.js";
-import { CommandsManager } from "../managers/CommandsManager";
-import { EventsManager } from "../managers/EventsManager";
-import { Command } from "../structures/Command";
-import { Event } from "../structures/Event";
+import type { Collection } from "discord.js";
+import type { ButtonsManager } from "../managers/ButtonsManager";
+import type { CommandsManager } from "../managers/CommandsManager";
+import type { EventsManager } from "../managers/EventsManager";
+import type { SelectMenusManager } from "../managers/SelectMenusManager";
+import type { Button } from "../structures/Button";
+import type { Command } from "../structures/Command";
+import type { Event } from "../structures/Event";
+import type { SelectMenu } from "../structures/SelectMenu";
 
 //#region Interfaces
 
@@ -21,8 +25,8 @@ interface HandlersCollectionsManager {
   commands?: Collection<string, Command>;
   events?: Collection<string, Event>;
   interactions: {
-    buttons?: string;
-    selectMenus?: string;
+    buttons?: Collection<string[], Button>;
+    selectMenus?: Collection<string[], SelectMenu>;
   };
   inhibitors?: string;
 }
@@ -31,8 +35,8 @@ interface HandlersManager {
   commands?: CommandsManager;
   events?: EventsManager;
   interactions: {
-    buttons?: string;
-    selectMenus?: string;
+    buttons?: ButtonsManager;
+    selectMenus?: SelectMenusManager;
   };
   inhibitors?: string;
 }
