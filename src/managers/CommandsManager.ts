@@ -11,17 +11,23 @@ import { EventEmitter } from "events";
 import { readDirAndPush } from "../utils/readDirFiles";
 import type { ShewenyClient, Command } from "..";
 
+interface CommandsManagerOptions {
+  guildId?: string;
+  prefix?: string;
+}
+
 export class CommandsManager extends EventEmitter {
   private client: ShewenyClient;
   public directory: string;
   private guildId?: string;
+  public prefix?: string;
   public commands?: Collection<string, Command>;
 
   constructor(
     client: ShewenyClient,
     directory: string,
     loadAll?: boolean,
-    guildId?: string
+    options?: CommandsManagerOptions
   ) {
     super();
 
@@ -30,7 +36,8 @@ export class CommandsManager extends EventEmitter {
 
     this.client = client;
     this.directory = directory;
-    this.guildId = guildId;
+    this.guildId = options?.guildId;
+    this.prefix = options?.prefix;
 
     if (loadAll) this.loadAndRegisterAll();
     client.handlers.commands = this;
