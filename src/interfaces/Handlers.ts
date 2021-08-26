@@ -4,22 +4,41 @@ import { EventsManager } from "../handlers/EventsManager";
 import { Command } from "../structures/Command";
 import { Event } from "../structures/Event";
 
-interface messageCommands {
-  type: "messages";
-  directory: string;
-  prefix: string;
-}
+//#region Interfaces
 
-interface applicationCommands {
+interface ApplicationCommands {
   type: "applications";
   directory: string;
   guildId?: string;
 }
 
-export type commandsOptions = messageCommands | applicationCommands;
+export interface Handler {
+  collections: HandlersCollectionsManager;
+  manager: HandlersManager;
+}
 
-export interface handlersOptions {
-  commands?: commandsOptions;
+interface HandlersCollectionsManager {
+  commands?: Collection<string, Command>;
+  events?: Collection<string, Event>;
+  interactions: {
+    buttons?: string;
+    selectMenus?: string;
+  };
+  inhibitors?: string;
+}
+
+interface HandlersManager {
+  commands?: CommandsManager;
+  events?: EventsManager;
+  interactions: {
+    buttons?: string;
+    selectMenus?: string;
+  };
+  inhibitors?: string;
+}
+
+export interface HandlersOptions {
+  commands?: CommandsOptions;
   events?: {
     directory: string;
   };
@@ -36,27 +55,16 @@ export interface handlersOptions {
   };
 }
 
-export interface handlersCollectionsManager {
-  commands?: Collection<string, Command>;
-  events?: Collection<string, Event>;
-  interactions: {
-    buttons?: string;
-    selectMenus?: string;
-  };
-  inhibitors?: string;
+interface MessageCommands {
+  type: "messages";
+  directory: string;
+  prefix: string;
 }
 
-export interface handlersManager {
-  commands?: CommandsManager;
-  events?: EventsManager;
-  interactions: {
-    buttons?: string;
-    selectMenus?: string;
-  };
-  inhibitors?: string;
-}
+//#endregion Interfaces
 
-export interface handler {
-  collections: handlersCollectionsManager;
-  manager: handlersManager;
-}
+//#region Types
+
+export type CommandsOptions = MessageCommands | ApplicationCommands;
+
+//#endregion Types

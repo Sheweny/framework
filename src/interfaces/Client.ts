@@ -1,7 +1,11 @@
 import { ClientOptions, Snowflake } from "discord.js";
-import { handlersOptions } from "./Handlers";
+import { HandlersOptions } from "./Handlers";
+
+//#region Interfaces
 
 export interface ShewenyClientOptions extends ClientOptions {
   admins?: Snowflake[];
-  handlers?: handlersOptions;
+  handlers?: HandlersOptions;
 }
+
+//#endregion Interfaces
