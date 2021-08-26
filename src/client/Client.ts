@@ -1,7 +1,8 @@
 import { Client, Snowflake } from "discord.js";
-import { EventsManager } from "../handlers/EventsManager";
-import type { handler } from "../interfaces/Handlers";
 import type { ShewenyClientOptions } from "../interfaces/Client";
+import type { handler } from "../interfaces/Handlers";
+import { EventsManager } from "../handlers/EventsManager";
+import { CommandsManager } from "../handlers/CommandsManager";
 
 export class ShewenyClient extends Client {
   public admins: Snowflake[];
@@ -11,16 +12,12 @@ export class ShewenyClient extends Client {
     super(options);
 
     this.admins = options.admins || [];
-    this.handlers = {
-      collections: { commands: {}, interactions: {} },
-      manager: { commands: {}, interactions: {} },
-    };
+    this.handlers = { collections: { interactions: {} }, manager: { interactions: {} } };
 
-    this.handlers.manager.commands.applications =
-      options.handlers?.commands?.type === "applications" ? "ok" : undefined;
-
-    this.handlers.manager.commands.messages =
-      options.handlers?.commands?.type === "messages" ? "ok" : undefined;
+    this.handlers.manager.commands =
+      options.handlers?.commands?.type === "applications"
+        ? new CommandsManager(this, options.handlers.commands.directory, true)
+        : undefined;
 
     this.handlers.manager.events = options.handlers?.events
       ? new EventsManager(this, options.handlers.events.directory, true)

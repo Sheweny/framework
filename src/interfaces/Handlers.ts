@@ -1,5 +1,7 @@
 import { Collection } from "discord.js";
+import { CommandsManager } from "../handlers/CommandsManager";
 import { EventsManager } from "../handlers/EventsManager";
+import { Command } from "../structures/Command";
 import { Event } from "../structures/Event";
 
 interface messageCommands {
@@ -35,10 +37,7 @@ export interface handlersOptions {
 }
 
 export interface handlersCollectionsManager {
-  commands: {
-    messages?: string;
-    applications?: string;
-  };
+  commands?: Collection<string, Command>;
   events?: Collection<string, Event>;
   interactions: {
     buttons?: string;
@@ -48,10 +47,7 @@ export interface handlersCollectionsManager {
 }
 
 export interface handlersManager {
-  commands: {
-    messages?: string;
-    applications?: string;
-  };
+  commands?: CommandsManager;
   events?: EventsManager;
   interactions: {
     buttons?: string;
