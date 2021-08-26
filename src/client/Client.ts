@@ -49,7 +49,7 @@ export class ShewenyClient extends Client {
       : undefined;
 
     (async () => {
-      const dir = join(__dirname, "./events");
+      const dir = join(__dirname, "../events");
       const files = await readdir(dir);
 
       for (const file of files) {
