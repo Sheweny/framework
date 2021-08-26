@@ -15,17 +15,21 @@ import type {
   SelectMenuInteraction,
   Snowflake,
 } from "discord.js";
-
 import type { Collection } from "collection-data";
 import type { EventEmitter } from "events";
 
 //#region Classes
 
-export abstract class Button {
-  public constructor(client: ShewenyClient, customId: string[]);
+export abstract class BaseStructure {
+  public constructor(client: ShewenyClient, path?: string);
 
   public client: ShewenyClient;
-  public path: string;
+  public path?: string;
+}
+
+export abstract class Button extends BaseStructure {
+  public constructor(client: ShewenyClient, customId: string[]);
+
   public customId: string[];
 
   before?(interaction: ButtonInteraction): any | Promise<any>;
@@ -33,11 +37,7 @@ export abstract class Button {
 }
 
 export class ButtonsManager {
-  public constructor(
-    client: ShewenyClient,
-    directory: string,
-    loadAll?: boolean
-  );
+  public constructor(client: ShewenyClient, directory: string, loadAll?: boolean);
 
   private client: ShewenyClient;
   public directory: string;
@@ -46,17 +46,12 @@ export class ButtonsManager {
   public loadAll(): Promise<Collection<string[], Button>>;
 }
 
-export abstract class Command {
+export abstract class Command extends BaseStructure {
   public constructor(client: ShewenyClient, data: CommandData);
 
-  public client: ShewenyClient;
-  public path: string;
   public name: string;
-  public type:
-    | "SLASH_COMMAND"
-    | "CONTEXT_MENU_MESSAGE"
-    | "CONTEXT_MENU_USER"
-    | "MESSAGE";
+  public type: "SLASH_COMMAND" | "CONTEXT_MENU_MESSAGE" | "CONTEXT_MENU_USER" | "MESSAGE";
+  public description?: string;
   public defaultPermission?: boolean;
   public options?: ApplicationCommandOptionData[];
   public category?: string;
@@ -76,7 +71,6 @@ export abstract class Command {
 
 export class CommandsManager extends EventEmitter {
   public constructor(client: ShewenyClient, directory: string, loadAll?: boolean);
-
 
   private client: ShewenyClient;
   private directory: string;
@@ -102,18 +96,14 @@ export class CommandsManager extends EventEmitter {
     command: Command,
     guildId?: string
   ): Promise<
-    | ApplicationCommand<{}>
-    | ApplicationCommand<{ guild: GuildResolvable }>
-    | undefined
+    ApplicationCommand<{}> | ApplicationCommand<{ guild: GuildResolvable }> | undefined
   >;
   public editCommand(
     oldCommand: ApplicationCommandResolvable,
     newCommand: Command,
     guildId?: string
   ): Promise<
-    | ApplicationCommand<{}>
-    | ApplicationCommand<{ guild: GuildResolvable }>
-    | undefined
+    ApplicationCommand<{}> | ApplicationCommand<{ guild: GuildResolvable }> | undefined
   >;
   public deleteCommand(
     command: ApplicationCommandResolvable,
@@ -169,15 +159,13 @@ export class CommandsManager extends EventEmitter {
   ): this;
 }
 
-export abstract class Event {
+export abstract class Event extends BaseStructure {
   public constructor(
     client: ShewenyClient,
     name: keyof ClientEvents,
     options?: EventOptions
   );
 
-  public client: ShewenyClient;
-  public path: string;
   public name: keyof ClientEvents;
   public description: string;
   public once: boolean;
@@ -191,31 +179,19 @@ export abstract class Event {
 }
 
 export class EventsManager {
-  public constructor(
-    client: ShewenyClient,
-    directory: string,
-    loadAll?: boolean
-  );
+  public constructor(client: ShewenyClient, directory: string, loadAll?: boolean);
 
   private client: ShewenyClient;
   private directory: string;
   public events: Collection<keyof ClientEvents, Event>;
 
   public loadAll(): Promise<Collection<keyof ClientEvents, Event>>;
-  public registerAll(
-    events?: Collection<keyof ClientEvents, Event>
-  ): Promise<void>;
+  public registerAll(events?: Collection<keyof ClientEvents, Event>): Promise<void>;
 }
 
-export abstract class Inhibitor {
-  public constructor(
-    client: ShewenyClient,
-    name: string,
-    options?: InhibitorOptions
-  );
+export abstract class Inhibitor extends BaseStructure {
+  public constructor(client: ShewenyClient, name: string, options?: InhibitorOptions);
 
-  public client: ShewenyClient;
-  public path?: string;
   public name: string;
   public type: InhibitorType[];
   public priority: number;
@@ -229,11 +205,7 @@ export abstract class Inhibitor {
 }
 
 export class InhibitorsManager {
-  public constructor(
-    client: ShewenyClient,
-    directory: string,
-    loadAll?: boolean
-  );
+  public constructor(client: ShewenyClient, directory: string, loadAll?: boolean);
 
   private client: ShewenyClient;
   public directory: string;
@@ -242,11 +214,9 @@ export class InhibitorsManager {
   public loadAll(): Promise<Collection<string, Inhibitor>>;
 }
 
-export abstract class SelectMenu {
+export abstract class SelectMenu extends BaseStructure {
   public constructor(client: ShewenyClient, customId: string[]);
 
-  public client: ShewenyClient;
-  public path: string;
   public customId: string[];
 
   before?(interaction: SelectMenuInteraction): any | Promise<any>;
@@ -258,11 +228,7 @@ export abstract class SelectMenu {
 }
 
 export class SelectMenusManager {
-  public constructor(
-    client: ShewenyClient,
-    directory: string,
-    loadAll?: boolean
-  );
+  public constructor(client: ShewenyClient, directory: string, loadAll?: boolean);
 
   private client: ShewenyClient;
   public directory: string;
@@ -272,10 +238,7 @@ export class SelectMenusManager {
 }
 
 export class ShewenyClient extends Client {
-  public constructor(
-    options: ShewenyClientOptions,
-    clientOptions?: ClientOptions
-  );
+  public constructor(options: ShewenyClientOptions, clientOptions?: ClientOptions);
 
   public admins: Snowflake[];
   public handlers: Handler;

@@ -5,34 +5,31 @@ import {
   EventsManager,
   InhibitorsManager,
   SelectMenusManager,
-} from "..";
+} from "../managers";
 import type { Snowflake, ClientOptions } from "discord.js";
 import type { ShewenyClientOptions } from "../interfaces/Client";
-import type {
-  HandlersManager,
-  HandlersCollectionsManager,
-} from "../interfaces/Handlers";
+import type { HandlersManager, HandlersCollections } from "../interfaces/Handlers";
 
 export class ShewenyClient extends Client {
   public admins: Snowflake[];
   public handlers: HandlersManager = {};
-  public collections: HandlersCollectionsManager = {};
+  public collections: HandlersCollections = {};
+
   constructor(options: ShewenyClientOptions, clientOptions?: ClientOptions) {
     super(clientOptions || options);
 
     this.admins = options.admins || [];
 
-    this.handlers.commands =
-      options.handlers?.commands?.type === "applications"
+    this.handlers.commands = options.handlers?.commands
+      ? options.handlers.commands.type === "applications"
         ? new CommandsManager(
             this,
             options.handlers.commands.directory,
             true,
             options.handlers.commands.guildId
           )
-        : options.handlers?.commands?.type === "messages"
-        ? new CommandsManager(this, options.handlers.commands.directory, true)
-        : undefined;
+        : new CommandsManager(this, options.handlers.commands.directory, true)
+      : undefined;
 
     this.handlers.events = options.handlers?.events
       ? new EventsManager(this, options.handlers.events.directory, true)

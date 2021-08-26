@@ -1,21 +1,15 @@
 import { Collection } from "collection-data";
 import { join } from "path";
-import { readDirAndPush } from "../utils/readDirFiles";
-import type { ShewenyClient, Command } from "..";
-import type { Collection as CollectionDjs } from "discord.js";
 import type {
+  Collection as CollectionDjs,
   ApplicationCommand,
   ApplicationCommandData,
   ApplicationCommandResolvable,
   GuildResolvable,
 } from "discord.js";
-import type { Collection as CollectionDjs } from "discord.js";
-import { Collection } from "collection-data";
-import { join } from "path";
-import { ShewenyClient } from "../client/Client";
-import { Command } from "../structures/Command";
-import { readDirAndPush } from "../utils/readDirFiles";
 import { EventEmitter } from "events";
+import { readDirAndPush } from "../utils/readDirFiles";
+import type { ShewenyClient, Command } from "..";
 
 export class CommandsManager extends EventEmitter {
   private client: ShewenyClient;
@@ -161,9 +155,7 @@ export class CommandsManager extends EventEmitter {
     command: Command,
     guildId?: string
   ): Promise<
-    | ApplicationCommand<{}>
-    | ApplicationCommand<{ guild: GuildResolvable }>
-    | undefined
+    ApplicationCommand<{}> | ApplicationCommand<{ guild: GuildResolvable }> | undefined
   > {
     if (!command) throw new Error("Command not found");
 
@@ -180,9 +172,7 @@ export class CommandsManager extends EventEmitter {
     newCommand: Command,
     guildId?: string
   ): Promise<
-    | ApplicationCommand<{}>
-    | ApplicationCommand<{ guild: GuildResolvable }>
-    | undefined
+    ApplicationCommand<{}> | ApplicationCommand<{ guild: GuildResolvable }> | undefined
   > {
     if (!oldCommand) throw new Error("Old Command not found");
     if (!newCommand) throw new Error("New Command not found");
@@ -198,9 +188,7 @@ export class CommandsManager extends EventEmitter {
   public async deleteCommand(
     command: ApplicationCommandResolvable,
     guildId?: string
-  ): Promise<
-    ApplicationCommand<{ guild: GuildResolvable }> | null | undefined
-  > {
+  ): Promise<ApplicationCommand<{ guild: GuildResolvable }> | null | undefined> {
     if (!command) throw new Error("Command not found");
 
     return guildId

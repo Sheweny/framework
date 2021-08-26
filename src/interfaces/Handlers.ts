@@ -1,30 +1,28 @@
 import type { ClientEvents } from "discord.js";
 import type { Collection } from "collection-data";
-import type { ButtonsManager } from "../managers/ButtonsManager";
-import type { CommandsManager } from "../managers/CommandsManager";
-import type { EventsManager } from "../managers/EventsManager";
-import { InhibitorsManager } from "../managers/InhibitorsManager";
-import type { SelectMenusManager } from "../managers/SelectMenusManager";
-import type { Button } from "../structures/Button";
-import type { Command } from "../structures/Command";
-import type { Event } from "../structures/Event";
-import { Inhibitor } from "../structures/Inhibitor";
-import type { SelectMenu } from "../structures/SelectMenu";
+import type {
+  ButtonsManager,
+  CommandsManager,
+  EventsManager,
+  InhibitorsManager,
+  SelectMenusManager,
+} from "../managers";
+import type { Button, Command, Event, Inhibitor, SelectMenu } from "../structures";
 
 //#region Interfaces
 
-interface ApplicationCommands {
+interface ApplicationCommandsOptions {
   type: "applications";
   directory: string;
   guildId?: string;
 }
 
 export interface Handler {
-  collections: HandlersCollectionsManager;
+  collections: HandlersCollections;
   manager: HandlersManager;
 }
 
-export interface HandlersCollectionsManager {
+export interface HandlersCollections {
   commands?: Collection<string, Command>;
   events?: Collection<keyof ClientEvents, Event>;
   buttons?: Collection<string[], Button>;
@@ -57,7 +55,7 @@ export interface HandlersOptions {
   };
 }
 
-interface MessageCommands {
+interface MessageCommandsOptions {
   type: "messages";
   directory: string;
   prefix: string;
@@ -67,6 +65,6 @@ interface MessageCommands {
 
 //#region Types
 
-export type CommandsOptions = MessageCommands | ApplicationCommands;
+export type CommandsOptions = MessageCommandsOptions | ApplicationCommandsOptions;
 
 //#endregion Types
