@@ -54,12 +54,14 @@ export abstract class Command extends BaseStructure {
   public description?: string;
   public defaultPermission?: boolean;
   public options?: ApplicationCommandOptionData[];
-  public category?: string;
-  public channel?: "GUILD" | "DM";
-  public cooldown?: null;
-  public adminsOnly?: boolean;
-  public userPermissions?: PermissionString[];
-  public clientPermissions?: PermissionString[];
+  public category: string;
+  public channel: "GUILD" | "DM";
+  public cooldown: number;
+  public adminsOnly: boolean;
+  public userPermissions: PermissionString[];
+  public clientPermissions: PermissionString[];
+  public aliases?: string[];
+  public cooldowns: Collection<string, Collection<string, number>>;
 
   before?(...args: any[]): any | Promise<any>;
   abstract execute(...args: any[]): any | Promise<any>;
@@ -70,10 +72,17 @@ export abstract class Command extends BaseStructure {
 }
 
 export class CommandsManager extends EventEmitter {
-  public constructor(client: ShewenyClient, directory: string, loadAll?: boolean);
+  public constructor(
+    client: ShewenyClient,
+    directory: string,
+    loadAll?: boolean,
+    options?: CommandsManagerOptions
+  );
 
   private client: ShewenyClient;
   private directory: string;
+  private guildId?: string;
+  public prefix?: string;
   public commands?: Collection<string, Command>;
 
   public loadAll(): Promise<Collection<string, Command>>;
@@ -252,6 +261,11 @@ interface ApplicationCommands {
   type: "applications";
   directory: string;
   guildId?: string;
+}
+
+interface CommandsManagerOptions {
+  guildId?: string;
+  prefix?: string;
 }
 
 interface ContextMenuMessageData {
