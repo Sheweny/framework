@@ -3,16 +3,40 @@ import type {
   ApplicationCommandData,
   ApplicationCommandOptionData,
   ApplicationCommandResolvable,
+  ButtonInteraction,
   Client,
   ClientEvents,
   ClientOptions,
   Collection,
   GuildResolvable,
   PermissionString,
+  SelectMenuInteraction,
   Snowflake,
 } from "discord.js";
 
 //#region Classes
+
+export abstract class Button {
+  public constructor(client: ShewenyClient, customId: string[]);
+
+  public client: ShewenyClient;
+  public path: string;
+  public customId: string[];
+
+  before?(interaction: ButtonInteraction): any | Promise<any>;
+
+  abstract execute(interaction: ButtonInteraction): any | Promise<any>;
+}
+
+export class ButtonsManager {
+  constructor(client: ShewenyClient, directory: string, loadAll?: boolean);
+
+  private client: ShewenyClient;
+  public directory: string;
+  public buttons?: Collection<string[], Button>;
+
+  public loadAll(): Promise<Collection<string[], Button>>;
+}
 
 export abstract class Command {
   constructor(client: ShewenyClient, data: CommandData);
@@ -84,11 +108,11 @@ export class CommandsManager {
 }
 
 export abstract class Event {
-  public constructor(client: ShewenyClient, name: ClientEvents, options?: EventOptions);
+  public constructor(client: ShewenyClient, name: keyof ClientEvents, options?: EventOptions);
 
   public client: ShewenyClient;
   public path: string;
-  public name: ClientEvents;
+  public name: keyof ClientEvents;
   public description: string;
   public once: boolean;
 
@@ -101,10 +125,32 @@ export class EventsManager {
 
   private client: ShewenyClient;
   private directory: string;
-  public events: Collection<string, Event>;
+  public events: Collection<keyof ClientEvents, Event>;
 
-  public loadAll(): Promise<Collection<string, Event>>;
-  public registerAll(events?: Collection<string, Event>): Promise<void>;
+  public loadAll(): Promise<Collection<keyof ClientEvents, Event>>;
+  public registerAll(events?: Collection<keyof ClientEvents, Event>): Promise<void>;
+}
+
+export abstract class SelectMenu {
+  public client: ShewenyClient;
+  public path: string;
+  public customId: string[];
+
+  constructor(client: ShewenyClient, customId: string[]);
+
+  before?(interaction: SelectMenuInteraction): any | Promise<any>;
+
+  abstract execute(interaction: SelectMenuInteraction): any | Promise<any>;
+}
+
+export class SelectMenusManager {
+  constructor(client: ShewenyClient, directory: string, loadAll?: boolean);
+
+  private client: ShewenyClient;
+  public directory: string;
+  public selectMenus?: Collection<string[], SelectMenu>;
+
+  public loadAll(): Promise<Collection<string[], SelectMenu>>;
 }
 
 export class ShewenyClient extends Client {
@@ -160,7 +206,7 @@ interface Handler {
 
 interface HandlersCollectionsManager {
   commands?: Collection<string, Command>;
-  events?: Collection<string, Event>;
+  events?: Collection<keyof ClientEvents, Event>;
   interactions: {
     buttons?: string;
     selectMenus?: string;
