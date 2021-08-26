@@ -80,8 +80,8 @@ export class CommandsManager extends EventEmitter {
   );
 
   private client: ShewenyClient;
-  private directory: string;
-  private guildId?: string;
+  public directory: string;
+  public guildId?: string;
   public prefix?: string;
   public commands?: Collection<string, Command>;
 
@@ -250,7 +250,8 @@ export class ShewenyClient extends Client {
   public constructor(options: ShewenyClientOptions, clientOptions?: ClientOptions);
 
   public admins: Snowflake[];
-  public handlers: Handler;
+  public handlers: HandlersManager;
+  public collections: HandlersCollections;
 }
 
 //#endregion Classes
@@ -275,7 +276,7 @@ interface ContextMenuMessageData {
   defaultPermission?: boolean;
   category?: string;
   channel?: "GUILD" | "DM";
-  cooldown?: null;
+  cooldown?: number;
   adminsOnly?: boolean;
   userPermissions?: PermissionString[];
   clientPermissions?: PermissionString[];
@@ -288,7 +289,7 @@ interface ContextMenuUserData {
   defaultPermission?: boolean;
   category?: string;
   channel?: "GUILD" | "DM";
-  cooldown?: null;
+  cooldown?: number;
   adminsOnly?: boolean;
   userPermissions?: PermissionString[];
   clientPermissions?: PermissionString[];
@@ -299,12 +300,7 @@ interface EventOptions {
   once?: boolean;
 }
 
-interface Handler {
-  collections: HandlersCollectionsManager;
-  manager: HandlersManager;
-}
-
-interface HandlersCollectionsManager {
+interface HandlersCollections {
   commands?: Collection<string, Command>;
   events?: Collection<keyof ClientEvents, Event>;
   buttons?: Collection<string[], Button>;
@@ -368,7 +364,7 @@ interface MessageData {
   description?: string;
   category?: string;
   channel?: "GUILD" | "DM";
-  cooldown?: null;
+  cooldown?: number;
   adminsOnly?: boolean;
   userPermissions?: PermissionString[];
   clientPermissions?: PermissionString[];
@@ -382,7 +378,7 @@ interface SlashCommandData {
   defaultPermission?: boolean;
   category?: string;
   channel?: "GUILD" | "DM";
-  cooldown?: null;
+  cooldown?: number;
   adminsOnly?: boolean;
   userPermissions?: PermissionString[];
   clientPermissions?: PermissionString[];
