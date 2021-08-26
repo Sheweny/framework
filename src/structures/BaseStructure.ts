@@ -6,8 +6,9 @@ import type { ShewenyClient } from "../";
  * @abstract
  */
 export abstract class BaseStructure {
-  client: ShewenyClient;
-  path?: string;
+  public client: ShewenyClient;
+  public path?: string;
+
   constructor(client: ShewenyClient, path?: string) {
     this.client = client;
     this.path = path;
