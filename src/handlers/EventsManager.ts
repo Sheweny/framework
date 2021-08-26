@@ -7,6 +7,7 @@ import { readDirAndPush } from "../utils/readDirFiles";
 export class EventsManager {
   private client: ShewenyClient;
   private directory: string;
+  public events?: Collection<string, Event>;
 
   constructor(client: ShewenyClient, directory: string, loadAll?: boolean) {
     if (!client) throw new TypeError("Client must be provided.");
@@ -36,6 +37,7 @@ export class EventsManager {
     }
 
     this.client.handlers.collections.events = events;
+    this.events = events;
     return events;
   }
 
