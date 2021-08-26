@@ -24,12 +24,11 @@ export abstract class Button {
   public customId: string[];
 
   before?(interaction: ButtonInteraction): any | Promise<any>;
-
   abstract execute(interaction: ButtonInteraction): any | Promise<any>;
 }
 
 export class ButtonsManager {
-  constructor(client: ShewenyClient, directory: string, loadAll?: boolean);
+  public constructor(client: ShewenyClient, directory: string, loadAll?: boolean);
 
   private client: ShewenyClient;
   public directory: string;
@@ -39,7 +38,7 @@ export class ButtonsManager {
 }
 
 export abstract class Command {
-  constructor(client: ShewenyClient, data: CommandData);
+  public constructor(client: ShewenyClient, data: CommandData);
 
   public client: ShewenyClient;
   public path: string;
@@ -136,7 +135,7 @@ export class EventsManager {
 }
 
 export abstract class Inhibitor {
-  constructor(client: ShewenyClient, name: string, options?: InhibitorOptions);
+  public constructor(client: ShewenyClient, name: string, options?: InhibitorOptions);
 
   public client: ShewenyClient;
   public path?: string;
@@ -145,12 +144,11 @@ export abstract class Inhibitor {
   public priority: number;
 
   abstract onFailure(...args: any[]): any | Promise<any>;
-
   abstract execute(...args: any[]): any | Promise<any>;
 }
 
 export class InhibitorsManager {
-  constructor(client: ShewenyClient, directory: string, loadAll?: boolean);
+  public constructor(client: ShewenyClient, directory: string, loadAll?: boolean);
 
   private client: ShewenyClient;
   public directory: string;
@@ -160,19 +158,18 @@ export class InhibitorsManager {
 }
 
 export abstract class SelectMenu {
+  public constructor(client: ShewenyClient, customId: string[]);
+
   public client: ShewenyClient;
   public path: string;
   public customId: string[];
 
-  constructor(client: ShewenyClient, customId: string[]);
-
   before?(interaction: SelectMenuInteraction): any | Promise<any>;
-
   abstract execute(interaction: SelectMenuInteraction): any | Promise<any>;
 }
 
 export class SelectMenusManager {
-  constructor(client: ShewenyClient, directory: string, loadAll?: boolean);
+  public constructor(client: ShewenyClient, directory: string, loadAll?: boolean);
 
   private client: ShewenyClient;
   public directory: string;
