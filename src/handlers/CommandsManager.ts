@@ -125,7 +125,11 @@ export class CommandsManager {
   public async registerAllApplicationCommands(
     commands: Collection<string, Command> | undefined = this.commands,
     guildId?: string
-  ) {
+  ): Promise<
+    | Collection<string, ApplicationCommand<{}>>
+    | Collection<string, ApplicationCommand<{ guild: GuildResolvable }>>
+    | undefined
+  > {
     if (!commands) throw new Error("Commands not found");
 
     const data = this.getData();
