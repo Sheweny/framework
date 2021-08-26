@@ -1,14 +1,14 @@
 import type { ButtonInteraction } from "discord.js";
 import type { ShewenyClient } from "../client/Client";
-import type { Collection } from "collection-data";
+import { Collection } from "collection-data";
+import { BaseStructure } from ".";
 
-export abstract class Button {
-  public client: ShewenyClient;
-  public path: string = "";
+export abstract class Button extends BaseStructure {
   public customId: string[];
 
   constructor(client: ShewenyClient, customId: string[]) {
-    this.client = client;
+    super(client);
+
     this.customId = customId;
   }
 
@@ -50,8 +50,8 @@ export abstract class Button {
   public async register(): Promise<Collection<string[], Button>> {
     const Button = (await import(this.path!)).default;
     const btn = new Button(this.client);
-    return this.client.buttons
-      ? this.client.buttons.set(btn.customId, btn)
+    return this.client.collections.buttons
+      ? this.client.collections.buttons.set(btn.customId, btn)
       : new Collection<string[], Button>().set(btn.customId, btn);
   }
 }

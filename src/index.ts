@@ -1,5 +1,17 @@
 export { ShewenyClient } from "./client/Client";
-export { Event } from "./structures/Event";
-export { Command } from "./structures/Command";
-export { EventsManager } from "./managers/EventsManager";
-export { CommandsManager } from "./managers/CommandsManager";
+export {
+  BaseStructure,
+  Button,
+  Command,
+  Event,
+  Inhibitor,
+  SelectMenu,
+} from "./structures";
+
+export {
+  ButtonsManager,
+  CommandsManager,
+  EventsManager,
+  InhibitorsManager,
+  SelectMenusManager,
+} from "./managers";

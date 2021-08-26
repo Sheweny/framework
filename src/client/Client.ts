@@ -1,11 +1,14 @@
-import { Client, Snowflake } from "discord.js";
+import { Client } from "discord.js";
+import {
+  ButtonsManager,
+  CommandsManager,
+  EventsManager,
+  InhibitorsManager,
+  SelectMenusManager,
+} from "..";
+import type { Snowflake, ClientOptions } from "discord.js";
 import type { ShewenyClientOptions } from "../interfaces/Client";
 import type { HandlersManager, HandlersCollections } from "../interfaces/Handlers";
-import { EventsManager } from "../managers/EventsManager";
-import { CommandsManager } from "../managers/CommandsManager";
-import { ButtonsManager } from "../managers/ButtonsManager";
-import { SelectMenusManager } from "../managers/SelectMenusManager";
-import { InhibitorsManager } from "../managers/InhibitorsManager";
 
 export class ShewenyClient extends Client {
   public admins: Snowflake[];
@@ -32,12 +35,12 @@ export class ShewenyClient extends Client {
       ? new EventsManager(this, options.handlers.events.directory, true)
       : undefined;
 
-    this.handlers.buttons = options.handlers?.interactions?.buttons
-      ? new ButtonsManager(this, options.handlers.interactions.buttons.directory, true)
+    this.handlers.buttons = options.handlers?.buttons
+      ? new ButtonsManager(this, options.handlers.buttons.directory, true)
       : undefined;
 
-    this.handlers.selectMenus = options.handlers?.interactions?.selectMenus
-      ? new SelectMenusManager(this, options.handlers.interactions.selectMenus.directory)
+    this.handlers.selectMenus = options.handlers?.selectMenus
+      ? new SelectMenusManager(this, options.handlers.selectMenus.directory)
       : undefined;
 
     this.handlers.inhibitors = options.handlers?.inhibitors

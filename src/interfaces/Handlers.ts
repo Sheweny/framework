@@ -45,14 +45,13 @@ export interface HandlersOptions {
   events?: {
     directory: string;
   };
-  interactions?: {
-    buttons?: {
-      directory: string;
-    };
-    selectMenus?: {
-      directory: string;
-    };
+  buttons?: {
+    directory: string;
   };
+  selectMenus?: {
+    directory: string;
+  };
+
   inhibitors?: {
     directory: string;
   };

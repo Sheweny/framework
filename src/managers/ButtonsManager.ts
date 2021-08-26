@@ -1,8 +1,7 @@
-import { Collection } from "discord.js";
+import { Collection } from "collection-data";
 import { join } from "path";
-import type { ShewenyClient } from "../client/Client";
-import type { Button } from "../structures/Button";
 import { readDirAndPush } from "../utils/readDirFiles";
+import type { ShewenyClient, Button } from "..";
 
 export class ButtonsManager {
   private client: ShewenyClient;

@@ -1,8 +1,7 @@
-import { Collection } from "discord.js";
+import { Collection } from "collection-data";
 import { join } from "path";
-import { ShewenyClient } from "../client/Client";
-import { Inhibitor } from "../structures/Inhibitor";
 import { readDirAndPush } from "../utils/readDirFiles";
+import type { ShewenyClient, Inhibitor } from "..";
 
 export class InhibitorsManager {
   private client: ShewenyClient;
