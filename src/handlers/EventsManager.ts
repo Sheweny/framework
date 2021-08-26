@@ -41,11 +41,10 @@ export class EventsManager {
     return events;
   }
 
-  public async registerAll(events?: Collection<string, Event>): Promise<void> {
-    const evts = events || this.client.handlers.collections.events;
-    if (!evts) throw new Error("No events found");
+  public async registerAll(events: Collection<string, Event> | undefined = this.events): Promise<void> {
+    if (!events) throw new Error("No events found");
 
-    for (const [name, evt] of evts) {
+    for (const [name, evt] of events) {
       if (evt.once) this.client.once(name, (...args: any[]) => evt.execute(...args));
       else this.client.on(name, (...args: any[]) => evt.execute(...args));
     }
