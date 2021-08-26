@@ -41,7 +41,9 @@ export class EventsManager {
     return events;
   }
 
-  public async registerAll(events: Collection<string, Event> | undefined = this.events): Promise<void> {
+  public async registerAll(
+    events: Collection<string, Event> | undefined = this.events
+  ): Promise<void> {
     if (!events) throw new Error("No events found");
 
     for (const [name, evt] of events) {
@@ -51,7 +53,7 @@ export class EventsManager {
   }
 
   public async loadAndRegisterAll(): Promise<void> {
-    await this.loadAll();
-    await this.registerAll();
+    const events = await this.loadAll();
+    await this.registerAll(events);
   }
 }
