@@ -9,7 +9,15 @@ import type {
   ApplicationCommandResolvable,
   GuildResolvable,
 } from "discord.js";
-export class CommandsManager {
+import type { Collection as CollectionDjs } from "discord.js";
+import { Collection } from "collection-data";
+import { join } from "path";
+import { ShewenyClient } from "../client/Client";
+import { Command } from "../structures/Command";
+import { readDirAndPush } from "../utils/readDirFiles";
+import { EventEmitter } from "events";
+
+export class CommandsManager extends EventEmitter {
   private client: ShewenyClient;
   public directory: string;
   private guildId?: string;
@@ -21,6 +29,8 @@ export class CommandsManager {
     loadAll?: boolean,
     guildId?: string
   ) {
+    super();
+
     if (!client) throw new TypeError("Client must be provided.");
     if (!directory) throw new TypeError("Directory must be provided.");
 
