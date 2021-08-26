@@ -17,7 +17,7 @@ export class EventsManager {
     this.directory = directory;
 
     if (loadAll) this.loadAndRegisterAll();
-    client.handlers.manager.events = this;
+    client.handlers.events = this;
   }
 
   public async loadAll(): Promise<Collection<keyof ClientEvents, Event>> {
@@ -36,7 +36,7 @@ export class EventsManager {
       events.set(instance.name, instance);
     }
 
-    this.client.handlers.collections.events = events;
+    this.client.collections.events = events;
     this.events = events;
     return events;
   }
@@ -47,7 +47,8 @@ export class EventsManager {
     if (!events) throw new Error("No events found");
 
     for (const [name, evt] of events) {
-      if (evt.once) this.client.once(name, (...args: any[]) => evt.execute(...args));
+      if (evt.once)
+        this.client.once(name, (...args: any[]) => evt.execute(...args));
       else this.client.on(name, (...args: any[]) => evt.execute(...args));
     }
   }

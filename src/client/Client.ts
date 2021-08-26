@@ -1,6 +1,9 @@
 import { Client, Snowflake } from "discord.js";
 import type { ShewenyClientOptions } from "../interfaces/Client";
-import type { Handler } from "../interfaces/Handlers";
+import type {
+  HandlersManager,
+  HandlersCollectionsManager,
+} from "../interfaces/Handlers";
 import { EventsManager } from "../managers/EventsManager";
 import { CommandsManager } from "../managers/CommandsManager";
 import { ButtonsManager } from "../managers/ButtonsManager";
@@ -9,15 +12,14 @@ import { InhibitorsManager } from "../managers/InhibitorsManager";
 
 export class ShewenyClient extends Client {
   public admins: Snowflake[];
-  public handlers: Handler;
-
+  public handlers: HandlersManager = {};
+  public collections: HandlersCollectionsManager = {};
   constructor(options: ShewenyClientOptions) {
     super(options);
 
     this.admins = options.admins || [];
-    this.handlers = { collections: { interactions: {} }, manager: { interactions: {} } };
 
-    this.handlers.manager.commands =
+    this.handlers.commands =
       options.handlers?.commands?.type === "applications"
         ? new CommandsManager(
             this,
@@ -27,20 +29,26 @@ export class ShewenyClient extends Client {
           )
         : undefined;
 
-    this.handlers.manager.events = options.handlers?.events
+    this.handlers.events = options.handlers?.events
       ? new EventsManager(this, options.handlers.events.directory, true)
       : undefined;
 
-    this.handlers.manager.interactions.buttons = options.handlers?.interactions?.buttons
-      ? new ButtonsManager(this, options.handlers.interactions.buttons.directory, true)
+    this.handlers.buttons = options.handlers?.interactions?.buttons
+      ? new ButtonsManager(
+          this,
+          options.handlers.interactions.buttons.directory,
+          true
+        )
       : undefined;
 
-    this.handlers.manager.interactions.selectMenus = options.handlers?.interactions
-      ?.selectMenus
-      ? new SelectMenusManager(this, options.handlers.interactions.selectMenus.directory)
+    this.handlers.selectMenus = options.handlers?.interactions?.selectMenus
+      ? new SelectMenusManager(
+          this,
+          options.handlers.interactions.selectMenus.directory
+        )
       : undefined;
 
-    this.handlers.manager.inhibitors = options.handlers?.inhibitors
+    this.handlers.inhibitors = options.handlers?.inhibitors
       ? new InhibitorsManager(this, options.handlers.inhibitors.directory, true)
       : undefined;
   }

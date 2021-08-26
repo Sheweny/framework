@@ -16,7 +16,7 @@ export class SelectMenusManager {
     this.client = client;
     this.directory = directory;
     if (loadAll) this.loadAll();
-    client.handlers.manager.interactions.selectMenus = this;
+    client.handlers.selectMenus = this;
   }
 
   public async loadAll(): Promise<Collection<string[], SelectMenu>> {
@@ -35,7 +35,7 @@ export class SelectMenusManager {
       selectMenus.set(instance.customId, instance);
     }
 
-    this.client.handlers.collections.interactions.selectMenus = selectMenus;
+    this.client.collections.selectMenus = selectMenus;
     this.selectMenus = selectMenus;
     return selectMenus;
   }

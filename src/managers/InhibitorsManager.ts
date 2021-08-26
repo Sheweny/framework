@@ -18,14 +18,14 @@ export class InhibitorsManager {
 
     if (loadAll) this.loadAll();
 
-    client.handlers.manager.inhibitors = this;
+    client.handlers.inhibitors = this;
   }
 
   public async loadAll(): Promise<Collection<string, Inhibitor>> {
     const inhibitors = new Collection<string, Inhibitor>();
     const baseDir = join(require.main!.path, this.directory);
     const inhibitorsPaths: string[] = await readDirAndPush(baseDir);
-    
+
     for (const inhibitorPath of inhibitorsPaths) {
       const inhibitorImport = await import(inhibitorPath);
       const key = Object.keys(inhibitorImport)[0];
@@ -37,7 +37,7 @@ export class InhibitorsManager {
       inhibitors.set(instance.name, instance);
     }
 
-    this.client.handlers.collections.inhibitors = inhibitors;
+    this.client.collections.inhibitors = inhibitors;
     this.inhibitors = inhibitors;
 
     return inhibitors;

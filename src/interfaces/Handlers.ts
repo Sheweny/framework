@@ -1,4 +1,5 @@
-import type { ClientEvents, Collection } from "discord.js";
+import type { ClientEvents } from "discord.js";
+import type { Collection } from "collection-data";
 import type { ButtonsManager } from "../managers/ButtonsManager";
 import type { CommandsManager } from "../managers/CommandsManager";
 import type { EventsManager } from "../managers/EventsManager";
@@ -23,23 +24,19 @@ export interface Handler {
   manager: HandlersManager;
 }
 
-interface HandlersCollectionsManager {
+export interface HandlersCollectionsManager {
   commands?: Collection<string, Command>;
   events?: Collection<keyof ClientEvents, Event>;
-  interactions: {
-    buttons?: Collection<string[], Button>;
-    selectMenus?: Collection<string[], SelectMenu>;
-  };
+  buttons?: Collection<string[], Button>;
+  selectMenus?: Collection<string[], SelectMenu>;
   inhibitors?: Collection<string, Inhibitor>;
 }
 
-interface HandlersManager {
+export interface HandlersManager {
   commands?: CommandsManager;
   events?: EventsManager;
-  interactions: {
-    buttons?: ButtonsManager;
-    selectMenus?: SelectMenusManager;
-  };
+  buttons?: ButtonsManager;
+  selectMenus?: SelectMenusManager;
   inhibitors?: InhibitorsManager;
 }
 

@@ -30,7 +30,7 @@ export class CommandsManager {
     this.guildId = guildId;
 
     if (loadAll) this.loadAndRegisterAll();
-    client.handlers.manager.commands = this;
+    client.handlers.commands = this;
   }
 
   public async loadAll(): Promise<Collection<string, Command>> {
@@ -49,7 +49,7 @@ export class CommandsManager {
       commands.set(instance.name, instance);
     }
 
-    this.client.handlers.collections.commands = commands;
+    this.client.collections.commands = commands;
     this.commands = commands;
     return commands;
   }
@@ -152,7 +152,9 @@ export class CommandsManager {
     command: Command,
     guildId?: string
   ): Promise<
-    ApplicationCommand<{}> | ApplicationCommand<{ guild: GuildResolvable }> | undefined
+    | ApplicationCommand<{}>
+    | ApplicationCommand<{ guild: GuildResolvable }>
+    | undefined
   > {
     if (!command) throw new Error("Command not found");
 
@@ -169,7 +171,9 @@ export class CommandsManager {
     newCommand: Command,
     guildId?: string
   ): Promise<
-    ApplicationCommand<{}> | ApplicationCommand<{ guild: GuildResolvable }> | undefined
+    | ApplicationCommand<{}>
+    | ApplicationCommand<{ guild: GuildResolvable }>
+    | undefined
   > {
     if (!oldCommand) throw new Error("Old Command not found");
     if (!newCommand) throw new Error("New Command not found");
@@ -185,7 +189,9 @@ export class CommandsManager {
   public async deleteCommand(
     command: ApplicationCommandResolvable,
     guildId?: string
-  ): Promise<ApplicationCommand<{ guild: GuildResolvable }> | null | undefined> {
+  ): Promise<
+    ApplicationCommand<{ guild: GuildResolvable }> | null | undefined
+  > {
     if (!command) throw new Error("Command not found");
 
     return guildId

@@ -1,4 +1,5 @@
-import { ShewenyClient } from "../client/Client";
+import { Collection } from "collection-data";
+import type { ShewenyClient } from "../client/Client";
 
 type InhibitorType =
   | "MESSAGE_COMMAND"
@@ -29,4 +30,43 @@ export abstract class Inhibitor {
   abstract onFailure(...args: any[]): any | Promise<any>;
 
   abstract execute(...args: any[]): any | Promise<any>;
+
+  /**
+   * Unregister a inhibitor
+   * @public
+   * @returns {boolean}
+   */
+  public unregister(): boolean {
+    this.client.collections.inhibitors?.delete(this.name);
+    delete require.cache[require.resolve(this.path!)];
+    return true;
+  }
+
+  /**
+   * Reload a inhibitor
+   * @public
+   * @async
+   * @returns {Promise<Collection<string[], Inhibitor> | null>} The inhibitors collection
+   */
+  public async reload(): Promise<Collection<string, Inhibitor> | null> {
+    if (this.path) {
+      this.unregister();
+      return this.register();
+    }
+    return null;
+  }
+
+  /**
+   * Register a inhibitor
+   * @public
+   * @async
+   * @returns {Collection<string[], Inhibitor>} The inhibitors collection
+   */
+  public async register(): Promise<Collection<string, Inhibitor>> {
+    const Inhibitor = (await import(this.path!)).default;
+    const inhib: Inhibitor = new Inhibitor(this.client);
+    return this.client.collections.inhibitors
+      ? this.client.collections.inhibitors.set(inhib.name, inhib)
+      : new Collection<string, Inhibitor>().set(inhib.name, inhib);
+  }
 }
