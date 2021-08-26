@@ -1,4 +1,5 @@
 import { Client, Snowflake } from "discord.js";
+import type { ClientOptions } from "discord.js";
 import type { ShewenyClientOptions } from "../interfaces/Client";
 import type {
   HandlersManager,
@@ -14,8 +15,8 @@ export class ShewenyClient extends Client {
   public admins: Snowflake[];
   public handlers: HandlersManager = {};
   public collections: HandlersCollectionsManager = {};
-  constructor(options: ShewenyClientOptions) {
-    super(options);
+  constructor(options: ShewenyClientOptions, clientOptions?: ClientOptions) {
+    super(clientOptions || options);
 
     this.admins = options.admins || [];
 
