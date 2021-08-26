@@ -7,7 +7,7 @@ import type {
   Client,
   ClientEvents,
   ClientOptions,
-  Collection,
+  Collection as CollectionDjs,
   CommandInteraction,
   ContextMenuInteraction,
   GuildResolvable,
@@ -15,6 +15,8 @@ import type {
   SelectMenuInteraction,
   Snowflake,
 } from "discord.js";
+
+import type { Collection } from "collection-data";
 import type { EventEmitter } from "events";
 
 //#region Classes
@@ -92,8 +94,8 @@ export class CommandsManager extends EventEmitter {
     commands: Collection<string, Command> | undefined,
     guildId?: string
   ): Promise<
-    | Collection<string, ApplicationCommand<{}>>
-    | Collection<string, ApplicationCommand<{ guild: GuildResolvable }>>
+    | CollectionDjs<string, ApplicationCommand<{}>>
+    | CollectionDjs<string, ApplicationCommand<{ guild: GuildResolvable }>>
     | undefined
   >;
   public createCommand(
@@ -120,8 +122,8 @@ export class CommandsManager extends EventEmitter {
   public deleteAllCommands(
     guildId?: string
   ): Promise<
-    | Collection<string, ApplicationCommand<{}>>
-    | Collection<string, ApplicationCommand<{ guild: GuildResolvable }>>
+    | CollectionDjs<string, ApplicationCommand<{}>>
+    | CollectionDjs<string, ApplicationCommand<{ guild: GuildResolvable }>>
     | undefined
   >;
 
@@ -270,7 +272,10 @@ export class SelectMenusManager {
 }
 
 export class ShewenyClient extends Client {
-  public constructor(options: ShewenyClientOptions);
+  public constructor(
+    options: ShewenyClientOptions,
+    clientOptions?: ClientOptions
+  );
 
   public admins: Snowflake[];
   public handlers: Handler;
