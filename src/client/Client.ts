@@ -1,8 +1,8 @@
 import { Client, Snowflake } from "discord.js";
 import type { ShewenyClientOptions } from "../interfaces/Client";
 import type { Handler } from "../interfaces/Handlers";
-import { EventsManager } from "../handlers/EventsManager";
-import { CommandsManager } from "../handlers/CommandsManager";
+import { EventsManager } from "../managers/EventsManager";
+import { CommandsManager } from "../managers/CommandsManager";
 
 export class ShewenyClient extends Client {
   public admins: Snowflake[];

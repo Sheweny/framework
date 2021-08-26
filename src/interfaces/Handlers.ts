@@ -1,6 +1,6 @@
 import { Collection } from "discord.js";
-import { CommandsManager } from "../handlers/CommandsManager";
-import { EventsManager } from "../handlers/EventsManager";
+import { CommandsManager } from "../managers/CommandsManager";
+import { EventsManager } from "../managers/EventsManager";
 import { Command } from "../structures/Command";
 import { Event } from "../structures/Event";
 
