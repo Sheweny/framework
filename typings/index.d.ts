@@ -8,11 +8,14 @@ import type {
   ClientEvents,
   ClientOptions,
   Collection,
+  CommandInteraction,
+  ContextMenuInteraction,
   GuildResolvable,
   PermissionString,
   SelectMenuInteraction,
   Snowflake,
 } from "discord.js";
+import type { EventEmitter } from "events";
 
 //#region Classes
 
@@ -57,7 +60,7 @@ export abstract class Command {
   abstract execute(...args: any[]): any | Promise<any>;
 }
 
-export class CommandsManager {
+export class CommandsManager extends EventEmitter {
   public constructor(client: ShewenyClient, directory: string, loadAll?: boolean);
 
   private client: ShewenyClient;
@@ -104,6 +107,47 @@ export class CommandsManager {
     | Collection<string, ApplicationCommand<{ guild: GuildResolvable }>>
     | undefined
   >;
+
+  public on<K extends keyof ManagerEvents>(
+    event: K,
+    listener: (...args: ManagerEvents[K]) => Awaited<void>
+  ): this;
+  public on<S extends string | symbol>(
+    event: Exclude<S, keyof ManagerEvents>,
+    listener: (...args: any[]) => Awaited<void>
+  ): this;
+
+  public once<K extends keyof ManagerEvents>(
+    event: K,
+    listener: (...args: ManagerEvents[K]) => Awaited<void>
+  ): this;
+  public once<S extends string | symbol>(
+    event: Exclude<S, keyof ManagerEvents>,
+    listener: (...args: any[]) => Awaited<void>
+  ): this;
+
+  public emit<K extends keyof ManagerEvents>(
+    event: K,
+    ...args: ManagerEvents[K]
+  ): boolean;
+  public emit<S extends string | symbol>(
+    event: Exclude<S, keyof ManagerEvents>,
+    ...args: unknown[]
+  ): boolean;
+
+  public off<K extends keyof ManagerEvents>(
+    event: K,
+    listener: (...args: ManagerEvents[K]) => Awaited<void>
+  ): this;
+  public off<S extends string | symbol>(
+    event: Exclude<S, keyof ManagerEvents>,
+    listener: (...args: any[]) => Awaited<void>
+  ): this;
+
+  public removeAllListeners<K extends keyof ManagerEvents>(event?: K): this;
+  public removeAllListeners<S extends string | symbol>(
+    event?: Exclude<S, keyof ManagerEvents>
+  ): this;
 }
 
 export abstract class Event {
@@ -272,6 +316,18 @@ interface InhibitorOptions {
   priority?: number;
 }
 
+export interface ManagerEvents {
+  userMissingPermissions: [
+    interaction: CommandInteraction | ContextMenuInteraction,
+    missing: string
+  ];
+  clientMissingPermissions: [
+    interaction: CommandInteraction | ContextMenuInteraction,
+    missing: string
+  ];
+  cooldownLimit: [interaction: CommandInteraction | ContextMenuInteraction];
+}
+
 interface MessageCommands {
   type: "messages";
   directory: string;
@@ -312,6 +368,8 @@ export interface ShewenyClientOptions extends ClientOptions {
 //#endregion Interfaces
 
 //#region Types
+
+export type Awaited<T> = T | PromiseLike<T>;
 
 export type CommandData =
   | SlashCommandData
