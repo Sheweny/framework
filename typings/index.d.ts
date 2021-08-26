@@ -19,7 +19,6 @@ export abstract class Command {
 
   public client: ShewenyClient;
   public path: string;
-  protected data: CommandData;
   public name: string;
   public type: "SLASH_COMMAND" | "CONTEXT_MENU_MESSAGE" | "CONTEXT_MENU_USER" | "MESSAGE";
   public defaultPermission?: boolean;
