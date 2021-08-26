@@ -1,9 +1,8 @@
-import { ClientEvents } from "discord.js";
 import { Collection } from "collection-data";
 import { join } from "path";
-import { ShewenyClient } from "../client/Client";
-import { Event } from "../structures/Event";
 import { readDirAndPush } from "../utils/readDirFiles";
+import type { ShewenyClient, Event } from "..";
+import type { ClientEvents } from "discord.js";
 
 export class EventsManager {
   private client: ShewenyClient;

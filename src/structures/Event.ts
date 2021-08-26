@@ -1,15 +1,14 @@
+import { Collection } from "collection-data";
+import { BaseStructure } from ".";
 import type { ClientEvents } from "discord.js";
 import type { ShewenyClient } from "../client/Client";
-import { Collection } from "collection-data";
 
 interface EventOptions {
   description?: string;
   once?: boolean;
 }
 
-export abstract class Event {
-  public client: ShewenyClient;
-  public path: string = "";
+export abstract class Event extends BaseStructure {
   public name: keyof ClientEvents;
   public description: string;
   public once: boolean;
@@ -19,6 +18,8 @@ export abstract class Event {
     name: keyof ClientEvents,
     options?: EventOptions
   ) {
+    super(client);
+
     this.client = client;
     this.name = name;
     this.description = options?.description || "";

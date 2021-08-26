@@ -1,16 +1,14 @@
-import {
+import { Collection } from "collection-data";
+import { join } from "path";
+import { readDirAndPush } from "../utils/readDirFiles";
+import type { ShewenyClient, Command } from "..";
+import type { Collection as CollectionDjs } from "discord.js";
+import type {
   ApplicationCommand,
   ApplicationCommandData,
   ApplicationCommandResolvable,
   GuildResolvable,
 } from "discord.js";
-import type { Collection as CollectionDjs } from "discord.js";
-import { Collection } from "collection-data";
-import { join } from "path";
-import { ShewenyClient } from "../client/Client";
-import { Command } from "../structures/Command";
-import { readDirAndPush } from "../utils/readDirFiles";
-
 export class CommandsManager {
   private client: ShewenyClient;
   public directory: string;
