@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionData, PermissionString } from "discord.js";
+import  type{ ApplicationCommandOptionData, PermissionString } from "discord.js";
 import type { ShewenyClient } from "../client/Client";
 import type { CommandData } from "../interfaces/Command";
 

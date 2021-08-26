@@ -1,3 +1,4 @@
+import type { ClientEvents } from "discord.js";
 import type { ShewenyClient } from "../client/Client";
 
 interface EventOptions {
@@ -8,11 +9,11 @@ interface EventOptions {
 export abstract class Event {
   public client: ShewenyClient;
   public path: string = "";
-  public name: string;
+  public name: ClientEvents;
   public description: string;
   public once: boolean;
 
-  constructor(client: ShewenyClient, name: string, options?: EventOptions) {
+  constructor(client: ShewenyClient, name: ClientEvents, options?: EventOptions) {
     this.client = client;
     this.name = name;
     this.description = options?.description || "";
