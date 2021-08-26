@@ -1,6 +1,6 @@
 import type { ShewenyClient } from "../client/Client";
 
-interface EVentOptions {
+interface EventOptions {
   description?: string;
   once?: boolean;
 }
@@ -12,7 +12,7 @@ export abstract class Event {
   public description: string;
   public once: boolean;
 
-  constructor(client: ShewenyClient, name: string, options?: EVentOptions) {
+  constructor(client: ShewenyClient, name: string, options?: EventOptions) {
     this.client = client;
     this.name = name;
     this.description = options?.description || "";
