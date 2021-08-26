@@ -22,13 +22,12 @@ export class ShewenyClient extends Client {
 
     this.handlers.commands = options.handlers?.commands
       ? options.handlers.commands.type === "applications"
-        ? new CommandsManager(
-            this,
-            options.handlers.commands.directory,
-            true,
-            options.handlers.commands.guildId
-          )
-        : new CommandsManager(this, options.handlers.commands.directory, true)
+        ? new CommandsManager(this, options.handlers.commands.directory, true, {
+            guildId: options.handlers.commands.guildId,
+          })
+        : new CommandsManager(this, options.handlers.commands.directory, true, {
+            prefix: options.handlers.commands.prefix,
+          })
       : undefined;
 
     this.handlers.events = options.handlers?.events
@@ -47,6 +46,7 @@ export class ShewenyClient extends Client {
       ? new InhibitorsManager(this, options.handlers.inhibitors.directory, true)
       : undefined;
   }
+
   public awaitReady() {
     return new Promise((resolve) => {
       this.on("ready", () => {
