@@ -4,6 +4,7 @@ import type {
   ApplicationCommandOptionData,
   ApplicationCommandResolvable,
   Client,
+  ClientEvents,
   ClientOptions,
   Collection,
   GuildResolvable,
@@ -18,7 +19,17 @@ export abstract class Command {
 
   public client: ShewenyClient;
   public path: string;
-  public data: CommandData;
+  protected data: CommandData;
+  public name: string;
+  public type: "SLASH_COMMAND" | "CONTEXT_MENU_MESSAGE" | "CONTEXT_MENU_USER" | "MESSAGE";
+  public defaultPermission?: boolean;
+  public options?: ApplicationCommandOptionData[];
+  public category?: string;
+  public channel?: "GUILD" | "DM";
+  public cooldown?: null;
+  public adminsOnly?: boolean;
+  public userPermissions?: PermissionString[];
+  public clientPermissions?: PermissionString[];
 
   before?(...args: any[]): any | Promise<any>;
   abstract execute(...args: any[]): any | Promise<any>;
@@ -74,11 +85,11 @@ export class CommandsManager {
 }
 
 export abstract class Event {
-  public constructor(client: ShewenyClient, name: string, options?: EventOptions);
+  public constructor(client: ShewenyClient, name: ClientEvents, options?: EventOptions);
 
   public client: ShewenyClient;
   public path: string;
-  public name: string;
+  public name: ClientEvents;
   public description: string;
   public once: boolean;
 
