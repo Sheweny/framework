@@ -1,4 +1,4 @@
-import { Collection } from "discord.js";
+import { Collection, Snowflake } from "discord.js";
 import { join } from "path";
 import { ShewenyClient } from "../client/Client";
 import { Event } from "../structures/Event";
@@ -15,7 +15,7 @@ export class EventsManager {
     this.client = client;
     this.directory = directory;
 
-    if (loadAll) this.loadAll().then(async () => await this.registerAll());
+    if (loadAll) this.loadAndRegisterAll();
     client.handlers.manager.events = this;
   }
 
@@ -47,5 +47,10 @@ export class EventsManager {
       if (evt.once) this.client.once(name, (...args: any[]) => evt.execute(...args));
       else this.client.on(name, (...args: any[]) => evt.execute(...args));
     }
+  }
+
+  public async loadAndRegisterAll(): Promise<void> {
+    await this.loadAll();
+    await this.registerAll();
   }
 }
