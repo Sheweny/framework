@@ -1,4 +1,9 @@
-import {
+import { Collection } from "collection-data";
+import { join } from "path";
+import { readDirAndPush } from "../utils/readDirFiles";
+import type { ShewenyClient, Command } from "..";
+import type { Collection as CollectionDjs } from "discord.js";
+import type {
   ApplicationCommand,
   ApplicationCommandData,
   ApplicationCommandResolvable,

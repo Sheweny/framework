@@ -1,8 +1,7 @@
 import { Collection } from "collection-data";
 import { join } from "path";
-import type { ShewenyClient } from "../client/Client";
-import type { SelectMenu } from "../structures/SelectMenu";
 import { readDirAndPush } from "../utils/readDirFiles";
+import type { ShewenyClient, SelectMenu } from "..";
 
 export class SelectMenusManager {
   private client: ShewenyClient;
