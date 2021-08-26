@@ -1,16 +1,17 @@
-import {
+import { Collection } from "collection-data";
+import { join } from "path";
+import type {
+  Collection as CollectionDjs,
   ApplicationCommand,
   ApplicationCommandData,
   ApplicationCommandResolvable,
-  Collection,
   GuildResolvable,
 } from "discord.js";
-import { join } from "path";
-import { ShewenyClient } from "../client/Client";
-import { Command } from "../structures/Command";
+import { EventEmitter } from "events";
 import { readDirAndPush } from "../utils/readDirFiles";
+import type { ShewenyClient, Command } from "..";
 
-export class CommandsManager {
+export class CommandsManager extends EventEmitter {
   private client: ShewenyClient;
   public directory: string;
   private guildId?: string;
@@ -22,6 +23,8 @@ export class CommandsManager {
     loadAll?: boolean,
     guildId?: string
   ) {
+    super();
+
     if (!client) throw new TypeError("Client must be provided.");
     if (!directory) throw new TypeError("Directory must be provided.");
 
@@ -133,8 +136,8 @@ export class CommandsManager {
     commands: Collection<string, Command> | undefined = this.commands,
     guildId?: string
   ): Promise<
-    | Collection<string, ApplicationCommand<{}>>
-    | Collection<string, ApplicationCommand<{ guild: GuildResolvable }>>
+    | CollectionDjs<string, ApplicationCommand<{}>>
+    | CollectionDjs<string, ApplicationCommand<{ guild: GuildResolvable }>>
     | undefined
   > {
     if (!commands) throw new Error("Commands not found");
@@ -152,9 +155,7 @@ export class CommandsManager {
     command: Command,
     guildId?: string
   ): Promise<
-    | ApplicationCommand<{}>
-    | ApplicationCommand<{ guild: GuildResolvable }>
-    | undefined
+    ApplicationCommand<{}> | ApplicationCommand<{ guild: GuildResolvable }> | undefined
   > {
     if (!command) throw new Error("Command not found");
 
@@ -171,9 +172,7 @@ export class CommandsManager {
     newCommand: Command,
     guildId?: string
   ): Promise<
-    | ApplicationCommand<{}>
-    | ApplicationCommand<{ guild: GuildResolvable }>
-    | undefined
+    ApplicationCommand<{}> | ApplicationCommand<{ guild: GuildResolvable }> | undefined
   > {
     if (!oldCommand) throw new Error("Old Command not found");
     if (!newCommand) throw new Error("New Command not found");
@@ -189,9 +188,7 @@ export class CommandsManager {
   public async deleteCommand(
     command: ApplicationCommandResolvable,
     guildId?: string
-  ): Promise<
-    ApplicationCommand<{ guild: GuildResolvable }> | null | undefined
-  > {
+  ): Promise<ApplicationCommand<{ guild: GuildResolvable }> | null | undefined> {
     if (!command) throw new Error("Command not found");
 
     return guildId
@@ -202,8 +199,8 @@ export class CommandsManager {
   public async deleteAllCommands(
     guildId?: string
   ): Promise<
-    | Collection<string, ApplicationCommand<{}>>
-    | Collection<string, ApplicationCommand<{ guild: GuildResolvable }>>
+    | CollectionDjs<string, ApplicationCommand<{}>>
+    | CollectionDjs<string, ApplicationCommand<{ guild: GuildResolvable }>>
     | undefined
   > {
     return guildId

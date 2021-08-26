@@ -1,3 +1,7 @@
+import { Collection } from "collection-data";
+import { BaseStructure } from ".";
+import type { ShewenyClient } from "../client/Client";
+import type { CommandData } from "../interfaces/Command";
 import type {
   ApplicationCommandOptionData,
   CommandInteraction,
@@ -5,13 +9,8 @@ import type {
   Message,
   PermissionString,
 } from "discord.js";
-import type { ShewenyClient } from "../client/Client";
-import type { CommandData } from "../interfaces/Command";
-import { Collection } from "collection-data";
 
-export abstract class Command {
-  public client: ShewenyClient;
-  public path: string = "";
+export abstract class Command extends BaseStructure {
   public name: string;
   public type:
     | "SLASH_COMMAND"
@@ -29,7 +28,7 @@ export abstract class Command {
   public clientPermissions?: PermissionString[];
 
   constructor(client: ShewenyClient, data: CommandData) {
-    this.client = client;
+    super(client);
     this.name = data.name;
     this.type = data.type;
     this.defaultPermission =

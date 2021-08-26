@@ -1,4 +1,5 @@
 import { Collection } from "collection-data";
+import { BaseStructure } from ".";
 import type { ShewenyClient } from "../client/Client";
 
 type InhibitorType =
@@ -13,14 +14,14 @@ interface InhibitorOptions {
   priority?: number;
 }
 
-export abstract class Inhibitor {
-  public client: ShewenyClient;
-  public path?: string;
+export abstract class Inhibitor extends BaseStructure {
   public name: string;
   public type: InhibitorType[];
   public priority: number;
 
   constructor(client: ShewenyClient, name: string, options?: InhibitorOptions) {
+    super(client);
+
     this.client = client;
     this.name = name;
     this.type = options?.type || ["MESSAGE_COMMAND"];
