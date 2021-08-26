@@ -16,6 +16,7 @@ interface SlashCommandData {
 
 interface ContextMenuUserData {
   name: string;
+  description?: string;
   type: "CONTEXT_MENU_USER";
   defaultPermission?: boolean;
   category?: string;
@@ -28,6 +29,7 @@ interface ContextMenuUserData {
 
 interface ContextMenuMessageData {
   name: string;
+  description?: string;
   type: "CONTEXT_MENU_MESSAGE";
   defaultPermission?: boolean;
   category?: string;

@@ -16,7 +16,7 @@ export class ButtonsManager {
     this.client = client;
     this.directory = directory;
     if (loadAll) this.loadAll();
-    client.handlers.manager.interactions.buttons = this;
+    client.handlers.buttons = this;
   }
 
   public async loadAll(): Promise<Collection<string[], Button>> {
@@ -35,7 +35,7 @@ export class ButtonsManager {
       buttons.set(instance.customId, instance);
     }
 
-    this.client.handlers.collections.interactions.buttons = buttons;
+    this.client.collections.buttons = buttons;
     this.buttons = buttons;
     return buttons;
   }
