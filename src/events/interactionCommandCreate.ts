@@ -37,18 +37,18 @@ export default async function run(
   if (interaction.inGuild()) {
     if (command.channel === "DM") return;
 
-    let member = interaction.guild!.members.cache.get(interaction.user.id);
-    if (!member) member = await interaction.guild!.members.fetch(interaction.user.id);
-    if (command.userPermissions.length) {
-      for (const permission of command.userPermissions) {
-        if (!member.permissions.has(permission))
-          return client.handlers.commands?.emit(
-            "userMissingPermissions",
-            interaction,
-            permission
-          );
-      }
-    }
+    // let member = interaction.guild!.members.cache.get(interaction.user.id);
+    // if (!member) member = await interaction.guild!.members.fetch(interaction.user.id);
+    // if (command.userPermissions.length) {
+    //   for (const permission of command.userPermissions) {
+    //     if (!member.permissions.has(permission))
+    //       return client.handlers.commands?.emit(
+    //         "userMissingPermissions",
+    //         interaction,
+    //         permission
+    //       );
+    //   }
+    // }
 
     if (command.clientPermissions.length) {
       for (const permission of command.clientPermissions) {
