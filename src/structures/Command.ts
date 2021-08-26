@@ -1,4 +1,10 @@
-import type { ApplicationCommandOptionData, PermissionString } from "discord.js";
+import type {
+  ApplicationCommandOptionData,
+  CommandInteraction,
+  ContextMenuInteraction,
+  Message,
+  PermissionString,
+} from "discord.js";
 import type { ShewenyClient } from "../client/Client";
 import type { CommandData } from "../interfaces/Command";
 
@@ -35,7 +41,11 @@ export abstract class Command {
     this.clientPermissions = data.clientPermissions;
   }
 
-  before?(...args: any[]): any | Promise<any>;
+  before?(
+    interaction: CommandInteraction | ContextMenuInteraction | Message
+  ): any | Promise<any>;
 
-  abstract execute(...args: any[]): any | Promise<any>;
+  abstract execute(
+    interaction: CommandInteraction | ContextMenuInteraction | Message
+  ): any | Promise<any>;
 }
