@@ -7,6 +7,7 @@ import type {
   ApplicationCommandResolvable,
   GuildResolvable,
   ApplicationCommandPermissionData,
+  GuildApplicationCommandPermissionData,
 } from "discord.js";
 import { EventEmitter } from "events";
 import { readDirAndPush } from "../utils/readDirFiles";
@@ -180,75 +181,55 @@ export class CommandsManager extends EventEmitter {
         ? await this.client.application?.commands.set(data, this.guildId)
         : await this.client.application?.commands.set(data);
 
-      if (this.applicationPermissions) {
-        if (this.guildId) {
-          const guild = this.client.guilds.cache.get(this.guildId);
+      if (this.applicationPermissions) await this.registerPermissions(cmds);
 
-          const getRoles = (command: Command) => {
-            const permissions = command.userPermissions;
+      return cmds;
+    }
 
-            if (permissions?.length === 0) return null;
-            return guild?.roles.cache.filter(
-              (r) => r.permissions.has(permissions!) && !r.managed
-            );
-          };
+    return undefined;
+  }
+  public async registerPermissions(
+    applicationCommands?: CollectionDjs<string, ApplicationCommand<{}>>,
+    clientCommands: Collection<string, Command> | undefined = this.commands,
+    guildId: string | undefined = this.guildId
+  ) {
+    if (!applicationCommands)
+      throw new ReferenceError("Commands of application must be provided");
+    if (!clientCommands) throw new ReferenceError("Commands of client must be provided");
+    if (!guildId) {
+      const guild = this.client.guilds.cache.get(guildId!);
 
-          const fullPermissions = cmds?.reduce((accumulatorCmd: any, cmd) => {
-            const command = commands.find((c) => c.name === cmd.name);
-            const roles = getRoles(command!);
-            if (!roles) return accumulatorCmd;
+      const getRoles = (command: Command) => {
+        if (command.userPermissions?.length === 0) return null;
+        return guild?.roles.cache.filter((r) =>
+          r.permissions.has(command.userPermissions)
+        );
+      };
 
-            let permissions = roles.reduce(
-              (accumulatorRole: any, role): ApplicationCommandPermissionData[] => {
-                return [
-                  ...accumulatorRole,
-                  {
-                    id: role.id,
-                    type: "ROLE",
-                    permission: true,
-                  },
-                ];
-              },
-              []
-            ) as ApplicationCommandPermissionData[];
+      const fullPermissions: GuildApplicationCommandPermissionData[] = [];
 
-            if (command?.adminsOnly && this.client.admins.length > 0)
-              permissions.concat(
-                this.client.admins.map((id) => ({ id, type: "USER", permission: true }))
-              );
+      for (const [id, appCommand] of applicationCommands) {
+        const roles = getRoles(clientCommands!.get(appCommand.name)!);
+        const rolesPermissions: ApplicationCommandPermissionData[] = [];
+        const usersPermissions: ApplicationCommandPermissionData[] = [];
 
-            return [
-              ...accumulatorCmd,
-              {
-                id: cmd.id,
-                permissions,
-              },
-            ];
-          }, []);
-
-          await guild?.commands.permissions.set({ fullPermissions });
-        } else {
-          cmds?.forEach(async (cmd) => {
-            const permissions: ApplicationCommandPermissionData[] =
-              this.client.admins.map((id) => ({ id, type: "USER", permission: true }));
-
-            await cmd.permissions.set({ permissions });
-          });
-        }
+        if (roles && roles.size)
+          for (const [id, role] of roles!) {
+            rolesPermissions.push({ id: role.id, type: "ROLE", permission: true });
+          }
+        if (this.client.admins && this.client.admins.length)
+          for (const userId of this.client.admins) {
+            usersPermissions.push({ id: userId, type: "USER", permission: true });
+          }
+        fullPermissions.push({
+          id: appCommand.id,
+          permissions: [...rolesPermissions, ...usersPermissions],
+        });
       }
 
-      return [
-        ...accumulatorCmd,
-        {
-          id: cmd.id,
-          permissions,
-        },
-      ];
-    }, []);
-
-    await guild?.commands.permissions.set({ fullPermissions });
+      await guild?.commands.permissions.set({ fullPermissions });
+    }
   }
-
   public async createCommand(
     command: Command,
     guildId?: string

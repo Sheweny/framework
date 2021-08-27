@@ -7,6 +7,7 @@ const client = new ShewenyClient({
       directory: "./commands",
       guildId: "877090306103840778",
       prefix: "!",
+      applicationPermissions: true,
     },
     events: {
       directory: "./events",
@@ -14,7 +15,7 @@ const client = new ShewenyClient({
   },
 });
 
-client.login("Njg5MjExNjEwMzA0MzQ4MzMx.Xm_kVA.TVq5BQ9lM6tEDR1pznn2NBCK0NE");
+client.login("");
 
 client.handlers.commands.on("cooldownLimit", (interaction: any) => {
   interaction.reply({ content: "Slow down", ephemeral: true });

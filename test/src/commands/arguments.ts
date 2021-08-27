@@ -7,15 +7,16 @@ export class PingCommand extends Command {
     super(client, {
       name: "argument",
       description: "Ping the bot",
-      type: "MESSAGE_COMMAND",
+      type: "SLASH_COMMAND",
       category: "Misc",
       userPermissions: ["ADMINISTRATOR"],
-      args: [
-        {
-          name: "channel",
-          type: "CHANNEL",
-        },
-      ],
+      adminsOnly: true,
+      // args: [
+      //   {
+      //     name: "channel",
+      //     type: "CHANNEL",
+      //   },
+      // ],
     });
   }
   execute(message: Message, args: any) {
