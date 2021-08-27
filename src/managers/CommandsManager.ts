@@ -86,7 +86,7 @@ export class CommandsManager extends EventEmitter {
     if (commands instanceof Collection) {
       const data: any[] = [];
       for (let [, cmd] of commands) {
-        if (cmd.type === "MESSAGE") continue;
+        if (cmd.type === "MESSAGE_COMMAND") continue;
 
         const newType = this.renameCommandType(cmd.type);
         if (!newType) continue;
@@ -119,7 +119,7 @@ export class CommandsManager extends EventEmitter {
 
       return data as ApplicationCommandData[];
     } else {
-      if (commands.type === "MESSAGE") return undefined;
+      if (commands.type === "MESSAGE_COMMAND") return undefined;
 
       const newType = this.renameCommandType(commands.type);
       if (!newType) return undefined;
