@@ -11,17 +11,23 @@ import { EventEmitter } from "events";
 import { readDirAndPush } from "../utils/readDirFiles";
 import type { ShewenyClient, Command } from "..";
 
+interface CommandsManagerOptions {
+  guildId?: string;
+  prefix?: string;
+}
+
 export class CommandsManager extends EventEmitter {
   private client: ShewenyClient;
   public directory: string;
   private guildId?: string;
+  public prefix?: string;
   public commands?: Collection<string, Command>;
 
   constructor(
     client: ShewenyClient,
     directory: string,
     loadAll?: boolean,
-    guildId?: string
+    options?: CommandsManagerOptions
   ) {
     super();
 
@@ -30,7 +36,8 @@ export class CommandsManager extends EventEmitter {
 
     this.client = client;
     this.directory = directory;
-    this.guildId = guildId;
+    this.guildId = options?.guildId;
+    this.prefix = options?.prefix;
 
     if (loadAll) this.loadAndRegisterAll();
     client.handlers.commands = this;
@@ -90,7 +97,8 @@ export class CommandsManager extends EventEmitter {
             name: cmd.name,
             description: cmd.description,
             options: cmd.options,
-            defaultPermission: cmd.defaultPermission,
+            defaultPermission:
+              cmd.userPermissions.length > 0 ? false : cmd.defaultPermission,
           });
         } else if (
           cmd.type === "CONTEXT_MENU_MESSAGE" ||
@@ -99,7 +107,8 @@ export class CommandsManager extends EventEmitter {
           data.push({
             type: newType,
             name: cmd.name,
-            defaultPermission: cmd.defaultPermission,
+            defaultPermission:
+              cmd.userPermissions.length > 0 ? false : cmd.defaultPermission,
           });
         }
       }
@@ -142,11 +151,57 @@ export class CommandsManager extends EventEmitter {
   > {
     if (!commands) throw new Error("Commands not found");
     const data = this.getData();
+
     await this.client.awaitReady();
-    if (data instanceof Array && data.length > 0)
-      return guildId
-        ? this.client.application?.commands.set(data, guildId)
-        : this.client.application?.commands.set(data);
+
+    if (data instanceof Array && data.length > 0) {
+      const cmds = guildId
+        ? await this.client.application?.commands.set(data, guildId)
+        : await this.client.application?.commands.set(data);
+
+      if (guildId) {
+        const guild = this.client.guilds.cache.get(guildId);
+
+        const getRoles = (commandName: string) => {
+          const permissions = commands.find(
+            (cmd) => cmd.name === commandName
+          )?.userPermissions;
+
+          if (permissions?.length === 0) return null;
+          return guild?.roles.cache.filter(
+            (r) => r.permissions.has(permissions!) && !r.managed
+          );
+        };
+
+        const fullPermissions = cmds?.reduce((accumulatorCmd: any, cmd) => {
+          const roles = getRoles(cmd.name);
+          if (!roles) return accumulatorCmd;
+
+          const permissions = roles.reduce((accumulatorRole: any, role) => {
+            return [
+              ...accumulatorRole,
+              {
+                id: role.id,
+                type: "ROLE",
+                permission: true,
+              },
+            ];
+          }, []);
+
+          return [
+            ...accumulatorCmd,
+            {
+              id: cmd.id,
+              permissions,
+            },
+          ];
+        }, []);
+
+        await guild?.commands.permissions.set({ fullPermissions });
+      }
+
+      return cmds;
+    }
 
     return undefined;
   }

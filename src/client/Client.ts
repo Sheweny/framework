@@ -9,6 +9,8 @@ import {
 import type { Snowflake, ClientOptions } from "discord.js";
 import type { ShewenyClientOptions } from "../interfaces/Client";
 import type { HandlersManager, HandlersCollections } from "../interfaces/Handlers";
+import { join } from "path";
+import { readdir } from "fs/promises";
 
 export class ShewenyClient extends Client {
   public admins: Snowflake[];
@@ -22,13 +24,12 @@ export class ShewenyClient extends Client {
 
     this.handlers.commands = options.handlers?.commands
       ? options.handlers.commands.type === "applications"
-        ? new CommandsManager(
-            this,
-            options.handlers.commands.directory,
-            true,
-            options.handlers.commands.guildId
-          )
-        : new CommandsManager(this, options.handlers.commands.directory, true)
+        ? new CommandsManager(this, options.handlers.commands.directory, true, {
+            guildId: options.handlers.commands.guildId,
+          })
+        : new CommandsManager(this, options.handlers.commands.directory, true, {
+            prefix: options.handlers.commands.prefix,
+          })
       : undefined;
 
     this.handlers.events = options.handlers?.events
@@ -46,7 +47,19 @@ export class ShewenyClient extends Client {
     this.handlers.inhibitors = options.handlers?.inhibitors
       ? new InhibitorsManager(this, options.handlers.inhibitors.directory, true)
       : undefined;
+
+    (async () => {
+      const dir = join(__dirname, "../events");
+      const files = await readdir(dir);
+
+      for (const file of files) {
+        const event = await import(`${dir}/${file}`).then((e) => e.default);
+        const evtName = file.split(".")[0];
+        this.on(evtName, (...args) => event(this, ...args));
+      }
+    })();
   }
+
   public awaitReady() {
     return new Promise((resolve) => {
       this.on("ready", () => {
