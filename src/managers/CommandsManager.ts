@@ -6,6 +6,7 @@ import type {
   ApplicationCommandData,
   ApplicationCommandResolvable,
   GuildResolvable,
+  ApplicationCommandPermissionData,
 } from "discord.js";
 import { EventEmitter } from "events";
 import { readDirAndPush } from "../utils/readDirFiles";
@@ -14,13 +15,15 @@ import type { ShewenyClient, Command } from "..";
 interface CommandsManagerOptions {
   guildId?: string;
   prefix?: string;
+  applicationPermissions?: boolean;
 }
 
 export class CommandsManager extends EventEmitter {
   private client: ShewenyClient;
   public directory: string;
-  private guildId?: string;
+  public guildId?: string;
   public prefix?: string;
+  public applicationPermissions?: boolean;
   public commands?: Collection<string, Command>;
 
   constructor(
@@ -38,6 +41,7 @@ export class CommandsManager extends EventEmitter {
     this.directory = directory;
     this.guildId = options?.guildId;
     this.prefix = options?.prefix;
+    this.applicationPermissions = options?.applicationPermissions || false;
 
     if (loadAll) this.loadAndRegisterAll();
     client.handlers.commands = this;
@@ -98,7 +102,9 @@ export class CommandsManager extends EventEmitter {
             description: cmd.description,
             options: cmd.options,
             defaultPermission:
-              this.guildId && cmd.userPermissions.length > 0
+              this.applicationPermissions &&
+              this.guildId &&
+              cmd.userPermissions.length > 0
                 ? false
                 : cmd.defaultPermission,
           });
@@ -110,7 +116,9 @@ export class CommandsManager extends EventEmitter {
             type: newType,
             name: cmd.name,
             defaultPermission:
-              this.guildId && cmd.userPermissions.length > 0
+              this.applicationPermissions &&
+              this.guildId &&
+              cmd.userPermissions.length > 0
                 ? false
                 : cmd.defaultPermission,
           });
@@ -131,7 +139,9 @@ export class CommandsManager extends EventEmitter {
           description: commands.description,
           options: commands.options,
           defaultPermission:
-            this.guildId && commands.userPermissions.length > 0
+            this.applicationPermissions &&
+            this.guildId &&
+            commands.userPermissions.length > 0
               ? false
               : commands.defaultPermission,
         } as ApplicationCommandData;
@@ -143,7 +153,9 @@ export class CommandsManager extends EventEmitter {
           type: newType,
           name: commands.name,
           defaultPermission:
-            this.guildId && commands.userPermissions.length > 0
+            this.applicationPermissions &&
+            this.guildId &&
+            commands.userPermissions.length > 0
               ? false
               : commands.defaultPermission,
         } as ApplicationCommandData;
@@ -168,45 +180,61 @@ export class CommandsManager extends EventEmitter {
         ? await this.client.application?.commands.set(data, this.guildId)
         : await this.client.application?.commands.set(data);
 
-      if (this.guildId) {
-        const guild = this.client.guilds.cache.get(this.guildId);
+      if (this.applicationPermissions) {
+        if (this.guildId) {
+          const guild = this.client.guilds.cache.get(this.guildId);
 
-        const getRoles = (commandName: string) => {
-          const permissions = commands.find(
-            (cmd) => cmd.name === commandName
-          )?.userPermissions;
+          const getRoles = (command: Command) => {
+            const permissions = command.userPermissions;
 
-          if (permissions?.length === 0) return null;
-          return guild?.roles.cache.filter(
-            (r) => r.permissions.has(permissions!) && !r.managed
-          );
-        };
+            if (permissions?.length === 0) return null;
+            return guild?.roles.cache.filter(
+              (r) => r.permissions.has(permissions!) && !r.managed
+            );
+          };
 
-        const fullPermissions = cmds?.reduce((accumulatorCmd: any, cmd) => {
-          const roles = getRoles(cmd.name);
-          if (!roles) return accumulatorCmd;
+          const fullPermissions = cmds?.reduce((accumulatorCmd: any, cmd) => {
+            const command = commands.find((c) => c.name === cmd.name);
+            const roles = getRoles(command!);
+            if (!roles) return accumulatorCmd;
 
-          const permissions = roles.reduce((accumulatorRole: any, role) => {
+            let permissions = roles.reduce(
+              (accumulatorRole: any, role): ApplicationCommandPermissionData[] => {
+                return [
+                  ...accumulatorRole,
+                  {
+                    id: role.id,
+                    type: "ROLE",
+                    permission: true,
+                  },
+                ];
+              },
+              []
+            ) as ApplicationCommandPermissionData[];
+
+            if (command?.adminsOnly && this.client.admins.length > 0)
+              permissions.concat(
+                this.client.admins.map((id) => ({ id, type: "USER", permission: true }))
+              );
+
             return [
-              ...accumulatorRole,
+              ...accumulatorCmd,
               {
-                id: role.id,
-                type: "ROLE",
-                permission: true,
+                id: cmd.id,
+                permissions,
               },
             ];
           }, []);
 
-          return [
-            ...accumulatorCmd,
-            {
-              id: cmd.id,
-              permissions,
-            },
-          ];
-        }, []);
+          await guild?.commands.permissions.set({ fullPermissions });
+        } else {
+          cmds?.forEach(async (cmd) => {
+            const permissions: ApplicationCommandPermissionData[] =
+              this.client.admins.map((id) => ({ id, type: "USER", permission: true }));
 
-        await guild?.commands.permissions.set({ fullPermissions });
+            await cmd.permissions.set({ permissions });
+          });
+        }
       }
 
       return cmds;
