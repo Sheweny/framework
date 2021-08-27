@@ -18,6 +18,7 @@ import type {
 } from "discord.js";
 import type { Collection } from "collection-data";
 import type { EventEmitter } from "events";
+import { DiscordResolve } from "@sheweny/resolve";
 
 //#region Classes
 
@@ -35,6 +36,10 @@ export abstract class Button extends BaseStructure {
 
   before?(interaction: ButtonInteraction): any | Promise<any>;
   abstract execute(interaction: ButtonInteraction): any | Promise<any>;
+
+  public unregister(): boolean;
+  public reload(): Promise<Collection<string, Button> | null>;
+  public register(): Promise<Collection<string, Button>>;
 }
 
 export class ButtonsManager {
@@ -51,16 +56,17 @@ export abstract class Command extends BaseStructure {
   public constructor(client: ShewenyClient, data: CommandData);
 
   public name: string;
+  public description?: string;
   public type:
     | "SLASH_COMMAND"
     | "CONTEXT_MENU_MESSAGE"
     | "CONTEXT_MENU_USER"
     | "MESSAGE_COMMAND";
-  public description?: string;
   public defaultPermission?: boolean;
   public options?: ApplicationCommandOptionData[];
+  public args?: MessageCommandOptionData[];
   public category: string;
-  public channel: "GUILD" | "DM";
+  public channel?: "GUILD" | "DM";
   public cooldown: number;
   public adminsOnly: boolean;
   public userPermissions: PermissionString[];
@@ -78,12 +84,10 @@ export abstract class Command extends BaseStructure {
   ): any | Promise<any>;
 
   public unregister(): boolean;
-  public reload(): Promise<Collection<string, Event> | null>;
-  public register(): Promise<Collection<string, Event>>;
+  public reload(): Promise<Collection<string, Command> | null>;
+  public register(): Promise<Collection<string, Command>>;
 }
-export interface MessageCommandArgs {
-  [index: string]: any;
-}
+
 export class CommandsManager extends EventEmitter {
   public constructor(
     client: ShewenyClient,
@@ -96,24 +100,32 @@ export class CommandsManager extends EventEmitter {
   public directory: string;
   public guildId?: string;
   public prefix?: string;
+  public applicationPermissions?: boolean;
   public commands?: Collection<string, Command>;
 
   public loadAll(): Promise<Collection<string, Command>>;
   public loadAndRegisterAll(): Promise<void>;
+
   private renameCommandType(
     type: "SLASH_COMMAND" | "CONTEXT_MENU_USER" | "CONTEXT_MENU_MESSAGE"
   ): "CHAT_INPUT" | "MESSAGE_COMMAND" | "USER" | undefined;
+
   public getData(
     commands: Collection<string, Command> | Command | undefined
   ): ApplicationCommandData[] | ApplicationCommandData | undefined;
+
   public registerAllApplicationCommands(
-    commands: Collection<string, Command> | undefined,
-    guildId?: string
+    commands: Collection<string, Command> | undefined
   ): Promise<
     | CollectionDjs<string, ApplicationCommand<{}>>
     | CollectionDjs<string, ApplicationCommand<{ guild: GuildResolvable }>>
     | undefined
   >;
+  public registerPermissions(
+    applicationCommands: CollectionDjs<string, ApplicationCommand<{}>> | undefined,
+    clientCommands: Collection<string, Command> | undefined,
+    guildId: string | undefined
+  ): Promise<void>;
   public createCommand(
     command: Command,
     guildId?: string
@@ -204,11 +216,12 @@ export class EventsManager {
   public constructor(client: ShewenyClient, directory: string, loadAll?: boolean);
 
   private client: ShewenyClient;
-  private directory: string;
-  public events: Collection<keyof ClientEvents, Event>;
+  public directory: string;
+  public events?: Collection<keyof ClientEvents, Event>;
 
   public loadAll(): Promise<Collection<keyof ClientEvents, Event>>;
   public registerAll(events?: Collection<keyof ClientEvents, Event>): Promise<void>;
+  public loadAndRegisterAll(): Promise<void>;
 }
 
 export abstract class Inhibitor extends BaseStructure {
@@ -222,8 +235,8 @@ export abstract class Inhibitor extends BaseStructure {
   abstract execute(...args: any[]): any | Promise<any>;
 
   public unregister(): boolean;
-  public reload(): Promise<Collection<string, Event> | null>;
-  public register(): Promise<Collection<string, Event>>;
+  public reload(): Promise<Collection<string, Inhibitor> | null>;
+  public register(): Promise<Collection<string, Inhibitor>>;
 }
 
 export class InhibitorsManager {
@@ -245,8 +258,8 @@ export abstract class SelectMenu extends BaseStructure {
   abstract execute(interaction: SelectMenuInteraction): any | Promise<any>;
 
   public unregister(): boolean;
-  public reload(): Promise<Collection<string, Event> | null>;
-  public register(): Promise<Collection<string, Event>>;
+  public reload(): Promise<Collection<string, SelectMenu> | null>;
+  public register(): Promise<Collection<string, SelectMenu>>;
 }
 
 export class SelectMenusManager {
@@ -265,21 +278,18 @@ export class ShewenyClient extends Client {
   public admins: Snowflake[];
   public handlers: HandlersManager;
   public collections: HandlersCollections;
+  public util: DiscordResolve;
 }
 
 //#endregion Classes
 
 //#region Interfaces
 
-interface ApplicationCommands {
-  type: "applications";
+interface CommandsManagerOptions {
   directory: string;
   guildId?: string;
-}
-
-interface CommandsManagerOptions {
-  guildId?: string;
   prefix?: string;
+  applicationPermissions?: boolean;
 }
 
 interface ContextMenuMessageData {
@@ -330,12 +340,7 @@ interface HandlersManager {
 }
 
 interface HandlersOptions {
-  commands?: {
-    directory: string;
-    prefix?: string;
-    guildId?: string;
-    applicationPermissions: boolean;
-  };
+  commands?: CommandsManagerOptions;
   events?: {
     directory: string;
   };
@@ -369,25 +374,11 @@ export interface ManagerEvents {
   cooldownLimit: [interaction: CommandInteraction | ContextMenuInteraction];
 }
 
-interface MessageCommands {
-  type: "messages";
-  directory: string;
-  prefix: string;
+interface MessageCommandArgs {
+  [index: string]: any;
 }
 
-interface MessageData {
-  name: string;
-  type: "MESSAGE_COMMAND";
-  args: MessageCommandOptionData[];
-  description?: string;
-  category?: string;
-  channel?: "GUILD" | "DM";
-  cooldown?: number;
-  adminsOnly?: boolean;
-  userPermissions?: PermissionString[];
-  clientPermissions?: PermissionString[];
-}
-export interface MessageCommandOptionData {
+interface MessageCommandOptionData {
   name: string;
   type:
     | "STRING"
@@ -402,6 +393,20 @@ export interface MessageCommandOptionData {
     | "USER";
   default?: any;
 }
+
+interface MessageData {
+  name: string;
+  type: "MESSAGE_COMMAND";
+  args: MessageCommandOptionData[];
+  description?: string;
+  category?: string;
+  channel?: "GUILD" | "DM";
+  cooldown?: number;
+  adminsOnly?: boolean;
+  userPermissions?: PermissionString[];
+  clientPermissions?: PermissionString[];
+}
+
 interface SlashCommandData {
   name: string;
   description: string;
@@ -432,8 +437,6 @@ export type CommandData =
   | ContextMenuUserData
   | ContextMenuMessageData
   | MessageData;
-
-export type CommandsOptions = MessageCommands | ApplicationCommands;
 
 type InhibitorType =
   | "MESSAGE_COMMAND"
