@@ -237,10 +237,16 @@ export class CommandsManager extends EventEmitter {
         }
       }
 
-      return cmds;
-    }
+      return [
+        ...accumulatorCmd,
+        {
+          id: cmd.id,
+          permissions,
+        },
+      ];
+    }, []);
 
-    return undefined;
+    await guild?.commands.permissions.set({ fullPermissions });
   }
 
   public async createCommand(
