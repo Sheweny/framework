@@ -196,8 +196,8 @@ export class CommandsManager extends EventEmitter {
     if (!applicationCommands)
       throw new ReferenceError("Commands of application must be provided");
     if (!clientCommands) throw new ReferenceError("Commands of client must be provided");
-    if (!guildId) {
-      const guild = this.client.guilds.cache.get(guildId!);
+    if (guildId) {
+      const guild = this.client.guilds.cache.get(guildId);
 
       const getRoles = (command: Command) => {
         if (command.userPermissions?.length === 0) return null;
