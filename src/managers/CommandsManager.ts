@@ -66,7 +66,7 @@ export class CommandsManager extends EventEmitter {
 
   public async loadAndRegisterAll(): Promise<void> {
     const commands = await this.loadAll();
-    await this.registerAllApplicationCommands(commands, this.guildId);
+    await this.registerAllApplicationCommands(commands);
   }
 
   private renameCommandType(
@@ -98,7 +98,9 @@ export class CommandsManager extends EventEmitter {
             description: cmd.description,
             options: cmd.options,
             defaultPermission:
-              cmd.userPermissions.length > 0 ? false : cmd.defaultPermission,
+              this.guildId && cmd.userPermissions.length > 0
+                ? false
+                : cmd.defaultPermission,
           });
         } else if (
           cmd.type === "CONTEXT_MENU_MESSAGE" ||
@@ -108,7 +110,9 @@ export class CommandsManager extends EventEmitter {
             type: newType,
             name: cmd.name,
             defaultPermission:
-              cmd.userPermissions.length > 0 ? false : cmd.defaultPermission,
+              this.guildId && cmd.userPermissions.length > 0
+                ? false
+                : cmd.defaultPermission,
           });
         }
       }
@@ -126,7 +130,10 @@ export class CommandsManager extends EventEmitter {
           name: commands.name,
           description: commands.description,
           options: commands.options,
-          defaultPermission: commands.defaultPermission,
+          defaultPermission:
+            this.guildId && commands.userPermissions.length > 0
+              ? false
+              : commands.defaultPermission,
         } as ApplicationCommandData;
       } else if (
         commands.type === "CONTEXT_MENU_MESSAGE" ||
@@ -135,15 +142,17 @@ export class CommandsManager extends EventEmitter {
         return {
           type: newType,
           name: commands.name,
-          defaultPermission: commands.defaultPermission,
+          defaultPermission:
+            this.guildId && commands.userPermissions.length > 0
+              ? false
+              : commands.defaultPermission,
         } as ApplicationCommandData;
       }
     }
   }
 
   public async registerAllApplicationCommands(
-    commands: Collection<string, Command> | undefined = this.commands,
-    guildId?: string
+    commands: Collection<string, Command> | undefined = this.commands
   ): Promise<
     | CollectionDjs<string, ApplicationCommand<{}>>
     | CollectionDjs<string, ApplicationCommand<{ guild: GuildResolvable }>>
@@ -155,12 +164,12 @@ export class CommandsManager extends EventEmitter {
     await this.client.awaitReady();
 
     if (data instanceof Array && data.length > 0) {
-      const cmds = guildId
-        ? await this.client.application?.commands.set(data, guildId)
+      const cmds = this.guildId
+        ? await this.client.application?.commands.set(data, this.guildId)
         : await this.client.application?.commands.set(data);
 
-      if (guildId) {
-        const guild = this.client.guilds.cache.get(guildId);
+      if (this.guildId) {
+        const guild = this.client.guilds.cache.get(this.guildId);
 
         const getRoles = (commandName: string) => {
           const permissions = commands.find(
