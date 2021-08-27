@@ -1,4 +1,8 @@
-import { ApplicationCommandOptionData, PermissionString } from "discord.js";
+import {
+  ApplicationCommandOptionData,
+  PermissionString,
+  ApplicationCommandPermissionData,
+} from "discord.js";
 
 interface SlashCommandData {
   name: string;
