@@ -6,6 +6,7 @@ import type {
   ApplicationCommandData,
   ApplicationCommandResolvable,
   GuildResolvable,
+  ApplicationCommandPermissionData,
 } from "discord.js";
 import { EventEmitter } from "events";
 import { readDirAndPush } from "../utils/readDirFiles";
@@ -19,7 +20,7 @@ interface CommandsManagerOptions {
 export class CommandsManager extends EventEmitter {
   private client: ShewenyClient;
   public directory: string;
-  private guildId?: string;
+  public guildId?: string;
   public prefix?: string;
   public commands?: Collection<string, Command>;
 
@@ -171,10 +172,8 @@ export class CommandsManager extends EventEmitter {
       if (this.guildId) {
         const guild = this.client.guilds.cache.get(this.guildId);
 
-        const getRoles = (commandName: string) => {
-          const permissions = commands.find(
-            (cmd) => cmd.name === commandName
-          )?.userPermissions;
+        const getRoles = (command: Command) => {
+          const permissions = command.userPermissions;
 
           if (permissions?.length === 0) return null;
           return guild?.roles.cache.filter(
@@ -183,19 +182,28 @@ export class CommandsManager extends EventEmitter {
         };
 
         const fullPermissions = cmds?.reduce((accumulatorCmd: any, cmd) => {
-          const roles = getRoles(cmd.name);
+          const command = commands.find((c) => c.name === cmd.name);
+          const roles = getRoles(command!);
           if (!roles) return accumulatorCmd;
 
-          const permissions = roles.reduce((accumulatorRole: any, role) => {
-            return [
-              ...accumulatorRole,
-              {
-                id: role.id,
-                type: "ROLE",
-                permission: true,
-              },
-            ];
-          }, []);
+          let permissions = roles.reduce(
+            (accumulatorRole: any, role): ApplicationCommandPermissionData[] => {
+              return [
+                ...accumulatorRole,
+                {
+                  id: role.id,
+                  type: "ROLE",
+                  permission: true,
+                },
+              ];
+            },
+            []
+          ) as ApplicationCommandPermissionData[];
+
+          if (command?.adminsOnly && this.client.admins.length > 0)
+            permissions.concat(
+              this.client.admins.map((id) => ({ id, type: "USER", permission: true }))
+            );
 
           return [
             ...accumulatorCmd,
