@@ -6,30 +6,27 @@ import {
   InhibitorsManager,
   SelectMenusManager,
 } from "../managers";
-import type { Snowflake, ClientOptions } from "discord.js";
-import type { ShewenyClientOptions } from "../interfaces/Client";
 import type { HandlersManager, HandlersCollections } from "../interfaces/Handlers";
 import { join } from "path";
 import { readdir } from "fs/promises";
-
+import { DiscordResolve } from "@sheweny/resolve";
+import type { Snowflake, ClientOptions } from "discord.js";
+import type { ShewenyClientOptions } from "../interfaces/Client";
 export class ShewenyClient extends Client {
   public admins: Snowflake[];
   public handlers: HandlersManager = {};
   public collections: HandlersCollections = {};
-
+  public util: DiscordResolve = new DiscordResolve(this);
   constructor(options: ShewenyClientOptions, clientOptions?: ClientOptions) {
     super(clientOptions || options);
 
     this.admins = options.admins || [];
 
     this.handlers.commands = options.handlers?.commands
-      ? options.handlers.commands.type === "applications"
-        ? new CommandsManager(this, options.handlers.commands.directory, true, {
-            guildId: options.handlers.commands.guildId,
-          })
-        : new CommandsManager(this, options.handlers.commands.directory, true, {
-            prefix: options.handlers.commands.prefix,
-          })
+      ? new CommandsManager(this, options.handlers.commands.directory, true, {
+          guildId: options.handlers.commands.guildId,
+          prefix: options.handlers.commands.prefix,
+        })
       : undefined;
 
     this.handlers.events = options.handlers?.events
