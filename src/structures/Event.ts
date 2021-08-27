@@ -8,16 +8,36 @@ interface EventOptions {
   once?: boolean;
 }
 
+/**
+ * Represents an Event structure
+ * @extends {BaseStructure}
+ */
 export abstract class Event extends BaseStructure {
+  /**
+   * Name of a event
+   * @type {keyof ClientEvents}
+   */
   public name: keyof ClientEvents;
+
+  /**
+   * Description of a event
+   * @type {string}
+   */
   public description: string;
+
+  /**
+   * If the listener is deleted after it is executed
+   * @type {boolean}
+   */
   public once: boolean;
 
-  constructor(
-    client: ShewenyClient,
-    name: keyof ClientEvents,
-    options?: EventOptions
-  ) {
+  /**
+   * Constructor for build a Event
+   * @param {ShewenyClient} client Client framework
+   * @param {keyof ClientEvents} name Name of the event
+   * @param {string[]} customId Custom id for one or more buttons
+   */
+  constructor(client: ShewenyClient, name: keyof ClientEvents, options?: EventOptions) {
     super(client);
 
     this.client = client;

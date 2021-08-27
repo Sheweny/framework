@@ -13,17 +13,33 @@ import { DiscordResolve } from "@sheweny/resolve";
 import type { Snowflake, ClientOptions } from "discord.js";
 import type { ShewenyClientOptions } from "../interfaces/Client";
 
+/**
+ * Sheweny framework client
+ */
 export class ShewenyClient extends Client {
   public admins: Snowflake[];
   public handlers: HandlersManager = {};
   public collections: HandlersCollections = {};
   public util: DiscordResolve = new DiscordResolve(this);
 
+  /**
+   * Set options and your client is ready
+   * @param {ShewenyClientOptions} options Client framework options
+   * @param {ClientOptions} [clientOptions] Client discord.js options
+   */
   constructor(options: ShewenyClientOptions, clientOptions?: ClientOptions) {
     super(clientOptions || options);
 
+    /**
+     * The ID of the bot admins
+     * @type {Snowflake[]}
+     */
     this.admins = options.admins || [];
 
+    /**
+     * The manager of commands
+     * @type {CommandsManager | undefined}
+     */
     this.handlers.commands = options.handlers?.commands
       ? new CommandsManager(this, options.handlers.commands.directory, true, {
           guildId: options.handlers.commands.guildId,
@@ -32,18 +48,34 @@ export class ShewenyClient extends Client {
         })
       : undefined;
 
+    /**
+     * The manager of events
+     * @type {EventsManager | undefined}
+     */
     this.handlers.events = options.handlers?.events
       ? new EventsManager(this, options.handlers.events.directory, true)
       : undefined;
 
+    /**
+     * The manager of buttons
+     * @type {ButtonsManager | undefined}
+     */
     this.handlers.buttons = options.handlers?.buttons
       ? new ButtonsManager(this, options.handlers.buttons.directory, true)
       : undefined;
 
+    /**
+     * The manager of select menus
+     * @type {SelectMenusManager | undefined}
+     */
     this.handlers.selectMenus = options.handlers?.selectMenus
       ? new SelectMenusManager(this, options.handlers.selectMenus.directory)
       : undefined;
 
+    /**
+     * The manager of inhibitors
+     * @type {InhibitorsManager | undefined}
+     */
     this.handlers.inhibitors = options.handlers?.inhibitors
       ? new InhibitorsManager(this, options.handlers.inhibitors.directory, true)
       : undefined;
@@ -60,6 +92,10 @@ export class ShewenyClient extends Client {
     })();
   }
 
+  /**
+   * Return true when the client is ready
+   * @returns {Promise<boolean>}
+   */
   public awaitReady(): Promise<boolean> {
     return new Promise((resolve) => {
       this.on("ready", () => {
