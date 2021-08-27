@@ -217,8 +217,6 @@ export class CommandsManager extends EventEmitter {
         await guild?.commands.permissions.set({ fullPermissions });
       } else {
         cmds?.forEach(async (cmd) => {
-          const command = commands.find((c) => c.name === cmd.name);
-
           const permissions: ApplicationCommandPermissionData[] = this.client.admins.map(
             (id) => ({ id, type: "USER", permission: true })
           );
