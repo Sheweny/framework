@@ -38,7 +38,7 @@ interface ContextMenuMessageData {
   defaultPermission?: boolean;
   category?: string;
   channel?: "GUILD" | "DM";
-  cooldown?: null;
+  cooldown?: number;
   adminsOnly?: boolean;
   userPermissions?: PermissionString[];
   clientPermissions?: PermissionString[];
@@ -73,9 +73,11 @@ export interface MessageCommandOptionData {
     | "USER";
   default?: any;
 }
+
 export interface MessageCommandArgs {
   [index: string]: any;
 }
+
 export type CommandData =
   | SlashCommandData
   | ContextMenuUserData
