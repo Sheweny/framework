@@ -11,6 +11,7 @@ import type {
   CommandInteraction,
   ContextMenuInteraction,
   GuildResolvable,
+  Message,
   PermissionString,
   SelectMenuInteraction,
   Snowflake,
@@ -50,7 +51,11 @@ export abstract class Command extends BaseStructure {
   public constructor(client: ShewenyClient, data: CommandData);
 
   public name: string;
-  public type: "SLASH_COMMAND" | "CONTEXT_MENU_MESSAGE" | "CONTEXT_MENU_USER" | "MESSAGE";
+  public type:
+    | "SLASH_COMMAND"
+    | "CONTEXT_MENU_MESSAGE"
+    | "CONTEXT_MENU_USER"
+    | "MESSAGE_COMMAND";
   public description?: string;
   public defaultPermission?: boolean;
   public options?: ApplicationCommandOptionData[];
@@ -63,14 +68,22 @@ export abstract class Command extends BaseStructure {
   public aliases?: string[];
   public cooldowns: Collection<string, Collection<string, number>>;
 
-  before?(...args: any[]): any | Promise<any>;
-  abstract execute(...args: any[]): any | Promise<any>;
+  before?(
+    request: CommandInteraction | Message,
+    args?: MessageCommandArgs[]
+  ): any | Promise<any>;
+  abstract execute(
+    request: CommandInteraction | Message,
+    args?: MessageCommandArgs[]
+  ): any | Promise<any>;
 
   public unregister(): boolean;
   public reload(): Promise<Collection<string, Event> | null>;
   public register(): Promise<Collection<string, Event>>;
 }
-
+export interface MessageCommandArgs {
+  [index: string]: any;
+}
 export class CommandsManager extends EventEmitter {
   public constructor(
     client: ShewenyClient,
@@ -89,7 +102,7 @@ export class CommandsManager extends EventEmitter {
   public loadAndRegisterAll(): Promise<void>;
   private renameCommandType(
     type: "SLASH_COMMAND" | "CONTEXT_MENU_USER" | "CONTEXT_MENU_MESSAGE"
-  ): "CHAT_INPUT" | "MESSAGE" | "USER" | undefined;
+  ): "CHAT_INPUT" | "MESSAGE_COMMAND" | "USER" | undefined;
   public getData(
     commands: Collection<string, Command> | Command | undefined
   ): ApplicationCommandData[] | ApplicationCommandData | undefined;
@@ -313,12 +326,15 @@ interface HandlersManager {
   events?: EventsManager;
   buttons?: ButtonsManager;
   selectMenus?: SelectMenusManager;
-
   inhibitors?: InhibitorsManager;
 }
 
 interface HandlersOptions {
-  commands?: CommandsOptions;
+  commands?: {
+    directory: string;
+    prefix?: string;
+    guildId?: string;
+  };
   events?: {
     directory: string;
   };
@@ -360,7 +376,8 @@ interface MessageCommands {
 
 interface MessageData {
   name: string;
-  type: "MESSAGE";
+  type: "MESSAGE_COMMAND";
+  args: MessageCommandOptionData[];
   description?: string;
   category?: string;
   channel?: "GUILD" | "DM";
@@ -369,7 +386,21 @@ interface MessageData {
   userPermissions?: PermissionString[];
   clientPermissions?: PermissionString[];
 }
-
+export interface MessageCommandOptionData {
+  name: string;
+  type:
+    | "STRING"
+    | "NUMBER"
+    | "BOOLEAN"
+    | "REST"
+    | "GUILD"
+    | "CHANNEL"
+    | "MEMBER"
+    | "GUILD_EMOJI"
+    | "ROLE"
+    | "USER";
+  default?: any;
+}
 interface SlashCommandData {
   name: string;
   description: string;

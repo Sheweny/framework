@@ -1,7 +1,11 @@
 import { Collection } from "collection-data";
 import { BaseStructure } from ".";
 import type { ShewenyClient } from "../client/Client";
-import type { CommandData } from "../interfaces/Command";
+import type {
+  CommandData,
+  MessageCommandOptionData,
+  MessageCommandArgs,
+} from "../interfaces/Command";
 import type {
   ApplicationCommandOptionData,
   CommandInteraction,
@@ -12,10 +16,15 @@ import type {
 
 export abstract class Command extends BaseStructure {
   public name: string;
-  public type: "SLASH_COMMAND" | "CONTEXT_MENU_MESSAGE" | "CONTEXT_MENU_USER" | "MESSAGE";
+  public description?: string;
+  public type:
+    | "SLASH_COMMAND"
+    | "CONTEXT_MENU_MESSAGE"
+    | "CONTEXT_MENU_USER"
+    | "MESSAGE_COMMAND";
   public defaultPermission?: boolean;
   public options?: ApplicationCommandOptionData[];
-  public description?: string;
+  public args?: MessageCommandOptionData[];
   public category: string;
   public channel?: "GUILD" | "DM";
   public cooldown: number;
@@ -28,27 +37,32 @@ export abstract class Command extends BaseStructure {
   constructor(client: ShewenyClient, data: CommandData) {
     super(client);
     this.name = data.name;
-    this.type = data.type;
-    this.defaultPermission = data.type !== "MESSAGE" ? data.defaultPermission : undefined;
-    this.options = data.type === "SLASH_COMMAND" ? data.options : undefined;
     this.description = data.description || "";
+    this.type = data.type;
+    this.defaultPermission =
+      data.type !== "MESSAGE_COMMAND" ? data.defaultPermission : undefined;
+    this.options = data.type === "SLASH_COMMAND" ? data.options : undefined;
+    this.args = data.type === "MESSAGE_COMMAND" ? data.args : undefined;
     this.category = data.category || "";
     this.channel = data.channel;
     this.cooldown = data.cooldown || 0;
     this.adminsOnly = data.adminsOnly || false;
     this.userPermissions = data.userPermissions || [];
     this.clientPermissions = data.clientPermissions || [];
-    this.aliases = data.type === "MESSAGE" ? data.aliases : [];
+    this.aliases = data.type === "MESSAGE_COMMAND" ? data.aliases : [];
     this.cooldowns = new Collection();
   }
 
   before?(
-    interaction: CommandInteraction | ContextMenuInteraction | Message
+    interaction: CommandInteraction | ContextMenuInteraction | Message,
+    args?: MessageCommandArgs[]
   ): any | Promise<any>;
 
   abstract execute(
-    interaction: CommandInteraction | ContextMenuInteraction | Message
-  ): any | Promise<any>;
+    interaction: CommandInteraction | ContextMenuInteraction | Message,
+    args?: MessageCommandArgs[]
+  ): //args?: MessageCommandArgs
+  any | Promise<any>;
 
   /**
    * Unregister a application command
