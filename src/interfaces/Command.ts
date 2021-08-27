@@ -42,7 +42,8 @@ interface ContextMenuMessageData {
 
 interface MessageData {
   name: string;
-  type: "MESSAGE";
+  type: "MESSAGE_COMMAND";
+  args: MessageCommandOptionData[];
   description?: string;
   category?: string;
   channel?: "GUILD" | "DM";
@@ -53,6 +54,24 @@ interface MessageData {
   aliases?: string[];
 }
 
+export interface MessageCommandOptionData {
+  name: string;
+  type:
+    | "STRING"
+    | "NUMBER"
+    | "BOOLEAN"
+    | "REST"
+    | "GUILD"
+    | "CHANNEL"
+    | "MEMBER"
+    | "GUILD_EMOJI"
+    | "ROLE"
+    | "USER";
+  default?: any;
+}
+export interface MessageCommandArgs {
+  [index: string]: any;
+}
 export type CommandData =
   | SlashCommandData
   | ContextMenuUserData

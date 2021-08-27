@@ -9,14 +9,6 @@ import type {
 } from "../managers";
 import type { Button, Command, Event, Inhibitor, SelectMenu } from "../structures";
 
-//#region Interfaces
-
-interface ApplicationCommandsOptions {
-  type: "applications";
-  directory: string;
-  guildId?: string;
-}
-
 export interface Handler {
   collections: HandlersCollections;
   manager: HandlersManager;
@@ -39,7 +31,11 @@ export interface HandlersManager {
 }
 
 export interface HandlersOptions {
-  commands?: CommandsOptions;
+  commands?: {
+    directory: string;
+    prefix?: string;
+    guildId?: string;
+  };
   events?: {
     directory: string;
   };
@@ -54,17 +50,3 @@ export interface HandlersOptions {
     directory: string;
   };
 }
-
-interface MessageCommandsOptions {
-  type: "messages";
-  directory: string;
-  prefix: string;
-}
-
-//#endregion Interfaces
-
-//#region Types
-
-export type CommandsOptions = MessageCommandsOptions | ApplicationCommandsOptions;
-
-//#endregion Types

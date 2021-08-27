@@ -10,7 +10,6 @@ export default async function run(client: ShewenyClient, message: Message) {
   const prefix = client.handlers.commands.prefix || "";
   const args = message.content.trim().slice(prefix.length).split(/ +/);
   if (!args[0]) return;
-
   /* -----------------COMMAND----------------- */
   const commandName = args.shift()!.toLowerCase();
   const command =
@@ -67,7 +66,6 @@ export default async function run(client: ShewenyClient, message: Message) {
     /* ---------------IN-DM--------------- */
     if (command.channel === "GUILD") return;
   }
-
   /* ---------------COOLDOWNS--------------- */
   if (!client.admins?.includes(message.author.id)) {
     if (!command.cooldowns.has(command.name)) {
@@ -87,9 +85,96 @@ export default async function run(client: ShewenyClient, message: Message) {
     tStamps.set(message.author.id, timeNow);
     setTimeout(() => tStamps.delete(message.author.id), cdAmount);
   }
+
+  let messageArgs: any = {};
+  /* ---------------ARGUMENTS--------------- */
+  const types = [
+    "STRING",
+    "NUMBER",
+    "BOOLEAN",
+    "REST",
+    "GUILD",
+    "CHANNEL",
+    "MEMBER",
+    "GUILD_EMOJI",
+    "ROLE",
+    "USER",
+  ];
+
+  if (command.args && command.args.length > 0) {
+    for (let i = 0; i < command.args.length; i++) {
+      const argCommand = command.args[i];
+      if (!argCommand?.name || typeof argCommand.name !== "string") continue; // Bad name
+      if (!types.includes(argCommand?.type)) continue; // Bad type
+      if (!args[i]) {
+        // No argument provided
+        messageArgs[argCommand?.name] = argCommand?.default || null;
+        continue;
+      }
+      switch (argCommand.type) {
+        case "STRING":
+          messageArgs[argCommand?.name] = String(args[i]);
+          break;
+        case "NUMBER":
+          messageArgs[argCommand?.name] = Number(args[i]);
+          break;
+        case "BOOLEAN":
+          messageArgs[argCommand?.name] = Boolean(args[i]);
+          break;
+        case "REST":
+          messageArgs[argCommand?.name] = String(args.slice(i));
+          break;
+
+        case "GUILD":
+          messageArgs[argCommand?.name] = client.util.resolveGuild(args[i]);
+          break;
+        case "CHANNEL":
+          if (!message.guild) {
+            messageArgs[argCommand?.name] = null;
+            break;
+          }
+          messageArgs[argCommand?.name] = client.util.resolveChannel(
+            message.guild,
+            args[i]
+          );
+          break;
+        case "MEMBER":
+          if (!message.guild) {
+            messageArgs[argCommand?.name] = null;
+            break;
+          }
+          messageArgs[argCommand?.name] = await client.util.resolveMember(
+            message.guild,
+            args[i]
+          );
+          break;
+        case "GUILD_EMOJI":
+          if (!message.guild) {
+            messageArgs[argCommand?.name] = null;
+            break;
+          }
+          messageArgs[argCommand?.name] = client.util.resolveGuildEmoji(
+            message.guild,
+            args[i]
+          );
+          break;
+        case "ROLE":
+          if (!message.guild) {
+            messageArgs[argCommand?.name] = null;
+            break;
+          }
+          messageArgs[argCommand?.name] = client.util.resolveRole(message.guild, args[i]);
+          break;
+        case "USER":
+          messageArgs[argCommand?.name] = await client.util.resolveUser(args[i]);
+          break;
+      }
+    }
+  }
+
   /* ---------------COMMAND--------------- */
   try {
-    await command.execute(message /*, args*/);
+    await command.execute(message, messageArgs);
   } catch (e) {
     console.error(e);
   }
