@@ -198,7 +198,6 @@ export class CommandsManager extends EventEmitter {
     if (!clientCommands) throw new ReferenceError("Commands of client must be provided");
     if (guildId) {
       const guild = this.client.guilds.cache.get(guildId);
-
       const getRoles = (command: Command) => {
         if (command.userPermissions?.length === 0) return null;
         return guild?.roles.cache.filter((r) =>
@@ -207,7 +206,6 @@ export class CommandsManager extends EventEmitter {
       };
 
       const fullPermissions: GuildApplicationCommandPermissionData[] = [];
-
       for (const [id, appCommand] of applicationCommands) {
         const roles = getRoles(clientCommands!.get(appCommand.name)!);
         const rolesPermissions: ApplicationCommandPermissionData[] = [];
