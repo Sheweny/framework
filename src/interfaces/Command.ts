@@ -1,8 +1,4 @@
-import {
-  ApplicationCommandOptionData,
-  PermissionString,
-  ApplicationCommandPermissionData,
-} from "discord.js";
+import type { ApplicationCommandOptionData, PermissionString } from "discord.js";
 
 interface SlashCommandData {
   name: string;
@@ -38,7 +34,7 @@ interface ContextMenuMessageData {
   defaultPermission?: boolean;
   category?: string;
   channel?: "GUILD" | "DM";
-  cooldown?: null;
+  cooldown?: number;
   adminsOnly?: boolean;
   userPermissions?: PermissionString[];
   clientPermissions?: PermissionString[];
@@ -73,9 +69,11 @@ export interface MessageCommandOptionData {
     | "USER";
   default?: any;
 }
+
 export interface MessageCommandArgs {
   [index: string]: any;
 }
+
 export type CommandData =
   | SlashCommandData
   | ContextMenuUserData

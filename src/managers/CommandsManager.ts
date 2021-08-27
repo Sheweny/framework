@@ -187,14 +187,17 @@ export class CommandsManager extends EventEmitter {
     }
     return undefined;
   }
+
   public async registerPermissions(
-    applicationCommands?: CollectionDjs<string, ApplicationCommand<{}>>,
+    applicationCommands: CollectionDjs<string, ApplicationCommand<{}>> | undefined = this
+      .client.application?.commands.cache,
     clientCommands: Collection<string, Command> | undefined = this.commands,
     guildId: string | undefined = this.guildId
-  ) {
+  ): Promise<void> {
     if (!applicationCommands)
       throw new ReferenceError("Commands of application must be provided");
     if (!clientCommands) throw new ReferenceError("Commands of client must be provided");
+
     if (guildId) {
       const guild = this.client.guilds.cache.get(guildId);
       const getRoles = (command: Command) => {
@@ -203,9 +206,10 @@ export class CommandsManager extends EventEmitter {
           r.permissions.has(command.userPermissions)
         );
       };
+
       const fullPermissions: GuildApplicationCommandPermissionData[] = [];
       for (const [id, appCommand] of applicationCommands) {
-        const roles = getRoles(clientCommands!.get(appCommand.name)!);
+        const roles = getRoles(clientCommands.get(appCommand.name)!);
         const rolesPermissions: ApplicationCommandPermissionData[] = [];
         const usersPermissions: ApplicationCommandPermissionData[] = [];
 
@@ -226,6 +230,7 @@ export class CommandsManager extends EventEmitter {
       await guild?.commands.permissions.set({ fullPermissions });
     }
   }
+
   public async createCommand(
     command: Command,
     guildId?: string

@@ -60,7 +60,7 @@ export class ShewenyClient extends Client {
     })();
   }
 
-  public awaitReady() {
+  public awaitReady(): Promise<boolean> {
     return new Promise((resolve) => {
       this.on("ready", () => {
         resolve(true);

@@ -12,7 +12,6 @@ import type {
   ContextMenuInteraction,
   Message,
   PermissionString,
-  ApplicationCommandPermissionData,
 } from "discord.js";
 
 export abstract class Command extends BaseStructure {
