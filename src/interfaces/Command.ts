@@ -8,7 +8,7 @@ interface SlashCommandData {
   defaultPermission?: boolean;
   category?: string;
   channel?: "GUILD" | "DM";
-  cooldown?: null;
+  cooldown?: number;
   adminsOnly?: boolean;
   userPermissions?: PermissionString[];
   clientPermissions?: PermissionString[];
@@ -21,7 +21,7 @@ interface ContextMenuUserData {
   defaultPermission?: boolean;
   category?: string;
   channel?: "GUILD" | "DM";
-  cooldown?: null;
+  cooldown?: number;
   adminsOnly?: boolean;
   userPermissions?: PermissionString[];
   clientPermissions?: PermissionString[];
@@ -46,10 +46,11 @@ interface MessageData {
   description?: string;
   category?: string;
   channel?: "GUILD" | "DM";
-  cooldown?: null;
+  cooldown?: number;
   adminsOnly?: boolean;
   userPermissions?: PermissionString[];
   clientPermissions?: PermissionString[];
+  aliases?: string[];
 }
 
 export type CommandData =

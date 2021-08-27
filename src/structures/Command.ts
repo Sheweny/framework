@@ -12,35 +12,34 @@ import type {
 
 export abstract class Command extends BaseStructure {
   public name: string;
-  public type:
-    | "SLASH_COMMAND"
-    | "CONTEXT_MENU_MESSAGE"
-    | "CONTEXT_MENU_USER"
-    | "MESSAGE";
+  public type: "SLASH_COMMAND" | "CONTEXT_MENU_MESSAGE" | "CONTEXT_MENU_USER" | "MESSAGE";
   public defaultPermission?: boolean;
   public options?: ApplicationCommandOptionData[];
   public description?: string;
-  public category?: string;
+  public category: string;
   public channel?: "GUILD" | "DM";
-  public cooldown?: null;
-  public adminsOnly?: boolean;
-  public userPermissions?: PermissionString[];
-  public clientPermissions?: PermissionString[];
+  public cooldown: number;
+  public adminsOnly: boolean;
+  public userPermissions: PermissionString[];
+  public clientPermissions: PermissionString[];
+  public aliases?: string[];
+  public cooldowns: Collection<string, Collection<string, number>>;
 
   constructor(client: ShewenyClient, data: CommandData) {
     super(client);
     this.name = data.name;
     this.type = data.type;
-    this.defaultPermission =
-      data.type !== "MESSAGE" ? data.defaultPermission : undefined;
+    this.defaultPermission = data.type !== "MESSAGE" ? data.defaultPermission : undefined;
     this.options = data.type === "SLASH_COMMAND" ? data.options : undefined;
     this.description = data.description || "";
-    this.category = data.category;
+    this.category = data.category || "";
     this.channel = data.channel;
-    this.cooldown = data.cooldown;
-    this.adminsOnly = data.adminsOnly;
-    this.userPermissions = data.userPermissions;
-    this.clientPermissions = data.clientPermissions;
+    this.cooldown = data.cooldown || 0;
+    this.adminsOnly = data.adminsOnly || false;
+    this.userPermissions = data.userPermissions || [];
+    this.clientPermissions = data.clientPermissions || [];
+    this.aliases = data.type === "MESSAGE" ? data.aliases : [];
+    this.cooldowns = new Collection();
   }
 
   before?(
