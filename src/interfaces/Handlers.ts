@@ -1,4 +1,4 @@
-import type { ClientEvents } from "discord.js";
+import type { ClientEvents, Snowflake } from "discord.js";
 import type { Collection } from "collection-data";
 import type {
   ButtonsManager,
@@ -14,7 +14,7 @@ import type { Button, Command, Event, Inhibitor, SelectMenu } from "../structure
  */
 interface CommandsManagerOptions {
   directory: string;
-  guildId?: string;
+  guildId?: Snowflake;
   prefix?: string;
   applicationPermissions?: boolean;
 }

@@ -9,13 +9,14 @@ import type {
   ApplicationCommandPermissionData,
   GuildApplicationCommandPermissionData,
   ApplicationCommandType,
+  Snowflake,
 } from "discord.js";
 import { EventEmitter } from "events";
 import { readDirAndPush } from "../utils/readDirFiles";
 import type { ShewenyClient, Command } from "..";
 
 interface CommandsManagerOptions {
-  guildId?: string;
+  guildId?: Snowflake;
   prefix?: string;
   applicationPermissions?: boolean;
 }
@@ -41,7 +42,7 @@ export class CommandsManager extends EventEmitter {
    * ID of the guild where are set Applications Commands
    * @type {string | undefined}
    */
-  public guildId?: string;
+  public guildId?: Snowflake;
 
   /**
    * Prefix for the Message Commands
@@ -256,14 +257,14 @@ export class CommandsManager extends EventEmitter {
    * Set permissions for each commands in guild
    * @param {CollectionDjs<string, ApplicationCommand<{}>> | undefined} [applicationCommands] Commands coming from the client's application
    * @param {Collection<string, Command> | undefined} [commandsCollection] Commands coming from the collection of the commands
-   * @param {string | undefined} [guildId] Guild ID where permissions will be set
+   * @param {Snowflake | undefined} [guildId] Guild ID where permissions will be set
    * @returns {Promise<void>}
    */
   public async registerPermissions(
     applicationCommands: CollectionDjs<string, ApplicationCommand<{}>> | undefined = this
       .client.application?.commands.cache,
     commandsCollection: Collection<string, Command> | undefined = this.commands,
-    guildId: string | undefined = this.guildId
+    guildId: Snowflake | undefined = this.guildId
   ): Promise<void> {
     if (!applicationCommands)
       throw new ReferenceError("Commands of application must be provided");
@@ -306,12 +307,12 @@ export class CommandsManager extends EventEmitter {
   /**
    * Create a command in the client's application commands
    * @param {Command} command Command to create
-   * @param {string | undefined} [guildId] Guild ID where the order will be created
+   * @param {Snowflake | undefined} [guildId] Guild ID where the order will be created
    * @returns {Promise<ApplicationCommand<{}> | ApplicationCommand<{ guild: GuildResolvable }> | undefined>}
    */
   public async createCommand(
     command: Command,
-    guildId?: string
+    guildId?: Snowflake
   ): Promise<
     ApplicationCommand<{}> | ApplicationCommand<{ guild: GuildResolvable }> | undefined
   > {
@@ -329,13 +330,13 @@ export class CommandsManager extends EventEmitter {
    * Edit an command with a new command in the client's application commands
    * @param {ApplicationCommandResolvable} oldCommand Command edited
    * @param {Command} newCommand The new command that will take the place of the old one
-   * @param {string | undefined} [guildId] Guild ID where the order will be edited
+   * @param {Snowflake | undefined} [guildId] Guild ID where the order will be edited
    * @returns {Promise<ApplicationCommand<{}> | ApplicationCommand<{ guild: GuildResolvable }> | undefined>}
    */
   public async editCommand(
     oldCommand: ApplicationCommandResolvable,
     newCommand: Command,
-    guildId?: string
+    guildId?: Snowflake
   ): Promise<
     ApplicationCommand<{}> | ApplicationCommand<{ guild: GuildResolvable }> | undefined
   > {
@@ -353,12 +354,12 @@ export class CommandsManager extends EventEmitter {
   /**
    * Removes an command from the client's application commands
    * @param {ApplicationCommandResolvable} command Command deleted
-   * @param {string | undefined} [guildId] Guild ID where the command will be deleted
+   * @param {Snowflake | undefined} [guildId] Guild ID where the command will be deleted
    * @returns {Promise<ApplicationCommand<{ guild: GuildResolvable }> | null | undefined>}
    */
   public async deleteCommand(
     command: ApplicationCommandResolvable,
-    guildId?: string
+    guildId?: Snowflake
   ): Promise<ApplicationCommand<{ guild: GuildResolvable }> | null | undefined> {
     if (!command) throw new Error("Command not found");
 
@@ -369,11 +370,11 @@ export class CommandsManager extends EventEmitter {
 
   /**
    * Delete all commands from the client's application commands
-   * @param {string | undefined} [guildId] Guild ID where all commands will be deleted
+   * @param {Snowflake | undefined} [guildId] Guild ID where all commands will be deleted
    * @returns {Promise<CollectionDjs<string, ApplicationCommand<{}>> | CollectionDjs<string, ApplicationCommand<{ guild: GuildResolvable }>> | undefined>}
    */
   public async deleteAllCommands(
-    guildId?: string
+    guildId?: Snowflake
   ): Promise<
     | CollectionDjs<string, ApplicationCommand<{}>>
     | CollectionDjs<string, ApplicationCommand<{ guild: GuildResolvable }>>
