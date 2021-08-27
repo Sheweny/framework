@@ -35,6 +35,7 @@ export interface HandlersOptions {
     directory: string;
     prefix?: string;
     guildId?: string;
+    applicationPermissions?: boolean;
   };
   events?: {
     directory: string;
