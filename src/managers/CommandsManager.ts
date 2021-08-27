@@ -204,7 +204,6 @@ export class CommandsManager extends EventEmitter {
           r.permissions.has(command.userPermissions)
         );
       };
-
       const fullPermissions: GuildApplicationCommandPermissionData[] = [];
       for (const [id, appCommand] of applicationCommands) {
         const roles = getRoles(clientCommands!.get(appCommand.name)!);
