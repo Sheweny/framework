@@ -185,7 +185,6 @@ export class CommandsManager extends EventEmitter {
 
       return cmds;
     }
-
     return undefined;
   }
   public async registerPermissions(
