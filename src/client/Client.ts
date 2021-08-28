@@ -17,10 +17,34 @@ import type { ShewenyClientOptions } from "../interfaces/Client";
  * Sheweny framework client
  */
 export class ShewenyClient extends Client {
+  /**
+   * The ID of the bot admins
+   * @type {Snowflake[]}
+   */
   public admins: Snowflake[];
+
+  /**
+   * The manager of handlers
+   * @type {HandlersManager}
+   */
   public handlers: HandlersManager = {};
+
+  /**
+   * The collections of handlers
+   * @type {HandlersManager}
+   */
   public collections: HandlersCollections = {};
+
+  /**
+   * A util tool to resolve channel, user, etc
+   * @type {DiscordResolve}
+   */
   public util: DiscordResolve = new DiscordResolve(this);
+
+  /**
+   * If the client join a Thread when created
+   * @type {boolean}
+   */
   public joinThreadsOnCreate: boolean;
 
   /**
@@ -31,18 +55,9 @@ export class ShewenyClient extends Client {
   constructor(options: ShewenyClientOptions, clientOptions?: ClientOptions) {
     super(clientOptions || options);
 
-    /**
-     * The ID of the bot admins
-     * @type {Snowflake[]}
-     */
     this.admins = options.admins || [];
-
     this.joinThreadsOnCreate = options.joinThreadsOnCreate || false;
 
-    /**
-     * The manager of commands
-     * @type {CommandsManager | undefined}
-     */
     this.handlers.commands = options.handlers?.commands
       ? new CommandsManager(this, options.handlers.commands.directory, true, {
           guildId: options.handlers.commands.guildId,
@@ -51,34 +66,18 @@ export class ShewenyClient extends Client {
         })
       : undefined;
 
-    /**
-     * The manager of events
-     * @type {EventsManager | undefined}
-     */
     this.handlers.events = options.handlers?.events
       ? new EventsManager(this, options.handlers.events.directory, true)
       : undefined;
 
-    /**
-     * The manager of buttons
-     * @type {ButtonsManager | undefined}
-     */
     this.handlers.buttons = options.handlers?.buttons
       ? new ButtonsManager(this, options.handlers.buttons.directory, true)
       : undefined;
 
-    /**
-     * The manager of select menus
-     * @type {SelectMenusManager | undefined}
-     */
     this.handlers.selectMenus = options.handlers?.selectMenus
       ? new SelectMenusManager(this, options.handlers.selectMenus.directory)
       : undefined;
 
-    /**
-     * The manager of inhibitors
-     * @type {InhibitorsManager | undefined}
-     */
     this.handlers.inhibitors = options.handlers?.inhibitors
       ? new InhibitorsManager(this, options.handlers.inhibitors.directory, true)
       : undefined;
