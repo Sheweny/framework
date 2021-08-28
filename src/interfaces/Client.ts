@@ -9,6 +9,7 @@ import { HandlersOptions } from "./Handlers";
 export interface ShewenyClientOptions extends ClientOptions {
   admins?: Snowflake[];
   handlers?: HandlersOptions;
+  joinThreadsOnCreate?: boolean;
 }
 
 //#endregion Interfaces

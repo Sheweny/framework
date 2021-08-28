@@ -21,6 +21,7 @@ export class ShewenyClient extends Client {
   public handlers: HandlersManager = {};
   public collections: HandlersCollections = {};
   public util: DiscordResolve = new DiscordResolve(this);
+  public joinThreadsOnCreate: boolean;
 
   /**
    * Set options and your client is ready
@@ -35,6 +36,8 @@ export class ShewenyClient extends Client {
      * @type {Snowflake[]}
      */
     this.admins = options.admins || [];
+
+    this.joinThreadsOnCreate = options.joinThreadsOnCreate || false;
 
     /**
      * The manager of commands

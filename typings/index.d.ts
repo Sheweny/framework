@@ -279,6 +279,7 @@ export class ShewenyClient extends Client {
   public handlers: HandlersManager;
   public collections: HandlersCollections;
   public util: DiscordResolve;
+  public joinThreadsOnCreate: boolean;
 }
 
 //#endregion Classes
@@ -424,6 +425,7 @@ interface SlashCommandData {
 export interface ShewenyClientOptions extends ClientOptions {
   admins?: Snowflake[];
   handlers?: HandlersOptions;
+  joinThreadsOnCreate?: boolean;
 }
 
 //#endregion Interfaces

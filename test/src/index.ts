@@ -13,6 +13,7 @@ const client = new ShewenyClient({
       directory: "./events",
     },
   },
+  joinThreadsOnCreate: true,
 });
 
 client.login("");
