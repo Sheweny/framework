@@ -17,6 +17,10 @@
     "discord-bots",
     "cli"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Sheweny/framework.git"
+  },
   "homepage": "https://sheweny.js.org",
   "dependencies": {
     "@sheweny/resolve": "^1.3.1",
