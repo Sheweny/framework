@@ -19,7 +19,6 @@ import type {
 import type { Collection } from "collection-data";
 import type { EventEmitter } from "events";
 import type { DiscordResolve } from "@sheweny/resolve";
-import type { ConnectOptions, Schema } from "mongoose";
 
 //#region Classes
 
@@ -250,19 +249,6 @@ export class InhibitorsManager {
   public loadAll(): Promise<Collection<string, Inhibitor>>;
 }
 
-export class MongooseDatabase {
-  public constructor(client: ShewenyClient, uri: string, options?: MongooseOptions);
-
-  private client: ShewenyClient;
-  public db?: typeof import("mongoose");
-  public directory?: string;
-  public models?: Collection<string, Schema>;
-
-  public registerModels(
-    directory: string | undefined
-  ): Promise<Collection<string, Schema>>;
-}
-
 export abstract class SelectMenu extends BaseStructure {
   public constructor(client: ShewenyClient, customId: string[]);
 
@@ -331,12 +317,6 @@ interface ContextMenuUserData {
   adminsOnly?: boolean;
   userPermissions?: PermissionString[];
   clientPermissions?: PermissionString[];
-}
-
-interface DatabaseOptions {
-  uri: string;
-  connectOptions?: ConnectOptions;
-  directory?: string;
 }
 
 interface EventOptions {
@@ -428,11 +408,6 @@ interface MessageData {
   clientPermissions?: PermissionString[];
 }
 
-interface MongooseOptions {
-  connectOptions?: ConnectOptions;
-  directory?: string;
-}
-
 interface SlashCommandData {
   name: string;
   description: string;
@@ -450,7 +425,6 @@ interface SlashCommandData {
 export interface ShewenyClientOptions extends ClientOptions {
   admins?: Snowflake[];
   handlers?: HandlersOptions;
-  db?: DatabaseOptions;
   joinThreadsOnCreate?: boolean;
 }
 
