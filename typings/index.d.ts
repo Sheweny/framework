@@ -98,7 +98,7 @@ export class CommandsManager extends EventEmitter {
 
   private client: ShewenyClient;
   public directory: string;
-  public guildId?: string;
+  public guildId?: Snowflake;
   public prefix?: string;
   public applicationPermissions?: boolean;
   public commands?: Collection<string, Command>;
@@ -124,27 +124,27 @@ export class CommandsManager extends EventEmitter {
   public registerPermissions(
     applicationCommands: CollectionDjs<string, ApplicationCommand<{}>> | undefined,
     clientCommands: Collection<string, Command> | undefined,
-    guildId: string | undefined
+    guildId: Snowflake | undefined
   ): Promise<void>;
   public createCommand(
     command: Command,
-    guildId?: string
+    guildId?: Snowflake
   ): Promise<
     ApplicationCommand<{}> | ApplicationCommand<{ guild: GuildResolvable }> | undefined
   >;
   public editCommand(
     oldCommand: ApplicationCommandResolvable,
     newCommand: Command,
-    guildId?: string
+    guildId?: Snowflake
   ): Promise<
     ApplicationCommand<{}> | ApplicationCommand<{ guild: GuildResolvable }> | undefined
   >;
   public deleteCommand(
     command: ApplicationCommandResolvable,
-    guildId?: string
+    guildId?: Snowflake
   ): Promise<ApplicationCommand<{ guild: GuildResolvable }> | null | undefined>;
   public deleteAllCommands(
-    guildId?: string
+    guildId?: Snowflake
   ): Promise<
     | CollectionDjs<string, ApplicationCommand<{}>>
     | CollectionDjs<string, ApplicationCommand<{ guild: GuildResolvable }>>
@@ -287,7 +287,7 @@ export class ShewenyClient extends Client {
 
 interface CommandsManagerOptions {
   directory: string;
-  guildId?: string;
+  guildId?: Snowflake;
   prefix?: string;
   applicationPermissions?: boolean;
 }
