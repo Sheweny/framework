@@ -443,6 +443,7 @@ export type CommandData =
 type InhibitorType =
   | "MESSAGE_COMMAND"
   | "APPLICATION_COMMAND"
+  | "COMMAND"
   | "BUTTON"
   | "SELECT_MENU"
   | "ALL";
