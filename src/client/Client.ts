@@ -42,7 +42,7 @@ export class ShewenyClient extends Client {
   public util: DiscordResolve = new DiscordResolve(this);
 
   /**
-   * If the client join a Thread when created
+   * If the client joins a Thread when created
    * @type {boolean}
    */
   public joinThreadsOnCreate: boolean;
