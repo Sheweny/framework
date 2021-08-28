@@ -1,6 +1,6 @@
 import type { SelectMenuInteraction } from "discord.js";
 import type { ShewenyClient } from "../client/Client";
-import { Inhibitor } from "../structures/Inhibitor";
+import type { Inhibitor } from "../structures/Inhibitor";
 
 export default async function run(
   client: ShewenyClient,

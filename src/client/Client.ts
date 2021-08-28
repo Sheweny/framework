@@ -12,17 +12,65 @@ import { readdir } from "fs/promises";
 import { DiscordResolve } from "@sheweny/resolve";
 import type { Snowflake, ClientOptions } from "discord.js";
 import type { ShewenyClientOptions } from "../interfaces/Client";
+import { MongooseDatabase } from "../database/Mongoose";
 
+/**
+ * Sheweny framework client
+ */
 export class ShewenyClient extends Client {
+  /**
+   * The ID of the bot admins
+   * @type {Snowflake[]}
+   */
   public admins: Snowflake[];
+
+  /**
+   * The manager of handlers
+   * @type {HandlersManager}
+   */
   public handlers: HandlersManager = {};
+
+  /**
+   * The collections of handlers
+   * @type {HandlersManager}
+   */
   public collections: HandlersCollections = {};
+
+  /**
+   * A util tool to resolve channel, user, etc
+   * @type {DiscordResolve}
+   */
   public util: DiscordResolve = new DiscordResolve(this);
 
+  /**
+   * If the client joins a Thread when created
+   * @type {boolean}
+   */
+  public joinThreadsOnCreate: boolean;
+
+  /**
+   * Database manager for mongoose
+   * @type {MongooseDatabase | undefined}
+   */
+  public database?: MongooseDatabase;
+
+  /**
+   * Set options and your client is ready
+   * @param {ShewenyClientOptions} options Client framework options
+   * @param {ClientOptions} [clientOptions] Client discord.js options
+   */
   constructor(options: ShewenyClientOptions, clientOptions?: ClientOptions) {
     super(clientOptions || options);
 
     this.admins = options.admins || [];
+    this.joinThreadsOnCreate = options.joinThreadsOnCreate || false;
+
+    this.database = options.db
+      ? new MongooseDatabase(this, options.db.uri, {
+          connectOptions: options.db.connectOptions,
+          directory: options.db.directory,
+        })
+      : undefined;
 
     this.handlers.commands = options.handlers?.commands
       ? new CommandsManager(this, options.handlers.commands.directory, true, {
@@ -60,7 +108,11 @@ export class ShewenyClient extends Client {
     })();
   }
 
-  public awaitReady() {
+  /**
+   * Return true when the client is ready
+   * @returns {Promise<boolean>}
+   */
+  public awaitReady(): Promise<boolean> {
     return new Promise((resolve) => {
       this.on("ready", () => {
         resolve(true);

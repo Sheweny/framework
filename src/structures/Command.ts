@@ -5,6 +5,7 @@ import type {
   CommandData,
   MessageCommandOptionData,
   MessageCommandArgs,
+  CommandType,
 } from "../interfaces/Command";
 import type {
   ApplicationCommandOptionData,
@@ -14,28 +15,103 @@ import type {
   PermissionString,
 } from "discord.js";
 
+/**
+ * Represents an Command structure
+ * @extends {BaseStructure}
+ */
 export abstract class Command extends BaseStructure {
+  /**
+   * Name of a command
+   * @type {string}
+   */
   public name: string;
+
+  /**
+   * Description of a command
+   * @type {string | undefined}
+   */
   public description?: string;
-  public type:
-    | "SLASH_COMMAND"
-    | "CONTEXT_MENU_MESSAGE"
-    | "CONTEXT_MENU_USER"
-    | "MESSAGE_COMMAND";
+
+  /**
+   * Type of a command
+   * @type {CommandType}
+   */
+  public type: CommandType;
+
+  /**
+   * Default permission of a Application command
+   * @type {boolean | undefined}
+   */
   public defaultPermission?: boolean;
+
+  /**
+   * Options of a Application command
+   * @type {ApplicationCommandOptionData[] | undefined}
+   */
   public options?: ApplicationCommandOptionData[];
+
+  /**
+   * Args of a Message command
+   * @type {MessageCommandOptionData | undefined}
+   */
   public args?: MessageCommandOptionData[];
+
+  /**
+   * Category of a command
+   * @type {string}
+   */
   public category: string;
+
+  /**
+   * Only channel where a command can be executed
+   * @type {"GUILD" | "DM" | undefined}
+   */
   public channel?: "GUILD" | "DM";
+
+  /**
+   * Cooldown of a command
+   * @type {number}
+   */
   public cooldown: number;
+
+  /**
+   * If a command is reserved for bot admins
+   * @type {boolean}
+   */
   public adminsOnly: boolean;
+
+  /**
+   * The permissions required to be executed by the user
+   * @type {PermissionString[]}
+   */
   public userPermissions: PermissionString[];
+
+  /**
+   * The permissions required for the client
+   * @type {PermissionString[]}
+   */
   public clientPermissions: PermissionString[];
+
+  /**
+   * Aliases of the Message command
+   * @type {string[] | undefined}
+   */
   public aliases?: string[];
+
+  /**
+   * Cooldowns collection
+   * @type {Collection<string, Collection<string, number>>}
+   */
   public cooldowns: Collection<string, Collection<string, number>>;
 
+  /**
+   * Constructor for build a Command
+   * @param {ShewenyClient} client Client framework
+   * @param {CommandData} data Data for build a Command
+   */
   constructor(client: ShewenyClient, data: CommandData) {
     super(client);
+
     this.name = data.name;
     this.description = data.description || "";
     this.type = data.type;
@@ -53,11 +129,23 @@ export abstract class Command extends BaseStructure {
     this.cooldowns = new Collection();
   }
 
+  /**
+   * This function is executed before executing the `execute` function
+   * @param {CommandInteraction | ContextMenuInteraction | Message} interaction Interaction
+   * @param {MessageCommandArgs[]} [args] Arguments of the Message command
+   * @returns {any | Promise<any>}
+   */
   before?(
     interaction: CommandInteraction | ContextMenuInteraction | Message,
     args?: MessageCommandArgs[]
   ): any | Promise<any>;
 
+  /**
+   * Main function `execute` for the commands
+   * @param {CommandInteraction | ContextMenuInteraction | Message} interaction Interaction
+   * @param {MessageCommandArgs[]} [args] Arguments of the Message command
+   * @returns {any | Promise<any>}
+   */
   abstract execute(
     interaction: CommandInteraction | ContextMenuInteraction | Message,
     args?: MessageCommandArgs[]
@@ -65,8 +153,7 @@ export abstract class Command extends BaseStructure {
   any | Promise<any>;
 
   /**
-   * Unregister a application command
-   * @public
+   * Unregister a command from collections
    * @returns {boolean}
    */
   public unregister(): boolean {
@@ -76,9 +163,7 @@ export abstract class Command extends BaseStructure {
   }
 
   /**
-   * Reload a Application Command
-   * @public
-   * @async
+   * Reload a command
    * @returns {Promise<Collection<string, Command> | null>} The Application Commands collection
    */
   public async reload(): Promise<Collection<string, Command> | null> {
@@ -90,9 +175,7 @@ export abstract class Command extends BaseStructure {
   }
 
   /**
-   * Register a Application Command
-   * @public
-   * @async
+   * Register a command in collections
    * @returns {Collection<string, ApplicationCommand>} The Application Commands collection
    */
   public async register(): Promise<Collection<string, Command>> {
