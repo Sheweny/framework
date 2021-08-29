@@ -1,6 +1,6 @@
 {
   "name": "sheweny",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.3",
   "description": "The powerful framework for create discord bots",
   "main": "build/index.js",
   "types": "./typings/index.d.ts",
