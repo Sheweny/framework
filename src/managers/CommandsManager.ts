@@ -227,13 +227,14 @@ export class CommandsManager extends EventEmitter {
   /**
    * Set all application commands from the collection of commands in the client application
    * @param {Collection<string, Command> | undefined} [commands] Collection of the commands
-   * @returns {Promise<CollectionDjs<string, ApplicationCommand<{}>> | CollectionDjs<string, ApplicationCommand<{ guild: GuildResolvable }>> | undefined>}
+   * @returns {Promise<CollectionDjs<Snowflake, ApplicationCommand<{}>> | CollectionDjs<Snowflake, ApplicationCommand<{ guild: GuildResolvable }>> | undefined>}
    */
   public async registerAllApplicationCommands(
-    commands: Collection<string, Command> | undefined = this.commands
+    commands: Collection<string, Command> | undefined = this.commands,
+    guildId: Snowflake | undefined = this.guildId
   ): Promise<
-    | CollectionDjs<string, ApplicationCommand<{}>>
-    | CollectionDjs<string, ApplicationCommand<{ guild: GuildResolvable }>>
+    | CollectionDjs<Snowflake, ApplicationCommand<{}>>
+    | CollectionDjs<Snowflake, ApplicationCommand<{ guild: GuildResolvable }>>
     | undefined
   > {
     if (!commands) throw new Error("Commands not found");
@@ -242,8 +243,8 @@ export class CommandsManager extends EventEmitter {
     await this.client.awaitReady();
 
     if (data instanceof Array && data.length > 0) {
-      const cmds = this.guildId
-        ? await this.client.application?.commands.set(data, this.guildId)
+      const cmds = guildId
+        ? await this.client.application?.commands.set(data, guildId)
         : await this.client.application?.commands.set(data);
 
       if (this.applicationPermissions) await this.registerPermissions(cmds);
