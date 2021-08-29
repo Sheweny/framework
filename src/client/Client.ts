@@ -12,7 +12,6 @@ import { readdir } from "fs/promises";
 import { DiscordResolve } from "@sheweny/resolve";
 import type { Snowflake, ClientOptions } from "discord.js";
 import type { ShewenyClientOptions } from "../interfaces/Client";
-import { MongooseDatabase } from "../database/Mongoose";
 
 /**
  * Sheweny framework client
@@ -49,12 +48,6 @@ export class ShewenyClient extends Client {
   public joinThreadsOnCreate: boolean;
 
   /**
-   * Database manager for mongoose
-   * @type {MongooseDatabase | undefined}
-   */
-  public database?: MongooseDatabase;
-
-  /**
    * Set options and your client is ready
    * @param {ShewenyClientOptions} options Client framework options
    * @param {ClientOptions} [clientOptions] Client discord.js options
@@ -64,13 +57,6 @@ export class ShewenyClient extends Client {
 
     this.admins = options.admins || [];
     this.joinThreadsOnCreate = options.joinThreadsOnCreate || false;
-
-    this.database = options.db
-      ? new MongooseDatabase(this, options.db.uri, {
-          connectOptions: options.db.connectOptions,
-          directory: options.db.directory,
-        })
-      : undefined;
 
     this.handlers.commands = options.handlers?.commands
       ? new CommandsManager(this, options.handlers.commands.directory, true, {
