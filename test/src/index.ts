@@ -18,6 +18,6 @@ const client = new ShewenyClient({
 
 client.login("");
 
-client.handlers.commands.on("cooldownLimit", (interaction: any) => {
+client.handlers.commands?.on("cooldownLimit", (interaction: any) => {
   interaction.reply({ content: "Slow down", ephemeral: true });
 });
