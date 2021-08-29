@@ -37,17 +37,18 @@ export default async function run(
   if (interaction.inGuild()) {
     if (command.channel === "DM") return;
 
-    if (!client.handlers.commands.guildId) {
+    if (!client.handlers.commands.applicationPermissions) {
       let member = interaction.guild!.members.cache.get(interaction.user.id);
       if (!member) member = await interaction.guild!.members.fetch(interaction.user.id);
       if (command.userPermissions.length) {
         for (const permission of command.userPermissions) {
-          if (!member.permissions.has(permission))
+          if (!member.permissions.has(permission)) {
             return client.handlers.commands?.emit(
               "userMissingPermissions",
               interaction,
               permission
             );
+          }
         }
       }
     }
@@ -86,15 +87,6 @@ export default async function run(
     tStamps.set(interaction.user.id, timeNow);
     setTimeout(() => tStamps.delete(interaction.user.id), cdAmount);
   }
-
-  /* ---------------SUB-COMMAND--------------- */
-  // interaction.subCommand = interaction.options.getSubcommand(false);
-
-  // interaction.subCommand = interaction.options
-  /* ---------------OPTIONS--------------- */
-
-  // let args: CommandInteractionOptionResolver = interaction.options;
-  // if (interaction.subCommand) args = interaction.options.get(interaction.subCommand)?.options;
 
   /* ---------------COMMAND--------------- */
   try {

@@ -264,44 +264,46 @@ export class CommandsManager extends EventEmitter {
     applicationCommands: CollectionDjs<string, ApplicationCommand<{}>> | undefined = this
       .client.application?.commands.cache,
     commandsCollection: Collection<string, Command> | undefined = this.commands,
-    guildId: Snowflake | undefined = this.guildId
-  ): Promise<void> {
+    guildId: Snowflake | Snowflake[] | undefined = this.guildId
+  ): Promise<void | boolean> {
     if (!applicationCommands)
       throw new ReferenceError("Commands of application must be provided");
     if (!commandsCollection)
       throw new ReferenceError("Commands of client must be provided");
+    if (!guildId) throw new ReferenceError("Guild ID must be provided");
 
-    if (guildId) {
-      const guild = this.client.guilds.cache.get(guildId);
-      const getRoles = (command: Command) => {
-        if (command.userPermissions?.length === 0) return null;
-        return guild?.roles.cache.filter((r) =>
-          r.permissions.has(command.userPermissions)
-        );
-      };
+    if (guildId instanceof Array)
+      return guildId.every(
+        async (gId) =>
+          await this.registerPermissions(applicationCommands, commandsCollection, gId)
+      );
 
-      const fullPermissions: GuildApplicationCommandPermissionData[] = [];
-      for (const [id, appCommand] of applicationCommands) {
-        const roles = getRoles(commandsCollection.get(appCommand.name)!);
-        const rolesPermissions: ApplicationCommandPermissionData[] = [];
-        const usersPermissions: ApplicationCommandPermissionData[] = [];
+    const guild = this.client.guilds.cache.get(guildId as Snowflake);
+    const getRoles = (command: Command) => {
+      if (command.userPermissions?.length === 0) return null;
+      return guild?.roles.cache.filter((r) => r.permissions.has(command.userPermissions));
+    };
 
-        if (roles && roles.size)
-          for (const [id, role] of roles!) {
-            rolesPermissions.push({ id: role.id, type: "ROLE", permission: true });
-          }
-        if (this.client.admins && this.client.admins.length)
-          for (const userId of this.client.admins) {
-            usersPermissions.push({ id: userId, type: "USER", permission: true });
-          }
-        fullPermissions.push({
-          id: appCommand.id,
-          permissions: [...rolesPermissions, ...usersPermissions],
-        });
-      }
+    const fullPermissions: GuildApplicationCommandPermissionData[] = [];
+    for (const [, appCommand] of applicationCommands) {
+      const roles = getRoles(commandsCollection.get(appCommand.name)!);
+      const permissions: ApplicationCommandPermissionData[] = [];
 
-      await guild?.commands.permissions.set({ fullPermissions });
+      if (roles && roles.size)
+        for (const [, role] of roles!) {
+          permissions.push({ id: role.id, type: "ROLE", permission: true });
+        }
+      if (this.client.admins && this.client.admins.length)
+        for (const userId of this.client.admins) {
+          permissions.push({ id: userId, type: "USER", permission: true });
+        }
+      fullPermissions.push({
+        id: appCommand.id,
+        permissions,
+      });
     }
+
+    await guild?.commands.permissions.set({ fullPermissions });
   }
 
   /**
