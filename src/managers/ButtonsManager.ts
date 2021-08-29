@@ -1,6 +1,5 @@
 import { Collection } from "collection-data";
-import { join } from "path";
-import { readDirAndPush } from "../utils/readDirFiles";
+import { loadFiles } from "../utils/loadFiles";
 import type { ShewenyClient, Button } from "..";
 
 /**
@@ -46,21 +45,7 @@ export class ButtonsManager {
    * @returns {Promise<Collection<string[], Button>>}
    */
   public async loadAll(): Promise<Collection<string[], Button>> {
-    const buttons = new Collection<string[], Button>();
-    const baseDir = join(require.main!.path, this.directory);
-    const buttonsPaths: string[] = await readDirAndPush(baseDir);
-
-    for (const buttonPath of buttonsPaths) {
-      const buttonImport = await import(buttonPath);
-      const key = Object.keys(buttonImport)[0];
-      const Button = buttonImport[key];
-      if (!Button) continue;
-      const instance = new Button(this.client);
-      if (!instance.customId) continue;
-      instance.path = buttonPath;
-      buttons.set(instance.customId, instance);
-    }
-
+    const buttons = await loadFiles<string[], Button>(this.client, this.directory);
     this.client.collections.buttons = buttons;
     this.buttons = buttons;
     return buttons;
