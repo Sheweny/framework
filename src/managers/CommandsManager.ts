@@ -16,6 +16,7 @@ import { readDirAndPush } from "../utils/readDirFiles";
 import type { ShewenyClient, Command } from "..";
 
 interface CommandsManagerOptions {
+  loadAll?: boolean;
   guildId?: Snowflake;
   prefix?: string;
   applicationPermissions?: boolean;
@@ -66,13 +67,11 @@ export class CommandsManager extends EventEmitter {
    * Constructor to manage commands
    * @param {ShewenyClient} client Client framework
    * @param {string} directory Directory of the commands folder
-   * @param {boolean} [loadAll] If the commands are loaded during bot launch
    * @param {CommandsManagerOptions} [options] Options of the commands manager
    */
   constructor(
     client: ShewenyClient,
     directory: string,
-    loadAll?: boolean,
     options?: CommandsManagerOptions
   ) {
     super();
@@ -86,7 +85,7 @@ export class CommandsManager extends EventEmitter {
     this.prefix = options?.prefix;
     this.applicationPermissions = options?.applicationPermissions || false;
 
-    if (loadAll) this.loadAndRegisterAll();
+    if (options?.loadAll) this.loadAndRegisterAll();
     client.handlers.commands = this;
   }
 

@@ -92,7 +92,6 @@ export class CommandsManager extends EventEmitter {
   public constructor(
     client: ShewenyClient,
     directory: string,
-    loadAll?: boolean,
     options?: CommandsManagerOptions
   );
 
@@ -287,6 +286,7 @@ export class ShewenyClient extends Client {
 //#region Interfaces
 
 interface CommandsManagerOptions {
+  loadAll?: boolean;
   directory: string;
   guildId?: Snowflake;
   prefix?: string;
