@@ -9,9 +9,10 @@ export class PingCommand extends Command {
       description: "Ping the bot",
       type: "SLASH_COMMAND",
       category: "Misc",
-      userPermissions: ["ADMINISTRATOR"],
+      userPermissions: ["BAN_MEMBERS"],
     });
   }
+
   execute(interaction: CommandInteraction) {
     interaction.reply(interaction.commandId);
   }
