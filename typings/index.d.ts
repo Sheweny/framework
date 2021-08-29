@@ -3,6 +3,7 @@ import type {
   ApplicationCommandData,
   ApplicationCommandOptionData,
   ApplicationCommandResolvable,
+  ApplicationCommandType,
   ButtonInteraction,
   Client,
   ClientEvents,
@@ -107,14 +108,15 @@ export class CommandsManager extends EventEmitter {
 
   private renameCommandType(
     type: "SLASH_COMMAND" | "CONTEXT_MENU_USER" | "CONTEXT_MENU_MESSAGE"
-  ): "CHAT_INPUT" | "MESSAGE_COMMAND" | "USER" | undefined;
+  ): ApplicationCommandType | undefined;
 
   public getData(
     commands: Collection<string, Command> | Command | undefined
   ): ApplicationCommandData[] | ApplicationCommandData | undefined;
 
   public registerAllApplicationCommands(
-    commands: Collection<string, Command> | undefined
+    commands: Collection<string, Command> | undefined,
+    guildId: Snowflake | undefined
   ): Promise<
     | CollectionDjs<string, ApplicationCommand<{}>>
     | CollectionDjs<string, ApplicationCommand<{ guild: GuildResolvable }>>
@@ -122,8 +124,8 @@ export class CommandsManager extends EventEmitter {
   >;
   public registerPermissions(
     applicationCommands: CollectionDjs<string, ApplicationCommand<{}>> | undefined,
-    clientCommands: Collection<string, Command> | undefined,
-    guildId: Snowflake | undefined
+    commandsCollection: Collection<string, Command> | undefined,
+    guildId: Snowflake | Snowflake[] | undefined
   ): Promise<void>;
   public createCommand(
     command: Command,
@@ -287,7 +289,14 @@ export class ShewenyClient extends Client {
 
 interface CommandsManagerOptions {
   loadAll?: boolean;
+  guildId?: Snowflake;
+  prefix?: string;
+  applicationPermissions?: boolean;
+}
+
+interface CommandsOptions {
   directory: string;
+  loadAll?: boolean;
   guildId?: Snowflake;
   prefix?: string;
   applicationPermissions?: boolean;
@@ -333,7 +342,7 @@ interface HandlersCollections {
 }
 
 interface HandlersManager {
-  commands: CommandsManager;
+  commands?: CommandsManager;
   events?: EventsManager;
   buttons?: ButtonsManager;
   selectMenus?: SelectMenusManager;
@@ -341,17 +350,15 @@ interface HandlersManager {
 }
 
 interface HandlersOptions {
-  commands?: CommandsManagerOptions;
+  commands?: CommandsOptions;
   events?: {
     directory: string;
   };
-  interactions?: {
-    buttons?: {
-      directory: string;
-    };
-    selectMenus?: {
-      directory: string;
-    };
+  buttons?: {
+    directory: string;
+  };
+  selectMenus?: {
+    directory: string;
   };
   inhibitors?: {
     directory: string;
