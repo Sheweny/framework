@@ -59,7 +59,8 @@ export class ShewenyClient extends Client {
     this.joinThreadsOnCreate = options.joinThreadsOnCreate || false;
 
     this.handlers.commands = options.handlers?.commands
-      ? new CommandsManager(this, options.handlers.commands.directory, true, {
+      ? new CommandsManager(this, options.handlers.commands.directory, {
+          loadAll: true,
           guildId: options.handlers.commands.guildId,
           prefix: options.handlers.commands.prefix,
           applicationPermissions: options.handlers.commands.applicationPermissions,

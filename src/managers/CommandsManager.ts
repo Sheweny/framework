@@ -16,6 +16,7 @@ import { readDirAndPush } from "../utils/readDirFiles";
 import type { ShewenyClient, Command } from "..";
 
 interface CommandsManagerOptions {
+  loadAll?: boolean;
   guildId?: Snowflake;
   prefix?: string;
   applicationPermissions?: boolean;
@@ -66,13 +67,11 @@ export class CommandsManager extends EventEmitter {
    * Constructor to manage commands
    * @param {ShewenyClient} client Client framework
    * @param {string} directory Directory of the commands folder
-   * @param {boolean} [loadAll] If the commands are loaded during bot launch
    * @param {CommandsManagerOptions} [options] Options of the commands manager
    */
   constructor(
     client: ShewenyClient,
     directory: string,
-    loadAll?: boolean,
     options?: CommandsManagerOptions
   ) {
     super();
@@ -86,7 +85,7 @@ export class CommandsManager extends EventEmitter {
     this.prefix = options?.prefix;
     this.applicationPermissions = options?.applicationPermissions || false;
 
-    if (loadAll) this.loadAndRegisterAll();
+    if (options?.loadAll) this.loadAndRegisterAll();
     client.handlers.commands = this;
   }
 
@@ -227,13 +226,14 @@ export class CommandsManager extends EventEmitter {
   /**
    * Set all application commands from the collection of commands in the client application
    * @param {Collection<string, Command> | undefined} [commands] Collection of the commands
-   * @returns {Promise<CollectionDjs<string, ApplicationCommand<{}>> | CollectionDjs<string, ApplicationCommand<{ guild: GuildResolvable }>> | undefined>}
+   * @returns {Promise<CollectionDjs<Snowflake, ApplicationCommand<{}>> | CollectionDjs<Snowflake, ApplicationCommand<{ guild: GuildResolvable }>> | undefined>}
    */
   public async registerAllApplicationCommands(
-    commands: Collection<string, Command> | undefined = this.commands
+    commands: Collection<string, Command> | undefined = this.commands,
+    guildId: Snowflake | undefined = this.guildId
   ): Promise<
-    | CollectionDjs<string, ApplicationCommand<{}>>
-    | CollectionDjs<string, ApplicationCommand<{ guild: GuildResolvable }>>
+    | CollectionDjs<Snowflake, ApplicationCommand<{}>>
+    | CollectionDjs<Snowflake, ApplicationCommand<{ guild: GuildResolvable }>>
     | undefined
   > {
     if (!commands) throw new Error("Commands not found");
@@ -242,8 +242,8 @@ export class CommandsManager extends EventEmitter {
     await this.client.awaitReady();
 
     if (data instanceof Array && data.length > 0) {
-      const cmds = this.guildId
-        ? await this.client.application?.commands.set(data, this.guildId)
+      const cmds = guildId
+        ? await this.client.application?.commands.set(data, guildId)
         : await this.client.application?.commands.set(data);
 
       if (this.applicationPermissions) await this.registerPermissions(cmds);
