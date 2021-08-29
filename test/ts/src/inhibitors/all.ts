@@ -1,5 +1,5 @@
-import { Inhibitor } from "../../../";
-import type { ShewenyClient } from "../../../";
+import { Inhibitor } from "../../../../";
+import type { ShewenyClient } from "../../../../";
 import type { CommandInteraction } from "discord.js";
 
 export class BlackListInhibitor extends Inhibitor {

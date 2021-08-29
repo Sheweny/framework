@@ -1,4 +1,4 @@
-import { ApplicationCommand, ShewenyClient } from "../../../";
+import { ApplicationCommand, ShewenyClient } from "../../../../";
 import type { CommandInteraction } from "discord.js";
 
 export class PingCommand extends ApplicationCommand {

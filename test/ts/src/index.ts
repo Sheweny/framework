@@ -1,4 +1,4 @@
-import { ShewenyClient } from "../../";
+import { ShewenyClient } from "../../../";
 import { DiscordResolve } from "@discord-util/resolve";
 import { CommandInteraction } from "discord.js";
 const client = new ShewenyClient({
@@ -26,14 +26,14 @@ const client = new ShewenyClient({
     },
   },
 });
-declare module "../../" {
+declare module "../../../" {
   interface ShewenyClient {
     resolve?: DiscordResolve;
   }
 }
 const resolve = new DiscordResolve(client);
 client.resolve = resolve;
-client.login("ODc3NDI2MDMxMjMxOTAxNzQ2.YRycqw.xSvG2o0kY0dAf3mE58crG0wAgB8");
+client.login("Njg5MjExNjEwMzA0MzQ4MzMx.Xm_kVA.f5UlYbqi_kxXCV9t6Z-VB3t9_WY");
 
 client.handlers.applicationCommands?.on(
   "userMissingPermissions",

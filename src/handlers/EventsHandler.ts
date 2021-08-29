@@ -39,11 +39,13 @@ export class EventsHandler {
     const baseDir = join(require.main!.path, this.dir);
     const evtsPaths: string[] = await readDirAndPush(baseDir);
     for (const evtPath of evtsPaths) {
-      const evtImport = await import(evtPath);
-      const key = Object.keys(evtImport)[0];
-      const Event = evtImport[key];
-      if (!Event) continue;
-      const instance: Event = new Event(this.client);
+      let Evt = await import(evtPath);
+      if (Object.keys(Evt).length) {
+        const key = Object.keys(Evt)[0];
+        Evt = Evt[key];
+      }
+      if (!Evt) continue;
+      const instance: Event = new Evt(this.client);
       if (!instance.name) continue;
       instance.path = evtPath;
       events.set(instance.name, instance);

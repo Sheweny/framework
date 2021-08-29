@@ -51,7 +51,13 @@ export class ApplicationCommandsHandler extends EventEmitter {
    * @param {string} [guildId] - The guild to register command
    * @returns {Promise<CollectionDjs<string, ApplicationCommandDjs<{}>> | CollectionDjs<string, ApplicationCommandDjs<{ guild: GuildResolvable; }>> | undefined>} The application commands
    */
-  public async loadAllAndRegister(guildId?: string): Promise<CollectionDjs<string, ApplicationCommandDjs<{}>> | CollectionDjs<string, ApplicationCommandDjs<{ guild: GuildResolvable; }>> | undefined> {
+  public async loadAllAndRegister(
+    guildId?: string
+  ): Promise<
+    | CollectionDjs<string, ApplicationCommandDjs<{}>>
+    | CollectionDjs<string, ApplicationCommandDjs<{ guild: GuildResolvable }>>
+    | undefined
+  > {
     const commands = await this.loadAll();
     return this.registerCommands(commands, guildId);
   }
@@ -67,11 +73,13 @@ export class ApplicationCommandsHandler extends EventEmitter {
     const baseDir = join(require.main!.path, this.dir);
     const cmds: string[] = await readDirAndPush(baseDir);
     for (const cmdPath of cmds) {
-      const commandImport = await import(cmdPath);
-      const key = Object.keys(commandImport)[0];
-      const Command = commandImport[key];
-      if (!Command) continue;
-      const instance: ApplicationCommand = new Command(this.client);
+      let Cmd = await import(cmdPath);
+      if (Object.keys(Cmd).length) {
+        const key = Object.keys(Cmd)[0];
+        Cmd = Cmd[key];
+      }
+      if (!Cmd) continue;
+      const instance: ApplicationCommand = new Cmd(this.client);
       if (!instance.data.name) continue;
       instance.path = cmdPath;
       commands.set(instance.data.name, instance);

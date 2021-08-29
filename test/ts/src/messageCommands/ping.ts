@@ -1,4 +1,4 @@
-import { MessageCommand, ShewenyClient } from "../../../";
+import { MessageCommand, ShewenyClient } from "../../../../";
 import type { Message } from "discord.js";
 
 export class PingCommand extends MessageCommand {

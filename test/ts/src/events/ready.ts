@@ -1,8 +1,8 @@
-import { Event } from "../../../";
-import type { ShewenyClient } from "../../../";
+import { Event } from "../../../../";
+import type { ShewenyClient } from "../../../../";
 import type { Client } from "discord.js";
 
-export class Ready extends Event {
+export default class Ready extends Event {
   constructor(client: ShewenyClient) {
     super(client, "ready", {
       description: "Client is logged in",

@@ -37,11 +37,13 @@ export class ButtonsHandler {
     const baseDir = join(require.main!.path, this.dir);
     const buttonsPaths: string[] = await readDirAndPush(baseDir);
     for (const buttonPath of buttonsPaths) {
-      const buttonImport = await import(buttonPath);
-      const key = Object.keys(buttonImport)[0];
-      const Button = buttonImport[key];
-      if (!Button) continue;
-      const instance = new Button(this.client);
+      let Btn = await import(buttonPath);
+      if (Object.keys(Btn).length) {
+        const key = Object.keys(Btn)[0];
+        Btn = Btn[key];
+      }
+      if (!Btn) continue;
+      const instance = new Btn(this.client);
       if (!instance.customId) continue;
       instance.path = buttonPath;
       buttons.set(instance.customId, instance);

@@ -46,11 +46,13 @@ export class MessageCommandsHandler extends EventEmitter {
     const baseDir = join(require.main!.path, this.dir);
     const cmds: string[] = await readDirAndPush(baseDir);
     for (const cmdPath of cmds) {
-      const commandImport = await import(cmdPath);
-      const key = Object.keys(commandImport)[0];
-      const Command = commandImport[key];
-      if (!Command) continue;
-      const instance: MessageCommand = new Command(this.client);
+      let Cmd = await import(cmdPath);
+      if (Object.keys(Cmd).length) {
+        const key = Object.keys(Cmd)[0];
+        Cmd = Cmd[key];
+      }
+      if (!Cmd) continue;
+      const instance: MessageCommand = new Cmd(this.client);
       if (!instance.name) continue;
       instance.path = cmdPath;
       commands.set(instance.name, instance);

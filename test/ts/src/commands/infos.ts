@@ -1,4 +1,4 @@
-import { ApplicationCommand, ShewenyClient } from "../../../";
+import { ApplicationCommand, ShewenyClient } from "../../../../";
 import { MessageEmbed } from "discord.js";
 import moment from "moment";
 import type { CommandInteraction, Role } from "discord.js";

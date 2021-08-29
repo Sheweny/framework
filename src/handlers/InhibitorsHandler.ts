@@ -38,11 +38,13 @@ export class InhibitorsHandler {
     const baseDir = join(require.main!.path, this.dir);
     const inhibitorsPaths: string[] = await readDirAndPush(baseDir);
     for (const inhibitorPath of inhibitorsPaths) {
-      const inhibitorImport = await import(inhibitorPath);
-      const key = Object.keys(inhibitorImport)[0];
-      const Inhibitor = inhibitorImport[key];
-      if (!Inhibitor) continue;
-      const instance: Inhibitor = new Inhibitor(this.client);
+      let Inhib = await import(inhibitorPath);
+      if (Object.keys(Inhib).length) {
+        const key = Object.keys(Inhib)[0];
+        Inhib = Inhib[key];
+      }
+      if (!Inhib) continue;
+      const instance: Inhibitor = new Inhib(this.client);
       if (!instance.name) continue;
       instance.path = inhibitorPath;
       inhibitors.set(instance.name, instance);
