@@ -1,10 +1,14 @@
-import { CommandsManager, ShewenyClient } from "../..";
+import { CommandsManager, ShewenyClient } from "../../..";
 
 const client = new ShewenyClient({
   intents: ["GUILDS", "GUILD_MESSAGES"],
+  mode: "development",
   handlers: {
     events: {
       directory: "./events",
+    },
+    buttons: {
+      directory: "./buttons",
     },
   },
 });

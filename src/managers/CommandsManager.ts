@@ -1,5 +1,4 @@
 import { Collection } from "collection-data";
-import { join } from "path";
 import type {
   Collection as CollectionDjs,
   ApplicationCommand,
@@ -12,7 +11,7 @@ import type {
   Snowflake,
 } from "discord.js";
 import { EventEmitter } from "events";
-import { readDirAndPush } from "../utils/readDirFiles";
+import { loadFiles } from "../utils/loadFiles";
 import type { ShewenyClient, Command } from "..";
 
 interface CommandsManagerOptions {
@@ -93,22 +92,12 @@ export class CommandsManager extends EventEmitter {
    * Load all commands in collection
    * @returns {Promise<Collection<string, Command>>}
    */
-  public async loadAll(): Promise<Collection<string, Command>> {
-    const commands: Collection<string, Command> = new Collection();
-    const baseDir = join(require.main!.path, this.directory);
-    const cmdsPath = await readDirAndPush(baseDir);
-    for (const cmdPath of cmdsPath) {
-      const cmdImport = await import(cmdPath);
-      const key = Object.keys(cmdImport)[0];
-      const Command = cmdImport[key];
-      if (!Command) continue;
-      const instance: Command = new Command(this.client);
-      if (!instance.name) continue;
-
-      instance.path = cmdPath;
-      commands.set(instance.name, instance);
-    }
-
+  public async loadAll(): Promise<Collection<string, Command> | undefined> {
+    const commands = await loadFiles<string, Command>(
+      this.client,
+      this.directory,
+      "name"
+    );
     this.client.collections.commands = commands;
     this.commands = commands;
     return commands;
