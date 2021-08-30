@@ -6,17 +6,24 @@ import {
   InhibitorsManager,
   SelectMenusManager,
 } from "../managers";
-import type { HandlersManager, HandlersCollections } from "../interfaces/Handlers";
 import { join } from "path";
 import { readdir } from "fs/promises";
 import { DiscordResolve } from "@sheweny/resolve";
+import { ShewenyWarning } from "../errors";
 import type { Snowflake, ClientOptions } from "discord.js";
 import type { ShewenyClientOptions } from "../interfaces/Client";
+import type { HandlersManager, HandlersCollections } from "../interfaces/Handlers";
 
 /**
  * Sheweny framework client
  */
 export class ShewenyClient extends Client {
+  /**
+   * The mode of the application (developement or production)
+   * @type {string}
+   */
+  public mode?: "production" | "development";
+
   /**
    * The ID of the bot admins
    * @type {Snowflake[]}
@@ -54,6 +61,16 @@ export class ShewenyClient extends Client {
    */
   constructor(options: ShewenyClientOptions, clientOptions?: ClientOptions) {
     super(clientOptions || options);
+
+    if (options.mode && options.mode === "development") {
+      this.mode = "development";
+      new ShewenyWarning(
+        this,
+        "You are running Sheweny in development mode. Make sure to turn on production mode when deploying for production to avoid warnings."
+      );
+    } else {
+      this.mode === "production";
+    }
 
     this.admins = options.admins || [];
     this.joinThreadsOnCreate = options.joinThreadsOnCreate || false;

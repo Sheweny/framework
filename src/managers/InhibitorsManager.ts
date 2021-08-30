@@ -46,8 +46,12 @@ export class InhibitorsManager {
    * Load all inhibitors in collection
    * @returns {Promise<Collection<string, Inhibitor>>}
    */
-  public async loadAll(): Promise<Collection<string, Inhibitor>> {
-    const inhibitors = await loadFiles<string, Inhibitor>(this.client, this.directory);
+  public async loadAll(): Promise<Collection<string, Inhibitor> | undefined> {
+    const inhibitors = await loadFiles<string, Inhibitor>(
+      this.client,
+      this.directory,
+      "name"
+    );
     this.client.collections.inhibitors = inhibitors;
     this.inhibitors = inhibitors;
     return inhibitors;

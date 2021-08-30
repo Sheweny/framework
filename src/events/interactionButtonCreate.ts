@@ -1,3 +1,4 @@
+import { ShewenyError } from "../errors";
 import type { ButtonInteraction } from "discord.js";
 import type { ShewenyClient } from "../client/Client";
 import type { Inhibitor } from "../structures/Inhibitor";
@@ -25,7 +26,7 @@ export default async function run(client: ShewenyClient, interaction: ButtonInte
 
   try {
     await button.execute(interaction);
-  } catch (e) {
-    console.error(e);
+  } catch (e: any) {
+    new ShewenyError(client, e);
   }
 }

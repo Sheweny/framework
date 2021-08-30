@@ -1,3 +1,4 @@
+import { ShewenyError } from "../errors";
 import type { SelectMenuInteraction } from "discord.js";
 import type { ShewenyClient } from "../client/Client";
 import type { Inhibitor } from "../structures/Inhibitor";
@@ -28,7 +29,7 @@ export default async function run(
 
   try {
     await selectMenu.execute(interaction);
-  } catch (e) {
-    console.error(e);
+  } catch (e: any) {
+    new ShewenyError(client, e);
   }
 }

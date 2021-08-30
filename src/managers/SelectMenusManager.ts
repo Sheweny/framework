@@ -1,5 +1,4 @@
 import { Collection } from "collection-data";
-import { join } from "path";
 import { loadFiles } from "../utils/loadFiles";
 import type { ShewenyClient, SelectMenu } from "..";
 
@@ -45,10 +44,11 @@ export class SelectMenusManager {
    * Load all select menus in collection
    * @returns {Promise<Collection<string[], SelectMenu>>}
    */
-  public async loadAll(): Promise<Collection<string[], SelectMenu>> {
+  public async loadAll(): Promise<Collection<string[], SelectMenu> | undefined> {
     const selectMenus = await loadFiles<string[], SelectMenu>(
       this.client,
-      this.directory
+      this.directory,
+      "customId"
     );
     this.client.collections.selectMenus = selectMenus;
     this.selectMenus = selectMenus;

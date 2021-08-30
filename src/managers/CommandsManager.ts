@@ -1,5 +1,4 @@
 import { Collection } from "collection-data";
-import { join } from "path";
 import type {
   Collection as CollectionDjs,
   ApplicationCommand,
@@ -93,8 +92,12 @@ export class CommandsManager extends EventEmitter {
    * Load all commands in collection
    * @returns {Promise<Collection<string, Command>>}
    */
-  public async loadAll(): Promise<Collection<string, Command>> {
-    const commands = await loadFiles<string, Command>(this.client, this.directory);
+  public async loadAll(): Promise<Collection<string, Command> | undefined> {
+    const commands = await loadFiles<string, Command>(
+      this.client,
+      this.directory,
+      "name"
+    );
     this.client.collections.commands = commands;
     this.commands = commands;
     return commands;

@@ -50,7 +50,7 @@ export class ButtonsManager {
   public directory: string;
   public buttons?: Collection<string[], Button>;
 
-  public loadAll(): Promise<Collection<string[], Button>>;
+  public loadAll(): Promise<Collection<string[], Button> | undefined>;
 }
 
 export abstract class Command extends BaseStructure {
@@ -103,7 +103,7 @@ export class CommandsManager extends EventEmitter {
   public applicationPermissions?: boolean;
   public commands?: Collection<string, Command>;
 
-  public loadAll(): Promise<Collection<string, Command>>;
+  public loadAll(): Promise<Collection<string, Command> | undefined>;
   public loadAndRegisterAll(): Promise<void>;
 
   private renameCommandType(
@@ -220,7 +220,7 @@ export class EventsManager {
   public directory: string;
   public events?: Collection<keyof ClientEvents, Event>;
 
-  public loadAll(): Promise<Collection<keyof ClientEvents, Event>>;
+  public loadAll(): Promise<Collection<keyof ClientEvents, Event> | undefined>;
   public registerAll(events?: Collection<keyof ClientEvents, Event>): Promise<void>;
   public loadAndRegisterAll(): Promise<void>;
 }
@@ -247,7 +247,7 @@ export class InhibitorsManager {
   public directory: string;
   public inhibitors?: Collection<string, Inhibitor>;
 
-  public loadAll(): Promise<Collection<string, Inhibitor>>;
+  public loadAll(): Promise<Collection<string, Inhibitor> | undefined>;
 }
 
 export abstract class SelectMenu extends BaseStructure {
@@ -270,12 +270,12 @@ export class SelectMenusManager {
   public directory: string;
   public selectMenus?: Collection<string[], SelectMenu>;
 
-  public loadAll(): Promise<Collection<string[], SelectMenu>>;
+  public loadAll(): Promise<Collection<string[], SelectMenu> | undefined>;
 }
 
 export class ShewenyClient extends Client {
   public constructor(options: ShewenyClientOptions, clientOptions?: ClientOptions);
-
+  public mode: "development" | "production";
   public admins: Snowflake[];
   public handlers: HandlersManager;
   public collections: HandlersCollections;
@@ -430,6 +430,7 @@ interface SlashCommandData {
 }
 
 export interface ShewenyClientOptions extends ClientOptions {
+  mode: "development" | "production";
   admins?: Snowflake[];
   handlers?: HandlersOptions;
   joinThreadsOnCreate?: boolean;

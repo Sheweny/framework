@@ -1,3 +1,4 @@
+import { ShewenyError } from "../errors";
 import type { CommandInteraction, ContextMenuInteraction } from "discord.js";
 import { Collection } from "collection-data";
 import type { ShewenyClient } from "..";
@@ -91,7 +92,7 @@ export default async function run(
   /* ---------------COMMAND--------------- */
   try {
     await command.execute(interaction);
-  } catch (e) {
-    console.error(e);
+  } catch (e: any) {
+    new ShewenyError(client, e);
   }
 }

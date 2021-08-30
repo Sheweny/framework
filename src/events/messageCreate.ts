@@ -1,7 +1,8 @@
-import type { Message } from "discord.js";
+import { ShewenyError } from "../errors";
 import { Collection } from "collection-data";
 import type { ShewenyClient } from "../client/Client";
 import type { Inhibitor } from "../structures";
+import type { Message } from "discord.js";
 
 export default async function run(client: ShewenyClient, message: Message) {
   if (!client.handlers.commands) return;
@@ -175,7 +176,7 @@ export default async function run(client: ShewenyClient, message: Message) {
   /* ---------------COMMAND--------------- */
   try {
     await command.execute(message, messageArgs);
-  } catch (e) {
-    console.error(e);
+  } catch (e: any) {
+    new ShewenyError(client, e);
   }
 }

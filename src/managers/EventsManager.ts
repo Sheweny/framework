@@ -46,10 +46,11 @@ export class EventsManager {
    * Load all events in collection
    * @returns {Promise<Collection<keyof ClientEvents, Event>>}
    */
-  public async loadAll(): Promise<Collection<keyof ClientEvents, Event>> {
+  public async loadAll(): Promise<Collection<keyof ClientEvents, Event> | undefined> {
     const events = await loadFiles<keyof ClientEvents, Event>(
       this.client,
-      this.directory
+      this.directory,
+      "name"
     );
     this.client.collections.events = events;
     this.events = events;

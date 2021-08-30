@@ -44,8 +44,12 @@ export class ButtonsManager {
    * Load all buttons in collection
    * @returns {Promise<Collection<string[], Button>>}
    */
-  public async loadAll(): Promise<Collection<string[], Button>> {
-    const buttons = await loadFiles<string[], Button>(this.client, this.directory);
+  public async loadAll(): Promise<Collection<string[], Button> | undefined> {
+    const buttons = await loadFiles<string[], Button>(
+      this.client,
+      this.directory,
+      "customId"
+    );
     this.client.collections.buttons = buttons;
     this.buttons = buttons;
     return buttons;
