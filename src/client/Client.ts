@@ -93,7 +93,7 @@ export class ShewenyClient extends Client {
       : undefined;
 
     this.handlers.selectMenus = options.handlers?.selectMenus
-      ? new SelectMenusManager(this, options.handlers.selectMenus.directory)
+      ? new SelectMenusManager(this, options.handlers.selectMenus.directory, true)
       : undefined;
 
     this.handlers.inhibitors = options.handlers?.inhibitors
