@@ -62,15 +62,13 @@ export class ShewenyClient extends Client {
   constructor(options: ShewenyClientOptions, clientOptions?: ClientOptions) {
     super(clientOptions || options);
 
-    if (options.mode && options.mode === "development") {
-      this.mode = "development";
+    this.mode = options.mode || "development";
+
+    if (options.mode !== "production")
       new ShewenyWarning(
         this,
         "You are running Sheweny in development mode. Make sure to turn on production mode when deploying for production to avoid warnings."
       );
-    } else {
-      this.mode === "production";
-    }
 
     this.admins = options.admins || [];
     this.joinThreadsOnCreate = options.joinThreadsOnCreate || false;
