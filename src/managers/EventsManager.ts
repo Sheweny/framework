@@ -1,6 +1,5 @@
 import { Collection } from "collection-data";
-import { join } from "path";
-import { readDirAndPush } from "../utils/readDirFiles";
+import { loadFiles } from "../utils/loadFiles";
 import type { ShewenyClient, Event } from "..";
 import type { ClientEvents } from "discord.js";
 
@@ -47,22 +46,12 @@ export class EventsManager {
    * Load all events in collection
    * @returns {Promise<Collection<keyof ClientEvents, Event>>}
    */
-  public async loadAll(): Promise<Collection<keyof ClientEvents, Event>> {
-    const events: Collection<keyof ClientEvents, Event> = new Collection();
-    const baseDir = join(require.main!.path, this.directory);
-    const evtsPaths = await readDirAndPush(baseDir);
-
-    for (const evtPath of evtsPaths) {
-      const evtImport = await import(evtPath);
-      const key = Object.keys(evtImport)[0];
-      const Event = evtImport[key];
-      if (!Event) continue;
-      const instance: Event = new Event(this.client);
-      if (!instance.name) continue;
-      instance.path = evtPath;
-      events.set(instance.name, instance);
-    }
-
+  public async loadAll(): Promise<Collection<keyof ClientEvents, Event> | undefined> {
+    const events = await loadFiles<keyof ClientEvents, Event>(
+      this.client,
+      this.directory,
+      "name"
+    );
     this.client.collections.events = events;
     this.events = events;
     return events;

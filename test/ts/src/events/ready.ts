@@ -1,5 +1,5 @@
-import { Event } from "../../..";
-import type { ShewenyClient } from "../../..";
+import { Event } from "../../../../";
+import type { ShewenyClient } from "../../../../";
 
 export class ReadyEvent extends Event {
   constructor(client: ShewenyClient) {
