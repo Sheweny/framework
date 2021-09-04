@@ -1,25 +1,15 @@
-<<<<<<< HEAD:test/ts/src/commands/tests/buttons.ts
-import { ApplicationCommand, ShewenyClient } from "../../../../../";
-import type { CommandInteraction } from "discord.js";
-=======
-import { Command } from "../../../../";
->>>>>>> dev:test/ts/src/commands/buttons.ts
-import { MessageButton, MessageActionRow } from "discord.js";
-import type { ShewenyClient } from "../../../../";
-import type { CommandInteraction } from "discord.js";
+const { Command } = require("../../../");
+const { MessageButton, MessageActionRow } = require("discord.js");
 
-export default class PingCommand extends Command {
-  constructor(client: ShewenyClient) {
+module.exports = class PingCommand extends Command {
+  constructor(client) {
     super(client, {
-      name: "buttons",
-      description: "Test the buttons",
+      description: "Ping the bot",
       type: "SLASH_COMMAND",
       category: "Misc",
-      userPermissions: ["BAN_MEMBERS"],
     });
   }
-
-  execute(interaction: CommandInteraction) {
+  execute(interaction) {
     const row = new MessageActionRow()
       .addComponents(
         new MessageButton().setCustomId("primary").setLabel("Primary").setStyle("PRIMARY")
@@ -38,4 +28,4 @@ export default class PingCommand extends Command {
       );
     interaction.reply({ content: "Test the buttons", components: [row] });
   }
-}
+};

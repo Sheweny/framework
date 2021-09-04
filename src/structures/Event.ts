@@ -1,30 +1,45 @@
 import { Collection } from "collection-data";
-import { ShewenyClient } from "../ShewenyClient";
+import { BaseStructure } from ".";
+import type { ClientEvents } from "discord.js";
+import type { ShewenyClient } from "../client/Client";
 
-interface IEventMeta {
+interface EventOptions {
   description?: string;
   once?: boolean;
 }
 
 /**
- * Represent a event
- * @class Event structure
- * @abstract
+ * Represents an Event structure
+ * @extends {BaseStructure}
  */
-export abstract class Event {
-  public client: ShewenyClient | any;
-  public path?: string;
-  public name: string;
-  public description: string = "";
-  public once: boolean = false;
+export abstract class Event extends BaseStructure {
+  /**
+   * Name of a event
+   * @type {keyof ClientEvents}
+   */
+  public name: keyof ClientEvents;
 
   /**
-   * @constructor
-   * @param {ShewenyClient} client - The client
-   * @param {string} name - The name of the event
-   * @param {IEventMeta} options - The options of the event
+   * Description of a event
+   * @type {string}
    */
-  constructor(client: ShewenyClient, name: string, options?: IEventMeta) {
+  public description: string;
+
+  /**
+   * If the listener is deleted after it is executed
+   * @type {boolean}
+   */
+  public once: boolean;
+
+  /**
+   * Constructor for build a Event
+   * @param {ShewenyClient} client Client framework
+   * @param {keyof ClientEvents} name Name of the event
+   * @param {string[]} customId Custom id for one or more buttons
+   */
+  constructor(client: ShewenyClient, name: keyof ClientEvents, options?: EventOptions) {
+    super(client);
+
     this.client = client;
     this.name = name;
     this.description = options?.description || "";
@@ -41,7 +56,7 @@ export abstract class Event {
    * @returns {boolean}
    */
   public unregister(): boolean {
-    this.client.events?.delete(this.name);
+    this.client.collections.events?.delete(this.name);
     delete require.cache[require.resolve(this.path!)];
     return true;
   }
@@ -69,8 +84,8 @@ export abstract class Event {
   public async register(): Promise<Collection<string, Event>> {
     const event = (await import(this.path!)).default;
     const evt: Event = new event(this.client);
-    return this.client.events
-      ? this.client.events.set(evt.name, evt)
+    return this.client.collections.events
+      ? this.client.collections.events.set(evt.name, evt)
       : new Collection<string, Event>().set(evt.name, evt);
   }
 }

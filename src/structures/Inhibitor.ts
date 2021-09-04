@@ -1,5 +1,6 @@
 import { Collection } from "collection-data";
-import { ShewenyClient } from "../ShewenyClient";
+import { BaseStructure } from ".";
+import type { ShewenyClient } from "../client/Client";
 
 type InhibitorType =
   | "MESSAGE_COMMAND"
@@ -7,54 +8,76 @@ type InhibitorType =
   | "BUTTON"
   | "SELECT_MENU"
   | "ALL";
-interface IInhibitorMeta {
+
+interface InhibitorOptions {
   type?: InhibitorType[];
   priority?: number;
 }
 
 /**
- * Represent an inhibitor
- * @class
- * @abstract
+ * Represents an Command structure
+ * @extends {BaseStructure}
  */
-export abstract class Inhibitor {
-  public client: ShewenyClient | any;
-  public path?: string;
+export abstract class Inhibitor extends BaseStructure {
+  /**
+   * Name of a inhibitor
+   * @type {string}
+   */
   public name: string;
-  public type: InhibitorType[] = ["MESSAGE_COMMAND"];
-  public priority: number = 0;
 
   /**
-   * @constructor
-   * @param {ShewenyClient} client - The client
-   * @param {string[]} customId - The different inhibitor customid
+   * Type(s) of a inhibitor
+   * @type {InhibitorType[]}
    */
-  constructor(client: ShewenyClient, name: string, options?: IInhibitorMeta) {
+  public type: InhibitorType[];
+
+  /**
+   * Priority of a inhibitor
+   * @type {number}
+   */
+  public priority: number;
+
+  /**
+   * Constructor for build a Inhibitor
+   * @param {ShewenyClient} client Client framework
+   * @param {string} name Name of the event
+   * @param {InhibitorOptions} [options] Options for the inhibitor
+   */
+  constructor(client: ShewenyClient, name: string, options?: InhibitorOptions) {
+    super(client);
+
     this.client = client;
     this.name = name;
     this.type = options?.type || ["MESSAGE_COMMAND"];
     this.priority = options?.priority || 0;
   }
 
+  /**
+   * This function is executed when the main `execute` function has failed
+   * @param {any[]} args Arguments (???)
+   * @returns {any | Promise<any>}
+   */
   abstract onFailure(...args: any[]): any | Promise<any>;
 
+  /**
+   * Main function `execute` for the inhibitors
+   * @param {any[]} args Button interaction
+   * @returns {any | Promise<any>}
+   */
   abstract execute(...args: any[]): any | Promise<any>;
 
   /**
-   * Unregister a inhibitor
-   * @public
+   * Unregister a inhibitor from collections
    * @returns {boolean}
    */
   public unregister(): boolean {
-    this.client.inhibitors?.delete(this.name);
+    this.client.collections.inhibitors?.delete(this.name);
     delete require.cache[require.resolve(this.path!)];
     return true;
   }
 
   /**
    * Reload a inhibitor
-   * @public
-   * @async
    * @returns {Promise<Collection<string[], Inhibitor> | null>} The inhibitors collection
    */
   public async reload(): Promise<Collection<string, Inhibitor> | null> {
@@ -66,16 +89,14 @@ export abstract class Inhibitor {
   }
 
   /**
-   * Register a inhibitor
-   * @public
-   * @async
+   * Register a inhibitor in collections
    * @returns {Collection<string[], Inhibitor>} The inhibitors collection
    */
   public async register(): Promise<Collection<string, Inhibitor>> {
     const Inhibitor = (await import(this.path!)).default;
     const inhib: Inhibitor = new Inhibitor(this.client);
-    return this.client.inhibitors
-      ? this.client.inhibitors.set(inhib.name, inhib)
+    return this.client.collections.inhibitors
+      ? this.client.collections.inhibitors.set(inhib.name, inhib)
       : new Collection<string, Inhibitor>().set(inhib.name, inhib);
   }
 }

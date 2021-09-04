@@ -1,47 +1,57 @@
+import type { ButtonInteraction } from "discord.js";
+import type { ShewenyClient } from "../client/Client";
 import { Collection } from "collection-data";
-import { ButtonInteraction } from "discord.js";
-import { ShewenyClient } from "../ShewenyClient";
+import { BaseStructure } from ".";
 
 /**
- * Represent a button
- * @class Button structure
- * @abstract
+ * Represents an Button structure
+ * @extends {BaseStructure}
  */
-export abstract class Button {
-  public client: ShewenyClient | any;
-  public path?: string;
+export abstract class Button extends BaseStructure {
+  /**
+   * Custom id for one or more buttons
+   * @type {string[]}
+   */
   public customId: string[];
 
   /**
-   * @constructor
-   * @param {ShewenyClient} client - The client
-   * @param {string[]} customId - The different buttons customid
+   * Constructor for build a Button
+   * @param {ShewenyClient} client Client framework
+   * @param {string[]} customId Custom id for one or more buttons
    */
   constructor(client: ShewenyClient, customId: string[]) {
-    this.client = client;
+    super(client);
+
     this.customId = customId;
   }
 
+  /**
+   * This function is executed before executing the `execute` function
+   * @param {ButtonInteraction} interaction Button interaction
+   * @returns {any | Promise<any>}
+   */
   before?(interaction: ButtonInteraction): any | Promise<any>;
 
+  /**
+   * Main function `execute` for the buttons
+   * @param {ButtonInteraction} interaction Button interaction
+   * @returns {any | Promise<any>}
+   */
   abstract execute(interaction: ButtonInteraction): any | Promise<any>;
 
   /**
-   * Unregister a button
-   * @public
+   * Unregister a button from collections
    * @returns {boolean}
    */
   public unregister(): boolean {
-    this.client.buttons?.delete(this.customId);
+    this.client.collections.buttons?.delete(this.customId);
     delete require.cache[require.resolve(this.path!)];
     return true;
   }
 
   /**
    * Reload a button
-   * @public
-   * @async
-   * @returns {Promise<Collection<string[], Button> | null>} The buttons collection
+   * @returns {Promise<Collection<string[], Button> | null>}
    */
   public async reload(): Promise<Collection<string[], Button> | null> {
     if (this.path) {
@@ -52,16 +62,14 @@ export abstract class Button {
   }
 
   /**
-   * Register a button
-   * @public
-   * @async
-   * @returns {Collection<string[], Button>} The buttons collection
+   * Register a button in collections
+   * @returns {Collection<string[], Button>}
    */
   public async register(): Promise<Collection<string[], Button>> {
     const Button = (await import(this.path!)).default;
     const btn = new Button(this.client);
-    return this.client.buttons
-      ? this.client.buttons.set(btn.customId, btn)
+    return this.client.collections.buttons
+      ? this.client.collections.buttons.set(btn.customId, btn)
       : new Collection<string[], Button>().set(btn.customId, btn);
   }
 }
