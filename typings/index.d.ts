@@ -430,7 +430,7 @@ interface SlashCommandData {
 }
 
 export interface ShewenyClientOptions extends ClientOptions {
-  mode: "development" | "production";
+  mode?: "development" | "production";
   admins?: Snowflake[];
   handlers?: HandlersOptions;
   joinThreadsOnCreate?: boolean;

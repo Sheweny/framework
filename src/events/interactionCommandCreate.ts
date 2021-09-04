@@ -33,7 +33,12 @@ export default async function run(
     }
 
     /* ---------------PERMISSIONS--------------- */
-    if (command.adminsOnly && !client.admins?.includes(interaction.user.id)) return;
+    if (command.adminsOnly && !client.admins?.includes(interaction.user.id))
+      return client.handlers.commands.emit(
+        "userMissingPermissions",
+        interaction,
+        "BOT_ADMIN"
+      );
 
     /* ---------------IN-GUILD--------------- */
     if (interaction.inGuild()) {

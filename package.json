@@ -1,12 +1,12 @@
 {
   "name": "sheweny",
-  "version": "2.0.0-dev.2",
+  "version": "2.0.0-dev.3",
   "description": "The powerful framework for create discord bots",
   "main": "build/index.js",
   "types": "./typings/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "dev": "tsnd --respawn --transpile-only --cls ./test/src/index.ts"
+    "dev": "tsnd --respawn --transpile-only --cls ./test/ts/src/index.ts"
   },
   "author": "Smaug#6739, Natchi#8537",
   "license": "MIT",
