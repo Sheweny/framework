@@ -124,7 +124,7 @@ export default async function run(client: ShewenyClient, message: Message) {
             messageArgs[argCommand?.name] = Boolean(args[i]);
             break;
           case "REST":
-            messageArgs[argCommand?.name] = String(args.slice(i));
+            messageArgs[argCommand?.name] = String(args.slice(i).join(" "));
             break;
 
           case "GUILD":
