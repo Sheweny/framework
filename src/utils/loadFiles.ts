@@ -1,4 +1,4 @@
-import { join } from "path";
+import { resolve } from "path";
 import { readDirAndPush } from "./readDirFiles";
 import { Collection } from "collection-data";
 import { ShewenyError, ShewenyWarning } from "../errors";
@@ -12,7 +12,7 @@ export async function loadFiles<K, V>(
 ): Promise<Collection<K, V> | undefined> {
   try {
     const collection = new Collection<K, V>();
-    const baseDir = join(require.main!.path, directory);
+    const baseDir = resolve(require.main!.path, directory);
     const filesPath: string[] = await readDirAndPush(baseDir);
 
     for (const filePath of filesPath) {
