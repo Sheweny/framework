@@ -4,7 +4,7 @@ import type { ShewenyClient } from "../";
  * The base class for all structures
  */
 export abstract class BaseStructure {
-  public client: ShewenyClient;
+  public client: ShewenyClient | any;
   public path?: string;
 
   /**

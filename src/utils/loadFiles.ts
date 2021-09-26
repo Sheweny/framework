@@ -6,7 +6,7 @@ import { ShewenyError, ShewenyWarning } from "../errors";
 import type { ShewenyClient } from "../client/Client";
 
 export async function loadFiles<K, V>(
-  client: ShewenyClient,
+  client: ShewenyClient | any,
   directory: string,
   key: string
 ): Promise<Collection<K, V> | undefined> {

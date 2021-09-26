@@ -26,7 +26,7 @@ import type { DiscordResolve } from "@sheweny/resolve";
 export abstract class BaseStructure {
   public constructor(client: ShewenyClient, path?: string);
 
-  public client: ShewenyClient;
+  public client: ShewenyClient | any;
   public path?: string;
 }
 
