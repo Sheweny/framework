@@ -6,7 +6,7 @@ If you wish to contribute to the Sheweny project you are welcome:
 
 Contributions are made to this repo via issues and Pull Requests (PRs). Some general guidelines that cover both:
 
-- For the issues try to give as much detail as possible about the problem. Give the error and the pages concerned.
+- For the issues try to give as much detail as possible about the problem. Give the error.
 - Research existing issues and PRs before creating your own.
 - Do not modify the `master` and `dev` branches. Open pull requests to the `dev` branch and they will be checked and then merged.
 
