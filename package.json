@@ -1,6 +1,6 @@
 {
   "name": "sheweny",
-  "version": "2.0.5",
+  "version": "2.1.0",
   "description": "The powerful framework for create discord bots",
   "main": "build/index.js",
   "types": "./typings/index.d.ts",
@@ -25,11 +25,12 @@
   "homepage": "https://sheweny.js.org",
   "dependencies": {
     "@sheweny/resolve": "^1.3.2",
-    "collection-data": "^1.0.1"
+    "collection-data": "^1.0.1",
+    "sheweny": "^2.0.7"
   },
   "devDependencies": {
-    "discord.js": "^13.1.0",
     "@types/node": "^16.6.1",
+    "discord.js": "^13.1.0",
     "ts-node-dev": "^1.1.8"
   }
 }

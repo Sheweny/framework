@@ -23,15 +23,15 @@ import type { DiscordResolve } from "@sheweny/resolve";
 
 //#region Classes
 
-export abstract class BaseStructure {
-  public constructor(client: ShewenyClient, path?: string);
+export abstract class BaseStructure<T> {
+  public constructor(client: T, path?: string);
 
-  public client: ShewenyClient | any;
+  public client: T;
   public path?: string;
 }
 
-export abstract class Button extends BaseStructure {
-  public constructor(client: ShewenyClient, customId: string[]);
+export abstract class Button<T = ShewenyClient> extends BaseStructure<T> {
+  public constructor(client: T, customId: string[]);
 
   public customId: string[];
 
@@ -53,7 +53,7 @@ export class ButtonsManager {
   public loadAll(): Promise<Collection<string[], Button> | undefined>;
 }
 
-export abstract class Command extends BaseStructure {
+export abstract class Command<T = ShewenyClient> extends BaseStructure<T> {
   public constructor(client: ShewenyClient, data: CommandData);
 
   public name: string;
@@ -194,7 +194,7 @@ export class CommandsManager extends EventEmitter {
   ): this;
 }
 
-export abstract class Event extends BaseStructure {
+export abstract class Event<T = ShewenyClient> extends BaseStructure<T> {
   public constructor(
     client: ShewenyClient,
     name: keyof ClientEvents,
@@ -225,7 +225,7 @@ export class EventsManager {
   public loadAndRegisterAll(): Promise<void>;
 }
 
-export abstract class Inhibitor extends BaseStructure {
+export abstract class Inhibitor<T = ShewenyClient> extends BaseStructure<T> {
   public constructor(client: ShewenyClient, name: string, options?: InhibitorOptions);
 
   public name: string;
@@ -250,7 +250,7 @@ export class InhibitorsManager {
   public loadAll(): Promise<Collection<string, Inhibitor> | undefined>;
 }
 
-export abstract class SelectMenu extends BaseStructure {
+export abstract class SelectMenu<T = ShewenyClient> extends BaseStructure<T> {
   public constructor(client: ShewenyClient, customId: string[]);
 
   public customId: string[];
