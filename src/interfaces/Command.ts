@@ -3,7 +3,7 @@ import type { ApplicationCommandOptionData, PermissionString } from "discord.js"
 /**
  * Data option for `SLASH_COMMAND` type
  */
-interface SlashCommandData {
+export interface SlashCommandData {
   name: string;
   type: "SLASH_COMMAND";
   description: string;
@@ -20,7 +20,7 @@ interface SlashCommandData {
 /**
  * Data option for `CONTEXT_MENU_USER` type
  */
-interface ContextMenuUserData {
+export interface ContextMenuUserData {
   name: string;
   type: "CONTEXT_MENU_USER";
   description?: string;
@@ -36,7 +36,7 @@ interface ContextMenuUserData {
 /**
  * Data option for `CONTEXT_MENU_MESSAGE` type
  */
-interface ContextMenuMessageData {
+export interface ContextMenuMessageData {
   name: string;
   type: "CONTEXT_MENU_MESSAGE";
   description?: string;
@@ -52,7 +52,7 @@ interface ContextMenuMessageData {
 /**
  * Data option for `MESSAGE_COMMAND` type
  */
-interface MessageData {
+export interface MessageData {
   name: string;
   type?: "MESSAGE_COMMAND";
   args: MessageCommandOptionData[];

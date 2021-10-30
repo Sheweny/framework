@@ -6,6 +6,10 @@ import type {
   MessageCommandOptionData,
   MessageCommandArgs,
   CommandType,
+  ContextMenuMessageData,
+  ContextMenuUserData,
+  SlashCommandData,
+  MessageData,
 } from "../interfaces/Command";
 import type {
   ApplicationCommandOptionData,
@@ -111,22 +115,28 @@ export abstract class Command extends BaseStructure {
    */
   constructor(client: ShewenyClient, data: CommandData) {
     super(client);
-
     this.name = data.name;
     this.description = data.description || "";
     this.type = data.type || "MESSAGE_COMMAND";
-    this.defaultPermission =
-      // @ts-ignore
-      this.type !== "MESSAGE_COMMAND" ? data.defaultPermission : undefined;
-    this.options = data.type === "SLASH_COMMAND" ? data.options : undefined;
-    this.args = data.type === "MESSAGE_COMMAND" ? data.args : undefined;
+    this.defaultPermission = this.isType(
+      "SLASH_COMMAND",
+      "CONTEXT_MENU_USER",
+      "CONTEXT_MENU_MESSAGE"
+    )
+      ? (data as SlashCommandData | ContextMenuUserData | ContextMenuMessageData)
+          .defaultPermission
+      : undefined;
+    this.options = this.isType("SLASH_COMMAND")
+      ? (data as SlashCommandData).options
+      : undefined;
+    this.args = this.isType("MESSAGE_COMMAND") ? (data as MessageData).args : undefined;
     this.category = data.category || "";
     this.channel = data.channel;
     this.cooldown = data.cooldown || 0;
     this.adminsOnly = data.adminsOnly || false;
     this.userPermissions = data.userPermissions || [];
     this.clientPermissions = data.clientPermissions || [];
-    this.aliases = data.type === "MESSAGE_COMMAND" ? data.aliases : [];
+    this.aliases = this.isType("MESSAGE_COMMAND") ? (data as MessageData).aliases : [];
     this.cooldowns = new Collection();
   }
 
@@ -185,5 +195,9 @@ export abstract class Command extends BaseStructure {
     return this.client.collections.commands
       ? this.client.collections.commands.set(AC.name, AC)
       : new Collection<string, Command>().set(AC.name, AC);
+  }
+  private isType(...types: string[]): boolean {
+    if (types.includes(this.type)) return true;
+    return false;
   }
 }
