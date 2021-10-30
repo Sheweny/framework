@@ -54,7 +54,7 @@ interface ContextMenuMessageData {
  */
 interface MessageData {
   name: string;
-  type: "MESSAGE_COMMAND";
+  type?: "MESSAGE_COMMAND";
   args: MessageCommandOptionData[];
   description?: string;
   category?: string;

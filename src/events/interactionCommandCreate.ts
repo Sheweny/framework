@@ -14,7 +14,14 @@ export default async function run(
     /* -----------------COMMAND----------------- */
     const command = client.collections.commands?.get(interaction.commandName);
 
-    if (!command) return;
+    if (
+      !command ||
+      (command &&
+        !["SLASH_COMMAND", "CONTEXT_MENU_USER", "CONTEXT_MENU_MESSAGE"].includes(
+          command.type
+        ))
+    )
+      return;
 
     if (command.before) await command.before(interaction);
     /**

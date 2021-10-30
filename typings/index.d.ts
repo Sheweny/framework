@@ -58,7 +58,7 @@ export abstract class Command<T = ShewenyClient> extends BaseStructure<T> {
 
   public name: string;
   public description?: string;
-  public type:
+  public type?:
     | "SLASH_COMMAND"
     | "CONTEXT_MENU_MESSAGE"
     | "CONTEXT_MENU_USER"
@@ -404,7 +404,7 @@ interface MessageCommandOptionData {
 
 interface MessageData {
   name: string;
-  type: "MESSAGE_COMMAND";
+  type?: "MESSAGE_COMMAND";
   args?: MessageCommandOptionData[];
   description?: string;
   category?: string;

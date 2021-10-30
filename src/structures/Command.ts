@@ -114,9 +114,10 @@ export abstract class Command extends BaseStructure {
 
     this.name = data.name;
     this.description = data.description || "";
-    this.type = data.type;
+    this.type = data.type || "MESSAGE_COMMAND";
     this.defaultPermission =
-      data.type !== "MESSAGE_COMMAND" ? data.defaultPermission : undefined;
+      // @ts-ignore
+      this.type !== "MESSAGE_COMMAND" ? data.defaultPermission : undefined;
     this.options = data.type === "SLASH_COMMAND" ? data.options : undefined;
     this.args = data.type === "MESSAGE_COMMAND" ? data.args : undefined;
     this.category = data.category || "";
