@@ -372,11 +372,11 @@ interface InhibitorOptions {
 
 export interface ManagerEvents {
   userMissingPermissions: [
-    interaction: CommandInteraction | ContextMenuInteraction,
+    ctx: CommandInteraction | ContextMenuInteraction | Message,
     missing: string
   ];
   clientMissingPermissions: [
-    interaction: CommandInteraction | ContextMenuInteraction,
+    ctx: CommandInteraction | ContextMenuInteraction | Message,
     missing: string
   ];
   cooldownLimit: [interaction: CommandInteraction | ContextMenuInteraction];
