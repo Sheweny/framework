@@ -379,7 +379,7 @@ export interface ManagerEvents {
     ctx: CommandInteraction | ContextMenuInteraction | Message,
     missing: string
   ];
-  cooldownLimit: [interaction: CommandInteraction | ContextMenuInteraction];
+  cooldownLimit: [ctx: CommandInteraction | ContextMenuInteraction | Message];
 }
 
 interface MessageCommandArgs {
