@@ -405,7 +405,7 @@ interface MessageCommandOptionData {
 interface MessageData {
   name: string;
   type?: "MESSAGE_COMMAND";
-  args: MessageCommandOptionData[];
+  args?: MessageCommandOptionData[];
   description?: string;
   category?: string;
   channel?: "GUILD" | "DM";
