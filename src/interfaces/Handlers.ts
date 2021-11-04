@@ -1,4 +1,4 @@
-import type { ClientEvents, Snowflake } from "discord.js";
+import type { Snowflake } from "discord.js";
 import type { Collection } from "collection-data";
 import type {
   ButtonsManager,
@@ -24,7 +24,7 @@ interface CommandsManagerOptions {
  */
 export interface HandlersCollections {
   commands?: Collection<string, Command>;
-  events?: Collection<keyof ClientEvents, Event>;
+  events?: Collection<string, Event>;
   buttons?: Collection<string[], Button>;
   selectMenus?: Collection<string[], SelectMenu>;
   inhibitors?: Collection<string, Inhibitor>;

@@ -1,4 +1,4 @@
-const { ShewenyClient } = require("../../");
+const { ShewenyClient } = require("../../typings");
 
 const client = new ShewenyClient({
   intents: ["GUILDS"],

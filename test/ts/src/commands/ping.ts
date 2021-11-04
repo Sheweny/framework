@@ -1,21 +1,17 @@
-import { ApplicationCommand, ShewenyClient } from "../../../../";
+import { Command, ShewenyClient } from "../../../../";
 import type { CommandInteraction } from "discord.js";
 
-export class PingCommand extends ApplicationCommand {
+export class PingCommand extends Command {
   constructor(client: ShewenyClient) {
-    super(
-      client,
-      {
-        name: "ping",
-        description: "Ping the bot",
-      },
-      {
-        category: "Misc",
-        userPermissions: ["BOT_ADMIN"],
-      }
-    );
+    super(client, {
+      name: "ping",
+      description: "Ping the bot",
+      type: "SLASH_COMMAND",
+      category: "Misc",
+      userPermissions: ["ADMINISTRATOR"],
+    });
   }
   execute(interaction: CommandInteraction) {
-    interaction.reply("Pong !");
+    interaction.reply("Missing permissions event work");
   }
 }

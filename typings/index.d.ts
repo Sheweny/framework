@@ -13,6 +13,7 @@ import type {
   ContextMenuInteraction,
   GuildResolvable,
   Message,
+  Options,
   PermissionString,
   SelectMenuInteraction,
   Snowflake,
@@ -195,14 +196,11 @@ export class CommandsManager extends EventEmitter {
 }
 
 export abstract class Event<T = ShewenyClient> extends BaseStructure<T> {
-  public constructor(
-    client: ShewenyClient,
-    name: keyof ClientEvents,
-    options?: EventOptions
-  );
+  public constructor(client: ShewenyClient, name: string, options?: EventOptions);
 
-  public name: keyof ClientEvents;
+  public name: string;
   public description: string;
+  public emitter: Emitter;
   public once: boolean;
 
   before?(...args: any[]): any | Promise<any>;
@@ -330,8 +328,10 @@ interface ContextMenuUserData {
 
 interface EventOptions {
   description?: string;
+  emitter?: Emitter;
   once?: boolean;
 }
+type Emitter = "client" | "commandManager" | EventEmitter;
 
 interface HandlersCollections {
   commands?: Collection<string, Command>;

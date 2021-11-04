@@ -1,19 +1,15 @@
-import { ApplicationCommand, ShewenyClient } from "../../../../../";
+import { ShewenyClient, Command } from "../../../../../";
 import type { CommandInteraction } from "discord.js";
 import { MessageSelectMenu, MessageActionRow } from "discord.js";
 
-export class PingCommand extends ApplicationCommand {
+export class PingCommand extends Command {
   constructor(client: ShewenyClient) {
-    super(
-      client,
-      {
-        name: "test-selectmenus",
-        description: "Send buttons",
-      },
-      {
-        category: "Tests",
-      }
-    );
+    super(client, {
+      name: "test-selectmenus",
+      description: "Send buttons",
+      type: "SLASH_COMMAND",
+      category: "Tests",
+    });
   }
   execute(interaction: CommandInteraction) {
     const row = new MessageActionRow().addComponents(

@@ -7,11 +7,10 @@ export default class Ready extends Event {
     super(client, "ready", {
       description: "Client is logged in",
       once: true,
-      emitter: process,
+      emitter: "client",
     });
   }
   execute(client: Client) {
-    console.log("The client is logged in...");
-    client.user?.setActivity("with Sheweny V3 !");
+    console.log("The client is logged in");
   }
 }

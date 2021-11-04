@@ -2,6 +2,7 @@ import { Collection } from "collection-data";
 import { loadFiles } from "../utils/loadFiles";
 import type { ShewenyClient, Event } from "..";
 import type { ClientEvents } from "discord.js";
+import { FrameworkEmitter } from "../constants/enums";
 
 /**
  * Manager for Events
@@ -68,8 +69,13 @@ export class EventsManager {
     if (!events) throw new Error("No events found");
 
     for (const [name, evt] of events) {
-      if (evt.once) this.client.once(name, (...args: any[]) => evt.execute(...args));
-      else this.client.on(name, (...args: any[]) => evt.execute(...args));
+      if (FrameworkEmitter.CLIENT === evt.emitter) evt.emitter = this.client;
+      if (FrameworkEmitter.COMMAND_MANAGER === evt.emitter) {
+        if (this.client.handlers.commands) evt.emitter = this.client.handlers.commands;
+        else continue;
+      }
+      if (evt.once) evt.emitter.once(name, (...args: any[]) => evt.execute(...args));
+      else evt.emitter.on(name, (...args: any[]) => evt.execute(...args));
     }
   }
 
