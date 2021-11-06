@@ -1,4 +1,4 @@
-import { Collection } from "collection-data";
+import { Collection } from 'collection-data';
 import type {
   Collection as CollectionDjs,
   ApplicationCommand,
@@ -9,10 +9,10 @@ import type {
   GuildApplicationCommandPermissionData,
   ApplicationCommandType,
   Snowflake,
-} from "discord.js";
-import { EventEmitter } from "events";
-import { loadFiles } from "../utils/loadFiles";
-import type { ShewenyClient, Command } from "..";
+} from 'discord.js';
+import { EventEmitter } from 'events';
+import { loadFiles } from '../utils/loadFiles';
+import type { ShewenyClient, Command } from '..';
 
 interface CommandsManagerOptions {
   loadAll?: boolean;
@@ -68,15 +68,11 @@ export class CommandsManager extends EventEmitter {
    * @param {string} directory Directory of the commands folder
    * @param {CommandsManagerOptions} [options] Options of the commands manager
    */
-  constructor(
-    client: ShewenyClient,
-    directory: string,
-    options?: CommandsManagerOptions
-  ) {
+  constructor(client: ShewenyClient, directory: string, options?: CommandsManagerOptions) {
     super();
 
-    if (!client) throw new TypeError("Client must be provided.");
-    if (!directory) throw new TypeError("Directory must be provided.");
+    if (!client) throw new TypeError('Client must be provided.');
+    if (!directory) throw new TypeError('Directory must be provided.');
 
     this.client = client;
     this.directory = directory;
@@ -85,7 +81,7 @@ export class CommandsManager extends EventEmitter {
     this.applicationPermissions = options?.applicationPermissions || false;
 
     if (options?.loadAll) this.loadAndRegisterAll();
-    client.handlers.commands = this;
+    client.managers.commands = this;
   }
 
   /**
@@ -93,11 +89,7 @@ export class CommandsManager extends EventEmitter {
    * @returns {Promise<Collection<string, Command>>}
    */
   public async loadAll(): Promise<Collection<string, Command> | undefined> {
-    const commands = await loadFiles<string, Command>(
-      this.client,
-      this.directory,
-      "name"
-    );
+    const commands = await loadFiles<string, Command>(this.client, this.directory, 'name');
     this.client.collections.commands = commands;
     this.commands = commands;
     return commands;
@@ -118,11 +110,11 @@ export class CommandsManager extends EventEmitter {
    * @returns {ApplicationCommandType | undefined}
    */
   private renameCommandType(
-    type: "SLASH_COMMAND" | "CONTEXT_MENU_USER" | "CONTEXT_MENU_MESSAGE"
+    type: 'SLASH_COMMAND' | 'CONTEXT_MENU_USER' | 'CONTEXT_MENU_MESSAGE'
   ): ApplicationCommandType | undefined {
-    if (type === "SLASH_COMMAND") return "CHAT_INPUT";
-    if (type === "CONTEXT_MENU_MESSAGE") return "MESSAGE";
-    if (type === "CONTEXT_MENU_USER") return "USER";
+    if (type === 'SLASH_COMMAND') return 'CHAT_INPUT';
+    if (type === 'CONTEXT_MENU_MESSAGE') return 'MESSAGE';
+    if (type === 'CONTEXT_MENU_USER') return 'USER';
     return undefined;
   }
 
@@ -134,77 +126,59 @@ export class CommandsManager extends EventEmitter {
   public getData(
     commands: Collection<string, Command> | Command | undefined = this.commands
   ): ApplicationCommandData[] | ApplicationCommandData | undefined {
-    if (!commands) throw new Error("Commands not found");
+    if (!commands) throw new Error('Commands not found');
 
     if (commands instanceof Collection) {
       const data: any[] = [];
       for (let [, cmd] of commands) {
-        if (cmd.type === "MESSAGE_COMMAND") continue;
+        if (cmd.type === 'MESSAGE_COMMAND') continue;
 
         const newType = this.renameCommandType(cmd.type);
         if (!newType) continue;
 
-        if (cmd.type === "SLASH_COMMAND") {
+        if (cmd.type === 'SLASH_COMMAND') {
           data.push({
             type: newType,
             name: cmd.name,
             description: cmd.description,
             options: cmd.options,
             defaultPermission:
-              this.applicationPermissions &&
-              this.guildId &&
-              cmd.userPermissions.length > 0
-                ? false
-                : cmd.defaultPermission,
+              this.applicationPermissions && this.guildId && cmd.userPermissions.length > 0 ? false : cmd.defaultPermission,
           });
-        } else if (
-          cmd.type === "CONTEXT_MENU_MESSAGE" ||
-          cmd.type === "CONTEXT_MENU_USER"
-        ) {
+        } else if (cmd.type === 'CONTEXT_MENU_MESSAGE' || cmd.type === 'CONTEXT_MENU_USER') {
           data.push({
             type: newType,
             name: cmd.name,
             defaultPermission:
-              this.applicationPermissions &&
-              this.guildId &&
-              cmd.userPermissions.length > 0
-                ? false
-                : cmd.defaultPermission,
+              this.applicationPermissions && this.guildId && cmd.userPermissions.length > 0 ? false : cmd.defaultPermission,
           });
         }
       }
 
       return data as ApplicationCommandData[];
     } else {
-      if (commands.type === "MESSAGE_COMMAND") return undefined;
+      if (commands.type === 'MESSAGE_COMMAND') return undefined;
 
       const newType = this.renameCommandType(commands.type);
       if (!newType) return undefined;
 
-      if (commands.type === "SLASH_COMMAND") {
+      if (commands.type === 'SLASH_COMMAND') {
         return {
           type: newType,
           name: commands.name,
           description: commands.description,
           options: commands.options,
           defaultPermission:
-            this.applicationPermissions &&
-            this.guildId &&
-            commands.userPermissions.length > 0
+            this.applicationPermissions && this.guildId && commands.userPermissions.length > 0
               ? false
               : commands.defaultPermission,
         } as ApplicationCommandData;
-      } else if (
-        commands.type === "CONTEXT_MENU_MESSAGE" ||
-        commands.type === "CONTEXT_MENU_USER"
-      ) {
+      } else if (commands.type === 'CONTEXT_MENU_MESSAGE' || commands.type === 'CONTEXT_MENU_USER') {
         return {
           type: newType,
           name: commands.name,
           defaultPermission:
-            this.applicationPermissions &&
-            this.guildId &&
-            commands.userPermissions.length > 0
+            this.applicationPermissions && this.guildId && commands.userPermissions.length > 0
               ? false
               : commands.defaultPermission,
         } as ApplicationCommandData;
@@ -225,7 +199,7 @@ export class CommandsManager extends EventEmitter {
     | CollectionDjs<Snowflake, ApplicationCommand<{ guild: GuildResolvable }>>
     | undefined
   > {
-    if (!commands) throw new Error("Commands not found");
+    if (!commands) throw new Error('Commands not found');
     const data = this.getData();
 
     await this.client.awaitReady();
@@ -250,22 +224,16 @@ export class CommandsManager extends EventEmitter {
    * @returns {Promise<void>}
    */
   public async registerPermissions(
-    applicationCommands: CollectionDjs<string, ApplicationCommand<{}>> | undefined = this
-      .client.application?.commands.cache,
+    applicationCommands: CollectionDjs<string, ApplicationCommand<{}>> | undefined = this.client.application?.commands.cache,
     commandsCollection: Collection<string, Command> | undefined = this.commands,
     guildId: Snowflake | Snowflake[] | undefined = this.guildId
   ): Promise<void | boolean> {
-    if (!applicationCommands)
-      throw new ReferenceError("Commands of application must be provided");
-    if (!commandsCollection)
-      throw new ReferenceError("Commands of client must be provided");
-    if (!guildId) throw new ReferenceError("Guild ID must be provided");
+    if (!applicationCommands) throw new ReferenceError('Commands of application must be provided');
+    if (!commandsCollection) throw new ReferenceError('Commands of client must be provided');
+    if (!guildId) throw new ReferenceError('Guild ID must be provided');
 
     if (guildId instanceof Array)
-      return guildId.every(
-        async (gId) =>
-          await this.registerPermissions(applicationCommands, commandsCollection, gId)
-      );
+      return guildId.every(async (gId) => await this.registerPermissions(applicationCommands, commandsCollection, gId));
 
     const guild = this.client.guilds.cache.get(guildId as Snowflake);
     const getRoles = (command: Command) => {
@@ -280,11 +248,11 @@ export class CommandsManager extends EventEmitter {
 
       if (roles && roles.size)
         for (const [, role] of roles!) {
-          permissions.push({ id: role.id, type: "ROLE", permission: true });
+          permissions.push({ id: role.id, type: 'ROLE', permission: true });
         }
       if (this.client.admins && this.client.admins.length)
         for (const userId of this.client.admins) {
-          permissions.push({ id: userId, type: "USER", permission: true });
+          permissions.push({ id: userId, type: 'USER', permission: true });
         }
       fullPermissions.push({
         id: appCommand.id,
@@ -304,17 +272,13 @@ export class CommandsManager extends EventEmitter {
   public async createCommand(
     command: Command,
     guildId?: Snowflake
-  ): Promise<
-    ApplicationCommand<{}> | ApplicationCommand<{ guild: GuildResolvable }> | undefined
-  > {
-    if (!command) throw new Error("Command not found");
+  ): Promise<ApplicationCommand<{}> | ApplicationCommand<{ guild: GuildResolvable }> | undefined> {
+    if (!command) throw new Error('Command not found');
 
     const data = this.getData(command) as ApplicationCommandData;
     if (!data) return undefined;
 
-    return guildId
-      ? this.client.application?.commands.create(data, guildId)
-      : this.client.application?.commands.create(data);
+    return guildId ? this.client.application?.commands.create(data, guildId) : this.client.application?.commands.create(data);
   }
 
   /**
@@ -328,11 +292,9 @@ export class CommandsManager extends EventEmitter {
     oldCommand: ApplicationCommandResolvable,
     newCommand: Command,
     guildId?: Snowflake
-  ): Promise<
-    ApplicationCommand<{}> | ApplicationCommand<{ guild: GuildResolvable }> | undefined
-  > {
-    if (!oldCommand) throw new Error("Old Command not found");
-    if (!newCommand) throw new Error("New Command not found");
+  ): Promise<ApplicationCommand<{}> | ApplicationCommand<{ guild: GuildResolvable }> | undefined> {
+    if (!oldCommand) throw new Error('Old Command not found');
+    if (!newCommand) throw new Error('New Command not found');
 
     const data = this.getData(newCommand) as ApplicationCommandData;
     if (!data) return undefined;
@@ -352,7 +314,7 @@ export class CommandsManager extends EventEmitter {
     command: ApplicationCommandResolvable,
     guildId?: Snowflake
   ): Promise<ApplicationCommand<{ guild: GuildResolvable }> | null | undefined> {
-    if (!command) throw new Error("Command not found");
+    if (!command) throw new Error('Command not found');
 
     return guildId
       ? this.client.application?.commands.delete(command, guildId)
@@ -371,8 +333,6 @@ export class CommandsManager extends EventEmitter {
     | CollectionDjs<string, ApplicationCommand<{ guild: GuildResolvable }>>
     | undefined
   > {
-    return guildId
-      ? this.client.application?.commands.set([], guildId)
-      : this.client.application?.commands.set([]);
+    return guildId ? this.client.application?.commands.set([], guildId) : this.client.application?.commands.set([]);
   }
 }

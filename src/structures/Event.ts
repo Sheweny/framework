@@ -1,9 +1,8 @@
-import { Collection } from "collection-data";
-import { BaseStructure } from ".";
-import { FrameworkEmitter } from "../constants/enums";
-import type { ShewenyClient } from "../client/Client";
-import type { EventOptions, Emitter } from "../interfaces/Event";
-
+import { Collection } from 'collection-data';
+import { BaseStructure } from '.';
+import type { ShewenyClient } from '../client/Client';
+import type { EventOptions } from '../typescript/interfaces';
+import type { EventEmitter } from 'events';
 /**
  * Represents an Event structure
  * @extends {BaseStructure}
@@ -11,7 +10,7 @@ import type { EventOptions, Emitter } from "../interfaces/Event";
 export abstract class Event extends BaseStructure {
   /**
    * Name of a event
-   * @type {keyof string}
+   * @type {string}
    */
   public name: string;
 
@@ -25,7 +24,7 @@ export abstract class Event extends BaseStructure {
    * Set the emitter of the event
    * @type {Emitter}
    */
-  public emitter: Emitter;
+  public emitter: EventEmitter;
 
   /**
    * If the listener is deleted after it is executed
@@ -36,7 +35,7 @@ export abstract class Event extends BaseStructure {
   /**
    * Constructor for build a Event
    * @param {ShewenyClient} client Client framework
-   * @param {keyof string} name Name of the event
+   * @param {string} name Name of the event
    * @param {string[]} customId Custom id for one or more buttons
    */
   constructor(client: ShewenyClient, name: string, options?: EventOptions) {
@@ -44,8 +43,8 @@ export abstract class Event extends BaseStructure {
 
     this.client = client;
     this.name = name;
-    this.description = options?.description || "";
-    this.emitter = options?.emitter || FrameworkEmitter.CLIENT;
+    this.description = options?.description || '';
+    this.emitter = options?.emitter || this.client;
     this.once = options?.once || false;
   }
 
@@ -54,7 +53,7 @@ export abstract class Event extends BaseStructure {
   abstract execute(...args: any[]): any | Promise<any>;
 
   /**
-   * Unregister a event
+   * Unregister an event
    * @public
    * @returns {boolean}
    */
@@ -65,7 +64,7 @@ export abstract class Event extends BaseStructure {
   }
 
   /**
-   * Reload a event
+   * Reload an event
    * @public
    * @async
    * @returns {Promise<Collection<string, Event> | null>} The events collection
@@ -79,7 +78,7 @@ export abstract class Event extends BaseStructure {
   }
 
   /**
-   * Register a event
+   * Register an event
    * @public
    * @async
    * @returns {Promise<Collection<string, Event>>} The events collection

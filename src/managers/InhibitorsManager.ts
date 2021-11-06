@@ -1,6 +1,6 @@
-import { Collection } from "collection-data";
-import { loadFiles } from "../utils/loadFiles";
-import type { ShewenyClient, Inhibitor } from "..";
+import { Collection } from 'collection-data';
+import { loadFiles } from '../utils/loadFiles';
+import type { ShewenyClient, Inhibitor } from '..';
 
 /**
  * Manager for Inhibitors
@@ -31,15 +31,15 @@ export class InhibitorsManager {
    * @param {boolean} [loadAll] If the inhibitors are loaded during bot launch
    */
   constructor(client: ShewenyClient, directory: string, loadAll?: boolean) {
-    if (!client) throw new TypeError("Client must be provided.");
-    if (!directory) throw new TypeError("Directory must be provided.");
+    if (!client) throw new TypeError('Client must be provided.');
+    if (!directory) throw new TypeError('Directory must be provided.');
 
     this.client = client;
     this.directory = directory;
 
     if (loadAll) this.loadAll();
 
-    client.handlers.inhibitors = this;
+    client.managers.inhibitors = this;
   }
 
   /**
@@ -47,11 +47,7 @@ export class InhibitorsManager {
    * @returns {Promise<Collection<string, Inhibitor>>}
    */
   public async loadAll(): Promise<Collection<string, Inhibitor> | undefined> {
-    const inhibitors = await loadFiles<string, Inhibitor>(
-      this.client,
-      this.directory,
-      "name"
-    );
+    const inhibitors = await loadFiles<string, Inhibitor>(this.client, this.directory, 'name');
     this.client.collections.inhibitors = inhibitors;
     this.inhibitors = inhibitors;
     return inhibitors;

@@ -1,27 +1,17 @@
-import { ShewenyError } from "../errors";
-import { Collection } from "collection-data";
-import type { ShewenyClient } from "..";
-import type { Inhibitor } from "../structures";
-import type { CommandInteraction, ContextMenuInteraction } from "discord.js";
+import { ShewenyError } from '../errors';
+import { Collection } from 'collection-data';
+import type { ShewenyClient } from '..';
+import type { Inhibitor } from '../structures';
+import type { CommandInteraction, ContextMenuInteraction } from 'discord.js';
 
-export default async function run(
-  client: ShewenyClient,
-  interaction: CommandInteraction | ContextMenuInteraction
-) {
+export default async function run(client: ShewenyClient, interaction: CommandInteraction | ContextMenuInteraction) {
   try {
-    if (!client.handlers.commands) return;
+    if (!client.managers.commands) return;
 
     /* -----------------COMMAND----------------- */
     const command = client.collections.commands?.get(interaction.commandName);
 
-    if (
-      !command ||
-      (command &&
-        !["SLASH_COMMAND", "CONTEXT_MENU_USER", "CONTEXT_MENU_MESSAGE"].includes(
-          command.type
-        ))
-    )
-      return;
+    if (!command || (command && !['SLASH_COMMAND', 'CONTEXT_MENU_USER', 'CONTEXT_MENU_MESSAGE'].includes(command.type))) return;
 
     if (command.before) await command.before(interaction);
     /**
@@ -29,7 +19,7 @@ export default async function run(
      */
 
     const inhibitors = client.collections.inhibitors?.filter(
-      (i: Inhibitor) => i.type.includes("APPLICATION_COMMAND") || i.type.includes("ALL")
+      (i: Inhibitor) => i.type.includes('APPLICATION_COMMAND') || i.type.includes('ALL')
     );
 
     if (inhibitors && inhibitors.size) {
@@ -41,27 +31,19 @@ export default async function run(
 
     /* ---------------PERMISSIONS--------------- */
     if (command.adminsOnly && !client.admins?.includes(interaction.user.id))
-      return client.handlers.commands.emit(
-        "userMissingPermissions",
-        interaction,
-        "BOT_ADMIN"
-      );
+      return client.managers.commands.emit('userMissingPermissions', interaction, 'BOT_ADMIN');
 
     /* ---------------IN-GUILD--------------- */
     if (interaction.inGuild()) {
-      if (command.channel === "DM") return;
+      if (command.channel === 'DM') return;
 
-      if (!client.handlers.commands.applicationPermissions) {
+      if (!client.managers.commands.applicationPermissions) {
         let member = interaction.guild!.members.cache.get(interaction.user.id);
         if (!member) member = await interaction.guild!.members.fetch(interaction.user.id);
         if (command.userPermissions.length) {
           for (const permission of command.userPermissions) {
             if (!member.permissions.has(permission)) {
-              return client.handlers.commands?.emit(
-                "userMissingPermissions",
-                interaction,
-                permission
-              );
+              return client.managers.commands?.emit('userMissingPermissions', interaction, permission);
             }
           }
         }
@@ -70,16 +52,12 @@ export default async function run(
       if (command.clientPermissions.length) {
         for (const permission of command.clientPermissions) {
           if (!interaction.guild!.me!.permissions.has(permission))
-            return client.handlers.commands?.emit(
-              "clientMissingPermissions",
-              interaction,
-              permission
-            );
+            return client.managers.commands?.emit('clientMissingPermissions', interaction, permission);
         }
       }
     } else {
       /* ---------------IN-DM--------------- */
-      if (command.channel === "GUILD") return;
+      if (command.channel === 'GUILD') return;
     }
 
     /* ---------------COOLDOWNS--------------- */
@@ -94,7 +72,7 @@ export default async function run(
         const cdExpirationTime = (tStamps.get(interaction.user.id) || 0) + cdAmount;
         if (timeNow < cdExpirationTime) {
           // const timeLeft = (cdExpirationTime - timeNow) / 1000;
-          return client.handlers.commands?.emit("cooldownLimit", interaction);
+          return client.managers.commands?.emit('cooldownLimit', interaction);
         }
       }
 

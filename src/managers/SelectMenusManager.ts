@@ -1,6 +1,6 @@
-import { Collection } from "collection-data";
-import { loadFiles } from "../utils/loadFiles";
-import type { ShewenyClient, SelectMenu } from "..";
+import { Collection } from 'collection-data';
+import { loadFiles } from '../utils/loadFiles';
+import type { ShewenyClient, SelectMenu } from '..';
 
 /**
  * Manager for Select Menus
@@ -31,13 +31,13 @@ export class SelectMenusManager {
    * @param {boolean} [loadAll] If the select menus are loaded during bot launch
    */
   constructor(client: ShewenyClient, directory: string, loadAll?: boolean) {
-    if (!client) throw new TypeError("Client must be provided.");
-    if (!directory) throw new TypeError("Directory must be provided.");
+    if (!client) throw new TypeError('Client must be provided.');
+    if (!directory) throw new TypeError('Directory must be provided.');
 
     this.client = client;
     this.directory = directory;
     if (loadAll) this.loadAll();
-    client.handlers.selectMenus = this;
+    client.managers.selectMenus = this;
   }
 
   /**
@@ -45,11 +45,7 @@ export class SelectMenusManager {
    * @returns {Promise<Collection<string[], SelectMenu>>}
    */
   public async loadAll(): Promise<Collection<string[], SelectMenu> | undefined> {
-    const selectMenus = await loadFiles<string[], SelectMenu>(
-      this.client,
-      this.directory,
-      "customId"
-    );
+    const selectMenus = await loadFiles<string[], SelectMenu>(this.client, this.directory, 'customId');
     this.client.collections.selectMenus = selectMenus;
     this.selectMenus = selectMenus;
     return selectMenus;

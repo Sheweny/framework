@@ -1,23 +1,23 @@
-import { Collection } from "collection-data";
-import { BaseStructure } from ".";
-import type { ShewenyClient } from "../client/Client";
+import { Collection } from 'collection-data';
+import { BaseStructure } from '.';
+import { CommandType as ECmdType } from '../constants/constants';
+import type { ShewenyClient } from '../client/Client';
 import type {
-  CommandData,
   MessageCommandOptionData,
-  MessageCommandArgs,
-  CommandType,
+  CommandMessageArgsResolved,
   ContextMenuMessageData,
   ContextMenuUserData,
   SlashCommandData,
   MessageData,
-} from "../interfaces/Command";
+} from '../typescript/interfaces';
+import type { CommandData, CommandType } from '../typescript/types';
 import type {
   ApplicationCommandOptionData,
   CommandInteraction,
   ContextMenuInteraction,
   Message,
   PermissionString,
-} from "discord.js";
+} from 'discord.js';
 
 /**
  * Represents an Command structure
@@ -70,7 +70,7 @@ export abstract class Command extends BaseStructure {
    * Only channel where a command can be executed
    * @type {"GUILD" | "DM" | undefined}
    */
-  public channel?: "GUILD" | "DM";
+  public channel?: 'GUILD' | 'DM';
 
   /**
    * Cooldown of a command
@@ -116,51 +116,40 @@ export abstract class Command extends BaseStructure {
   constructor(client: ShewenyClient, data: CommandData) {
     super(client);
     this.name = data.name;
-    this.description = data.description || "";
-    this.type = data.type || "MESSAGE_COMMAND";
-    this.defaultPermission = this.isType(
-      "SLASH_COMMAND",
-      "CONTEXT_MENU_USER",
-      "CONTEXT_MENU_MESSAGE"
-    )
-      ? (data as SlashCommandData | ContextMenuUserData | ContextMenuMessageData)
-          .defaultPermission
+    this.description = data.description || '';
+    this.type = data.type || ECmdType.cmdMsg;
+    this.defaultPermission = this.isType(ECmdType.cmdSlash, ECmdType.ctxUser, ECmdType.ctxMsg)
+      ? (data as SlashCommandData | ContextMenuUserData | ContextMenuMessageData).defaultPermission
       : undefined;
-    this.options = this.isType("SLASH_COMMAND")
-      ? (data as SlashCommandData).options
-      : undefined;
-    this.args = this.isType("MESSAGE_COMMAND") ? (data as MessageData).args : undefined;
-    this.category = data.category || "";
+    this.options = this.isType(ECmdType.cmdSlash) ? (data as SlashCommandData).options : undefined;
+    this.args = this.isType(ECmdType.cmdMsg) ? (data as MessageData).args : undefined;
+    this.category = data.category || '';
     this.channel = data.channel;
     this.cooldown = data.cooldown || 0;
     this.adminsOnly = data.adminsOnly || false;
     this.userPermissions = data.userPermissions || [];
     this.clientPermissions = data.clientPermissions || [];
-    this.aliases = this.isType("MESSAGE_COMMAND") ? (data as MessageData).aliases : [];
+    this.aliases = this.isType(ECmdType.cmdMsg) ? (data as MessageData).aliases : [];
     this.cooldowns = new Collection();
   }
 
   /**
    * This function is executed before executing the `execute` function
    * @param {CommandInteraction | ContextMenuInteraction | Message} interaction Interaction
-   * @param {MessageCommandArgs[]} [args] Arguments of the Message command
    * @returns {any | Promise<any>}
    */
-  before?(
-    interaction: CommandInteraction | ContextMenuInteraction | Message,
-    args?: MessageCommandArgs[]
-  ): any | Promise<any>;
+  before?(interaction: CommandInteraction | ContextMenuInteraction | Message): any | Promise<any>;
 
   /**
    * Main function `execute` for the commands
    * @param {CommandInteraction | ContextMenuInteraction | Message} interaction Interaction
-   * @param {MessageCommandArgs[]} [args] Arguments of the Message command
+   * @param {CommandMessageArgsResolved[]} [args] Arguments of the Message command
    * @returns {any | Promise<any>}
    */
   abstract execute(
     interaction: CommandInteraction | ContextMenuInteraction | Message,
-    args?: MessageCommandArgs[]
-  ): //args?: MessageCommandArgs
+    args?: CommandMessageArgsResolved[]
+  ): //args?: CommandMessageArgsResolved
   any | Promise<any>;
 
   /**

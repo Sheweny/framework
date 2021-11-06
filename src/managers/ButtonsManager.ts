@@ -1,6 +1,6 @@
-import { Collection } from "collection-data";
-import { loadFiles } from "../utils/loadFiles";
-import type { ShewenyClient, Button } from "..";
+import { Collection } from 'collection-data';
+import { loadFiles } from '../utils/loadFiles';
+import type { ShewenyClient, Button } from '..';
 
 /**
  * Manager for Buttons
@@ -31,13 +31,13 @@ export class ButtonsManager {
    * @param {boolean} [loadAll] If the buttons are loaded during bot launch
    */
   constructor(client: ShewenyClient, directory: string, loadAll?: boolean) {
-    if (!client) throw new TypeError("Client must be provided.");
-    if (!directory) throw new TypeError("Directory must be provided.");
+    if (!client) throw new TypeError('Client must be provided.');
+    if (!directory) throw new TypeError('Directory must be provided.');
 
     this.client = client;
     this.directory = directory;
     if (loadAll) this.loadAll();
-    client.handlers.buttons = this;
+    client.managers.buttons = this;
   }
 
   /**
@@ -45,11 +45,7 @@ export class ButtonsManager {
    * @returns {Promise<Collection<string[], Button>>}
    */
   public async loadAll(): Promise<Collection<string[], Button> | undefined> {
-    const buttons = await loadFiles<string[], Button>(
-      this.client,
-      this.directory,
-      "customId"
-    );
+    const buttons = await loadFiles<string[], Button>(this.client, this.directory, 'customId');
     this.client.collections.buttons = buttons;
     this.buttons = buttons;
     return buttons;
