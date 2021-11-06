@@ -1,24 +1,19 @@
-import { ShewenyError } from "../errors";
-import type { SelectMenuInteraction } from "discord.js";
-import type { ShewenyClient } from "../client/Client";
-import type { Inhibitor } from "../structures/Inhibitor";
-
-export default async function run(
-  client: ShewenyClient,
-  interaction: SelectMenuInteraction
-) {
+import { ShewenyError } from '../errors';
+import type { SelectMenuInteraction } from 'discord.js';
+import type { ShewenyClient } from '../client/Client';
+import type { Inhibitor } from '../structures/Inhibitor';
+import { InhibitorType } from '../constants/constants';
+export default async function run(client: ShewenyClient, interaction: SelectMenuInteraction) {
   try {
     if (!client.collections.selectMenus) return;
 
-    const selectMenu = client.collections.selectMenus.find((value) =>
-      value.customId.includes(interaction.customId)
-    );
+    const selectMenu = client.collections.selectMenus.find((value) => value.customId.includes(interaction.customId));
 
     if (!selectMenu) return;
     if (selectMenu.before) await selectMenu.before(interaction);
 
     const inhibitors = client.collections.inhibitors?.filter(
-      (i: Inhibitor) => i.type.includes("SELECT_MENU") || i.type.includes("ALL")
+      (i: Inhibitor) => i.type.includes(InhibitorType.select) || i.type.includes(InhibitorType.all)
     );
 
     if (inhibitors && inhibitors.size) {

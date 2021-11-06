@@ -13,7 +13,7 @@ import type {
 import { EventEmitter } from 'events';
 import { loadFiles } from '../utils/loadFiles';
 import type { ShewenyClient, Command } from '..';
-
+import * as Constants from '../constants/constants';
 interface CommandsManagerOptions {
   loadAll?: boolean;
   guildId?: Snowflake;
@@ -110,11 +110,11 @@ export class CommandsManager extends EventEmitter {
    * @returns {ApplicationCommandType | undefined}
    */
   private renameCommandType(
-    type: 'SLASH_COMMAND' | 'CONTEXT_MENU_USER' | 'CONTEXT_MENU_MESSAGE'
+    type: typeof Constants.CommandType.cmdSlash | typeof Constants.CommandType.ctxUser | typeof Constants.CommandType.ctxMsg
   ): ApplicationCommandType | undefined {
-    if (type === 'SLASH_COMMAND') return 'CHAT_INPUT';
-    if (type === 'CONTEXT_MENU_MESSAGE') return 'MESSAGE';
-    if (type === 'CONTEXT_MENU_USER') return 'USER';
+    if (type === Constants.CommandType.cmdSlash) return 'CHAT_INPUT';
+    if (type === Constants.CommandType.ctxMsg) return 'MESSAGE';
+    if (type === Constants.CommandType.ctxUser) return 'USER';
     return undefined;
   }
 
@@ -131,12 +131,12 @@ export class CommandsManager extends EventEmitter {
     if (commands instanceof Collection) {
       const data: any[] = [];
       for (let [, cmd] of commands) {
-        if (cmd.type === 'MESSAGE_COMMAND') continue;
+        if (cmd.type === Constants.CommandType.cmdMsg) continue;
 
         const newType = this.renameCommandType(cmd.type);
         if (!newType) continue;
 
-        if (cmd.type === 'SLASH_COMMAND') {
+        if (cmd.type === Constants.CommandType.cmdSlash) {
           data.push({
             type: newType,
             name: cmd.name,
@@ -145,7 +145,7 @@ export class CommandsManager extends EventEmitter {
             defaultPermission:
               this.applicationPermissions && this.guildId && cmd.userPermissions.length > 0 ? false : cmd.defaultPermission,
           });
-        } else if (cmd.type === 'CONTEXT_MENU_MESSAGE' || cmd.type === 'CONTEXT_MENU_USER') {
+        } else if (cmd.type === Constants.CommandType.ctxMsg || cmd.type === Constants.CommandType.ctxUser) {
           data.push({
             type: newType,
             name: cmd.name,
@@ -157,12 +157,12 @@ export class CommandsManager extends EventEmitter {
 
       return data as ApplicationCommandData[];
     } else {
-      if (commands.type === 'MESSAGE_COMMAND') return undefined;
+      if (commands.type === Constants.CommandType.cmdMsg) return undefined;
 
       const newType = this.renameCommandType(commands.type);
       if (!newType) return undefined;
 
-      if (commands.type === 'SLASH_COMMAND') {
+      if (commands.type === Constants.CommandType.cmdSlash) {
         return {
           type: newType,
           name: commands.name,
@@ -173,7 +173,7 @@ export class CommandsManager extends EventEmitter {
               ? false
               : commands.defaultPermission,
         } as ApplicationCommandData;
-      } else if (commands.type === 'CONTEXT_MENU_MESSAGE' || commands.type === 'CONTEXT_MENU_USER') {
+      } else if (commands.type === Constants.CommandType.ctxMsg || commands.type === Constants.CommandType.ctxUser) {
         return {
           type: newType,
           name: commands.name,

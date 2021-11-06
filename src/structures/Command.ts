@@ -1,6 +1,6 @@
 import { Collection } from 'collection-data';
 import { BaseStructure } from '.';
-import { CommandType as ECmdType } from '../constants/constants';
+import * as Constants from '../constants/constants';
 import type { ShewenyClient } from '../client/Client';
 import type {
   MessageCommandOptionData,
@@ -70,7 +70,7 @@ export abstract class Command extends BaseStructure {
    * Only channel where a command can be executed
    * @type {"GUILD" | "DM" | undefined}
    */
-  public channel?: 'GUILD' | 'DM';
+  public channel?: typeof Constants.CommandChannel.guild | typeof Constants.CommandChannel.dm;
 
   /**
    * Cooldown of a command
@@ -117,19 +117,23 @@ export abstract class Command extends BaseStructure {
     super(client);
     this.name = data.name;
     this.description = data.description || '';
-    this.type = data.type || ECmdType.cmdMsg;
-    this.defaultPermission = this.isType(ECmdType.cmdSlash, ECmdType.ctxUser, ECmdType.ctxMsg)
+    this.type = data.type || Constants.CommandType.cmdMsg;
+    this.defaultPermission = this.isType(
+      Constants.CommandType.cmdSlash,
+      Constants.CommandType.ctxUser,
+      Constants.CommandType.ctxMsg
+    )
       ? (data as SlashCommandData | ContextMenuUserData | ContextMenuMessageData).defaultPermission
       : undefined;
-    this.options = this.isType(ECmdType.cmdSlash) ? (data as SlashCommandData).options : undefined;
-    this.args = this.isType(ECmdType.cmdMsg) ? (data as MessageData).args : undefined;
+    this.options = this.isType(Constants.CommandType.cmdSlash) ? (data as SlashCommandData).options : undefined;
+    this.args = this.isType(Constants.CommandType.cmdMsg) ? (data as MessageData).args : undefined;
     this.category = data.category || '';
     this.channel = data.channel;
     this.cooldown = data.cooldown || 0;
     this.adminsOnly = data.adminsOnly || false;
     this.userPermissions = data.userPermissions || [];
     this.clientPermissions = data.clientPermissions || [];
-    this.aliases = this.isType(ECmdType.cmdMsg) ? (data as MessageData).aliases : [];
+    this.aliases = this.isType(Constants.CommandType.cmdMsg) ? (data as MessageData).aliases : [];
     this.cooldowns = new Collection();
   }
 

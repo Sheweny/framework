@@ -3,23 +3,22 @@ import { Collection } from 'collection-data';
 import type { ShewenyClient } from '..';
 import type { Inhibitor } from '../structures';
 import type { CommandInteraction, ContextMenuInteraction } from 'discord.js';
-
+import { CommandType, InhibitorType, CommandChannel } from '../constants/constants';
 export default async function run(client: ShewenyClient, interaction: CommandInteraction | ContextMenuInteraction) {
   try {
     if (!client.managers.commands) return;
 
     /* -----------------COMMAND----------------- */
     const command = client.collections.commands?.get(interaction.commandName);
-
-    if (!command || (command && !['SLASH_COMMAND', 'CONTEXT_MENU_USER', 'CONTEXT_MENU_MESSAGE'].includes(command.type))) return;
-
+    //@ts-ignore
+    if (!command || (command && ![CommandType.cmdSlash, CommandType.ctxUser, CommandType.ctxMsg].includes(command.type))) return;
     if (command.before) await command.before(interaction);
     /**
      * Handle inhibitors
      */
 
     const inhibitors = client.collections.inhibitors?.filter(
-      (i: Inhibitor) => i.type.includes('APPLICATION_COMMAND') || i.type.includes('ALL')
+      (i: Inhibitor) => i.type.includes(InhibitorType.appCommand) || i.type.includes(InhibitorType.all)
     );
 
     if (inhibitors && inhibitors.size) {
@@ -35,7 +34,7 @@ export default async function run(client: ShewenyClient, interaction: CommandInt
 
     /* ---------------IN-GUILD--------------- */
     if (interaction.inGuild()) {
-      if (command.channel === 'DM') return;
+      if (command.channel === CommandChannel.dm) return;
 
       if (!client.managers.commands.applicationPermissions) {
         let member = interaction.guild!.members.cache.get(interaction.user.id);
@@ -57,7 +56,7 @@ export default async function run(client: ShewenyClient, interaction: CommandInt
       }
     } else {
       /* ---------------IN-DM--------------- */
-      if (command.channel === 'GUILD') return;
+      if (command.channel === CommandChannel.guild) return;
     }
 
     /* ---------------COOLDOWNS--------------- */

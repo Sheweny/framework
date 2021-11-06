@@ -17,7 +17,7 @@ export interface SlashCommandData {
   options?: ApplicationCommandOptionData[];
   defaultPermission?: boolean;
   category?: string;
-  channel?: 'GUILD' | 'DM';
+  channel?: typeof Constants.CommandChannel.dm | typeof Constants.CommandChannel.guild;
   cooldown?: number;
   adminsOnly?: boolean;
   userPermissions?: PermissionString[];
@@ -31,7 +31,7 @@ export interface ContextMenuUserData {
   description?: string;
   defaultPermission?: boolean;
   category?: string;
-  channel?: 'GUILD' | 'DM';
+  channel?: typeof Constants.CommandChannel.dm | typeof Constants.CommandChannel.guild;
   cooldown?: number;
   adminsOnly?: boolean;
   userPermissions?: PermissionString[];
@@ -45,7 +45,7 @@ export interface ContextMenuMessageData {
   description?: string;
   defaultPermission?: boolean;
   category?: string;
-  channel?: 'GUILD' | 'DM';
+  channel?: typeof Constants.CommandChannel.dm | typeof Constants.CommandChannel.guild;
   cooldown?: number;
   adminsOnly?: boolean;
   userPermissions?: PermissionString[];
@@ -59,7 +59,7 @@ export interface MessageData {
   args?: MessageCommandOptionData[];
   description?: string;
   category?: string;
-  channel?: 'GUILD' | 'DM';
+  channel?: typeof Constants.CommandChannel.dm | typeof Constants.CommandChannel.guild;
   cooldown?: number;
   adminsOnly?: boolean;
   userPermissions?: PermissionString[];
@@ -70,7 +70,17 @@ export interface MessageData {
 // Data for the arguments message
 export interface MessageCommandOptionData {
   name: string;
-  type: 'STRING' | 'NUMBER' | 'BOOLEAN' | 'REST' | 'GUILD' | 'CHANNEL' | 'MEMBER' | 'GUILD_EMOJI' | 'ROLE' | 'USER';
+  type:
+    | typeof Constants.CommandMessageArgsType.string
+    | typeof Constants.CommandMessageArgsType.number
+    | typeof Constants.CommandMessageArgsType.boolean
+    | typeof Constants.CommandMessageArgsType.rest
+    | typeof Constants.CommandMessageArgsType.guild
+    | typeof Constants.CommandMessageArgsType.channel
+    | typeof Constants.CommandMessageArgsType.member
+    | typeof Constants.CommandMessageArgsType.guild_emoji
+    | typeof Constants.CommandMessageArgsType.role
+    | typeof Constants.CommandMessageArgsType.user;
   default?: any;
 }
 
@@ -95,7 +105,7 @@ export interface EventOptions {
 
 // Options for Sheweny client framework
 export interface ShewenyClientOptions extends ClientOptions {
-  mode?: 'production' | 'development';
+  mode?: typeof Constants.ClientMode.dev | typeof Constants.ClientMode.prod;
   admins?: Snowflake[];
   handlers?: ManagersOptions;
   joinThreadsOnCreate?: boolean;

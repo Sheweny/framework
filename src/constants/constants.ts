@@ -1,4 +1,11 @@
 /**
+ * Client constants
+ */
+export const ClientMode = {
+  dev: 'development' as 'development',
+  prod: 'production' as 'production',
+};
+/**
  * Command constants
  */
 export const CommandType = {
@@ -9,17 +16,29 @@ export const CommandType = {
 };
 
 export const CommandChannel = {
-  dm: 'DM',
-  guild: 'GUILD',
+  dm: 'DM' as 'DM',
+  guild: 'GUILD' as 'GUILD',
+};
+export const CommandMessageArgsType = {
+  string: 'STRING' as 'STRING',
+  number: 'NUMBER' as 'NUMBER',
+  boolean: 'BOOLEAN' as 'BOOLEAN',
+  rest: 'REST' as 'REST',
+  guild: 'GUILD' as 'GUILD',
+  channel: 'CHANNEL' as 'CHANNEL',
+  member: 'MEMBER' as 'MEMBER',
+  guild_emoji: 'GUILD_EMOJI' as 'GUILD_EMOJI',
+  role: 'ROLE' as 'ROLE',
+  user: 'USER' as 'USER',
 };
 
 /**
  * Inhibitor constants
  */
 export const InhibitorType = {
-  message: 'MESSAGE_COMMAND',
-  appCommand: 'APPLICATION_COMMAND',
-  button: 'BUTTON',
-  select: 'SELECT_MENU',
-  all: 'ALL',
+  message: 'MESSAGE_COMMAND' as 'MESSAGE_COMMAND',
+  appCommand: 'APPLICATION_COMMAND' as 'APPLICATION_COMMAND',
+  button: 'BUTTON' as 'BUTTON',
+  select: 'SELECT_MENU' as 'SELECT_MENU',
+  all: 'ALL' as 'ALL',
 };
