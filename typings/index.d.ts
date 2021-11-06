@@ -76,11 +76,11 @@ export abstract class Command<T = ShewenyClient> extends BaseStructure<T> {
   public cooldowns: Collection<string, Collection<string, number>>;
 
   before?(
-    request: CommandInteraction | Message,
+    request: CommandInteraction | Message | ContextMenuInteraction,
     args?: MessageCommandArgs[]
   ): any | Promise<any>;
   abstract execute(
-    request: CommandInteraction | Message,
+    request: CommandInteraction | Message | ContextMenuInteraction,
     args?: MessageCommandArgs[]
   ): any | Promise<any>;
 
