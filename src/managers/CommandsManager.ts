@@ -14,12 +14,7 @@ import { EventEmitter } from 'events';
 import { loadFiles } from '../utils/loadFiles';
 import type { ShewenyClient, Command } from '..';
 import * as Constants from '../constants/constants';
-interface CommandsManagerOptions {
-  loadAll?: boolean;
-  guildId?: Snowflake;
-  prefix?: string;
-  applicationPermissions?: boolean;
-}
+import type { CommandsManagerOptions } from '../typescript/interfaces';
 
 /**
  * Manager for Commands
@@ -42,7 +37,7 @@ export class CommandsManager extends EventEmitter {
    * ID of the guild where are set Applications Commands
    * @type {string | undefined}
    */
-  public guildId?: Snowflake;
+  public guildId?: Snowflake | Snowflake[];
 
   /**
    * Prefix for the Message Commands
@@ -68,14 +63,14 @@ export class CommandsManager extends EventEmitter {
    * @param {string} directory Directory of the commands folder
    * @param {CommandsManagerOptions} [options] Options of the commands manager
    */
-  constructor(client: ShewenyClient, directory: string, options?: CommandsManagerOptions) {
+  constructor(client: ShewenyClient, options?: CommandsManagerOptions) {
     super();
 
     if (!client) throw new TypeError('Client must be provided.');
-    if (!directory) throw new TypeError('Directory must be provided.');
+    if (!options?.directory) throw new TypeError('Directory must be provided.');
 
     this.client = client;
-    this.directory = directory;
+    this.directory = options?.directory;
     this.guildId = options?.guildId;
     this.prefix = options?.prefix;
     this.applicationPermissions = options?.applicationPermissions || false;
@@ -101,7 +96,11 @@ export class CommandsManager extends EventEmitter {
    */
   public async loadAndRegisterAll(): Promise<void> {
     const commands = await this.loadAll();
-    await this.registerAllApplicationCommands(commands);
+    const commandsToRegister = commands?.filter((cmd: Command) =>
+      //@ts-ignore
+      [Constants.CommandType.cmdSlash, Constants.CommandType.ctxMsg, Constants.CommandType.ctxUser].includes(cmd.type)
+    );
+    if (commandsToRegister) await this.registerAllApplicationCommands(commandsToRegister);
   }
 
   /**
@@ -193,21 +192,24 @@ export class CommandsManager extends EventEmitter {
    */
   public async registerAllApplicationCommands(
     commands: Collection<string, Command> | undefined = this.commands,
-    guildId: Snowflake | undefined = this.guildId
+    guildId: Snowflake | Snowflake[] | undefined = this.guildId
   ): Promise<
     | CollectionDjs<Snowflake, ApplicationCommand<{}>>
     | CollectionDjs<Snowflake, ApplicationCommand<{ guild: GuildResolvable }>>
+    | boolean
     | undefined
   > {
+    if (guildId && guildId instanceof Array) return guildId.every((id) => this.registerAllApplicationCommands(commands, id));
     if (!commands) throw new Error('Commands not found');
     const data = this.getData();
 
     await this.client.awaitReady();
 
     if (data instanceof Array && data.length > 0) {
-      const cmds = guildId
-        ? await this.client.application?.commands.set(data, guildId)
-        : await this.client.application?.commands.set(data);
+      const cmds =
+        guildId && typeof guildId === 'string'
+          ? await this.client.application?.commands.set(data, guildId)
+          : await this.client.application?.commands.set(data);
 
       if (this.applicationPermissions) await this.registerPermissions(cmds);
 

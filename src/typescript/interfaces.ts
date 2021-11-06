@@ -146,10 +146,11 @@ interface ManagersOptions {
     directory: string;
   };
 }
-interface CommandsManagerOptions {
+export interface CommandsManagerOptions {
   directory: string;
-  guildId?: Snowflake;
+  guildId?: Snowflake | Snowflake[];
   prefix?: string;
+  loadAll?: boolean;
   applicationPermissions?: boolean;
 }
 //#endregion Interfaces

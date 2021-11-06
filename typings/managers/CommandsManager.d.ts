@@ -3,12 +3,7 @@ import { Collection } from 'collection-data';
 import type { Collection as CollectionDjs, ApplicationCommand, ApplicationCommandData, ApplicationCommandResolvable, GuildResolvable, Snowflake } from 'discord.js';
 import { EventEmitter } from 'events';
 import type { ShewenyClient, Command } from '..';
-interface CommandsManagerOptions {
-    loadAll?: boolean;
-    guildId?: Snowflake;
-    prefix?: string;
-    applicationPermissions?: boolean;
-}
+import type { CommandsManagerOptions } from '../typescript/interfaces';
 /**
  * Manager for Commands
  * @extends {EventEmitter}
@@ -28,7 +23,7 @@ export declare class CommandsManager extends EventEmitter {
      * ID of the guild where are set Applications Commands
      * @type {string | undefined}
      */
-    guildId?: Snowflake;
+    guildId?: Snowflake | Snowflake[];
     /**
      * Prefix for the Message Commands
      * @type {string | undefined}
@@ -50,7 +45,7 @@ export declare class CommandsManager extends EventEmitter {
      * @param {string} directory Directory of the commands folder
      * @param {CommandsManagerOptions} [options] Options of the commands manager
      */
-    constructor(client: ShewenyClient, directory: string, options?: CommandsManagerOptions);
+    constructor(client: ShewenyClient, options?: CommandsManagerOptions);
     /**
      * Load all commands in collection
      * @returns {Promise<Collection<string, Command>>}
@@ -78,9 +73,9 @@ export declare class CommandsManager extends EventEmitter {
      * @param {Collection<string, Command> | undefined} [commands] Collection of the commands
      * @returns {Promise<CollectionDjs<Snowflake, ApplicationCommand<{}>> | CollectionDjs<Snowflake, ApplicationCommand<{ guild: GuildResolvable }>> | undefined>}
      */
-    registerAllApplicationCommands(commands?: Collection<string, Command> | undefined, guildId?: Snowflake | undefined): Promise<CollectionDjs<Snowflake, ApplicationCommand<{}>> | CollectionDjs<Snowflake, ApplicationCommand<{
+    registerAllApplicationCommands(commands?: Collection<string, Command> | undefined, guildId?: Snowflake | Snowflake[] | undefined): Promise<CollectionDjs<Snowflake, ApplicationCommand<{}>> | CollectionDjs<Snowflake, ApplicationCommand<{
         guild: GuildResolvable;
-    }>> | undefined>;
+    }>> | boolean | undefined>;
     /**
      * Set permissions for each commands in guild
      * @param {CollectionDjs<string, ApplicationCommand<{}>> | undefined} [applicationCommands] Commands coming from the client's application
@@ -126,4 +121,3 @@ export declare class CommandsManager extends EventEmitter {
         guild: GuildResolvable;
     }>> | undefined>;
 }
-export {};
