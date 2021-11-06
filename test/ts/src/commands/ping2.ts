@@ -4,13 +4,14 @@ import type { CommandInteraction } from 'discord.js';
 export class PingCommand extends Command {
   constructor(client: ShewenyClient) {
     super(client, {
-      name: 'ping',
+      name: 'ping2',
       description: 'Ping the bot',
       type: 'SLASH_COMMAND',
       category: 'Misc',
+      userPermissions: ['ADMINISTRATOR'],
     });
   }
   execute(interaction: CommandInteraction) {
-    interaction.reply('Pong !');
+    interaction.reply('Pong 2 !');
   }
 }

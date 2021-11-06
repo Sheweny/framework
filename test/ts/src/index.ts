@@ -1,11 +1,11 @@
 import { ShewenyClient } from '../../../';
-import config from './config-test.json';
+const config = require('../config-test.json');
 const client = new ShewenyClient({
   intents: ['GUILDS', 'GUILD_MESSAGES'],
   handlers: {
     commands: {
       directory: './commands',
-      guildId: '877090306103840778',
+      guildId: ['877090306103840778', '809702809196560405'],
     },
 
     buttons: {
