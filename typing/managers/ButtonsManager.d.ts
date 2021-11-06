@@ -1,5 +1,5 @@
-import { Collection } from "collection-data";
-import type { ShewenyClient, Button } from "..";
+import { Collection } from 'collection-data';
+import type { ShewenyClient, Button } from '..';
 /**
  * Manager for Buttons
  */

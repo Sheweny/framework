@@ -1,8 +1,7 @@
-import { Client } from "discord.js";
-import { DiscordResolve } from "@sheweny/resolve";
-import type { Snowflake, ClientOptions } from "discord.js";
-import type { ShewenyClientOptions } from "../interfaces/Client";
-import type { HandlersManager, HandlersCollections } from "../interfaces/Handlers";
+import { Client } from 'discord.js';
+import { DiscordResolve } from '@sheweny/resolve';
+import type { Snowflake, ClientOptions } from 'discord.js';
+import type { ShewenyClientOptions, Managers, ManagersCollections } from '../typescript/interfaces';
 /**
  * Sheweny framework client
  */
@@ -11,7 +10,7 @@ export declare class ShewenyClient extends Client {
      * The mode of the application (developement or production)
      * @type {string}
      */
-    mode?: "production" | "development";
+    mode?: 'production' | 'development';
     /**
      * The ID of the bot admins
      * @type {Snowflake[]}
@@ -19,14 +18,14 @@ export declare class ShewenyClient extends Client {
     admins: Snowflake[];
     /**
      * The manager of handlers
-     * @type {HandlersManager}
+     * @type {Managers}
      */
-    handlers: HandlersManager;
+    managers: Managers;
     /**
      * The collections of handlers
-     * @type {HandlersManager}
+     * @type {Managers}
      */
-    collections: HandlersCollections;
+    collections: ManagersCollections;
     /**
      * A util tool to resolve channel, user, etc
      * @type {DiscordResolve}

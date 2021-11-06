@@ -1,5 +1,5 @@
-import { Collection } from "collection-data";
-import type { ShewenyClient, SelectMenu } from "..";
+import { Collection } from 'collection-data';
+import type { ShewenyClient, SelectMenu } from '..';
 /**
  * Manager for Select Menus
  */

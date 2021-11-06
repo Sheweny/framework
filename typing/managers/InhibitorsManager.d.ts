@@ -1,5 +1,5 @@
-import { Collection } from "collection-data";
-import type { ShewenyClient, Inhibitor } from "..";
+import { Collection } from 'collection-data';
+import type { ShewenyClient, Inhibitor } from '..';
 /**
  * Manager for Inhibitors
  */

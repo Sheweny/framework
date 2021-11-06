@@ -1,7 +1,9 @@
-import { Collection } from "collection-data";
-import { BaseStructure } from ".";
-import type { ShewenyClient } from "../client/Client";
-import type { EventOptions, Emitter } from "../interfaces/Event";
+/// <reference types="node" />
+import { Collection } from 'collection-data';
+import { BaseStructure } from '.';
+import type { ShewenyClient } from '../client/Client';
+import type { EventOptions } from '../typescript/interfaces';
+import type { EventEmitter } from 'events';
 /**
  * Represents an Event structure
  * @extends {BaseStructure}
@@ -21,7 +23,7 @@ export declare abstract class Event extends BaseStructure {
      * Set the emitter of the event
      * @type {Emitter}
      */
-    emitter: Emitter;
+    emitter: EventEmitter;
     /**
      * If the listener is deleted after it is executed
      * @type {boolean}

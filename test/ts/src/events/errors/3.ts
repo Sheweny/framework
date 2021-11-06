@@ -1,14 +1,14 @@
-import { Event } from "../../../../../";
-import type { ShewenyClient } from "../../../../../";
+import { Event } from '../../../../../';
+import type { ShewenyClient } from '../../../../../';
 
 export default class Ready extends Event {
   constructor(client: ShewenyClient) {
-    super(client, "rejectionHandled", {
+    super(client, 'rejectionHandled', {
       emitter: process,
     });
   }
   execute(ctx: any) {
-    console.log("Woops... An error occuped :");
+    console.log('Woops... An rejectionHandled error occured :');
     console.log(ctx);
   }
 }

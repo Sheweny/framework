@@ -1,7 +1,9 @@
 import { Collection } from 'collection-data';
 import { BaseStructure } from '.';
+import * as Constants from '../constants/constants';
 import type { ShewenyClient } from '../client/Client';
-import type { CommandData, MessageCommandOptionData, MessageCommandArgs, CommandType } from '../interfaces/Command';
+import type { MessageCommandOptionData, CommandMessageArgsResolved } from '../typescript/interfaces';
+import type { CommandData, CommandType } from '../typescript/types';
 import type { ApplicationCommandOptionData, CommandInteraction, ContextMenuInteraction, Message, PermissionString } from 'discord.js';
 /**
  * Represents an Command structure
@@ -47,7 +49,7 @@ export declare abstract class Command extends BaseStructure {
      * Only channel where a command can be executed
      * @type {"GUILD" | "DM" | undefined}
      */
-    channel?: 'GUILD' | 'DM';
+    channel?: typeof Constants.CommandChannel.guild | typeof Constants.CommandChannel.dm;
     /**
      * Cooldown of a command
      * @type {number}
@@ -87,17 +89,16 @@ export declare abstract class Command extends BaseStructure {
     /**
      * This function is executed before executing the `execute` function
      * @param {CommandInteraction | ContextMenuInteraction | Message} interaction Interaction
-     * @param {MessageCommandArgs[]} [args] Arguments of the Message command
      * @returns {any | Promise<any>}
      */
-    before?(interaction: CommandInteraction | ContextMenuInteraction | Message, args?: MessageCommandArgs[]): any | Promise<any>;
+    before?(interaction: CommandInteraction | ContextMenuInteraction | Message): any | Promise<any>;
     /**
      * Main function `execute` for the commands
      * @param {CommandInteraction | ContextMenuInteraction | Message} interaction Interaction
-     * @param {MessageCommandArgs[]} [args] Arguments of the Message command
+     * @param {CommandMessageArgsResolved[]} [args] Arguments of the Message command
      * @returns {any | Promise<any>}
      */
-    abstract execute(interaction: CommandInteraction | ContextMenuInteraction | Message, args?: MessageCommandArgs[]): //args?: MessageCommandArgs
+    abstract execute(interaction: CommandInteraction | ContextMenuInteraction | Message, args?: CommandMessageArgsResolved[]): //args?: CommandMessageArgsResolved
     any | Promise<any>;
     /**
      * Unregister a command from collections
