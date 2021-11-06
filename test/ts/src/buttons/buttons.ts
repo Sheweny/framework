@@ -1,4 +1,4 @@
-import { Button, ShewenyClient } from "../../../../../";
+import { Button, ShewenyClient } from "../../../../";
 import type { ButtonInteraction } from "discord.js";
 
 export class Btns extends Button {

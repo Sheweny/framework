@@ -1,9 +1,4 @@
-<<<<<<< HEAD:test/ts/src/commands/tests/buttons.ts
-import { ApplicationCommand, ShewenyClient } from "../../../../../";
-import type { CommandInteraction } from "discord.js";
-=======
 import { Command } from "../../../../";
->>>>>>> dev:test/ts/src/commands/buttons.ts
 import { MessageButton, MessageActionRow } from "discord.js";
 import type { ShewenyClient } from "../../../../";
 import type { CommandInteraction } from "discord.js";
