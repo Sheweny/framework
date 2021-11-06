@@ -1,5 +1,6 @@
 import { Collection } from 'collection-data';
 import type { ShewenyClient, Button } from '..';
+import type { BaseManagerOptions } from '../typescript/interfaces';
 /**
  * Manager for Buttons
  */
@@ -25,7 +26,7 @@ export declare class ButtonsManager {
      * @param {string} directory Directory of the buttons folder
      * @param {boolean} [loadAll] If the buttons are loaded during bot launch
      */
-    constructor(client: ShewenyClient, directory: string, loadAll?: boolean);
+    constructor(client: ShewenyClient, options: BaseManagerOptions);
     /**
      * Load all buttons in collection
      * @returns {Promise<Collection<string[], Button>>}

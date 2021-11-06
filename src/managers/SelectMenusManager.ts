@@ -1,6 +1,7 @@
 import { Collection } from 'collection-data';
 import { loadFiles } from '../utils/loadFiles';
 import type { ShewenyClient, SelectMenu } from '..';
+import type { BaseManagerOptions } from '../typescript/interfaces';
 
 /**
  * Manager for Select Menus
@@ -30,13 +31,13 @@ export class SelectMenusManager {
    * @param {string} directory Directory of the select menus folder
    * @param {boolean} [loadAll] If the select menus are loaded during bot launch
    */
-  constructor(client: ShewenyClient, directory: string, loadAll?: boolean) {
+  constructor(client: ShewenyClient, options: BaseManagerOptions) {
     if (!client) throw new TypeError('Client must be provided.');
-    if (!directory) throw new TypeError('Directory must be provided.');
+    if (!options || (options && !options.directory)) throw new TypeError('Directory must be provided.');
 
     this.client = client;
-    this.directory = directory;
-    if (loadAll) this.loadAll();
+    this.directory = options.directory;
+    if (options?.loadAll) this.loadAll();
     client.managers.selectMenus = this;
   }
 

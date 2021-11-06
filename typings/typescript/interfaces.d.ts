@@ -7,6 +7,18 @@ import type { Collection } from 'collection-data';
 import type { Button, Command, Event, Inhibitor, SelectMenu } from '../structures';
 import type * as Constants from '../constants/constants';
 /**
+ * Interfaces of managers
+ */
+export interface BaseManagerOptions {
+    directory: string;
+    loadAll?: boolean;
+}
+export interface CommandsManagerOptions extends BaseManagerOptions {
+    guildId?: Snowflake | Snowflake[];
+    prefix?: string;
+    applicationPermissions?: boolean;
+}
+/**
  * Intrefaces of Commands
  */
 export interface SlashCommandData {
@@ -100,24 +112,9 @@ export interface ManagersCollections {
 }
 interface ManagersOptions {
     commands?: CommandsManagerOptions;
-    events?: {
-        directory: string;
-    };
-    buttons?: {
-        directory: string;
-    };
-    selectMenus?: {
-        directory: string;
-    };
-    inhibitors?: {
-        directory: string;
-    };
-}
-export interface CommandsManagerOptions {
-    directory: string;
-    guildId?: Snowflake | Snowflake[];
-    prefix?: string;
-    loadAll?: boolean;
-    applicationPermissions?: boolean;
+    events?: BaseManagerOptions;
+    buttons?: BaseManagerOptions;
+    selectMenus?: BaseManagerOptions;
+    inhibitors?: BaseManagerOptions;
 }
 export {};

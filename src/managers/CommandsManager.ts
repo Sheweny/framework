@@ -67,7 +67,7 @@ export class CommandsManager extends EventEmitter {
     super();
 
     if (!client) throw new TypeError('Client must be provided.');
-    if (!options?.directory) throw new TypeError('Directory must be provided.');
+    if (!options || (options && !options?.directory)) throw new TypeError('Directory must be provided.');
 
     this.client = client;
     this.directory = options?.directory;

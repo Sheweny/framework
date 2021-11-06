@@ -77,19 +77,31 @@ export class ShewenyClient extends Client {
       : undefined;
 
     this.managers.events = options.handlers?.events
-      ? new EventsManager(this, options.handlers.events.directory, true)
+      ? new EventsManager(this, {
+          directory: options.handlers.events.directory,
+          loadAll: true,
+        })
       : undefined;
 
     this.managers.buttons = options.handlers?.buttons
-      ? new ButtonsManager(this, options.handlers.buttons.directory, true)
+      ? new ButtonsManager(this, {
+          directory: options.handlers.buttons.directory,
+          loadAll: true,
+        })
       : undefined;
 
     this.managers.selectMenus = options.handlers?.selectMenus
-      ? new SelectMenusManager(this, options.handlers.selectMenus.directory, true)
+      ? new SelectMenusManager(this, {
+          directory: options.handlers.selectMenus.directory,
+          loadAll: true,
+        })
       : undefined;
 
     this.managers.inhibitors = options.handlers?.inhibitors
-      ? new InhibitorsManager(this, options.handlers.inhibitors.directory, true)
+      ? new InhibitorsManager(this, {
+          directory: options.handlers.inhibitors.directory,
+          loadAll: true,
+        })
       : undefined;
 
     (async () => {

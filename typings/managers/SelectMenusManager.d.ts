@@ -1,5 +1,6 @@
 import { Collection } from 'collection-data';
 import type { ShewenyClient, SelectMenu } from '..';
+import type { BaseManagerOptions } from '../typescript/interfaces';
 /**
  * Manager for Select Menus
  */
@@ -25,7 +26,7 @@ export declare class SelectMenusManager {
      * @param {string} directory Directory of the select menus folder
      * @param {boolean} [loadAll] If the select menus are loaded during bot launch
      */
-    constructor(client: ShewenyClient, directory: string, loadAll?: boolean);
+    constructor(client: ShewenyClient, options: BaseManagerOptions);
     /**
      * Load all select menus in collection
      * @returns {Promise<Collection<string[], SelectMenu>>}
