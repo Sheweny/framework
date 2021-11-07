@@ -1,5 +1,5 @@
 import { ShewenyError } from '../errors';
-import { Collection } from 'collection-data';
+import { Collection } from 'discord.js';
 import type { ShewenyClient } from '..';
 import type { Inhibitor } from '../structures';
 import type { CommandInteraction, ContextMenuInteraction } from 'discord.js';

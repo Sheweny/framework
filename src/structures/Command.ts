@@ -1,4 +1,4 @@
-import { Collection } from 'collection-data';
+import { Collection } from 'discord.js';
 import { BaseStructure } from '.';
 import * as Constants from '../constants/constants';
 import type { ShewenyClient } from '../client/Client';

@@ -1,4 +1,4 @@
-import { Collection } from 'collection-data';
+import { Collection } from 'discord.js';
 import type {
   Collection as CollectionDjs,
   ApplicationCommand,

@@ -1,13 +1,8 @@
-import { Collection } from "collection-data";
-import { BaseStructure } from ".";
-import type { ShewenyClient } from "../client/Client";
+import { Collection } from 'discord.js';
+import { BaseStructure } from '.';
+import type { ShewenyClient } from '../client/Client';
 
-type InhibitorType =
-  | "MESSAGE_COMMAND"
-  | "APPLICATION_COMMAND"
-  | "BUTTON"
-  | "SELECT_MENU"
-  | "ALL";
+type InhibitorType = 'MESSAGE_COMMAND' | 'APPLICATION_COMMAND' | 'BUTTON' | 'SELECT_MENU' | 'ALL';
 
 interface InhibitorOptions {
   type?: InhibitorType[];
@@ -48,7 +43,7 @@ export abstract class Inhibitor extends BaseStructure {
 
     this.client = client;
     this.name = name;
-    this.type = options?.type || ["MESSAGE_COMMAND"];
+    this.type = options?.type || ['MESSAGE_COMMAND'];
     this.priority = options?.priority || 0;
   }
 

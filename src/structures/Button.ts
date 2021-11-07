@@ -1,7 +1,7 @@
-import type { ButtonInteraction } from "discord.js";
-import type { ShewenyClient } from "../client/Client";
-import { Collection } from "collection-data";
-import { BaseStructure } from ".";
+import type { ButtonInteraction } from 'discord.js';
+import type { ShewenyClient } from '../client/Client';
+import { Collection } from 'discord.js';
+import { BaseStructure } from '.';
 
 /**
  * Represents an Button structure

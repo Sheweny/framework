@@ -1,9 +1,9 @@
-import { resolve } from "path";
-import { readDirAndPush } from "./readDirFiles";
-import { Collection } from "collection-data";
-import { ShewenyError, ShewenyWarning } from "../errors";
+import { resolve } from 'path';
+import { readDirAndPush } from './readDirFiles';
+import { Collection } from 'discord.js';
+import { ShewenyError, ShewenyWarning } from '../errors';
 
-import type { ShewenyClient } from "../client/Client";
+import type { ShewenyClient } from '../client/Client';
 
 export async function loadFiles<K, V>(
   client: ShewenyClient | any,

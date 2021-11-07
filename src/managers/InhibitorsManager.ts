@@ -1,4 +1,4 @@
-import { Collection } from 'collection-data';
+import { Collection } from 'discord.js';
 import { loadFiles } from '../utils/loadFiles';
 import type { ShewenyClient, Inhibitor } from '..';
 import type { BaseManagerOptions } from '../typescript/interfaces';

@@ -1,8 +1,8 @@
-import { Collection } from 'collection-data';
+import { Collection } from 'discord.js';
 import { loadFiles } from '../utils/loadFiles';
-import type { ShewenyClient, Event } from '..';
 import EventEmitter = require('events');
 import type { BaseManagerOptions } from '../typescript/interfaces';
+import type { ShewenyClient, Event } from '..';
 
 /**
  * Manager for Events

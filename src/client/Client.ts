@@ -6,7 +6,7 @@ import { ButtonsManager, CommandsManager, EventsManager, InhibitorsManager, Sele
 import { ShewenyWarning } from '../errors';
 import type { Snowflake, ClientOptions } from 'discord.js';
 import type { ShewenyClientOptions, Managers, ManagersCollections } from '../typescript/interfaces';
-
+import * as Constants from '../constants/constants';
 /**
  * Sheweny framework client
  */
@@ -15,7 +15,7 @@ export class ShewenyClient extends Client {
    * The mode of the application (developement or production)
    * @type {string}
    */
-  public mode?: 'production' | 'development';
+  public mode?: typeof Constants.ClientMode.prod | typeof Constants.ClientMode.dev;
 
   /**
    * The ID of the bot admins
@@ -55,9 +55,9 @@ export class ShewenyClient extends Client {
   constructor(options: ShewenyClientOptions, clientOptions?: ClientOptions) {
     super(clientOptions || options);
 
-    this.mode = options.mode || 'development';
+    this.mode = options.mode || Constants.ClientMode.dev;
 
-    if (options.mode !== 'production')
+    if (options.mode === Constants.ClientMode.dev)
       new ShewenyWarning(
         this,
         'You are running Sheweny in development mode. Make sure to turn on production mode when deploying for production to avoid warnings.'
