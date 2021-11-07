@@ -35,6 +35,11 @@ export declare class CommandsManager extends EventEmitter {
      */
     applicationPermissions?: boolean;
     /**
+     * Register application commands
+     * @type {boolean}
+     */
+    autoRegisterApplicationCommands: boolean;
+    /**
      * Collection of the commands
      * @type {Collection<string, Command> | undefined}
      */

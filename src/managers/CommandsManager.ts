@@ -52,6 +52,12 @@ export class CommandsManager extends EventEmitter {
   public applicationPermissions?: boolean;
 
   /**
+   * Register application commands
+   * @type {boolean}
+   */
+  public autoRegisterApplicationCommands: boolean;
+
+  /**
    * Collection of the commands
    * @type {Collection<string, Command> | undefined}
    */
@@ -74,7 +80,7 @@ export class CommandsManager extends EventEmitter {
     this.guildId = options?.guildId;
     this.prefix = options?.prefix;
     this.applicationPermissions = options?.applicationPermissions || false;
-
+    this.autoRegisterApplicationCommands = options?.autoRegisterApplicationCommands || false;
     if (options?.loadAll) this.loadAndRegisterAll();
     client.managers.commands = this;
   }
@@ -100,7 +106,7 @@ export class CommandsManager extends EventEmitter {
       //@ts-ignore
       [Constants.CommandType.cmdSlash, Constants.CommandType.ctxMsg, Constants.CommandType.ctxUser].includes(cmd.type)
     );
-    if (commandsToRegister) await this.registerAllApplicationCommands(commandsToRegister);
+    if (commandsToRegister && this.autoRegisterApplicationCommands) await this.registerAllApplicationCommands(commandsToRegister);
   }
 
   /**
