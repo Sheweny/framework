@@ -1,5 +1,5 @@
 /// <reference types="node" />
-import { Collection } from 'collection-data';
+import { Collection } from 'discord.js';
 import { BaseStructure } from '.';
 import type { ShewenyClient } from '../client/Client';
 import type { EventOptions } from '../typescript/interfaces';

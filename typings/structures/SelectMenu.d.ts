@@ -1,7 +1,7 @@
-import { Collection } from "collection-data";
-import { BaseStructure } from ".";
-import type { SelectMenuInteraction } from "discord.js";
-import type { ShewenyClient } from "../client/Client";
+import { Collection } from 'discord.js';
+import { BaseStructure } from '.';
+import type { SelectMenuInteraction } from 'discord.js';
+import type { ShewenyClient } from '../client/Client';
 /**
  * Represents an Select Menu structure
  * @extends {BaseStructure}

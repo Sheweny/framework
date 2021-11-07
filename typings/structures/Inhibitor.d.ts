@@ -1,7 +1,7 @@
-import { Collection } from "collection-data";
-import { BaseStructure } from ".";
-import type { ShewenyClient } from "../client/Client";
-declare type InhibitorType = "MESSAGE_COMMAND" | "APPLICATION_COMMAND" | "BUTTON" | "SELECT_MENU" | "ALL";
+import { Collection } from 'discord.js';
+import { BaseStructure } from '.';
+import type { ShewenyClient } from '../client/Client';
+declare type InhibitorType = 'MESSAGE_COMMAND' | 'APPLICATION_COMMAND' | 'BUTTON' | 'SELECT_MENU' | 'ALL';
 interface InhibitorOptions {
     type?: InhibitorType[];
     priority?: number;

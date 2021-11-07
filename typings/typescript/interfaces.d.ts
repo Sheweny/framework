@@ -1,9 +1,8 @@
 /// <reference types="node" />
-import type { ApplicationCommandOptionData, PermissionString } from 'discord.js';
+import type { ApplicationCommandOptionData, PermissionString, Collection } from 'discord.js';
 import type { EventEmitter } from 'events';
 import type { ClientOptions, Snowflake } from 'discord.js';
 import type { ButtonsManager, CommandsManager, EventsManager, InhibitorsManager, SelectMenusManager } from '../managers';
-import type { Collection } from 'collection-data';
 import type { Button, Command, Event, Inhibitor, SelectMenu } from '../structures';
 import type * as Constants from '../constants/constants';
 /**

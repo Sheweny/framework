@@ -2,6 +2,7 @@ import { ShewenyClient } from '../../../';
 const config = require('../config-test.json');
 const client = new ShewenyClient({
   intents: ['GUILDS', 'GUILD_MESSAGES'],
+  mode: 'development',
   handlers: {
     commands: {
       directory: './commands',
@@ -26,6 +27,9 @@ const client = new ShewenyClient({
 });
 
 client.login(config.token);
+/**
+ * Test errors events
+ */
 //@ts-ignore
 new Promise((resolve, reject) => {
   setTimeout(() => reject('woops'), 500);
