@@ -1,5 +1,6 @@
 import { Collection } from 'collection-data';
 import type { ShewenyClient, Inhibitor } from '..';
+import type { BaseManagerOptions } from '../typescript/interfaces';
 /**
  * Manager for Inhibitors
  */
@@ -25,7 +26,7 @@ export declare class InhibitorsManager {
      * @param {string} directory Directory of the inhibitors folder
      * @param {boolean} [loadAll] If the inhibitors are loaded during bot launch
      */
-    constructor(client: ShewenyClient, directory: string, loadAll?: boolean);
+    constructor(client: ShewenyClient, options: BaseManagerOptions);
     /**
      * Load all inhibitors in collection
      * @returns {Promise<Collection<string, Inhibitor>>}

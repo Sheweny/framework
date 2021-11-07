@@ -1,6 +1,7 @@
 import { Collection } from 'collection-data';
 import { loadFiles } from '../utils/loadFiles';
 import type { ShewenyClient, Inhibitor } from '..';
+import type { BaseManagerOptions } from '../typescript/interfaces';
 
 /**
  * Manager for Inhibitors
@@ -30,14 +31,14 @@ export class InhibitorsManager {
    * @param {string} directory Directory of the inhibitors folder
    * @param {boolean} [loadAll] If the inhibitors are loaded during bot launch
    */
-  constructor(client: ShewenyClient, directory: string, loadAll?: boolean) {
+  constructor(client: ShewenyClient, options: BaseManagerOptions) {
     if (!client) throw new TypeError('Client must be provided.');
-    if (!directory) throw new TypeError('Directory must be provided.');
+    if (!options || (options && !options.directory)) throw new TypeError('Directory must be provided.');
 
     this.client = client;
-    this.directory = directory;
+    this.directory = options.directory;
 
-    if (loadAll) this.loadAll();
+    if (options?.loadAll) this.loadAll();
 
     client.managers.inhibitors = this;
   }

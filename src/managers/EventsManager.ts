@@ -2,6 +2,7 @@ import { Collection } from 'collection-data';
 import { loadFiles } from '../utils/loadFiles';
 import type { ShewenyClient, Event } from '..';
 import EventEmitter = require('events');
+import type { BaseManagerOptions } from '../typescript/interfaces';
 
 /**
  * Manager for Events
@@ -31,14 +32,14 @@ export class EventsManager {
    * @param {string} directory Directory of the events folder
    * @param {boolean} [loadAll] If the events are loaded during bot launch
    */
-  constructor(client: ShewenyClient, directory: string, loadAll?: boolean) {
+  constructor(client: ShewenyClient, options: BaseManagerOptions) {
     if (!client) throw new TypeError('Client must be provided.');
-    if (!directory) throw new TypeError('Directory must be provided.');
+    if (!options || (options && !options.directory)) throw new TypeError('Directory must be provided.');
 
     this.client = client;
-    this.directory = directory;
+    this.directory = options.directory;
 
-    if (loadAll) this.loadAndRegisterAll();
+    if (options?.loadAll) this.loadAndRegisterAll();
     client.managers.events = this;
   }
 

@@ -1,5 +1,6 @@
 import { Collection } from 'collection-data';
 import type { ShewenyClient, Event } from '..';
+import type { BaseManagerOptions } from '../typescript/interfaces';
 /**
  * Manager for Events
  */
@@ -25,7 +26,7 @@ export declare class EventsManager {
      * @param {string} directory Directory of the events folder
      * @param {boolean} [loadAll] If the events are loaded during bot launch
      */
-    constructor(client: ShewenyClient, directory: string, loadAll?: boolean);
+    constructor(client: ShewenyClient, options: BaseManagerOptions);
     /**
      * Load all events in collection
      * @returns {Promise<Collection<string, Event>>}
