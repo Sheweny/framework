@@ -49,7 +49,7 @@ export abstract class Inhibitor extends BaseStructure {
 
   /**
    * This function is executed when the main `execute` function has failed
-   * @param {any[]} args Arguments (???)
+   * @param {any[]} args Arguments
    * @returns {any | Promise<any>}
    */
   abstract onFailure(...args: any[]): any | Promise<any>;
