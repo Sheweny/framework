@@ -10,7 +10,7 @@ import type {
   ApplicationCommandType,
   Snowflake,
 } from 'discord.js';
-import { EventEmitter } from 'events';
+import { BaseManager } from '.';
 import { loadFiles } from '../utils/loadFiles';
 import type { ShewenyClient, Command } from '..';
 import * as Constants from '../constants/constants';
@@ -20,19 +20,7 @@ import type { CommandsManagerOptions } from '../typescript/interfaces';
  * Manager for Commands
  * @extends {EventEmitter}
  */
-export class CommandsManager extends EventEmitter {
-  /**
-   * Client framework
-   * @type {ShewenyClient}
-   */
-  private client: ShewenyClient;
-
-  /**
-   * Directory of the commands folder
-   * @type {string}
-   */
-  public directory: string;
-
+export class CommandsManager extends BaseManager {
   /**
    * ID of the guild where are set Applications Commands
    * @type {string | undefined}
@@ -69,14 +57,9 @@ export class CommandsManager extends EventEmitter {
    * @param {string} directory Directory of the commands folder
    * @param {CommandsManagerOptions} [options] Options of the commands manager
    */
-  constructor(client: ShewenyClient, options?: CommandsManagerOptions) {
-    super();
+  constructor(client: ShewenyClient, options: CommandsManagerOptions) {
+    super(client, options);
 
-    if (!client) throw new TypeError('Client must be provided.');
-    if (!options || (options && !options?.directory)) throw new TypeError('Directory must be provided.');
-
-    this.client = client;
-    this.directory = options?.directory;
     this.guildId = options?.guildId;
     this.prefix = options?.prefix;
     this.applicationPermissions = options?.applicationPermissions || false;

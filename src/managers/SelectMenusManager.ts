@@ -1,24 +1,13 @@
 import { Collection } from 'discord.js';
 import { loadFiles } from '../utils/loadFiles';
+import { BaseManager } from '.';
 import type { ShewenyClient, SelectMenu } from '..';
 import type { BaseManagerOptions } from '../typescript/interfaces';
 
 /**
  * Manager for Select Menus
  */
-export class SelectMenusManager {
-  /**
-   * Client framework
-   * @type {ShewenyClient}
-   */
-  private client: ShewenyClient;
-
-  /**
-   * Directory of the select menus folder
-   * @type {string}
-   */
-  public directory: string;
-
+export class SelectMenusManager extends BaseManager {
   /**
    * Collection of the select menus
    * @type {Collection<string[], SelectMenu> | undefined}
@@ -32,11 +21,8 @@ export class SelectMenusManager {
    * @param {boolean} [loadAll] If the select menus are loaded during bot launch
    */
   constructor(client: ShewenyClient, options: BaseManagerOptions) {
-    if (!client) throw new TypeError('Client must be provided.');
-    if (!options || (options && !options.directory)) throw new TypeError('Directory must be provided.');
+    super(client, options);
 
-    this.client = client;
-    this.directory = options.directory;
     if (options?.loadAll) this.loadAll();
     client.managers.selectMenus = this;
   }

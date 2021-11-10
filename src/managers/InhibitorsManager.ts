@@ -1,24 +1,13 @@
 import { Collection } from 'discord.js';
 import { loadFiles } from '../utils/loadFiles';
+import { BaseManager } from '.';
 import type { ShewenyClient, Inhibitor } from '..';
 import type { BaseManagerOptions } from '../typescript/interfaces';
 
 /**
  * Manager for Inhibitors
  */
-export class InhibitorsManager {
-  /**
-   * Client framework
-   * @type {ShewenyClient}
-   */
-  private client: ShewenyClient;
-
-  /**
-   * Directory of the inhibitors folder
-   * @type {string}
-   */
-  public directory: string;
-
+export class InhibitorsManager extends BaseManager {
   /**
    * Collection of the inhibitors
    * @type {Collection<string, Inhibitor> | undefined}
@@ -32,14 +21,9 @@ export class InhibitorsManager {
    * @param {boolean} [loadAll] If the inhibitors are loaded during bot launch
    */
   constructor(client: ShewenyClient, options: BaseManagerOptions) {
-    if (!client) throw new TypeError('Client must be provided.');
-    if (!options || (options && !options.directory)) throw new TypeError('Directory must be provided.');
-
-    this.client = client;
-    this.directory = options.directory;
+    super(client, options);
 
     if (options?.loadAll) this.loadAll();
-
     client.managers.inhibitors = this;
   }
 

@@ -1,25 +1,14 @@
 import { Collection } from 'discord.js';
 import { loadFiles } from '../utils/loadFiles';
-import EventEmitter = require('events');
+import { EventEmitter } from 'events';
+import { BaseManager } from '.';
 import type { BaseManagerOptions } from '../typescript/interfaces';
 import type { ShewenyClient, Event } from '..';
 
 /**
  * Manager for Events
  */
-export class EventsManager {
-  /**
-   * Client framework
-   * @type {ShewenyClient}
-   */
-  private client: ShewenyClient;
-
-  /**
-   * Directory of the events folder
-   * @type {string}
-   */
-  public directory: string;
-
+export class EventsManager extends BaseManager {
   /**
    * Collection of the events
    * @type {Collection<string, Event> | undefined}
@@ -33,11 +22,7 @@ export class EventsManager {
    * @param {boolean} [loadAll] If the events are loaded during bot launch
    */
   constructor(client: ShewenyClient, options: BaseManagerOptions) {
-    if (!client) throw new TypeError('Client must be provided.');
-    if (!options || (options && !options.directory)) throw new TypeError('Directory must be provided.');
-
-    this.client = client;
-    this.directory = options.directory;
+    super(client, options);
 
     if (options?.loadAll) this.loadAndRegisterAll();
     client.managers.events = this;
