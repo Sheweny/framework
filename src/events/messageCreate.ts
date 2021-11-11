@@ -1,6 +1,13 @@
 import { ShewenyError } from '../errors';
 import { Collection } from 'discord.js';
-import { CommandType, InhibitorType, CommandChannel, CommandMessageArgsType } from '../constants/constants';
+import {
+  CommandType,
+  InhibitorType,
+  CommandChannel,
+  CommandMessageArgsType,
+  CommandPermissions,
+  CommandEvents,
+} from '../constants/constants';
 import type { ShewenyClient } from '../client/Client';
 import type { Inhibitor } from '../structures';
 import type { Message } from 'discord.js';
@@ -34,7 +41,8 @@ export default async function run(client: ShewenyClient, message: Message) {
     }
 
     /* ---------------PERMISSIONS--------------- */
-    if (command.adminsOnly && !client.admins?.includes(message.author.id)) return;
+    if (command.adminsOnly && !client.admins?.includes(message.author.id))
+      return client.managers.commands.emit(CommandEvents.userMissingPerm, message, CommandPermissions.admin);
 
     /* ---------------IN-GUILD--------------- */
     if (message.guild) {
@@ -45,14 +53,14 @@ export default async function run(client: ShewenyClient, message: Message) {
       if (command.userPermissions.length > 0) {
         for (const permission of command.userPermissions) {
           if (!member.permissions.has(permission))
-            return client.managers.commands.emit('userMissingPermissions', message, permission);
+            return client.managers.commands.emit(CommandEvents.userMissingPerm, message, permission);
         }
       }
 
       if (command.clientPermissions.length > 0) {
         for (const permission of command.clientPermissions) {
           if (!message.guild!.me!.permissions.has(permission))
-            return client.managers.commands.emit('clientMissingPermissions', message, permission);
+            return client.managers.commands.emit(CommandEvents.clientMissingPerm, message, permission);
         }
       }
     } else {
@@ -71,7 +79,7 @@ export default async function run(client: ShewenyClient, message: Message) {
         const cdExpirationTime = (tStamps.get(message.author.id) || 0) + cdAmount;
         if (timeNow < cdExpirationTime) {
           // const timeLeft = (cdExpirationTime - timeNow) / 1000;
-          return client.managers.commands.emit('cooldownLimit', message);
+          return client.managers.commands.emit(CommandEvents.cooldownLimit, message);
         }
       }
 

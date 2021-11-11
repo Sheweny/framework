@@ -1,5 +1,5 @@
 import { Collection } from 'discord.js';
-import { CommandType, InhibitorType, CommandChannel } from '../constants/constants';
+import { CommandType, InhibitorType, CommandChannel, CommandPermissions, CommandEvents } from '../constants/constants';
 import { ShewenyError } from '../errors';
 import type { ShewenyClient } from '..';
 import type { Inhibitor } from '../structures';
@@ -30,7 +30,7 @@ export default async function run(client: ShewenyClient, interaction: CommandInt
 
     /* ---------------PERMISSIONS--------------- */
     if (command.adminsOnly && !client.admins?.includes(interaction.user.id))
-      return client.managers.commands.emit('userMissingPermissions', interaction, 'BOT_ADMIN');
+      return client.managers.commands.emit(CommandEvents.userMissingPerm, interaction, CommandPermissions.admin);
 
     /* ---------------IN-GUILD--------------- */
     if (interaction.inGuild()) {
@@ -42,7 +42,7 @@ export default async function run(client: ShewenyClient, interaction: CommandInt
         if (command.userPermissions.length) {
           for (const permission of command.userPermissions) {
             if (!member.permissions.has(permission)) {
-              return client.managers.commands?.emit('userMissingPermissions', interaction, permission);
+              return client.managers.commands?.emit(CommandEvents.userMissingPerm, interaction, permission);
             }
           }
         }
@@ -51,7 +51,7 @@ export default async function run(client: ShewenyClient, interaction: CommandInt
       if (command.clientPermissions.length) {
         for (const permission of command.clientPermissions) {
           if (!interaction.guild!.me!.permissions.has(permission))
-            return client.managers.commands?.emit('clientMissingPermissions', interaction, permission);
+            return client.managers.commands?.emit(CommandEvents.clientMissingPerm, interaction, permission);
         }
       }
     } else {
@@ -71,7 +71,7 @@ export default async function run(client: ShewenyClient, interaction: CommandInt
         const cdExpirationTime = (tStamps.get(interaction.user.id) || 0) + cdAmount;
         if (timeNow < cdExpirationTime) {
           // const timeLeft = (cdExpirationTime - timeNow) / 1000;
-          return client.managers.commands?.emit('cooldownLimit', interaction);
+          return client.managers.commands?.emit(CommandEvents.cooldownLimit, interaction);
         }
       }
 

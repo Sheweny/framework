@@ -1,0 +1,29 @@
+import { ShewenyClient } from '../../';
+const config = require('../config-test.json');
+const client = new ShewenyClient({
+  intents: ['GUILDS', 'GUILD_MESSAGES'],
+  mode: 'development',
+  handlers: {
+    commands: {
+      directory: './commands',
+      prefix: '!',
+      guildId: ['877090306103840778', '809702809196560405'],
+      autoRegisterApplicationCommands: true,
+    },
+
+    buttons: {
+      directory: './interactions/buttons',
+    },
+    selectMenus: {
+      directory: './interactions/select-menus',
+    },
+    events: {
+      directory: './events',
+    },
+    inhibitors: {
+      directory: './inhibitors',
+    },
+  },
+});
+
+client.login(config.token);
