@@ -84,7 +84,7 @@ export interface CommandMessageArgsResolved {
  */
 export interface EventOptions {
     description?: string;
-    emitter: EventEmitter;
+    emitter?: EventEmitter;
     once?: boolean;
 }
 /**

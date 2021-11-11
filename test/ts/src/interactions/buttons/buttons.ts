@@ -8,8 +8,6 @@ export class Btns extends Button {
   async execute(button: ButtonInteraction) {
     switch (button.customId) {
       case 'primary':
-        console.log(this.manager);
-
         button.reply('You have clicked on primary button !');
         break;
       case 'secondary':

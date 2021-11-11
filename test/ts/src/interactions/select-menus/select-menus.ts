@@ -1,17 +1,17 @@
-import { SelectMenu, ShewenyClient } from "../../../../../";
-import type { SelectMenuInteraction } from "discord.js";
+import { SelectMenu, ShewenyClient } from '../../../../../';
+import type { SelectMenuInteraction } from 'discord.js';
 
 export class Select extends SelectMenu {
   constructor(client: ShewenyClient) {
-    super(client, ["select"]);
+    super(client, ['select']);
   }
   execute(selectMenu: SelectMenuInteraction) {
     switch (selectMenu.values[0]) {
-      case "first_option":
-        selectMenu.reply("You have choose first option selectMenu !");
+      case 'first_option':
+        selectMenu.reply('You have choose first option selectMenu !');
         break;
-      case "second_option":
-        selectMenu.reply("You have choose on second option !");
+      case 'second_option':
+        selectMenu.reply('You have choose on second option !');
         break;
     }
   }
