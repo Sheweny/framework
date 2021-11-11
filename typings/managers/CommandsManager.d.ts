@@ -1,6 +1,6 @@
 import { Collection } from 'discord.js';
-import type { Collection as CollectionDjs, ApplicationCommand, ApplicationCommandData, ApplicationCommandResolvable, GuildResolvable, Snowflake } from 'discord.js';
 import { BaseManager } from '.';
+import type { Collection as CollectionDjs, ApplicationCommand, ApplicationCommandData, ApplicationCommandResolvable, GuildResolvable, Snowflake } from 'discord.js';
 import type { ShewenyClient, Command } from '..';
 import type { CommandsManagerOptions } from '../typescript/interfaces';
 /**

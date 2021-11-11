@@ -1,6 +1,6 @@
 import { Collection } from 'discord.js';
 import { BaseStructure } from '.';
-import * as Constants from '../constants/constants';
+import { CommandChannel } from '../constants/constants';
 import type { ShewenyClient } from '../client/Client';
 import type { MessageCommandOptionData, CommandMessageArgsResolved } from '../typescript/interfaces';
 import type { CommandData, CommandType } from '../typescript/types';
@@ -55,7 +55,7 @@ export declare abstract class Command extends BaseStructure {
      * Only channel where a command can be executed
      * @type {"GUILD" | "DM" | undefined}
      */
-    channel?: typeof Constants.CommandChannel.guild | typeof Constants.CommandChannel.dm;
+    channel?: typeof CommandChannel.guild | typeof CommandChannel.dm;
     /**
      * Cooldown of a command
      * @type {number}

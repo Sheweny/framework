@@ -1,8 +1,8 @@
 import { Client } from 'discord.js';
 import { DiscordResolve } from '@sheweny/resolve';
+import { ClientMode } from '../constants/constants';
 import type { Snowflake, ClientOptions } from 'discord.js';
 import type { ShewenyClientOptions, Managers, ManagersCollections } from '../typescript/interfaces';
-import * as Constants from '../constants/constants';
 /**
  * Sheweny framework client
  */
@@ -11,7 +11,7 @@ export declare class ShewenyClient extends Client {
      * The mode of the application (developement or production)
      * @type {string}
      */
-    mode?: typeof Constants.ClientMode.prod | typeof Constants.ClientMode.dev;
+    mode?: typeof ClientMode.prod | typeof ClientMode.dev;
     /**
      * The ID of the bot admins
      * @type {Snowflake[]}

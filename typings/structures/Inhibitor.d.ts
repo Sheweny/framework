@@ -2,7 +2,7 @@ import { Collection } from 'discord.js';
 import { BaseStructure } from '.';
 import type { InhibitorsManager } from '..';
 import type { ShewenyClient } from '../client/Client';
-declare type InhibitorType = 'MESSAGE_COMMAND' | 'APPLICATION_COMMAND' | 'BUTTON' | 'SELECT_MENU' | 'ALL';
+import type { InhibitorType } from '../typescript/types';
 interface InhibitorOptions {
     type?: InhibitorType[];
     priority?: number;
