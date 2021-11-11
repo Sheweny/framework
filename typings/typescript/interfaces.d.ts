@@ -93,7 +93,7 @@ export interface EventOptions {
 export interface ShewenyClientOptions extends ClientOptions {
     mode?: typeof Constants.ClientMode.dev | typeof Constants.ClientMode.prod;
     admins?: Snowflake[];
-    handlers?: ManagersOptions;
+    managers?: ManagersOptions;
     joinThreadsOnCreate?: boolean;
 }
 export interface Managers {

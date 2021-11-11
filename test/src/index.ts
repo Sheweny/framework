@@ -3,7 +3,7 @@ const config = require('../config-test.json');
 const client = new ShewenyClient({
   intents: ['GUILDS', 'GUILD_MESSAGES'],
   mode: 'development',
-  handlers: {
+  managers: {
     commands: {
       directory: './commands',
       prefix: '!',
