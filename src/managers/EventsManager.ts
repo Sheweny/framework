@@ -1,7 +1,7 @@
-import { Collection } from 'discord.js';
-import { loadFiles } from '../utils/loadFiles';
 import { EventEmitter } from 'events';
+import { Collection } from 'discord.js';
 import { BaseManager } from '.';
+import { loadFiles } from '../utils/loadFiles';
 import type { BaseManagerOptions } from '../typescript/interfaces';
 import type { ShewenyClient, Event } from '..';
 

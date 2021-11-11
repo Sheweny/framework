@@ -1,9 +1,9 @@
-import { ShewenyError } from '../errors';
 import { Collection } from 'discord.js';
+import { CommandType, InhibitorType, CommandChannel } from '../constants/constants';
+import { ShewenyError } from '../errors';
 import type { ShewenyClient } from '..';
 import type { Inhibitor } from '../structures';
 import type { CommandInteraction, ContextMenuInteraction } from 'discord.js';
-import { CommandType, InhibitorType, CommandChannel } from '../constants/constants';
 export default async function run(client: ShewenyClient, interaction: CommandInteraction | ContextMenuInteraction) {
   try {
     if (!client.managers.commands) return;

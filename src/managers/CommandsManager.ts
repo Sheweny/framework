@@ -1,4 +1,7 @@
 import { Collection } from 'discord.js';
+import { BaseManager } from '.';
+import { loadFiles } from '../utils/loadFiles';
+import { CommandType } from '../constants/constants';
 import type {
   Collection as CollectionDjs,
   ApplicationCommand,
@@ -10,10 +13,7 @@ import type {
   ApplicationCommandType,
   Snowflake,
 } from 'discord.js';
-import { BaseManager } from '.';
-import { loadFiles } from '../utils/loadFiles';
 import type { ShewenyClient, Command } from '..';
-import * as Constants from '../constants/constants';
 import type { CommandsManagerOptions } from '../typescript/interfaces';
 
 /**
@@ -91,7 +91,7 @@ export class CommandsManager extends BaseManager {
     const commands = await this.loadAll();
     const commandsToRegister = commands?.filter((cmd: Command) =>
       //@ts-ignore
-      [Constants.CommandType.cmdSlash, Constants.CommandType.ctxMsg, Constants.CommandType.ctxUser].includes(cmd.type)
+      [CommandType.cmdSlash, CommandType.ctxMsg, CommandType.ctxUser].includes(cmd.type)
     );
     if (commandsToRegister && this.autoRegisterApplicationCommands) await this.registerAllApplicationCommands(commandsToRegister);
   }
@@ -102,11 +102,11 @@ export class CommandsManager extends BaseManager {
    * @returns {ApplicationCommandType | undefined}
    */
   private renameCommandType(
-    type: typeof Constants.CommandType.cmdSlash | typeof Constants.CommandType.ctxUser | typeof Constants.CommandType.ctxMsg
+    type: typeof CommandType.cmdSlash | typeof CommandType.ctxUser | typeof CommandType.ctxMsg
   ): ApplicationCommandType | undefined {
-    if (type === Constants.CommandType.cmdSlash) return 'CHAT_INPUT';
-    if (type === Constants.CommandType.ctxMsg) return 'MESSAGE';
-    if (type === Constants.CommandType.ctxUser) return 'USER';
+    if (type === CommandType.cmdSlash) return 'CHAT_INPUT';
+    if (type === CommandType.ctxMsg) return 'MESSAGE';
+    if (type === CommandType.ctxUser) return 'USER';
     return undefined;
   }
 
@@ -123,12 +123,12 @@ export class CommandsManager extends BaseManager {
     if (commands instanceof Collection) {
       const data: any[] = [];
       for (let [, cmd] of commands) {
-        if (cmd.type === Constants.CommandType.cmdMsg) continue;
+        if (cmd.type === CommandType.cmdMsg) continue;
 
         const newType = this.renameCommandType(cmd.type);
         if (!newType) continue;
 
-        if (cmd.type === Constants.CommandType.cmdSlash) {
+        if (cmd.type === CommandType.cmdSlash) {
           data.push({
             type: newType,
             name: cmd.name,
@@ -137,7 +137,7 @@ export class CommandsManager extends BaseManager {
             defaultPermission:
               this.applicationPermissions && this.guildId && cmd.userPermissions.length > 0 ? false : cmd.defaultPermission,
           });
-        } else if (cmd.type === Constants.CommandType.ctxMsg || cmd.type === Constants.CommandType.ctxUser) {
+        } else if (cmd.type === CommandType.ctxMsg || cmd.type === CommandType.ctxUser) {
           data.push({
             type: newType,
             name: cmd.name,
@@ -149,12 +149,12 @@ export class CommandsManager extends BaseManager {
 
       return data as ApplicationCommandData[];
     } else {
-      if (commands.type === Constants.CommandType.cmdMsg) return undefined;
+      if (commands.type === CommandType.cmdMsg) return undefined;
 
       const newType = this.renameCommandType(commands.type);
       if (!newType) return undefined;
 
-      if (commands.type === Constants.CommandType.cmdSlash) {
+      if (commands.type === CommandType.cmdSlash) {
         return {
           type: newType,
           name: commands.name,
@@ -165,7 +165,7 @@ export class CommandsManager extends BaseManager {
               ? false
               : commands.defaultPermission,
         } as ApplicationCommandData;
-      } else if (commands.type === Constants.CommandType.ctxMsg || commands.type === Constants.CommandType.ctxUser) {
+      } else if (commands.type === CommandType.ctxMsg || commands.type === CommandType.ctxUser) {
         return {
           type: newType,
           name: commands.name,

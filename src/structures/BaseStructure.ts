@@ -1,4 +1,5 @@
 import type { ShewenyClient } from '../';
+
 /**
  * The base class for all structures
  */

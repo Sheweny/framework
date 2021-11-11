@@ -1,8 +1,8 @@
 import { Collection } from 'discord.js';
 import { BaseStructure } from '.';
+import type { EventEmitter } from 'events';
 import type { ShewenyClient } from '../client/Client';
 import type { EventOptions } from '../typescript/interfaces';
-import type { EventEmitter } from 'events';
 import type { EventsManager } from '..';
 /**
  * Represents an Event structure

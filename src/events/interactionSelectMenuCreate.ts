@@ -1,8 +1,8 @@
+import { InhibitorType } from '../constants/constants';
 import { ShewenyError } from '../errors';
 import type { SelectMenuInteraction } from 'discord.js';
 import type { ShewenyClient } from '../client/Client';
 import type { Inhibitor } from '../structures/Inhibitor';
-import { InhibitorType } from '../constants/constants';
 export default async function run(client: ShewenyClient, interaction: SelectMenuInteraction) {
   try {
     if (!client.collections.selectMenus) return;

@@ -1,6 +1,6 @@
 import { Collection } from 'discord.js';
-import { loadFiles } from '../utils/loadFiles';
 import { BaseManager } from '.';
+import { loadFiles } from '../utils/loadFiles';
 import type { ShewenyClient, SelectMenu } from '..';
 import type { BaseManagerOptions } from '../typescript/interfaces';
 

@@ -1,6 +1,6 @@
 import { ShewenyError } from '../errors';
 import { Collection } from 'discord.js';
-import * as Constants from '../constants/constants';
+import { CommandType, InhibitorType, CommandChannel, CommandMessageArgsType } from '../constants/constants';
 import type { ShewenyClient } from '../client/Client';
 import type { Inhibitor } from '../structures';
 import type { Message } from 'discord.js';
@@ -18,13 +18,13 @@ export default async function run(client: ShewenyClient, message: Message) {
     const command =
       client.collections.commands?.get(commandName) ||
       client.collections.commands?.find((cmd) => cmd.aliases! && cmd.aliases.includes(commandName));
-    if (!command || (command && command.type !== Constants.CommandType.cmdMsg)) return;
+    if (!command || (command && command.type !== CommandType.cmdMsg)) return;
     if (command.before) await command.before(message /*, args*/);
     /**
      * Handle inhibitors
      */
     const inhibitors = client.collections.inhibitors?.filter(
-      (i: Inhibitor) => i.type.includes(Constants.InhibitorType.message) || i.type.includes(Constants.InhibitorType.all)
+      (i: Inhibitor) => i.type.includes(InhibitorType.message) || i.type.includes(InhibitorType.all)
     );
     if (inhibitors && inhibitors.size) {
       const sorted = [...inhibitors.values()].sort((a, b) => b.priority - a.priority);
@@ -38,7 +38,7 @@ export default async function run(client: ShewenyClient, message: Message) {
 
     /* ---------------IN-GUILD--------------- */
     if (message.guild) {
-      if (command.channel === Constants.CommandChannel.dm) return;
+      if (command.channel === CommandChannel.dm) return;
 
       let member = message.guild!.members.cache.get(message.author.id);
       if (!member) member = await message.guild!.members.fetch(message.author.id);
@@ -82,16 +82,16 @@ export default async function run(client: ShewenyClient, message: Message) {
     let messageArgs: any = {};
     /* ---------------ARGUMENTS--------------- */
     const types = [
-      Constants.CommandMessageArgsType.string,
-      Constants.CommandMessageArgsType.number,
-      Constants.CommandMessageArgsType.boolean,
-      Constants.CommandMessageArgsType.rest,
-      Constants.CommandMessageArgsType.guild,
-      Constants.CommandMessageArgsType.channel,
-      Constants.CommandMessageArgsType.member,
-      Constants.CommandMessageArgsType.guild_emoji,
-      Constants.CommandMessageArgsType.role,
-      Constants.CommandMessageArgsType.user,
+      CommandMessageArgsType.string,
+      CommandMessageArgsType.number,
+      CommandMessageArgsType.boolean,
+      CommandMessageArgsType.rest,
+      CommandMessageArgsType.guild,
+      CommandMessageArgsType.channel,
+      CommandMessageArgsType.member,
+      CommandMessageArgsType.guild_emoji,
+      CommandMessageArgsType.role,
+      CommandMessageArgsType.user,
     ];
 
     if (command.args && command.args.length > 0) {
@@ -104,51 +104,51 @@ export default async function run(client: ShewenyClient, message: Message) {
           continue;
         }
         switch (argCommand.type) {
-          case Constants.CommandMessageArgsType.string:
+          case CommandMessageArgsType.string:
             messageArgs[argCommand?.name] = String(args[i]);
             break;
-          case Constants.CommandMessageArgsType.number:
+          case CommandMessageArgsType.number:
             messageArgs[argCommand?.name] = Number(args[i]);
             break;
-          case Constants.CommandMessageArgsType.boolean:
+          case CommandMessageArgsType.boolean:
             messageArgs[argCommand?.name] = Boolean(args[i]);
             break;
-          case Constants.CommandMessageArgsType.rest:
+          case CommandMessageArgsType.rest:
             messageArgs[argCommand?.name] = String(args.slice(i).join(' '));
             break;
 
-          case Constants.CommandMessageArgsType.guild:
+          case CommandMessageArgsType.guild:
             messageArgs[argCommand?.name] = client.util.resolveGuild(args[i]);
             break;
-          case Constants.CommandMessageArgsType.channel:
+          case CommandMessageArgsType.channel:
             if (!message.guild) {
               messageArgs[argCommand?.name] = null;
               break;
             }
             messageArgs[argCommand?.name] = client.util.resolveChannel(message.guild, args[i]);
             break;
-          case Constants.CommandMessageArgsType.member:
+          case CommandMessageArgsType.member:
             if (!message.guild) {
               messageArgs[argCommand?.name] = null;
               break;
             }
             messageArgs[argCommand?.name] = await client.util.resolveMember(message.guild, args[i]);
             break;
-          case Constants.CommandMessageArgsType.guild_emoji:
+          case CommandMessageArgsType.guild_emoji:
             if (!message.guild) {
               messageArgs[argCommand?.name] = null;
               break;
             }
             messageArgs[argCommand?.name] = client.util.resolveGuildEmoji(message.guild, args[i]);
             break;
-          case Constants.CommandMessageArgsType.role:
+          case CommandMessageArgsType.role:
             if (!message.guild) {
               messageArgs[argCommand?.name] = null;
               break;
             }
             messageArgs[argCommand?.name] = client.util.resolveRole(message.guild, args[i]);
             break;
-          case Constants.CommandMessageArgsType.user:
+          case CommandMessageArgsType.user:
             messageArgs[argCommand?.name] = await client.util.resolveUser(args[i]);
             break;
         }

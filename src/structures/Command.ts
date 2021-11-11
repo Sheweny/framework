@@ -1,6 +1,6 @@
 import { Collection } from 'discord.js';
 import { BaseStructure } from '.';
-import * as Constants from '../constants/constants';
+import { CommandChannel, CommandType as ConstantCommandType } from '../constants/constants';
 import type { ShewenyClient } from '../client/Client';
 import type {
   MessageCommandOptionData,
@@ -77,7 +77,7 @@ export abstract class Command extends BaseStructure {
    * Only channel where a command can be executed
    * @type {"GUILD" | "DM" | undefined}
    */
-  public channel?: typeof Constants.CommandChannel.guild | typeof Constants.CommandChannel.dm;
+  public channel?: typeof CommandChannel.guild | typeof CommandChannel.dm;
 
   /**
    * Cooldown of a command
@@ -124,23 +124,19 @@ export abstract class Command extends BaseStructure {
     super(client);
     this.name = data.name;
     this.description = data.description || '';
-    this.type = data.type || Constants.CommandType.cmdMsg;
-    this.defaultPermission = this.isType(
-      Constants.CommandType.cmdSlash,
-      Constants.CommandType.ctxUser,
-      Constants.CommandType.ctxMsg
-    )
+    this.type = data.type || ConstantCommandType.cmdMsg;
+    this.defaultPermission = this.isType(ConstantCommandType.cmdSlash, ConstantCommandType.ctxUser, ConstantCommandType.ctxMsg)
       ? (data as SlashCommandData | ContextMenuUserData | ContextMenuMessageData).defaultPermission
       : undefined;
-    this.options = this.isType(Constants.CommandType.cmdSlash) ? (data as SlashCommandData).options : undefined;
-    this.args = this.isType(Constants.CommandType.cmdMsg) ? (data as MessageData).args : undefined;
+    this.options = this.isType(ConstantCommandType.cmdSlash) ? (data as SlashCommandData).options : undefined;
+    this.args = this.isType(ConstantCommandType.cmdMsg) ? (data as MessageData).args : undefined;
     this.category = data.category || '';
     this.channel = data.channel;
     this.cooldown = data.cooldown || 0;
     this.adminsOnly = data.adminsOnly || false;
     this.userPermissions = data.userPermissions || [];
     this.clientPermissions = data.clientPermissions || [];
-    this.aliases = this.isType(Constants.CommandType.cmdMsg) ? (data as MessageData).aliases : [];
+    this.aliases = this.isType(ConstantCommandType.cmdMsg) ? (data as MessageData).aliases : [];
     this.cooldowns = new Collection();
   }
 

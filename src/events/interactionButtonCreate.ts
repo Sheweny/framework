@@ -1,8 +1,8 @@
 import { ShewenyError } from '../errors';
+import { InhibitorType } from '../constants/constants';
 import type { ButtonInteraction } from 'discord.js';
 import type { ShewenyClient } from '../client/Client';
 import type { Inhibitor } from '../structures/Inhibitor';
-import { InhibitorType } from '../constants/constants';
 export default async function run(client: ShewenyClient, interaction: ButtonInteraction) {
   try {
     if (!client.collections.buttons) return;
