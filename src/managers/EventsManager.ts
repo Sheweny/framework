@@ -33,8 +33,12 @@ export class EventsManager extends BaseManager {
    * @returns {Promise<Collection<string, Event>>}
    */
   public async loadAll(): Promise<Collection<string, Event> | undefined> {
-    const events = await loadFiles<string, Event>(this.client, this.directory, 'name');
-    this.client.collections.events = events;
+    const events = await loadFiles<string, Event>(this.client, {
+      directory: this.directory,
+      key: 'name',
+      manager: this,
+    });
+    if (events) this.client.collections.events = events;
     this.events = events;
     return events;
   }

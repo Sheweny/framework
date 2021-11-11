@@ -1,20 +1,11 @@
 import { Collection } from 'discord.js';
+import { BaseManager } from '.';
 import type { ShewenyClient, Button } from '..';
 import type { BaseManagerOptions } from '../typescript/interfaces';
 /**
  * Manager for Buttons
  */
-export declare class ButtonsManager {
-    /**
-     * Client framework
-     * @type {ShewenyClient}
-     */
-    private client;
-    /**
-     * Directory of the buttons folder
-     * @type {string}
-     */
-    directory: string;
+export declare class ButtonsManager extends BaseManager {
     /**
      * Collection of the buttons
      * @type {Collection<string[], Button> | undefined}

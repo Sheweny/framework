@@ -1,9 +1,17 @@
-import type { ShewenyClient } from "../";
+import type { ShewenyClient } from '../';
 /**
  * The base class for all structures
  */
 export declare abstract class BaseStructure {
+    /**
+     * Client framework
+     * @type {ShewenyClient}
+     */
     client: ShewenyClient;
+    /**
+     * Path to file
+     * @type {string}
+     */
     path?: string;
     /**
      * Constructor for build base of any structures

@@ -1,20 +1,11 @@
 import { Collection } from 'discord.js';
+import { BaseManager } from '.';
 import type { ShewenyClient, Inhibitor } from '..';
 import type { BaseManagerOptions } from '../typescript/interfaces';
 /**
  * Manager for Inhibitors
  */
-export declare class InhibitorsManager {
-    /**
-     * Client framework
-     * @type {ShewenyClient}
-     */
-    private client;
-    /**
-     * Directory of the inhibitors folder
-     * @type {string}
-     */
-    directory: string;
+export declare class InhibitorsManager extends BaseManager {
     /**
      * Collection of the inhibitors
      * @type {Collection<string, Inhibitor> | undefined}

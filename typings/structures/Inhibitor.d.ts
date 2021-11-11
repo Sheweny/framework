@@ -1,5 +1,6 @@
 import { Collection } from 'discord.js';
 import { BaseStructure } from '.';
+import type { InhibitorsManager } from '..';
 import type { ShewenyClient } from '../client/Client';
 declare type InhibitorType = 'MESSAGE_COMMAND' | 'APPLICATION_COMMAND' | 'BUTTON' | 'SELECT_MENU' | 'ALL';
 interface InhibitorOptions {
@@ -11,6 +12,11 @@ interface InhibitorOptions {
  * @extends {BaseStructure}
  */
 export declare abstract class Inhibitor extends BaseStructure {
+    /**
+     * The
+     * @type {InhibitorsManager}
+     */
+    manager?: InhibitorsManager;
     /**
      * Name of a inhibitor
      * @type {string}
@@ -35,7 +41,7 @@ export declare abstract class Inhibitor extends BaseStructure {
     constructor(client: ShewenyClient, name: string, options?: InhibitorOptions);
     /**
      * This function is executed when the main `execute` function has failed
-     * @param {any[]} args Arguments (???)
+     * @param {any[]} args Arguments
      * @returns {any | Promise<any>}
      */
     abstract onFailure(...args: any[]): any | Promise<any>;

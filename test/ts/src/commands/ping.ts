@@ -11,6 +11,8 @@ export class PingCommand extends Command {
     });
   }
   execute(interaction: CommandInteraction) {
+    console.log(this.manager);
+
     interaction.reply('Pong !');
   }
 }

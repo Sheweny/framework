@@ -1,3 +1,4 @@
 import { Collection } from 'discord.js';
 import type { ShewenyClient } from '../client/Client';
-export declare function loadFiles<K, V>(client: ShewenyClient | any, directory: string, key: string): Promise<Collection<K, V> | undefined>;
+import type { LoadFilesOptions } from '../typescript/interfaces';
+export declare function loadFiles<K, V>(client: ShewenyClient, options: LoadFilesOptions): Promise<Collection<K, V> | undefined>;

@@ -31,8 +31,12 @@ export class ButtonsManager extends BaseManager {
    * @returns {Promise<Collection<string[], Button>>}
    */
   public async loadAll(): Promise<Collection<string[], Button> | undefined> {
-    const buttons = await loadFiles<string[], Button>(this.client, this.directory, 'customId');
-    this.client.collections.buttons = buttons;
+    const buttons = await loadFiles<string[], Button>(this.client, {
+      directory: this.directory,
+      key: 'customId',
+      manager: this,
+    });
+    if (buttons) this.client.collections.buttons = buttons;
     this.buttons = buttons;
     return buttons;
   }

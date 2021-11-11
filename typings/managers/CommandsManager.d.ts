@@ -1,24 +1,13 @@
-/// <reference types="node" />
 import { Collection } from 'discord.js';
 import type { Collection as CollectionDjs, ApplicationCommand, ApplicationCommandData, ApplicationCommandResolvable, GuildResolvable, Snowflake } from 'discord.js';
-import { EventEmitter } from 'events';
+import { BaseManager } from '.';
 import type { ShewenyClient, Command } from '..';
 import type { CommandsManagerOptions } from '../typescript/interfaces';
 /**
  * Manager for Commands
  * @extends {EventEmitter}
  */
-export declare class CommandsManager extends EventEmitter {
-    /**
-     * Client framework
-     * @type {ShewenyClient}
-     */
-    private client;
-    /**
-     * Directory of the commands folder
-     * @type {string}
-     */
-    directory: string;
+export declare class CommandsManager extends BaseManager {
     /**
      * ID of the guild where are set Applications Commands
      * @type {string | undefined}
@@ -50,7 +39,7 @@ export declare class CommandsManager extends EventEmitter {
      * @param {string} directory Directory of the commands folder
      * @param {CommandsManagerOptions} [options] Options of the commands manager
      */
-    constructor(client: ShewenyClient, options?: CommandsManagerOptions);
+    constructor(client: ShewenyClient, options: CommandsManagerOptions);
     /**
      * Load all commands in collection
      * @returns {Promise<Collection<string, Command>>}

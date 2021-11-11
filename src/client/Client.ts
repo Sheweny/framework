@@ -1,6 +1,6 @@
 import { join } from 'path';
 import { readdir } from 'fs/promises';
-import { Client } from 'discord.js';
+import { Client, Collection } from 'discord.js';
 import { DiscordResolve } from '@sheweny/resolve';
 import { ButtonsManager, CommandsManager, EventsManager, InhibitorsManager, SelectMenusManager } from '../managers';
 import { ShewenyWarning } from '../errors';
@@ -33,7 +33,13 @@ export class ShewenyClient extends Client {
    * The collections of handlers
    * @type {Managers}
    */
-  public collections: ManagersCollections = {};
+  public collections: ManagersCollections = {
+    commands: new Collection(),
+    events: new Collection(),
+    buttons: new Collection(),
+    selectMenus: new Collection(),
+    inhibitors: new Collection(),
+  };
 
   /**
    * A util tool to resolve channel, user, etc

@@ -2,11 +2,17 @@ import type { ButtonInteraction } from 'discord.js';
 import type { ShewenyClient } from '../client/Client';
 import { Collection } from 'discord.js';
 import { BaseStructure } from '.';
+import type { ButtonsManager } from '..';
 /**
  * Represents an Button structure
  * @extends {BaseStructure}
  */
 export declare abstract class Button extends BaseStructure {
+    /**
+     * The
+     * @type {ButtonsManager}
+     */
+    manager?: ButtonsManager;
     /**
      * Custom id for one or more buttons
      * @type {string[]}

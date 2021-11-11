@@ -73,8 +73,12 @@ export class CommandsManager extends BaseManager {
    * @returns {Promise<Collection<string, Command>>}
    */
   public async loadAll(): Promise<Collection<string, Command> | undefined> {
-    const commands = await loadFiles<string, Command>(this.client, this.directory, 'name');
-    this.client.collections.commands = commands;
+    const commands = await loadFiles<string, Command>(this.client, {
+      directory: this.directory,
+      key: 'name',
+      manager: this,
+    });
+    if (commands) this.client.collections.commands = commands;
     this.commands = commands;
     return commands;
   }

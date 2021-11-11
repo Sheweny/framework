@@ -4,40 +4,43 @@ import { Collection } from 'discord.js';
 import { ShewenyError, ShewenyWarning } from '../errors';
 
 import type { ShewenyClient } from '../client/Client';
-
-export async function loadFiles<K, V>(
-  client: ShewenyClient | any,
-  directory: string,
-  key: string
-): Promise<Collection<K, V> | undefined> {
+import type { LoadFilesOptions } from '../typescript/interfaces';
+export async function loadFiles<K, V>(client: ShewenyClient, options: LoadFilesOptions): Promise<Collection<K, V> | undefined> {
   try {
     const collection = new Collection<K, V>();
-    const baseDir = resolve(require.main!.path, directory);
-    const filesPath: string[] = await readDirAndPush(baseDir);
-
+    const filesPath: string[] = await readDirAndPush(resolve(require.main!.path, options.directory));
+    let ClassImport: any;
     for (const filePath of filesPath) {
-      let ClassImport = await import(filePath);
-      if (Object.keys(ClassImport).length) {
-        const key = Object.keys(ClassImport)[0];
-        ClassImport = ClassImport[key];
-      }
+      const file = await import(filePath);
+
+      if (Object.keys(file).length) ClassImport = file[Object.keys(file)[0]];
+      // Import the first element
+      else ClassImport = file;
+
       if (!ClassImport) {
         new ShewenyWarning(client, `Cannot find a class to load at file :\n${filePath}`);
         continue;
       }
 
+      // Test if class is a valid class
+      if (!ClassImport.constructor) {
+        // TODO: Add a warning
+        continue;
+      }
+
       const instance = new ClassImport(client);
 
-      if (!instance[key]) {
+      if (!instance[options.key]) {
         new ShewenyWarning(
           client,
-          `The class ${instance.constructor.name} not have property ${key} in super() method. Unable to load it.\nPath : ${filePath}`
+          `The class ${instance.constructor.name} not have property ${options.key} in super() method. Unable to load it.\nPath : ${filePath}`
         );
         continue;
       }
 
       instance.path = filePath;
-      collection.set(instance[key], instance);
+      instance.manager = options.manager;
+      collection.set(instance[options.key], instance);
     }
 
     return collection;

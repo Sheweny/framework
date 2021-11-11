@@ -4,11 +4,17 @@ import { BaseStructure } from '.';
 import type { ShewenyClient } from '../client/Client';
 import type { EventOptions } from '../typescript/interfaces';
 import type { EventEmitter } from 'events';
+import type { EventsManager } from '..';
 /**
  * Represents an Event structure
  * @extends {BaseStructure}
  */
 export declare abstract class Event extends BaseStructure {
+    /**
+     * The
+     * @type {EventsManager}
+     */
+    manager?: EventsManager;
     /**
      * Name of a event
      * @type {string}

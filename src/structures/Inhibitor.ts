@@ -1,5 +1,6 @@
 import { Collection } from 'discord.js';
 import { BaseStructure } from '.';
+import type { InhibitorsManager } from '..';
 import type { ShewenyClient } from '../client/Client';
 
 type InhibitorType = 'MESSAGE_COMMAND' | 'APPLICATION_COMMAND' | 'BUTTON' | 'SELECT_MENU' | 'ALL';
@@ -14,6 +15,12 @@ interface InhibitorOptions {
  * @extends {BaseStructure}
  */
 export abstract class Inhibitor extends BaseStructure {
+  /**
+   * The
+   * @type {InhibitorsManager}
+   */
+  public manager?: InhibitorsManager;
+
   /**
    * Name of a inhibitor
    * @type {string}

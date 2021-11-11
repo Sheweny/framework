@@ -5,11 +5,17 @@ import type { ShewenyClient } from '../client/Client';
 import type { MessageCommandOptionData, CommandMessageArgsResolved } from '../typescript/interfaces';
 import type { CommandData, CommandType } from '../typescript/types';
 import type { ApplicationCommandOptionData, CommandInteraction, ContextMenuInteraction, Message, PermissionString } from 'discord.js';
+import type { CommandsManager } from '..';
 /**
  * Represents an Command structure
  * @extends {BaseStructure}
  */
 export declare abstract class Command extends BaseStructure {
+    /**
+     * The
+     * @type {CommandsManager}
+     */
+    manager?: CommandsManager;
     /**
      * Name of a command
      * @type {string}

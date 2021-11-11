@@ -18,12 +18,19 @@ import type {
   Message,
   PermissionString,
 } from 'discord.js';
+import type { CommandsManager } from '..';
 
 /**
  * Represents an Command structure
  * @extends {BaseStructure}
  */
 export abstract class Command extends BaseStructure {
+  /**
+   * The
+   * @type {CommandsManager}
+   */
+  public manager?: CommandsManager;
+
   /**
    * Name of a command
    * @type {string}

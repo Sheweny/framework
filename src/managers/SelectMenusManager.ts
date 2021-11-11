@@ -32,8 +32,12 @@ export class SelectMenusManager extends BaseManager {
    * @returns {Promise<Collection<string[], SelectMenu>>}
    */
   public async loadAll(): Promise<Collection<string[], SelectMenu> | undefined> {
-    const selectMenus = await loadFiles<string[], SelectMenu>(this.client, this.directory, 'customId');
-    this.client.collections.selectMenus = selectMenus;
+    const selectMenus = await loadFiles<string[], SelectMenu>(this.client, {
+      directory: this.directory,
+      key: 'customId',
+      manager: this,
+    });
+    if (selectMenus) this.client.collections.selectMenus = selectMenus;
     this.selectMenus = selectMenus;
     return selectMenus;
   }

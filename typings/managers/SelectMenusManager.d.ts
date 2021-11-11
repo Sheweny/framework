@@ -1,20 +1,11 @@
 import { Collection } from 'discord.js';
+import { BaseManager } from '.';
 import type { ShewenyClient, SelectMenu } from '..';
 import type { BaseManagerOptions } from '../typescript/interfaces';
 /**
  * Manager for Select Menus
  */
-export declare class SelectMenusManager {
-    /**
-     * Client framework
-     * @type {ShewenyClient}
-     */
-    private client;
-    /**
-     * Directory of the select menus folder
-     * @type {string}
-     */
-    directory: string;
+export declare class SelectMenusManager extends BaseManager {
     /**
      * Collection of the select menus
      * @type {Collection<string[], SelectMenu> | undefined}

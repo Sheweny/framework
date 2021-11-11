@@ -32,8 +32,12 @@ export class InhibitorsManager extends BaseManager {
    * @returns {Promise<Collection<string, Inhibitor>>}
    */
   public async loadAll(): Promise<Collection<string, Inhibitor> | undefined> {
-    const inhibitors = await loadFiles<string, Inhibitor>(this.client, this.directory, 'name');
-    this.client.collections.inhibitors = inhibitors;
+    const inhibitors = await loadFiles<string, Inhibitor>(this.client, {
+      directory: this.directory,
+      key: 'name',
+      manager: this,
+    });
+    if (inhibitors) this.client.collections.inhibitors = inhibitors;
     this.inhibitors = inhibitors;
     return inhibitors;
   }

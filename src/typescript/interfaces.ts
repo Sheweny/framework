@@ -134,11 +134,11 @@ export interface Managers {
 
 // Collections of managers
 export interface ManagersCollections {
-  commands?: Collection<string, Command>;
-  events?: Collection<string, Event>;
-  buttons?: Collection<string[], Button>;
-  selectMenus?: Collection<string[], SelectMenu>;
-  inhibitors?: Collection<string, Inhibitor>;
+  commands: Collection<string, Command>;
+  events: Collection<string, Event>;
+  buttons: Collection<string[], Button>;
+  selectMenus: Collection<string[], SelectMenu>;
+  inhibitors: Collection<string, Inhibitor>;
 }
 
 //Client options for managers
@@ -148,6 +148,15 @@ interface ManagersOptions {
   buttons?: BaseManagerOptions;
   selectMenus?: BaseManagerOptions;
   inhibitors?: BaseManagerOptions;
+}
+
+/**
+ * loadFiles function
+ */
+export interface LoadFilesOptions {
+  directory: string;
+  key: string;
+  manager: CommandsManager | EventsManager | ButtonsManager | SelectMenusManager | InhibitorsManager;
 }
 
 //#endregion Interfaces

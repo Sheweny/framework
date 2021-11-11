@@ -1,20 +1,11 @@
 import { Collection } from 'discord.js';
+import { BaseManager } from '.';
 import type { BaseManagerOptions } from '../typescript/interfaces';
 import type { ShewenyClient, Event } from '..';
 /**
  * Manager for Events
  */
-export declare class EventsManager {
-    /**
-     * Client framework
-     * @type {ShewenyClient}
-     */
-    private client;
-    /**
-     * Directory of the events folder
-     * @type {string}
-     */
-    directory: string;
+export declare class EventsManager extends BaseManager {
     /**
      * Collection of the events
      * @type {Collection<string, Event> | undefined}
