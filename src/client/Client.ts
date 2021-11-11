@@ -72,42 +72,42 @@ export class ShewenyClient extends Client {
     this.admins = options.admins || [];
     this.joinThreadsOnCreate = options.joinThreadsOnCreate || false;
 
-    this.managers.commands = options.handlers?.commands
+    this.managers.commands = options.managers?.commands
       ? new CommandsManager(this, {
-          directory: options.handlers.commands.directory,
+          directory: options.managers.commands.directory,
           loadAll: true,
-          guildId: options.handlers.commands.guildId,
-          prefix: options.handlers.commands.prefix,
-          applicationPermissions: options.handlers.commands.applicationPermissions,
-          autoRegisterApplicationCommands: options.handlers.commands.autoRegisterApplicationCommands,
+          guildId: options.managers.commands.guildId,
+          prefix: options.managers.commands.prefix,
+          applicationPermissions: options.managers.commands.applicationPermissions,
+          autoRegisterApplicationCommands: options.managers.commands.autoRegisterApplicationCommands,
         })
       : undefined;
 
-    this.managers.events = options.handlers?.events
+    this.managers.events = options.managers?.events
       ? new EventsManager(this, {
-          directory: options.handlers.events.directory,
-          loadAll: options.handlers.events.loadAll ?? true,
+          directory: options.managers.events.directory,
+          loadAll: options.managers.events.loadAll ?? true,
         })
       : undefined;
 
-    this.managers.buttons = options.handlers?.buttons
+    this.managers.buttons = options.managers?.buttons
       ? new ButtonsManager(this, {
-          directory: options.handlers.buttons.directory,
-          loadAll: options.handlers.buttons.loadAll ?? true,
+          directory: options.managers.buttons.directory,
+          loadAll: options.managers.buttons.loadAll ?? true,
         })
       : undefined;
 
-    this.managers.selectMenus = options.handlers?.selectMenus
+    this.managers.selectMenus = options.managers?.selectMenus
       ? new SelectMenusManager(this, {
-          directory: options.handlers.selectMenus.directory,
-          loadAll: options.handlers.selectMenus.loadAll ?? true,
+          directory: options.managers.selectMenus.directory,
+          loadAll: options.managers.selectMenus.loadAll ?? true,
         })
       : undefined;
 
-    this.managers.inhibitors = options.handlers?.inhibitors
+    this.managers.inhibitors = options.managers?.inhibitors
       ? new InhibitorsManager(this, {
-          directory: options.handlers.inhibitors.directory,
-          loadAll: options.handlers.inhibitors.loadAll ?? true,
+          directory: options.managers.inhibitors.directory,
+          loadAll: options.managers.inhibitors.loadAll ?? true,
         })
       : undefined;
 
