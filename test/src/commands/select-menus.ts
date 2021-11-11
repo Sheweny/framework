@@ -5,7 +5,7 @@ import { MessageSelectMenu, MessageActionRow } from 'discord.js';
 export class PingCommand extends Command {
   constructor(client: ShewenyClient) {
     super(client, {
-      name: 'test-selectmenus',
+      name: 'select-menus',
       description: 'Send buttons',
       type: 'SLASH_COMMAND',
       category: 'Tests',

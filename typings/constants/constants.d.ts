@@ -30,6 +30,14 @@ export declare const CommandMessageArgsType: {
     role: "ROLE";
     user: "USER";
 };
+export declare const CommandPermissions: {
+    admin: "BOT_ADMIN";
+};
+export declare const CommandEvents: {
+    userMissingPerm: "userMissingPermissions";
+    clientMissingPerm: "clientMissingPermissions";
+    cooldownLimit: "cooldownLimit";
+};
 /**
  * Inhibitor constants
  */

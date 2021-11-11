@@ -9,19 +9,24 @@ const client = new ShewenyClient({
       prefix: '!',
       guildId: ['877090306103840778', '809702809196560405'],
       autoRegisterApplicationCommands: true,
+      loadAll: true,
     },
 
     buttons: {
       directory: './interactions/buttons',
+      loadAll: true,
     },
     selectMenus: {
       directory: './interactions/select-menus',
+      loadAll: true,
     },
     events: {
       directory: './events',
+      loadAll: true,
     },
     inhibitors: {
       directory: './inhibitors',
+      loadAll: true,
     },
   },
 });
