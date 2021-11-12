@@ -1,24 +1,28 @@
 /**
  * Client constants
  */
-export declare const ClientMode: {
+export declare const CLIENT_MODE: {
     dev: "development";
     prod: "production";
+};
+export declare const CLIENT_UTIL: {
+    allIntents: import("discord.js").Intents;
+    allPartials: import("discord.js").PartialTypes[];
 };
 /**
  * Command constants
  */
-export declare const CommandType: {
+export declare const COMMAND_TYPE: {
     cmdMsg: "MESSAGE_COMMAND";
     cmdSlash: "SLASH_COMMAND";
     ctxMsg: "CONTEXT_MENU_MESSAGE";
     ctxUser: "CONTEXT_MENU_USER";
 };
-export declare const CommandChannel: {
+export declare const COMMAND_CHANNEL: {
     dm: "DM";
     guild: "GUILD";
 };
-export declare const CommandMessageArgsType: {
+export declare const COMMAND_MESSAGE_ARGS_TYPE: {
     string: "STRING";
     number: "NUMBER";
     boolean: "BOOLEAN";
@@ -30,10 +34,10 @@ export declare const CommandMessageArgsType: {
     role: "ROLE";
     user: "USER";
 };
-export declare const CommandPermissions: {
+export declare const COMMAND_PERMISSIONS: {
     admin: "BOT_ADMIN";
 };
-export declare const CommandEvents: {
+export declare const COMMAND_EVENTS: {
     userMissingPerm: "userMissingPermissions";
     clientMissingPerm: "clientMissingPermissions";
     cooldownLimit: "cooldownLimit";
@@ -41,7 +45,7 @@ export declare const CommandEvents: {
 /**
  * Inhibitor constants
  */
-export declare const InhibitorType: {
+export declare const INHIBITOR_TYPE: {
     message: "MESSAGE_COMMAND";
     appCommand: "APPLICATION_COMMAND";
     button: "BUTTON";

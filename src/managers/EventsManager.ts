@@ -36,7 +36,6 @@ export class EventsManager extends BaseManager {
     const events = await loadFiles<string, Event>(this.client, {
       directory: this.directory,
       key: 'name',
-      manager: this,
     });
     if (events) this.client.collections.events = events;
     this.events = events;

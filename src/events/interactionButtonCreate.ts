@@ -1,5 +1,5 @@
 import { ShewenyError } from '../errors';
-import { InhibitorType } from '../constants/constants';
+import { INHIBITOR_TYPE } from '../constants/constants';
 import type { ButtonInteraction } from 'discord.js';
 import type { ShewenyClient } from '../client/Client';
 import type { Inhibitor } from '../structures/Inhibitor';
@@ -14,7 +14,7 @@ export default async function run(client: ShewenyClient, interaction: ButtonInte
     if (button.before) await button.before(interaction);
 
     const inhibitors = client.collections.inhibitors?.filter(
-      (i: Inhibitor) => i.type.includes(InhibitorType.button) || i.type.includes(InhibitorType.all)
+      (i: Inhibitor) => i.type.includes(INHIBITOR_TYPE.button) || i.type.includes(INHIBITOR_TYPE.all)
     );
 
     if (inhibitors && inhibitors.size) {

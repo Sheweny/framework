@@ -30,6 +30,7 @@ export abstract class Button extends BaseStructure {
     super(client);
 
     this.customId = customId;
+    this.manager = this.client.managers.buttons;
   }
 
   /**

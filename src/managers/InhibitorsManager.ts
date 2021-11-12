@@ -35,7 +35,6 @@ export class InhibitorsManager extends BaseManager {
     const inhibitors = await loadFiles<string, Inhibitor>(this.client, {
       directory: this.directory,
       key: 'name',
-      manager: this,
     });
     if (inhibitors) this.client.collections.inhibitors = inhibitors;
     this.inhibitors = inhibitors;

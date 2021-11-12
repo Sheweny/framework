@@ -3,7 +3,7 @@ import type { EventEmitter } from 'events';
 import type { ClientOptions, Snowflake } from 'discord.js';
 import type { ButtonsManager, CommandsManager, EventsManager, InhibitorsManager, SelectMenusManager } from '../managers';
 import type { Button, Command, Event, Inhibitor, SelectMenu } from '../structures';
-import type * as Constants from '../constants/constants';
+import type { CLIENT_MODE, COMMAND_CHANNEL, COMMAND_MESSAGE_ARGS_TYPE, COMMAND_TYPE } from '../constants/constants';
 /**
  * Interfaces of managers
  */
@@ -24,12 +24,12 @@ export interface CommandsManagerOptions extends BaseManagerOptions {
 //Data option for `SLASH_COMMAND` type
 export interface SlashCommandData {
   name: string;
-  type: typeof Constants.CommandType.cmdSlash;
+  type: typeof COMMAND_TYPE.cmdSlash;
   description: string;
   options?: ApplicationCommandOptionData[];
   defaultPermission?: boolean;
   category?: string;
-  channel?: typeof Constants.CommandChannel.dm | typeof Constants.CommandChannel.guild;
+  channel?: typeof COMMAND_CHANNEL.dm | typeof COMMAND_CHANNEL.guild;
   cooldown?: number;
   adminsOnly?: boolean;
   userPermissions?: PermissionString[];
@@ -39,11 +39,11 @@ export interface SlashCommandData {
 // Data option for `CONTEXT_MENU_USER` type
 export interface ContextMenuUserData {
   name: string;
-  type: typeof Constants.CommandType.ctxUser;
+  type: typeof COMMAND_TYPE.ctxUser;
   description?: string;
   defaultPermission?: boolean;
   category?: string;
-  channel?: typeof Constants.CommandChannel.dm | typeof Constants.CommandChannel.guild;
+  channel?: typeof COMMAND_CHANNEL.dm | typeof COMMAND_CHANNEL.guild;
   cooldown?: number;
   adminsOnly?: boolean;
   userPermissions?: PermissionString[];
@@ -53,11 +53,11 @@ export interface ContextMenuUserData {
 // Data option for `CONTEXT_MENU_MESSAGE` type
 export interface ContextMenuMessageData {
   name: string;
-  type: typeof Constants.CommandType.ctxMsg;
+  type: typeof COMMAND_TYPE.ctxMsg;
   description?: string;
   defaultPermission?: boolean;
   category?: string;
-  channel?: typeof Constants.CommandChannel.dm | typeof Constants.CommandChannel.guild;
+  channel?: typeof COMMAND_CHANNEL.dm | typeof COMMAND_CHANNEL.guild;
   cooldown?: number;
   adminsOnly?: boolean;
   userPermissions?: PermissionString[];
@@ -67,11 +67,11 @@ export interface ContextMenuMessageData {
 //  Data option for `MESSAGE_COMMAND` type
 export interface MessageData {
   name: string;
-  type?: typeof Constants.CommandType.cmdMsg;
+  type?: typeof COMMAND_TYPE.cmdMsg;
   args?: MessageCommandOptionData[];
   description?: string;
   category?: string;
-  channel?: typeof Constants.CommandChannel.dm | typeof Constants.CommandChannel.guild;
+  channel?: typeof COMMAND_CHANNEL.dm | typeof COMMAND_CHANNEL.guild;
   cooldown?: number;
   adminsOnly?: boolean;
   userPermissions?: PermissionString[];
@@ -83,16 +83,16 @@ export interface MessageData {
 export interface MessageCommandOptionData {
   name: string;
   type:
-    | typeof Constants.CommandMessageArgsType.string
-    | typeof Constants.CommandMessageArgsType.number
-    | typeof Constants.CommandMessageArgsType.boolean
-    | typeof Constants.CommandMessageArgsType.rest
-    | typeof Constants.CommandMessageArgsType.guild
-    | typeof Constants.CommandMessageArgsType.channel
-    | typeof Constants.CommandMessageArgsType.member
-    | typeof Constants.CommandMessageArgsType.guild_emoji
-    | typeof Constants.CommandMessageArgsType.role
-    | typeof Constants.CommandMessageArgsType.user;
+    | typeof COMMAND_MESSAGE_ARGS_TYPE.string
+    | typeof COMMAND_MESSAGE_ARGS_TYPE.number
+    | typeof COMMAND_MESSAGE_ARGS_TYPE.boolean
+    | typeof COMMAND_MESSAGE_ARGS_TYPE.rest
+    | typeof COMMAND_MESSAGE_ARGS_TYPE.guild
+    | typeof COMMAND_MESSAGE_ARGS_TYPE.channel
+    | typeof COMMAND_MESSAGE_ARGS_TYPE.member
+    | typeof COMMAND_MESSAGE_ARGS_TYPE.guild_emoji
+    | typeof COMMAND_MESSAGE_ARGS_TYPE.role
+    | typeof COMMAND_MESSAGE_ARGS_TYPE.user;
   default?: any;
 }
 
@@ -117,7 +117,7 @@ export interface EventOptions {
 
 // Options for Sheweny client framework
 export interface ShewenyClientOptions extends ClientOptions {
-  mode?: typeof Constants.ClientMode.dev | typeof Constants.ClientMode.prod;
+  mode?: typeof CLIENT_MODE.dev | typeof CLIENT_MODE.prod;
   admins?: Snowflake[];
   managers?: ManagersOptions;
   joinThreadsOnCreate?: boolean;
@@ -156,7 +156,6 @@ interface ManagersOptions {
 export interface LoadFilesOptions {
   directory: string;
   key: string;
-  manager: CommandsManager | EventsManager | ButtonsManager | SelectMenusManager | InhibitorsManager;
 }
 
 //#endregion Interfaces

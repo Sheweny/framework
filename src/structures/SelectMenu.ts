@@ -28,6 +28,7 @@ export abstract class SelectMenu extends BaseStructure {
    */
   constructor(client: ShewenyClient, customId: string[]) {
     super(client);
+    this.manager = this.client.managers.selectMenus;
 
     this.customId = customId;
   }

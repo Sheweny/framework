@@ -34,7 +34,6 @@ export class ButtonsManager extends BaseManager {
     const buttons = await loadFiles<string[], Button>(this.client, {
       directory: this.directory,
       key: 'customId',
-      manager: this,
     });
     if (buttons) this.client.collections.buttons = buttons;
     this.buttons = buttons;

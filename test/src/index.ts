@@ -1,7 +1,9 @@
-import { ShewenyClient } from '../../';
+import { ShewenyClient, Constants } from '../../';
 const config = require('../config-test.json');
 const client = new ShewenyClient({
-  intents: ['GUILDS', 'GUILD_MESSAGES'],
+  intents: Constants.CLIENT_UTIL.allIntents,
+  partials: Constants.CLIENT_UTIL.allPartials,
+  admins: ['611468402263064577'],
   mode: 'development',
   managers: {
     commands: {

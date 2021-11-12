@@ -1,5 +1,5 @@
 import { Collection } from 'discord.js';
-import { CommandType, InhibitorType, CommandChannel, CommandPermissions, CommandEvents } from '../constants/constants';
+import { COMMAND_TYPE, INHIBITOR_TYPE, COMMAND_CHANNEL, COMMAND_PERMISSIONS, COMMAND_EVENTS } from '../constants/constants';
 import { ShewenyError } from '../errors';
 import type { ShewenyClient } from '..';
 import type { Inhibitor } from '../structures';
@@ -11,14 +11,15 @@ export default async function run(client: ShewenyClient, interaction: CommandInt
     /* -----------------COMMAND----------------- */
     const command = client.collections.commands?.get(interaction.commandName);
     //@ts-ignore
-    if (!command || (command && ![CommandType.cmdSlash, CommandType.ctxUser, CommandType.ctxMsg].includes(command.type))) return;
+    if (!command || (command && ![COMMAND_TYPE.cmdSlash, COMMAND_TYPE.ctxUser, COMMAND_TYPE.ctxMsg].includes(command.type)))
+      return;
     if (command.before) await command.before(interaction);
     /**
      * Handle inhibitors
      */
 
     const inhibitors = client.collections.inhibitors?.filter(
-      (i: Inhibitor) => i.type.includes(InhibitorType.appCommand) || i.type.includes(InhibitorType.all)
+      (i: Inhibitor) => i.type.includes(INHIBITOR_TYPE.appCommand) || i.type.includes(INHIBITOR_TYPE.all)
     );
 
     if (inhibitors && inhibitors.size) {
@@ -30,11 +31,11 @@ export default async function run(client: ShewenyClient, interaction: CommandInt
 
     /* ---------------PERMISSIONS--------------- */
     if (command.adminsOnly && !client.admins?.includes(interaction.user.id))
-      return client.managers.commands.emit(CommandEvents.userMissingPerm, interaction, CommandPermissions.admin);
+      return client.managers.commands.emit(COMMAND_EVENTS.userMissingPerm, interaction, COMMAND_PERMISSIONS.admin);
 
     /* ---------------IN-GUILD--------------- */
     if (interaction.inGuild()) {
-      if (command.channel === CommandChannel.dm) return;
+      if (command.channel === COMMAND_CHANNEL.dm) return;
 
       if (!client.managers.commands.applicationPermissions) {
         let member = interaction.guild!.members.cache.get(interaction.user.id);
@@ -42,7 +43,7 @@ export default async function run(client: ShewenyClient, interaction: CommandInt
         if (command.userPermissions.length) {
           for (const permission of command.userPermissions) {
             if (!member.permissions.has(permission)) {
-              return client.managers.commands?.emit(CommandEvents.userMissingPerm, interaction, permission);
+              return client.managers.commands?.emit(COMMAND_EVENTS.userMissingPerm, interaction, permission);
             }
           }
         }
@@ -51,12 +52,12 @@ export default async function run(client: ShewenyClient, interaction: CommandInt
       if (command.clientPermissions.length) {
         for (const permission of command.clientPermissions) {
           if (!interaction.guild!.me!.permissions.has(permission))
-            return client.managers.commands?.emit(CommandEvents.clientMissingPerm, interaction, permission);
+            return client.managers.commands?.emit(COMMAND_EVENTS.clientMissingPerm, interaction, permission);
         }
       }
     } else {
       /* ---------------IN-DM--------------- */
-      if (command.channel === CommandChannel.guild) return;
+      if (command.channel === COMMAND_CHANNEL.guild) return;
     }
 
     /* ---------------COOLDOWNS--------------- */
@@ -71,7 +72,7 @@ export default async function run(client: ShewenyClient, interaction: CommandInt
         const cdExpirationTime = (tStamps.get(interaction.user.id) || 0) + cdAmount;
         if (timeNow < cdExpirationTime) {
           // const timeLeft = (cdExpirationTime - timeNow) / 1000;
-          return client.managers.commands?.emit(CommandEvents.cooldownLimit, interaction);
+          return client.managers.commands?.emit(COMMAND_EVENTS.cooldownLimit, interaction);
         }
       }
 

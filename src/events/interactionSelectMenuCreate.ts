@@ -1,4 +1,4 @@
-import { InhibitorType } from '../constants/constants';
+import { INHIBITOR_TYPE } from '../constants/constants';
 import { ShewenyError } from '../errors';
 import type { SelectMenuInteraction } from 'discord.js';
 import type { ShewenyClient } from '../client/Client';
@@ -13,7 +13,7 @@ export default async function run(client: ShewenyClient, interaction: SelectMenu
     if (selectMenu.before) await selectMenu.before(interaction);
 
     const inhibitors = client.collections.inhibitors?.filter(
-      (i: Inhibitor) => i.type.includes(InhibitorType.select) || i.type.includes(InhibitorType.all)
+      (i: Inhibitor) => i.type.includes(INHIBITOR_TYPE.select) || i.type.includes(INHIBITOR_TYPE.all)
     );
 
     if (inhibitors && inhibitors.size) {

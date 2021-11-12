@@ -1,7 +1,7 @@
 import { Collection } from 'discord.js';
 import { BaseManager } from '.';
 import { loadFiles } from '../utils/loadFiles';
-import { CommandType } from '../constants/constants';
+import { COMMAND_TYPE } from '../constants/constants';
 import type {
   Collection as CollectionDjs,
   ApplicationCommand,
@@ -76,7 +76,6 @@ export class CommandsManager extends BaseManager {
     const commands = await loadFiles<string, Command>(this.client, {
       directory: this.directory,
       key: 'name',
-      manager: this,
     });
     if (commands) this.client.collections.commands = commands;
     this.commands = commands;
@@ -91,7 +90,7 @@ export class CommandsManager extends BaseManager {
     const commands = await this.loadAll();
     const commandsToRegister = commands?.filter((cmd: Command) =>
       //@ts-ignore
-      [CommandType.cmdSlash, CommandType.ctxMsg, CommandType.ctxUser].includes(cmd.type)
+      [COMMAND_TYPE.cmdSlash, COMMAND_TYPE.ctxMsg, COMMAND_TYPE.ctxUser].includes(cmd.type)
     );
     if (commandsToRegister && this.autoRegisterApplicationCommands) await this.registerAllApplicationCommands(commandsToRegister);
   }
@@ -102,11 +101,11 @@ export class CommandsManager extends BaseManager {
    * @returns {ApplicationCommandType | undefined}
    */
   private renameCommandType(
-    type: typeof CommandType.cmdSlash | typeof CommandType.ctxUser | typeof CommandType.ctxMsg
+    type: typeof COMMAND_TYPE.cmdSlash | typeof COMMAND_TYPE.ctxUser | typeof COMMAND_TYPE.ctxMsg
   ): ApplicationCommandType | undefined {
-    if (type === CommandType.cmdSlash) return 'CHAT_INPUT';
-    if (type === CommandType.ctxMsg) return 'MESSAGE';
-    if (type === CommandType.ctxUser) return 'USER';
+    if (type === COMMAND_TYPE.cmdSlash) return 'CHAT_INPUT';
+    if (type === COMMAND_TYPE.ctxMsg) return 'MESSAGE';
+    if (type === COMMAND_TYPE.ctxUser) return 'USER';
     return undefined;
   }
 
@@ -123,12 +122,12 @@ export class CommandsManager extends BaseManager {
     if (commands instanceof Collection) {
       const data: any[] = [];
       for (let [, cmd] of commands) {
-        if (cmd.type === CommandType.cmdMsg) continue;
+        if (cmd.type === COMMAND_TYPE.cmdMsg) continue;
 
         const newType = this.renameCommandType(cmd.type);
         if (!newType) continue;
 
-        if (cmd.type === CommandType.cmdSlash) {
+        if (cmd.type === COMMAND_TYPE.cmdSlash) {
           data.push({
             type: newType,
             name: cmd.name,
@@ -137,7 +136,7 @@ export class CommandsManager extends BaseManager {
             defaultPermission:
               this.applicationPermissions && this.guildId && cmd.userPermissions.length > 0 ? false : cmd.defaultPermission,
           });
-        } else if (cmd.type === CommandType.ctxMsg || cmd.type === CommandType.ctxUser) {
+        } else if (cmd.type === COMMAND_TYPE.ctxMsg || cmd.type === COMMAND_TYPE.ctxUser) {
           data.push({
             type: newType,
             name: cmd.name,
@@ -149,12 +148,12 @@ export class CommandsManager extends BaseManager {
 
       return data as ApplicationCommandData[];
     } else {
-      if (commands.type === CommandType.cmdMsg) return undefined;
+      if (commands.type === COMMAND_TYPE.cmdMsg) return undefined;
 
       const newType = this.renameCommandType(commands.type);
       if (!newType) return undefined;
 
-      if (commands.type === CommandType.cmdSlash) {
+      if (commands.type === COMMAND_TYPE.cmdSlash) {
         return {
           type: newType,
           name: commands.name,
@@ -165,7 +164,7 @@ export class CommandsManager extends BaseManager {
               ? false
               : commands.defaultPermission,
         } as ApplicationCommandData;
-      } else if (commands.type === CommandType.ctxMsg || commands.type === CommandType.ctxUser) {
+      } else if (commands.type === COMMAND_TYPE.ctxMsg || commands.type === COMMAND_TYPE.ctxUser) {
         return {
           type: newType,
           name: commands.name,

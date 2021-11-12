@@ -35,7 +35,6 @@ export class SelectMenusManager extends BaseManager {
     const selectMenus = await loadFiles<string[], SelectMenu>(this.client, {
       directory: this.directory,
       key: 'customId',
-      manager: this,
     });
     if (selectMenus) this.client.collections.selectMenus = selectMenus;
     this.selectMenus = selectMenus;

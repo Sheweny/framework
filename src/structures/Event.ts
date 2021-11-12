@@ -47,8 +47,8 @@ export abstract class Event extends BaseStructure {
    */
   constructor(client: ShewenyClient, name: string, options?: EventOptions) {
     super(client);
+    this.manager = this.client.managers.events;
 
-    this.client = client;
     this.name = name;
     this.description = options?.description || '';
     this.emitter = options?.emitter || this.client;

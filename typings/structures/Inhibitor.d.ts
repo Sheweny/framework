@@ -3,6 +3,7 @@ import { BaseStructure } from '.';
 import type { InhibitorsManager } from '..';
 import type { ShewenyClient } from '../client/Client';
 import type { InhibitorType } from '../typescript/types';
+import type { Interaction, Message } from 'discord.js';
 interface InhibitorOptions {
     type?: InhibitorType[];
     priority?: number;
@@ -50,7 +51,7 @@ export declare abstract class Inhibitor extends BaseStructure {
      * @param {any[]} args Button interaction
      * @returns {any | Promise<any>}
      */
-    abstract execute(...args: any[]): any | Promise<any>;
+    abstract execute(client: ShewenyClient, ctx: Interaction | Message): any | Promise<any>;
     /**
      * Unregister a inhibitor from collections
      * @returns {boolean}

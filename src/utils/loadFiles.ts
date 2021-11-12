@@ -39,7 +39,6 @@ export async function loadFiles<K, V>(client: ShewenyClient, options: LoadFilesO
       }
 
       instance.path = filePath;
-      instance.manager = options.manager;
       collection.set(instance[options.key], instance);
     }
 
