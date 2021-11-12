@@ -1,7 +1,7 @@
 import { join } from 'path';
 import { readdir } from 'fs/promises';
 import { Client, Collection } from 'discord.js';
-import { DiscordResolve } from '@sheweny/resolve';
+import { ClientUtil } from './ClientUtil';
 import { ButtonsManager, CommandsManager, EventsManager, InhibitorsManager, SelectMenusManager } from '../managers';
 import { ShewenyWarning } from '../errors';
 import { CLIENT_MODE } from '../constants/constants';
@@ -42,10 +42,10 @@ export class ShewenyClient extends Client {
   };
 
   /**
-   * A util tool to resolve channel, user, etc
-   * @type {DiscordResolve}
+   * A util tool to resolve channel, user, get data etc
+   * @type {ClientUtil}
    */
-  public util: DiscordResolve = new DiscordResolve(this);
+  public util: ClientUtil = new ClientUtil(this);
 
   /**
    * If the client joins a Thread when created

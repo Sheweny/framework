@@ -20,6 +20,7 @@ export default async function run(client: ShewenyClient, message: Message) {
     const prefix = client.managers.commands.prefix || '';
     const args = message.content.trim().slice(prefix.length).split(/ +/);
     if (!args[0]) return;
+    if (!message.content?.startsWith(prefix)) return;
     /* -----------------COMMAND----------------- */
     const commandName = args.shift()!.toLowerCase();
     const command =

@@ -1,5 +1,5 @@
 import { Client } from 'discord.js';
-import { DiscordResolve } from '@sheweny/resolve';
+import { ClientUtil } from './ClientUtil';
 import { CLIENT_MODE } from '../constants/constants';
 import type { Snowflake, ClientOptions } from 'discord.js';
 import type { ShewenyClientOptions, Managers, ManagersCollections } from '../typescript/interfaces';
@@ -28,10 +28,10 @@ export declare class ShewenyClient extends Client {
      */
     collections: ManagersCollections;
     /**
-     * A util tool to resolve channel, user, etc
-     * @type {DiscordResolve}
+     * A util tool to resolve channel, user, get data etc
+     * @type {ClientUtil}
      */
-    util: DiscordResolve;
+    util: ClientUtil;
     /**
      * If the client joins a Thread when created
      * @type {boolean}

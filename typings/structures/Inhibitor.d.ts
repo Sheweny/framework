@@ -45,7 +45,7 @@ export declare abstract class Inhibitor extends BaseStructure {
      * @param {any[]} args Arguments
      * @returns {any | Promise<any>}
      */
-    abstract onFailure(...args: any[]): any | Promise<any>;
+    abstract onFailure(client: ShewenyClient, ctx: Interaction | Message): any | Promise<any>;
     /**
      * Main function `execute` for the inhibitors
      * @param {any[]} args Button interaction

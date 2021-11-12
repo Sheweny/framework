@@ -9,7 +9,9 @@ export default class Ready extends Event {
       emitter: client.managers.commands!,
     });
   }
-  execute(i: CommandInteraction) {
+  execute(i: CommandInteraction, permission: string) {
+    console.log(permission);
+
     i.reply('Missing permissions !');
   }
 }

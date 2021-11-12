@@ -8,7 +8,7 @@ const client = new ShewenyClient({
   managers: {
     commands: {
       directory: './commands',
-      prefix: '!',
+      prefix: '?',
       guildId: ['877090306103840778', '809702809196560405'],
       autoRegisterApplicationCommands: true,
       loadAll: true,
