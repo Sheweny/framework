@@ -8,7 +8,7 @@ Sheweny is a framework for create discord bots with javascript (or typescript).
 
 ## Main features
 
-- Modular and reloadable commands, inhibitors, and events.
+- Modular and reloadable commands, inhibitors, events and interactions.
 
 - Flexible command handling and creation.
 
@@ -51,10 +51,10 @@ const client = new ShewenyClient({
   intents: ['GUILDS', 'GUILD_MEMBERS'],
   partials: ['GUILD_MEMBER'],
   mode: 'development',
-  handlers: {
+  managers: {
     commands: {
       directory: './commands',
-      guildId: '877090306103840778',
+      guildId: ['877090306103840778'],
       prefix: '!',
     },
     events: {
