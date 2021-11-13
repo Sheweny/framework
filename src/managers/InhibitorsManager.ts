@@ -1,6 +1,7 @@
 import { Collection } from 'discord.js';
 import { BaseManager } from '.';
 import { loadFiles } from '../utils/loadFiles';
+import { ShewenyInformation } from '../helpers';
 import type { ShewenyClient, Inhibitor } from '..';
 import type { BaseManagerOptions } from '../typescript/interfaces';
 
@@ -38,6 +39,7 @@ export class InhibitorsManager extends BaseManager {
     });
     if (inhibitors) this.client.collections.inhibitors = inhibitors;
     this.inhibitors = inhibitors;
+    new ShewenyInformation(this.client, `- Inhibitors loaded : ${this.client.collections.inhibitors.size}`);
     return inhibitors;
   }
 

@@ -2,6 +2,7 @@ import { Collection } from 'discord.js';
 import { BaseManager } from '.';
 import { loadFiles } from '../utils/loadFiles';
 import { COMMAND_TYPE } from '../constants/constants';
+import { ShewenyInformation } from '../helpers';
 import type {
   ApplicationCommand,
   ApplicationCommandData,
@@ -91,6 +92,7 @@ export class CommandsManager extends BaseManager {
     });
     if (commands) this.client.collections.commands = commands;
     this.commands = commands;
+    new ShewenyInformation(this.client, `- Commands loaded : ${this.client.collections.commands.size}`);
     return commands;
   }
 
@@ -129,7 +131,7 @@ export class CommandsManager extends BaseManager {
           ? await this.client.application?.commands.set(data, guildId)
           : await this.client.application?.commands.set(data);
 
-      if (this.applicationPermissions) await this.registerPermissions(cmds, this.commands, guildId);
+      if (this.applicationPermissions) await this.registerPermissions(cmds, this.commands, guildId as string);
 
       return cmds;
     }

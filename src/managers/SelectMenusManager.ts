@@ -1,6 +1,7 @@
 import { Collection } from 'discord.js';
 import { BaseManager } from '.';
 import { loadFiles } from '../utils/loadFiles';
+import { ShewenyInformation } from '../helpers';
 import type { ShewenyClient, SelectMenu } from '..';
 import type { BaseManagerOptions } from '../typescript/interfaces';
 
@@ -38,6 +39,7 @@ export class SelectMenusManager extends BaseManager {
     });
     if (selectMenus) this.client.collections.selectMenus = selectMenus;
     this.selectMenus = selectMenus;
+    new ShewenyInformation(this.client, `- Select-menus loaded : ${this.client.collections.selectMenus.size}`);
     return selectMenus;
   }
 

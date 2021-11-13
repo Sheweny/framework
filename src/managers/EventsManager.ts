@@ -2,6 +2,7 @@ import { EventEmitter } from 'events';
 import { Collection } from 'discord.js';
 import { BaseManager } from '.';
 import { loadFiles } from '../utils/loadFiles';
+import { ShewenyInformation } from '../helpers';
 import type { BaseManagerOptions } from '../typescript/interfaces';
 import type { ShewenyClient, Event } from '..';
 
@@ -39,6 +40,7 @@ export class EventsManager extends BaseManager {
     });
     if (events) this.client.collections.events = events;
     this.events = events;
+    new ShewenyInformation(this.client, `- Events loaded : ${this.client.collections.events.size}`);
     return events;
   }
 

@@ -1,6 +1,7 @@
 import { Collection } from 'discord.js';
 import { loadFiles } from '../utils/loadFiles';
 import { BaseManager } from '.';
+import { ShewenyInformation } from '../helpers';
 import type { ShewenyClient, Button } from '..';
 import type { BaseManagerOptions } from '../typescript/interfaces';
 /**
@@ -37,6 +38,7 @@ export class ButtonsManager extends BaseManager {
     });
     if (buttons) this.client.collections.buttons = buttons;
     this.buttons = buttons;
+    new ShewenyInformation(this.client, `- Buttons loaded : ${this.client.collections.buttons.size}`);
     return buttons;
   }
 

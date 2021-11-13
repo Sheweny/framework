@@ -3,7 +3,7 @@ import { readdir } from 'fs/promises';
 import { Client, Collection } from 'discord.js';
 import { ClientUtil } from './ClientUtil';
 import { ButtonsManager, CommandsManager, EventsManager, InhibitorsManager, SelectMenusManager } from '../managers';
-import { ShewenyWarning } from '../errors';
+import { ShewenyWarning } from '../helpers';
 import { CLIENT_MODE } from '../constants/constants';
 import type { Snowflake, ClientOptions } from 'discord.js';
 import type { ShewenyClientOptions, Managers, ManagersCollections } from '../typescript/interfaces';
@@ -63,11 +63,7 @@ export class ShewenyClient extends Client {
 
     this.mode = options.mode || CLIENT_MODE.dev;
 
-    if (options.mode === CLIENT_MODE.dev)
-      new ShewenyWarning(
-        this,
-        'You are running Sheweny in development mode. Make sure to turn on production mode when deploying for production to avoid warnings.'
-      );
+    if (options.mode === CLIENT_MODE.dev) new ShewenyWarning(this, 'START');
 
     this.admins = options.admins || [];
     this.joinThreadsOnCreate = options.joinThreadsOnCreate || false;

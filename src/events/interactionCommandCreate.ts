@@ -1,6 +1,6 @@
 import { Collection } from 'discord.js';
 import { COMMAND_TYPE, INHIBITOR_TYPE, COMMAND_CHANNEL, COMMAND_PERMISSIONS, COMMAND_EVENTS } from '../constants/constants';
-import { ShewenyError } from '../errors';
+import { ShewenyError } from '../helpers';
 import type { ShewenyClient } from '..';
 import type { Inhibitor } from '../structures';
 import type { CommandInteraction, ContextMenuInteraction } from 'discord.js';

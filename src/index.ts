@@ -7,8 +7,25 @@
  * Version: 3
  */
 
+/**
+ * Client class
+ */
 export { ShewenyClient } from './client/Client';
+export { ClientUtil } from './client/ClientUtil';
+
+/**
+ * Structures
+ */
 export { BaseStructure, Button, Command, Event, Inhibitor, SelectMenu } from './structures';
 
+/**
+ * Managers
+ */
 export { ButtonsManager, CommandsManager, EventsManager, InhibitorsManager, SelectMenusManager } from './managers';
+
+/**
+ * Helpers
+ */
+export { ShewenyError, ShewenyInformation, ShewenyWarning } from './helpers';
+
 export * as Constants from './constants/constants';

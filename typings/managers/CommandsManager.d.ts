@@ -82,7 +82,7 @@ export declare class CommandsManager extends BaseManager {
      * @param {Snowflake | undefined} [guildId] Guild ID where permissions will be set
      * @returns {Promise<void>}
      */
-    registerPermissions(applicationCommands?: Collection<string, ApplicationCommand<{}>> | undefined, commandsCollection?: Collection<string, Command> | undefined | null, guildId?: Snowflake | Snowflake[] | undefined): Promise<void | boolean>;
+    registerPermissions(applicationCommands: Collection<string, ApplicationCommand<{}>> | undefined, commandsCollection: Collection<string, Command> | undefined | null, guildId: Snowflake | undefined): Promise<void | boolean>;
     /**
      * Create a command in the client's application commands
      * @param {Command} command Command to create

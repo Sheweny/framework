@@ -1,4 +1,4 @@
-import { ShewenyError } from '../errors';
+import { ShewenyError } from '../helpers';
 import { INHIBITOR_TYPE } from '../constants/constants';
 import type { ButtonInteraction } from 'discord.js';
 import type { ShewenyClient } from '../client/Client';

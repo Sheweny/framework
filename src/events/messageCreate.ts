@@ -1,4 +1,4 @@
-import { ShewenyError } from '../errors';
+import { ShewenyError } from '../helpers';
 import { Collection } from 'discord.js';
 import {
   COMMAND_TYPE,

@@ -1,5 +1,5 @@
 import { INHIBITOR_TYPE } from '../constants/constants';
-import { ShewenyError } from '../errors';
+import { ShewenyError } from '../helpers';
 import type { SelectMenuInteraction } from 'discord.js';
 import type { ShewenyClient } from '../client/Client';
 import type { Inhibitor } from '../structures/Inhibitor';
