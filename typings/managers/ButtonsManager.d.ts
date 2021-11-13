@@ -10,7 +10,7 @@ export declare class ButtonsManager extends BaseManager {
      * Collection of the buttons
      * @type {Collection<string[], Button> | undefined}
      */
-    buttons?: Collection<string[], Button>;
+    buttons?: Collection<string[], Button> | null;
     /**
      * Constructor to manage buttons
      * @param {ShewenyClient} client Client framework
@@ -23,4 +23,9 @@ export declare class ButtonsManager extends BaseManager {
      * @returns {Promise<Collection<string[], Button>>}
      */
     loadAll(): Promise<Collection<string[], Button> | undefined>;
+    /**
+     * Unload all buttons
+     * @returns {void}
+     */
+    unloadAll(): void;
 }

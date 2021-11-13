@@ -10,7 +10,7 @@ export declare class SelectMenusManager extends BaseManager {
      * Collection of the select menus
      * @type {Collection<string[], SelectMenu> | undefined}
      */
-    selectMenus?: Collection<string[], SelectMenu>;
+    selectMenus?: Collection<string[], SelectMenu> | null;
     /**
      * Constructor to manage select menus
      * @param {ShewenyClient} client Client framework
@@ -23,4 +23,9 @@ export declare class SelectMenusManager extends BaseManager {
      * @returns {Promise<Collection<string[], SelectMenu>>}
      */
     loadAll(): Promise<Collection<string[], SelectMenu> | undefined>;
+    /**
+     * Unload all selectMenus
+     * @returns {void}
+     */
+    unloadAll(): void;
 }

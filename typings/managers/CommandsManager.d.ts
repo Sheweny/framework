@@ -32,7 +32,7 @@ export declare class CommandsManager extends BaseManager {
      * Collection of the commands
      * @type {Collection<string, Command> | undefined}
      */
-    commands?: Collection<string, Command>;
+    commands?: Collection<string, Command> | null;
     /**
      * Constructor to manage commands
      * @param {ShewenyClient} client Client framework
@@ -45,6 +45,11 @@ export declare class CommandsManager extends BaseManager {
      * @returns {Promise<Collection<string, Command>>}
      */
     loadAll(): Promise<Collection<string, Command> | undefined>;
+    /**
+     * Unload all commands
+     * @returns {void}
+     */
+    unloadAll(): void;
     /**
      * Load all and Register Application commands
      * @returns {Promise<void>}
@@ -61,13 +66,13 @@ export declare class CommandsManager extends BaseManager {
      * @param {Collection<string, Command> | Command | undefined} [commands] The command(s) to obtain their data
      * @returns {ApplicationCommandData[] | ApplicationCommandData | undefined}
      */
-    getData(commands?: Collection<string, Command> | Command | undefined): ApplicationCommandData[] | ApplicationCommandData | undefined;
+    getData(commands?: Collection<string, Command> | Command | undefined | null): ApplicationCommandData[] | ApplicationCommandData | undefined;
     /**
      * Set all application commands from the collection of commands in the client application
      * @param {Collection<string, Command> | undefined} [commands] Collection of the commands
      * @returns {Promise<CollectionDjs<Snowflake, ApplicationCommand<{}>> | CollectionDjs<Snowflake, ApplicationCommand<{ guild: GuildResolvable }>> | undefined>}
      */
-    registerAllApplicationCommands(commands?: Collection<string, Command> | undefined, guildId?: Snowflake | Snowflake[] | undefined): Promise<CollectionDjs<Snowflake, ApplicationCommand<{}>> | CollectionDjs<Snowflake, ApplicationCommand<{
+    registerAllApplicationCommands(commands?: Collection<string, Command> | undefined | null, guildId?: Snowflake | Snowflake[] | undefined): Promise<CollectionDjs<Snowflake, ApplicationCommand<{}>> | CollectionDjs<Snowflake, ApplicationCommand<{
         guild: GuildResolvable;
     }>> | boolean | undefined>;
     /**
@@ -77,7 +82,7 @@ export declare class CommandsManager extends BaseManager {
      * @param {Snowflake | undefined} [guildId] Guild ID where permissions will be set
      * @returns {Promise<void>}
      */
-    registerPermissions(applicationCommands?: CollectionDjs<string, ApplicationCommand<{}>> | undefined, commandsCollection?: Collection<string, Command> | undefined, guildId?: Snowflake | Snowflake[] | undefined): Promise<void | boolean>;
+    registerPermissions(applicationCommands?: CollectionDjs<string, ApplicationCommand<{}>> | undefined, commandsCollection?: Collection<string, Command> | undefined | null, guildId?: Snowflake | Snowflake[] | undefined): Promise<void | boolean>;
     /**
      * Create a command in the client's application commands
      * @param {Command} command Command to create

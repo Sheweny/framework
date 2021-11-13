@@ -10,7 +10,7 @@ export declare class InhibitorsManager extends BaseManager {
      * Collection of the inhibitors
      * @type {Collection<string, Inhibitor> | undefined}
      */
-    inhibitors?: Collection<string, Inhibitor>;
+    inhibitors?: Collection<string, Inhibitor> | null;
     /**
      * Constructor to manage inhibitors
      * @param {ShewenyClient} client Client framework
@@ -23,4 +23,9 @@ export declare class InhibitorsManager extends BaseManager {
      * @returns {Promise<Collection<string, Inhibitor>>}
      */
     loadAll(): Promise<Collection<string, Inhibitor> | undefined>;
+    /**
+     * Unload all inhibitors
+     * @returns {void}
+     */
+    unloadAll(): void;
 }

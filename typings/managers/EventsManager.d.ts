@@ -10,7 +10,7 @@ export declare class EventsManager extends BaseManager {
      * Collection of the events
      * @type {Collection<string, Event> | undefined}
      */
-    events?: Collection<string, Event>;
+    events?: Collection<string, Event> | null;
     /**
      * Constructor to manage events
      * @param {ShewenyClient} client Client framework
@@ -28,7 +28,12 @@ export declare class EventsManager extends BaseManager {
      * @param {Collection<string, Event> | undefined} [events] Events collection that will be emit
      * @returns {Promise<void>}
      */
-    registerAll(events?: Collection<string, Event> | undefined): Promise<void>;
+    registerAll(events?: Collection<string, Event> | undefined | null): Promise<void>;
+    /**
+     * Unload all events
+     * @returns {void}
+     */
+    unloadAll(): void;
     /**
      * Load all and Register events
      * @returns {Promise<void>}
