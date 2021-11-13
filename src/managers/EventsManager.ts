@@ -13,7 +13,7 @@ export class EventsManager extends BaseManager {
    * Collection of the events
    * @type {Collection<string, Event> | undefined}
    */
-  public events?: Collection<string, Event>;
+  public events?: Collection<string, Event> | null;
 
   /**
    * Constructor to manage events
@@ -47,7 +47,7 @@ export class EventsManager extends BaseManager {
    * @param {Collection<string, Event> | undefined} [events] Events collection that will be emit
    * @returns {Promise<void>}
    */
-  public async registerAll(events: Collection<string, Event> | undefined = this.events): Promise<void> {
+  public async registerAll(events: Collection<string, Event> | undefined | null = this.events): Promise<void> {
     if (!events) throw new Error('No events found');
 
     for (const [name, evt] of events) {
@@ -55,6 +55,14 @@ export class EventsManager extends BaseManager {
       if (evt.once) evt.emitter.once(name, (...args: any[]) => evt.execute(...args));
       else evt.emitter.on(name, (...args: any[]) => evt.execute(...args));
     }
+  }
+  /**
+   * Unload all events
+   * @returns {void}
+   */
+  public unloadAll(): void {
+    this.events = null;
+    this.client.collections.events.clear();
   }
 
   /**

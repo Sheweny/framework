@@ -12,7 +12,7 @@ export class SelectMenusManager extends BaseManager {
    * Collection of the select menus
    * @type {Collection<string[], SelectMenu> | undefined}
    */
-  public selectMenus?: Collection<string[], SelectMenu>;
+  public selectMenus?: Collection<string[], SelectMenu> | null;
 
   /**
    * Constructor to manage select menus
@@ -39,5 +39,13 @@ export class SelectMenusManager extends BaseManager {
     if (selectMenus) this.client.collections.selectMenus = selectMenus;
     this.selectMenus = selectMenus;
     return selectMenus;
+  }
+  /**
+   * Unload all selectMenus
+   * @returns {void}
+   */
+  public unloadAll(): void {
+    this.selectMenus = null;
+    this.client.collections.selectMenus.clear();
   }
 }

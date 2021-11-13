@@ -12,7 +12,7 @@ export class InhibitorsManager extends BaseManager {
    * Collection of the inhibitors
    * @type {Collection<string, Inhibitor> | undefined}
    */
-  public inhibitors?: Collection<string, Inhibitor>;
+  public inhibitors?: Collection<string, Inhibitor> | null;
 
   /**
    * Constructor to manage inhibitors
@@ -39,5 +39,13 @@ export class InhibitorsManager extends BaseManager {
     if (inhibitors) this.client.collections.inhibitors = inhibitors;
     this.inhibitors = inhibitors;
     return inhibitors;
+  }
+  /**
+   * Unload all inhibitors
+   * @returns {void}
+   */
+  public unloadAll(): void {
+    this.inhibitors = null;
+    this.client.collections.inhibitors.clear();
   }
 }

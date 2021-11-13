@@ -11,7 +11,7 @@ export class ButtonsManager extends BaseManager {
    * Collection of the buttons
    * @type {Collection<string[], Button> | undefined}
    */
-  public buttons?: Collection<string[], Button>;
+  public buttons?: Collection<string[], Button> | null;
 
   /**
    * Constructor to manage buttons
@@ -38,5 +38,13 @@ export class ButtonsManager extends BaseManager {
     if (buttons) this.client.collections.buttons = buttons;
     this.buttons = buttons;
     return buttons;
+  }
+  /**
+   * Unload all buttons
+   * @returns {void}
+   */
+  public unloadAll(): void {
+    this.buttons = null;
+    this.client.collections.buttons.clear();
   }
 }

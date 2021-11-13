@@ -49,7 +49,7 @@ export class CommandsManager extends BaseManager {
    * Collection of the commands
    * @type {Collection<string, Command> | undefined}
    */
-  public commands?: Collection<string, Command>;
+  public commands?: Collection<string, Command> | null;
 
   /**
    * Constructor to manage commands
@@ -80,6 +80,14 @@ export class CommandsManager extends BaseManager {
     if (commands) this.client.collections.commands = commands;
     this.commands = commands;
     return commands;
+  }
+  /**
+   * Unload all commands
+   * @returns {void}
+   */
+  public unloadAll(): void {
+    this.commands = null;
+    this.client.collections.commands.clear();
   }
 
   /**
@@ -115,7 +123,7 @@ export class CommandsManager extends BaseManager {
    * @returns {ApplicationCommandData[] | ApplicationCommandData | undefined}
    */
   public getData(
-    commands: Collection<string, Command> | Command | undefined = this.commands
+    commands: Collection<string, Command> | Command | undefined | null = this.commands
   ): ApplicationCommandData[] | ApplicationCommandData | undefined {
     if (!commands) throw new Error('Commands not found');
 
@@ -183,7 +191,7 @@ export class CommandsManager extends BaseManager {
    * @returns {Promise<CollectionDjs<Snowflake, ApplicationCommand<{}>> | CollectionDjs<Snowflake, ApplicationCommand<{ guild: GuildResolvable }>> | undefined>}
    */
   public async registerAllApplicationCommands(
-    commands: Collection<string, Command> | undefined = this.commands,
+    commands: Collection<string, Command> | undefined | null = this.commands,
     guildId: Snowflake | Snowflake[] | undefined = this.guildId
   ): Promise<
     | CollectionDjs<Snowflake, ApplicationCommand<{}>>
@@ -219,7 +227,7 @@ export class CommandsManager extends BaseManager {
    */
   public async registerPermissions(
     applicationCommands: CollectionDjs<string, ApplicationCommand<{}>> | undefined = this.client.application?.commands.cache,
-    commandsCollection: Collection<string, Command> | undefined = this.commands,
+    commandsCollection: Collection<string, Command> | undefined | null = this.commands,
     guildId: Snowflake | Snowflake[] | undefined = this.guildId
   ): Promise<void | boolean> {
     if (!applicationCommands) throw new ReferenceError('Commands of application must be provided');
