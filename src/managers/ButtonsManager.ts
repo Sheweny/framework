@@ -39,6 +39,7 @@ export class ButtonsManager extends BaseManager {
     this.buttons = buttons;
     return buttons;
   }
+
   /**
    * Unload all buttons
    * @returns {void}

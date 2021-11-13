@@ -40,6 +40,7 @@ export class InhibitorsManager extends BaseManager {
     this.inhibitors = inhibitors;
     return inhibitors;
   }
+
   /**
    * Unload all inhibitors
    * @returns {void}

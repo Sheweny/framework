@@ -15,11 +15,17 @@ export class BaseManager extends EventEmitter {
    */
   public directory: string;
 
+  /**
+   * Constructor of BaseManager class (extends EventEmitter)
+   * @param {ShewenyClient} client
+   * @param {BaseManagerOptions} options
+   */
   constructor(client: ShewenyClient, options: BaseManagerOptions) {
     super();
     if (!client) throw new TypeError('Client must be provided.');
     if (!options || (options && !options?.directory)) throw new TypeError('Directory must be provided.');
     this.client = client;
+
     this.directory = options.directory;
   }
 }

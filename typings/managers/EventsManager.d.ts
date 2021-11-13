@@ -30,13 +30,13 @@ export declare class EventsManager extends BaseManager {
      */
     registerAll(events?: Collection<string, Event> | undefined | null): Promise<void>;
     /**
-     * Unload all events
-     * @returns {void}
-     */
-    unloadAll(): void;
-    /**
      * Load all and Register events
      * @returns {Promise<void>}
      */
     loadAndRegisterAll(): Promise<void>;
+    /**
+     * Unload all events
+     * @returns {void}
+     */
+    unloadAll(): void;
 }

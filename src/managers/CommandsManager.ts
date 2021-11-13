@@ -3,7 +3,6 @@ import { BaseManager } from '.';
 import { loadFiles } from '../utils/loadFiles';
 import { COMMAND_TYPE } from '../constants/constants';
 import type {
-  Collection as CollectionDjs,
   ApplicationCommand,
   ApplicationCommandData,
   ApplicationCommandResolvable,
@@ -21,18 +20,6 @@ import type { CommandsManagerOptions } from '../typescript/interfaces';
  * @extends {EventEmitter}
  */
 export class CommandsManager extends BaseManager {
-  /**
-   * ID of the guild where are set Applications Commands
-   * @type {string | undefined}
-   */
-  public guildId?: Snowflake | Snowflake[];
-
-  /**
-   * Prefix for the Message Commands
-   * @type {string | undefined}
-   */
-  public prefix?: string;
-
   /**
    * If the applications commands are disabled according to the `userPermissions` array
    * @type {boolean | undefined}
@@ -52,6 +39,18 @@ export class CommandsManager extends BaseManager {
   public commands?: Collection<string, Command> | null;
 
   /**
+   * ID of the guild where are set Applications Commands
+   * @type {string | undefined}
+   */
+  public guildId?: Snowflake | Snowflake[];
+
+  /**
+   * Prefix for the Message Commands
+   * @type {string | undefined}
+   */
+  public prefix?: string;
+
+  /**
    * Constructor to manage commands
    * @param {ShewenyClient} client Client framework
    * @param {string} directory Directory of the commands folder
@@ -60,12 +59,25 @@ export class CommandsManager extends BaseManager {
   constructor(client: ShewenyClient, options: CommandsManagerOptions) {
     super(client, options);
 
-    this.guildId = options?.guildId;
-    this.prefix = options?.prefix;
     this.applicationPermissions = options?.applicationPermissions || false;
     this.autoRegisterApplicationCommands = options?.autoRegisterApplicationCommands || false;
+    this.guildId = options?.guildId;
+    this.prefix = options?.prefix;
+
     if (options?.loadAll) this.loadAndRegisterAll();
     client.managers.commands = this;
+  }
+  /**
+   * Load all and Register Application commands
+   * @returns {Promise<void>}
+   */
+  public async loadAndRegisterAll(): Promise<void> {
+    const commands = await this.loadAll();
+    const commandsToRegister = commands?.filter((cmd: Command) =>
+      //@ts-ignore
+      [COMMAND_TYPE.cmdSlash, COMMAND_TYPE.ctxMsg, COMMAND_TYPE.ctxUser].includes(cmd.type)
+    );
+    if (commandsToRegister && this.autoRegisterApplicationCommands) await this.registerApplicationCommands(commandsToRegister);
   }
 
   /**
@@ -81,6 +93,7 @@ export class CommandsManager extends BaseManager {
     this.commands = commands;
     return commands;
   }
+
   /**
    * Unload all commands
    * @returns {void}
@@ -91,16 +104,36 @@ export class CommandsManager extends BaseManager {
   }
 
   /**
-   * Load all and Register Application commands
-   * @returns {Promise<void>}
+   * Set all application commands from the collection of commands in the client application
+   * @param {Collection<string, Command> | undefined} [commands] Collection of the commands
+   * @returns {Promise<Collection<Snowflake, ApplicationCommand<{}>> | Collection<Snowflake, ApplicationCommand<{ guild: GuildResolvable }>> | undefined>}
    */
-  public async loadAndRegisterAll(): Promise<void> {
-    const commands = await this.loadAll();
-    const commandsToRegister = commands?.filter((cmd: Command) =>
-      //@ts-ignore
-      [COMMAND_TYPE.cmdSlash, COMMAND_TYPE.ctxMsg, COMMAND_TYPE.ctxUser].includes(cmd.type)
-    );
-    if (commandsToRegister && this.autoRegisterApplicationCommands) await this.registerAllApplicationCommands(commandsToRegister);
+  public async registerApplicationCommands(
+    commands: Collection<string, Command> | undefined | null = this.commands,
+    guildId: Snowflake | Snowflake[] | undefined = this.guildId
+  ): Promise<
+    | Collection<Snowflake, ApplicationCommand<{}>>
+    | Collection<Snowflake, ApplicationCommand<{ guild: GuildResolvable }>>
+    | boolean
+    | undefined
+  > {
+    if (guildId && guildId instanceof Array) return guildId.every((id) => this.registerApplicationCommands(commands, id));
+    if (!commands) throw new Error('Commands not found');
+    const data = this.getApplicationCommandData();
+
+    await this.client.awaitReady();
+
+    if (data instanceof Array && data.length > 0) {
+      const cmds =
+        guildId && typeof guildId === 'string'
+          ? await this.client.application?.commands.set(data, guildId)
+          : await this.client.application?.commands.set(data);
+
+      if (this.applicationPermissions) await this.registerPermissions(cmds, this.commands, guildId);
+
+      return cmds;
+    }
+    return undefined;
   }
 
   /**
@@ -122,9 +155,9 @@ export class CommandsManager extends BaseManager {
    * @param {Collection<string, Command> | Command | undefined} [commands] The command(s) to obtain their data
    * @returns {ApplicationCommandData[] | ApplicationCommandData | undefined}
    */
-  public getData(
+  public getApplicationCommandData(
     commands: Collection<string, Command> | Command | undefined | null = this.commands
-  ): ApplicationCommandData[] | ApplicationCommandData | undefined {
+  ): ApplicationCommandData[] | ApplicationCommandData | null {
     if (!commands) throw new Error('Commands not found');
 
     if (commands instanceof Collection) {
@@ -142,24 +175,28 @@ export class CommandsManager extends BaseManager {
             description: cmd.description,
             options: cmd.options,
             defaultPermission:
-              this.applicationPermissions && this.guildId && cmd.userPermissions.length > 0 ? false : cmd.defaultPermission,
+              (this.applicationPermissions && this.guildId && cmd.userPermissions.length > 0) || cmd.adminsOnly
+                ? false
+                : cmd.defaultPermission,
           });
         } else if (cmd.type === COMMAND_TYPE.ctxMsg || cmd.type === COMMAND_TYPE.ctxUser) {
           data.push({
             type: newType,
             name: cmd.name,
             defaultPermission:
-              this.applicationPermissions && this.guildId && cmd.userPermissions.length > 0 ? false : cmd.defaultPermission,
+              (this.applicationPermissions && this.guildId && cmd.userPermissions.length > 0) || cmd.adminsOnly
+                ? false
+                : cmd.defaultPermission,
           });
         }
       }
 
       return data as ApplicationCommandData[];
     } else {
-      if (commands.type === COMMAND_TYPE.cmdMsg) return undefined;
+      if (commands.type === COMMAND_TYPE.cmdMsg) return null;
 
       const newType = this.renameCommandType(commands.type);
-      if (!newType) return undefined;
+      if (!newType) return null;
 
       if (commands.type === COMMAND_TYPE.cmdSlash) {
         return {
@@ -183,63 +220,29 @@ export class CommandsManager extends BaseManager {
         } as ApplicationCommandData;
       }
     }
-  }
-
-  /**
-   * Set all application commands from the collection of commands in the client application
-   * @param {Collection<string, Command> | undefined} [commands] Collection of the commands
-   * @returns {Promise<CollectionDjs<Snowflake, ApplicationCommand<{}>> | CollectionDjs<Snowflake, ApplicationCommand<{ guild: GuildResolvable }>> | undefined>}
-   */
-  public async registerAllApplicationCommands(
-    commands: Collection<string, Command> | undefined | null = this.commands,
-    guildId: Snowflake | Snowflake[] | undefined = this.guildId
-  ): Promise<
-    | CollectionDjs<Snowflake, ApplicationCommand<{}>>
-    | CollectionDjs<Snowflake, ApplicationCommand<{ guild: GuildResolvable }>>
-    | boolean
-    | undefined
-  > {
-    if (guildId && guildId instanceof Array) return guildId.every((id) => this.registerAllApplicationCommands(commands, id));
-    if (!commands) throw new Error('Commands not found');
-    const data = this.getData();
-
-    await this.client.awaitReady();
-
-    if (data instanceof Array && data.length > 0) {
-      const cmds =
-        guildId && typeof guildId === 'string'
-          ? await this.client.application?.commands.set(data, guildId)
-          : await this.client.application?.commands.set(data);
-
-      if (this.applicationPermissions) await this.registerPermissions(cmds);
-
-      return cmds;
-    }
-    return undefined;
+    return null;
   }
 
   /**
    * Set permissions for each commands in guild
-   * @param {CollectionDjs<string, ApplicationCommand<{}>> | undefined} [applicationCommands] Commands coming from the client's application
+   * @param {Collection<string, ApplicationCommand<{}>> | undefined} [applicationCommands] Commands coming from the client's application
    * @param {Collection<string, Command> | undefined} [commandsCollection] Commands coming from the collection of the commands
    * @param {Snowflake | undefined} [guildId] Guild ID where permissions will be set
    * @returns {Promise<void>}
    */
   public async registerPermissions(
-    applicationCommands: CollectionDjs<string, ApplicationCommand<{}>> | undefined = this.client.application?.commands.cache,
+    applicationCommands: Collection<string, ApplicationCommand<{}>> | undefined = this.client.application?.commands.cache,
     commandsCollection: Collection<string, Command> | undefined | null = this.commands,
-    guildId: Snowflake | Snowflake[] | undefined = this.guildId
+    guildId: Snowflake | undefined
   ): Promise<void | boolean> {
     if (!applicationCommands) throw new ReferenceError('Commands of application must be provided');
     if (!commandsCollection) throw new ReferenceError('Commands of client must be provided');
     if (!guildId) throw new ReferenceError('Guild ID must be provided');
-
-    if (guildId instanceof Array)
-      return guildId.every(async (gId) => await this.registerPermissions(applicationCommands, commandsCollection, gId));
+    if (typeof guildId !== 'string') throw new TypeError('Guild ID must be a string');
 
     const guild = this.client.guilds.cache.get(guildId as Snowflake);
     const getRoles = (command: Command) => {
-      if (command.userPermissions?.length === 0) return null;
+      if (!command.userPermissions?.length) return null;
       return guild?.roles.cache.filter((r) => r.permissions.has(command.userPermissions));
     };
 
@@ -247,12 +250,15 @@ export class CommandsManager extends BaseManager {
     for (const [, appCommand] of applicationCommands) {
       const roles = getRoles(commandsCollection.get(appCommand.name)!);
       const permissions: ApplicationCommandPermissionData[] = [];
-
+      // Roles in the guild
       if (roles && roles.size)
         for (const [, role] of roles!) {
           permissions.push({ id: role.id, type: 'ROLE', permission: true });
         }
-      if (this.client.admins && this.client.admins.length)
+      // Owner of the guild
+      if (guild?.ownerId) permissions.push({ id: guild.ownerId, type: 'USER', permission: true });
+      // Bot addmins for adminsOnly permission
+      if (commandsCollection.get(appCommand.name)?.adminsOnly && this.client.admins?.length)
         for (const userId of this.client.admins) {
           permissions.push({ id: userId, type: 'USER', permission: true });
         }
@@ -261,7 +267,6 @@ export class CommandsManager extends BaseManager {
         permissions,
       });
     }
-
     await guild?.commands.permissions.set({ fullPermissions });
   }
 
@@ -277,7 +282,7 @@ export class CommandsManager extends BaseManager {
   ): Promise<ApplicationCommand<{}> | ApplicationCommand<{ guild: GuildResolvable }> | undefined> {
     if (!command) throw new Error('Command not found');
 
-    const data = this.getData(command) as ApplicationCommandData;
+    const data = this.getApplicationCommandData(command) as ApplicationCommandData;
     if (!data) return undefined;
 
     return guildId ? this.client.application?.commands.create(data, guildId) : this.client.application?.commands.create(data);
@@ -298,7 +303,7 @@ export class CommandsManager extends BaseManager {
     if (!oldCommand) throw new Error('Old Command not found');
     if (!newCommand) throw new Error('New Command not found');
 
-    const data = this.getData(newCommand) as ApplicationCommandData;
+    const data = this.getApplicationCommandData(newCommand) as ApplicationCommandData;
     if (!data) return undefined;
 
     return guildId
@@ -326,14 +331,12 @@ export class CommandsManager extends BaseManager {
   /**
    * Delete all commands from the client's application commands
    * @param {Snowflake | undefined} [guildId] Guild ID where all commands will be deleted
-   * @returns {Promise<CollectionDjs<string, ApplicationCommand<{}>> | CollectionDjs<string, ApplicationCommand<{ guild: GuildResolvable }>> | undefined>}
+   * @returns {Promise<Collection<string, ApplicationCommand<{}>> | Collection<string, ApplicationCommand<{ guild: GuildResolvable }>> | undefined>}
    */
   public async deleteAllCommands(
     guildId?: Snowflake
   ): Promise<
-    | CollectionDjs<string, ApplicationCommand<{}>>
-    | CollectionDjs<string, ApplicationCommand<{ guild: GuildResolvable }>>
-    | undefined
+    Collection<string, ApplicationCommand<{}>> | Collection<string, ApplicationCommand<{ guild: GuildResolvable }>> | undefined
   > {
     return guildId ? this.client.application?.commands.set([], guildId) : this.client.application?.commands.set([]);
   }

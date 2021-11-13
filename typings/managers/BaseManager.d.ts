@@ -13,5 +13,10 @@ export declare class BaseManager extends EventEmitter {
      * @type {string}
      */
     directory: string;
+    /**
+     * Constructor of BaseManager class (extends EventEmitter)
+     * @param {ShewenyClient} client
+     * @param {BaseManagerOptions} options
+     */
     constructor(client: ShewenyClient, options: BaseManagerOptions);
 }

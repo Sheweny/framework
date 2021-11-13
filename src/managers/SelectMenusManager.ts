@@ -40,6 +40,7 @@ export class SelectMenusManager extends BaseManager {
     this.selectMenus = selectMenus;
     return selectMenus;
   }
+
   /**
    * Unload all selectMenus
    * @returns {void}

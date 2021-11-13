@@ -10,7 +10,6 @@ export default class PingCommand extends Command {
       description: 'Test the buttons',
       type: 'SLASH_COMMAND',
       category: 'Misc',
-      userPermissions: ['BAN_MEMBERS'],
     });
   }
 

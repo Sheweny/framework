@@ -56,14 +56,6 @@ export class EventsManager extends BaseManager {
       else evt.emitter.on(name, (...args: any[]) => evt.execute(...args));
     }
   }
-  /**
-   * Unload all events
-   * @returns {void}
-   */
-  public unloadAll(): void {
-    this.events = null;
-    this.client.collections.events.clear();
-  }
 
   /**
    * Load all and Register events
@@ -72,5 +64,14 @@ export class EventsManager extends BaseManager {
   public async loadAndRegisterAll(): Promise<void> {
     const events = await this.loadAll();
     await this.registerAll(events);
+  }
+
+  /**
+   * Unload all events
+   * @returns {void}
+   */
+  public unloadAll(): void {
+    this.events = null;
+    this.client.collections.events.clear();
   }
 }
