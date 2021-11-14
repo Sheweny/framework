@@ -10,8 +10,6 @@ export default class Ready extends Event {
     });
   }
   execute(i: CommandInteraction, permission: string) {
-    console.log(permission);
-
     i.reply('Missing permissions !');
   }
 }

@@ -4,7 +4,7 @@ import { COMMAND_CHANNEL } from '../constants/constants';
 import type { ShewenyClient } from '../client/Client';
 import type { MessageCommandOptionData, CommandMessageArgsResolved } from '../typescript/interfaces';
 import type { CommandData, CommandType } from '../typescript/types';
-import type { ApplicationCommandOptionData, CommandInteraction, ContextMenuInteraction, Message, PermissionString } from 'discord.js';
+import type { ApplicationCommandOptionData, CommandInteraction, ContextMenuInteraction, Message, PermissionString, AutocompleteInteraction } from 'discord.js';
 import type { CommandsManager } from '..';
 /**
  * Represents an Command structure
@@ -98,6 +98,7 @@ export declare abstract class Command extends BaseStructure {
      * @returns {any | Promise<any>}
      */
     before?(interaction: CommandInteraction | ContextMenuInteraction | Message): any | Promise<any>;
+    onAutocomplete?(interaction: AutocompleteInteraction): any | Promise<any>;
     /**
      * Main function `execute` for the commands
      * @param {CommandInteraction | ContextMenuInteraction | Message} interaction Interaction

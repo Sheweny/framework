@@ -17,6 +17,7 @@ import type {
   ContextMenuInteraction,
   Message,
   PermissionString,
+  AutocompleteInteraction,
 } from 'discord.js';
 import type { CommandsManager } from '..';
 
@@ -148,6 +149,8 @@ export abstract class Command extends BaseStructure {
    * @returns {any | Promise<any>}
    */
   before?(interaction: CommandInteraction | ContextMenuInteraction | Message): any | Promise<any>;
+
+  onAutocomplete?(interaction: AutocompleteInteraction): any | Promise<any>;
 
   /**
    * Main function `execute` for the commands

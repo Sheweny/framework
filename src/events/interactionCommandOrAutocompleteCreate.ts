@@ -1,10 +1,13 @@
-import { Collection } from 'discord.js';
+import { AutocompleteInteraction, Collection } from 'discord.js';
 import { COMMAND_TYPE, INHIBITOR_TYPE, COMMAND_CHANNEL, COMMAND_PERMISSIONS, COMMAND_EVENTS } from '../constants/constants';
 import { ShewenyError } from '../helpers';
 import type { ShewenyClient } from '..';
 import type { Inhibitor } from '../structures';
 import type { CommandInteraction, ContextMenuInteraction } from 'discord.js';
-export default async function run(client: ShewenyClient, interaction: CommandInteraction | ContextMenuInteraction) {
+export default async function run(
+  client: ShewenyClient,
+  interaction: CommandInteraction | ContextMenuInteraction | AutocompleteInteraction
+) {
   try {
     if (!client.managers.commands) return;
 
@@ -13,7 +16,8 @@ export default async function run(client: ShewenyClient, interaction: CommandInt
     //@ts-ignore
     if (!command || (command && ![COMMAND_TYPE.cmdSlash, COMMAND_TYPE.ctxUser, COMMAND_TYPE.ctxMsg].includes(command.type)))
       return;
-    if (command.before) await command.before(interaction);
+    if (interaction.isAutocomplete() && command.onAutocomplete) return await command.onAutocomplete(interaction);
+    if (command.before) await command.before(interaction as CommandInteraction | ContextMenuInteraction);
     /**
      * Handle inhibitors
      */
@@ -82,7 +86,7 @@ export default async function run(client: ShewenyClient, interaction: CommandInt
 
     /* ---------------COMMAND--------------- */
 
-    await command.execute(interaction);
+    await command.execute(interaction as CommandInteraction | ContextMenuInteraction);
   } catch (e: any) {
     new ShewenyError(client, e);
   }
