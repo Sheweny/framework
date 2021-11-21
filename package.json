@@ -17,7 +17,11 @@
     "framework",
     "discord-bots",
     "bots",
-    "cli"
+    "cli",
+    "discordapp",
+    "api",
+    "bot",
+    "client"
   ],
   "repository": {
     "type": "git",
