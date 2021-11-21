@@ -75,7 +75,7 @@ export class ShewenyClient extends Client {
           guildId: options.managers.commands.guildId,
           prefix: options.managers.commands.prefix,
           applicationPermissions: options.managers.commands.applicationPermissions,
-          autoRegisterApplicationCommands: options.managers.commands.autoRegisterApplicationCommands,
+          autoRegisterApplicationCommands: options.managers.commands.autoRegisterApplicationCommands ?? true,
         })
       : undefined;
 
