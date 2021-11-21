@@ -177,7 +177,7 @@ export class CommandsManager extends BaseManager {
             description: cmd.description,
             options: cmd.options,
             defaultPermission:
-              (this.applicationPermissions && this.guildId && cmd.userPermissions.length > 0) || cmd.adminsOnly
+              this.applicationPermissions && this.guildId && (cmd.userPermissions?.length > 0 || cmd.adminsOnly)
                 ? false
                 : cmd.defaultPermission,
           });
@@ -186,7 +186,7 @@ export class CommandsManager extends BaseManager {
             type: newType,
             name: cmd.name,
             defaultPermission:
-              (this.applicationPermissions && this.guildId && cmd.userPermissions.length > 0) || cmd.adminsOnly
+              this.applicationPermissions && this.guildId && (cmd.userPermissions?.length > 0 || cmd.adminsOnly)
                 ? false
                 : cmd.defaultPermission,
           });
@@ -250,20 +250,26 @@ export class CommandsManager extends BaseManager {
 
     const fullPermissions: GuildApplicationCommandPermissionData[] = [];
     for (const [, appCommand] of applicationCommands) {
-      const roles = getRoles(commandsCollection.get(appCommand.name)!);
       const permissions: ApplicationCommandPermissionData[] = [];
-      // Roles in the guild
-      if (roles && roles.size)
-        for (const [, role] of roles!) {
-          permissions.push({ id: role.id, type: 'ROLE', permission: true });
-        }
-      // Owner of the guild
-      if (guild?.ownerId) permissions.push({ id: guild.ownerId, type: 'USER', permission: true });
-      // Bot addmins for adminsOnly permission
-      if (commandsCollection.get(appCommand.name)?.adminsOnly && this.client.admins?.length)
-        for (const userId of this.client.admins) {
-          permissions.push({ id: userId, type: 'USER', permission: true });
-        }
+      if (commandsCollection.get(appCommand.name)?.adminsOnly) {
+        // Bot admin permissions
+        if (this.client.admins?.length)
+          for (const userId of this.client.admins) {
+            permissions.push({ id: userId, type: 'USER', permission: true });
+          }
+      } else {
+        // Guild permissions
+        const roles = getRoles(commandsCollection.get(appCommand.name)!);
+        // Roles in the guild
+        if (roles && roles.size)
+          for (const [, role] of roles!) {
+            permissions.push({ id: role.id, type: 'ROLE', permission: true });
+          }
+        // Owner of the guild
+        if (guild?.ownerId) permissions.push({ id: guild.ownerId, type: 'USER', permission: true });
+        // Bot addmins for adminsOnly permission
+      }
+
       fullPermissions.push({
         id: appCommand.id,
         permissions,
