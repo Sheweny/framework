@@ -1,28 +1,19 @@
-import { Collection } from "collection-data";
-import { loadFiles } from "../utils/loadFiles";
-import type { ShewenyClient, Inhibitor } from "..";
+import { Collection } from 'discord.js';
+import { BaseManager } from '.';
+import { loadFiles } from '../utils/loadFiles';
+import { ShewenyInformation } from '../helpers';
+import type { ShewenyClient, Inhibitor } from '..';
+import type { BaseManagerOptions } from '../typescript/interfaces';
 
 /**
  * Manager for Inhibitors
  */
-export class InhibitorsManager {
-  /**
-   * Client framework
-   * @type {ShewenyClient}
-   */
-  private client: ShewenyClient;
-
-  /**
-   * Directory of the inhibitors folder
-   * @type {string}
-   */
-  public directory: string;
-
+export class InhibitorsManager extends BaseManager {
   /**
    * Collection of the inhibitors
    * @type {Collection<string, Inhibitor> | undefined}
    */
-  public inhibitors?: Collection<string, Inhibitor>;
+  public inhibitors?: Collection<string, Inhibitor> | null;
 
   /**
    * Constructor to manage inhibitors
@@ -30,16 +21,11 @@ export class InhibitorsManager {
    * @param {string} directory Directory of the inhibitors folder
    * @param {boolean} [loadAll] If the inhibitors are loaded during bot launch
    */
-  constructor(client: ShewenyClient, directory: string, loadAll?: boolean) {
-    if (!client) throw new TypeError("Client must be provided.");
-    if (!directory) throw new TypeError("Directory must be provided.");
+  constructor(client: ShewenyClient, options: BaseManagerOptions) {
+    super(client, options);
 
-    this.client = client;
-    this.directory = directory;
-
-    if (loadAll) this.loadAll();
-
-    client.handlers.inhibitors = this;
+    if (options?.loadAll) this.loadAll();
+    client.managers.inhibitors = this;
   }
 
   /**
@@ -47,13 +33,22 @@ export class InhibitorsManager {
    * @returns {Promise<Collection<string, Inhibitor>>}
    */
   public async loadAll(): Promise<Collection<string, Inhibitor> | undefined> {
-    const inhibitors = await loadFiles<string, Inhibitor>(
-      this.client,
-      this.directory,
-      "name"
-    );
-    this.client.collections.inhibitors = inhibitors;
+    const inhibitors = await loadFiles<string, Inhibitor>(this.client, {
+      directory: this.directory,
+      key: 'name',
+    });
+    if (inhibitors) this.client.collections.inhibitors = inhibitors;
     this.inhibitors = inhibitors;
+    new ShewenyInformation(this.client, `- Inhibitors loaded : ${this.client.collections.inhibitors.size}`);
     return inhibitors;
+  }
+
+  /**
+   * Unload all inhibitors
+   * @returns {void}
+   */
+  public unloadAll(): void {
+    this.inhibitors = null;
+    this.client.collections.inhibitors.clear();
   }
 }

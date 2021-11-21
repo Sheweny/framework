@@ -1,13 +1,9 @@
-import { Collection } from "collection-data";
-import { BaseStructure } from ".";
-import type { ShewenyClient } from "../client/Client";
-
-type InhibitorType =
-  | "MESSAGE_COMMAND"
-  | "APPLICATION_COMMAND"
-  | "BUTTON"
-  | "SELECT_MENU"
-  | "ALL";
+import { Collection } from 'discord.js';
+import { BaseStructure } from '.';
+import type { InhibitorsManager } from '..';
+import type { ShewenyClient } from '../client/Client';
+import type { InhibitorType } from '../typescript/types';
+import type { Interaction, Message } from 'discord.js';
 
 interface InhibitorOptions {
   type?: InhibitorType[];
@@ -19,6 +15,12 @@ interface InhibitorOptions {
  * @extends {BaseStructure}
  */
 export abstract class Inhibitor extends BaseStructure {
+  /**
+   * The
+   * @type {InhibitorsManager}
+   */
+  public manager?: InhibitorsManager;
+
   /**
    * Name of a inhibitor
    * @type {string}
@@ -45,26 +47,26 @@ export abstract class Inhibitor extends BaseStructure {
    */
   constructor(client: ShewenyClient, name: string, options?: InhibitorOptions) {
     super(client);
+    this.manager = this.client.managers.inhibitors;
 
-    this.client = client;
     this.name = name;
-    this.type = options?.type || ["MESSAGE_COMMAND"];
+    this.type = options?.type || ['MESSAGE_COMMAND'];
     this.priority = options?.priority || 0;
   }
 
   /**
    * This function is executed when the main `execute` function has failed
-   * @param {any[]} args Arguments (???)
+   * @param {any[]} args Arguments
    * @returns {any | Promise<any>}
    */
-  abstract onFailure(...args: any[]): any | Promise<any>;
+  abstract onFailure(client: ShewenyClient, ctx: Interaction | Message): any | Promise<any>;
 
   /**
    * Main function `execute` for the inhibitors
    * @param {any[]} args Button interaction
    * @returns {any | Promise<any>}
    */
-  abstract execute(...args: any[]): any | Promise<any>;
+  abstract execute(client: ShewenyClient, ctx: Interaction | Message): any | Promise<any>;
 
   /**
    * Unregister a inhibitor from collections

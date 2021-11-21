@@ -1,13 +1,20 @@
-import { Collection } from "collection-data";
-import { BaseStructure } from ".";
-import type { SelectMenuInteraction } from "discord.js";
-import type { ShewenyClient } from "../client/Client";
+import { Collection } from 'discord.js';
+import { BaseStructure } from '.';
+import type { SelectMenuInteraction } from 'discord.js';
+import type { ShewenyClient } from '../client/Client';
+import type { SelectMenusManager } from '..';
 
 /**
  * Represents an Select Menu structure
  * @extends {BaseStructure}
  */
 export abstract class SelectMenu extends BaseStructure {
+  /**
+   * The
+   * @type {SelectMenusManager}
+   */
+  public manager?: SelectMenusManager;
+
   /**
    * Custom id for one or more select menus
    * @type {string[]}
@@ -21,6 +28,7 @@ export abstract class SelectMenu extends BaseStructure {
    */
   constructor(client: ShewenyClient, customId: string[]) {
     super(client);
+    this.manager = this.client.managers.selectMenus;
 
     this.customId = customId;
   }

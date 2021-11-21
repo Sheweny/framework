@@ -1,13 +1,20 @@
-import type { ButtonInteraction } from "discord.js";
-import type { ShewenyClient } from "../client/Client";
-import { Collection } from "collection-data";
-import { BaseStructure } from ".";
+import { Collection } from 'discord.js';
+import { BaseStructure } from '.';
+import type { ButtonInteraction } from 'discord.js';
+import type { ButtonsManager } from '..';
+import type { ShewenyClient } from '../client/Client';
 
 /**
  * Represents an Button structure
  * @extends {BaseStructure}
  */
 export abstract class Button extends BaseStructure {
+  /**
+   * The
+   * @type {ButtonsManager}
+   */
+  public manager?: ButtonsManager;
+
   /**
    * Custom id for one or more buttons
    * @type {string[]}
@@ -23,6 +30,7 @@ export abstract class Button extends BaseStructure {
     super(client);
 
     this.customId = customId;
+    this.manager = this.client.managers.buttons;
   }
 
   /**

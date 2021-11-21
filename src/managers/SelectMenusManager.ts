@@ -1,28 +1,19 @@
-import { Collection } from "collection-data";
-import { loadFiles } from "../utils/loadFiles";
-import type { ShewenyClient, SelectMenu } from "..";
+import { Collection } from 'discord.js';
+import { BaseManager } from '.';
+import { loadFiles } from '../utils/loadFiles';
+import { ShewenyInformation } from '../helpers';
+import type { ShewenyClient, SelectMenu } from '..';
+import type { BaseManagerOptions } from '../typescript/interfaces';
 
 /**
  * Manager for Select Menus
  */
-export class SelectMenusManager {
-  /**
-   * Client framework
-   * @type {ShewenyClient}
-   */
-  private client: ShewenyClient;
-
-  /**
-   * Directory of the select menus folder
-   * @type {string}
-   */
-  public directory: string;
-
+export class SelectMenusManager extends BaseManager {
   /**
    * Collection of the select menus
    * @type {Collection<string[], SelectMenu> | undefined}
    */
-  public selectMenus?: Collection<string[], SelectMenu>;
+  public selectMenus?: Collection<string[], SelectMenu> | null;
 
   /**
    * Constructor to manage select menus
@@ -30,14 +21,11 @@ export class SelectMenusManager {
    * @param {string} directory Directory of the select menus folder
    * @param {boolean} [loadAll] If the select menus are loaded during bot launch
    */
-  constructor(client: ShewenyClient, directory: string, loadAll?: boolean) {
-    if (!client) throw new TypeError("Client must be provided.");
-    if (!directory) throw new TypeError("Directory must be provided.");
+  constructor(client: ShewenyClient, options: BaseManagerOptions) {
+    super(client, options);
 
-    this.client = client;
-    this.directory = directory;
-    if (loadAll) this.loadAll();
-    client.handlers.selectMenus = this;
+    if (options?.loadAll) this.loadAll();
+    client.managers.selectMenus = this;
   }
 
   /**
@@ -45,13 +33,22 @@ export class SelectMenusManager {
    * @returns {Promise<Collection<string[], SelectMenu>>}
    */
   public async loadAll(): Promise<Collection<string[], SelectMenu> | undefined> {
-    const selectMenus = await loadFiles<string[], SelectMenu>(
-      this.client,
-      this.directory,
-      "customId"
-    );
-    this.client.collections.selectMenus = selectMenus;
+    const selectMenus = await loadFiles<string[], SelectMenu>(this.client, {
+      directory: this.directory,
+      key: 'customId',
+    });
+    if (selectMenus) this.client.collections.selectMenus = selectMenus;
     this.selectMenus = selectMenus;
+    new ShewenyInformation(this.client, `- Select-menus loaded : ${this.client.collections.selectMenus.size}`);
     return selectMenus;
+  }
+
+  /**
+   * Unload all selectMenus
+   * @returns {void}
+   */
+  public unloadAll(): void {
+    this.selectMenus = null;
+    this.client.collections.selectMenus.clear();
   }
 }

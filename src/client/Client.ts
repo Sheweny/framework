@@ -1,19 +1,12 @@
-import { Client } from "discord.js";
-import {
-  ButtonsManager,
-  CommandsManager,
-  EventsManager,
-  InhibitorsManager,
-  SelectMenusManager,
-} from "../managers";
-import { join } from "path";
-import { readdir } from "fs/promises";
-import { DiscordResolve } from "@sheweny/resolve";
-import { ShewenyWarning } from "../errors";
-import type { Snowflake, ClientOptions } from "discord.js";
-import type { ShewenyClientOptions } from "../interfaces/Client";
-import type { HandlersManager, HandlersCollections } from "../interfaces/Handlers";
-
+import { join } from 'path';
+import { readdir } from 'fs/promises';
+import { Client, Collection } from 'discord.js';
+import { ClientUtil } from './ClientUtil';
+import { ButtonsManager, CommandsManager, EventsManager, InhibitorsManager, SelectMenusManager } from '../managers';
+import { ShewenyWarning } from '../helpers';
+import { CLIENT_MODE } from '../constants/constants';
+import type { Snowflake, ClientOptions } from 'discord.js';
+import type { ShewenyClientOptions, Managers, ManagersCollections } from '../typescript/interfaces';
 /**
  * Sheweny framework client
  */
@@ -22,7 +15,7 @@ export class ShewenyClient extends Client {
    * The mode of the application (developement or production)
    * @type {string}
    */
-  public mode?: "production" | "development";
+  public mode?: typeof CLIENT_MODE.prod | typeof CLIENT_MODE.dev;
 
   /**
    * The ID of the bot admins
@@ -32,21 +25,27 @@ export class ShewenyClient extends Client {
 
   /**
    * The manager of handlers
-   * @type {HandlersManager}
+   * @type {Managers}
    */
-  public handlers: HandlersManager = {};
+  public managers: Managers = {};
 
   /**
    * The collections of handlers
-   * @type {HandlersManager}
+   * @type {Managers}
    */
-  public collections: HandlersCollections = {};
+  public collections: ManagersCollections = {
+    commands: new Collection(),
+    events: new Collection(),
+    buttons: new Collection(),
+    selectMenus: new Collection(),
+    inhibitors: new Collection(),
+  };
 
   /**
-   * A util tool to resolve channel, user, etc
-   * @type {DiscordResolve}
+   * A util tool to resolve channel, user, get data etc
+   * @type {ClientUtil}
    */
-  public util: DiscordResolve = new DiscordResolve(this);
+  public util: ClientUtil = new ClientUtil(this);
 
   /**
    * If the client joins a Thread when created
@@ -60,51 +59,61 @@ export class ShewenyClient extends Client {
    * @param {ClientOptions} [clientOptions] Client discord.js options
    */
   constructor(options: ShewenyClientOptions, clientOptions?: ClientOptions) {
-    super(clientOptions || options);
+    super(options || clientOptions);
 
-    this.mode = options.mode || "development";
+    this.mode = options.mode || CLIENT_MODE.dev;
 
-    if (options.mode !== "production")
-      new ShewenyWarning(
-        this,
-        "You are running Sheweny in development mode. Make sure to turn on production mode when deploying for production to avoid warnings."
-      );
+    if (options.mode === CLIENT_MODE.dev) new ShewenyWarning(this, 'START');
 
     this.admins = options.admins || [];
     this.joinThreadsOnCreate = options.joinThreadsOnCreate || false;
 
-    this.handlers.commands = options.handlers?.commands
-      ? new CommandsManager(this, options.handlers.commands.directory, {
+    this.managers.commands = options.managers?.commands
+      ? new CommandsManager(this, {
+          directory: options.managers.commands.directory,
           loadAll: true,
-          guildId: options.handlers.commands.guildId,
-          prefix: options.handlers.commands.prefix,
-          applicationPermissions: options.handlers.commands.applicationPermissions,
+          guildId: options.managers.commands.guildId,
+          prefix: options.managers.commands.prefix,
+          applicationPermissions: options.managers.commands.applicationPermissions,
+          autoRegisterApplicationCommands: options.managers.commands.autoRegisterApplicationCommands,
         })
       : undefined;
 
-    this.handlers.events = options.handlers?.events
-      ? new EventsManager(this, options.handlers.events.directory, true)
+    this.managers.events = options.managers?.events
+      ? new EventsManager(this, {
+          directory: options.managers.events.directory,
+          loadAll: options.managers.events.loadAll ?? true,
+        })
       : undefined;
 
-    this.handlers.buttons = options.handlers?.buttons
-      ? new ButtonsManager(this, options.handlers.buttons.directory, true)
+    this.managers.buttons = options.managers?.buttons
+      ? new ButtonsManager(this, {
+          directory: options.managers.buttons.directory,
+          loadAll: options.managers.buttons.loadAll ?? true,
+        })
       : undefined;
 
-    this.handlers.selectMenus = options.handlers?.selectMenus
-      ? new SelectMenusManager(this, options.handlers.selectMenus.directory, true)
+    this.managers.selectMenus = options.managers?.selectMenus
+      ? new SelectMenusManager(this, {
+          directory: options.managers.selectMenus.directory,
+          loadAll: options.managers.selectMenus.loadAll ?? true,
+        })
       : undefined;
 
-    this.handlers.inhibitors = options.handlers?.inhibitors
-      ? new InhibitorsManager(this, options.handlers.inhibitors.directory, true)
+    this.managers.inhibitors = options.managers?.inhibitors
+      ? new InhibitorsManager(this, {
+          directory: options.managers.inhibitors.directory,
+          loadAll: options.managers.inhibitors.loadAll ?? true,
+        })
       : undefined;
 
     (async () => {
-      const dir = join(__dirname, "../events");
+      const dir = join(__dirname, '../events');
       const files = await readdir(dir);
 
       for (const file of files) {
         const event = await import(`${dir}/${file}`).then((e) => e.default);
-        const evtName = file.split(".")[0];
+        const evtName = file.split('.')[0];
         this.on(evtName, (...args) => event(this, ...args));
       }
     })();
@@ -116,7 +125,7 @@ export class ShewenyClient extends Client {
    */
   public awaitReady(): Promise<boolean> {
     return new Promise((resolve) => {
-      this.on("ready", () => {
+      this.on('ready', () => {
         resolve(true);
       });
     });

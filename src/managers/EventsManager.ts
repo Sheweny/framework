@@ -1,29 +1,20 @@
-import { Collection } from "collection-data";
-import { loadFiles } from "../utils/loadFiles";
-import type { ShewenyClient, Event } from "..";
-import type { ClientEvents } from "discord.js";
+import { EventEmitter } from 'events';
+import { Collection } from 'discord.js';
+import { BaseManager } from '.';
+import { loadFiles } from '../utils/loadFiles';
+import { ShewenyInformation } from '../helpers';
+import type { BaseManagerOptions } from '../typescript/interfaces';
+import type { ShewenyClient, Event } from '..';
 
 /**
  * Manager for Events
  */
-export class EventsManager {
-  /**
-   * Client framework
-   * @type {ShewenyClient}
-   */
-  private client: ShewenyClient;
-
-  /**
-   * Directory of the events folder
-   * @type {string}
-   */
-  public directory: string;
-
+export class EventsManager extends BaseManager {
   /**
    * Collection of the events
-   * @type {Collection<keyof ClientEvents, Event> | undefined}
+   * @type {Collection<string, Event> | undefined}
    */
-  public events?: Collection<keyof ClientEvents, Event>;
+  public events?: Collection<string, Event> | null;
 
   /**
    * Constructor to manage events
@@ -31,45 +22,40 @@ export class EventsManager {
    * @param {string} directory Directory of the events folder
    * @param {boolean} [loadAll] If the events are loaded during bot launch
    */
-  constructor(client: ShewenyClient, directory: string, loadAll?: boolean) {
-    if (!client) throw new TypeError("Client must be provided.");
-    if (!directory) throw new TypeError("Directory must be provided.");
+  constructor(client: ShewenyClient, options: BaseManagerOptions) {
+    super(client, options);
 
-    this.client = client;
-    this.directory = directory;
-
-    if (loadAll) this.loadAndRegisterAll();
-    client.handlers.events = this;
+    if (options?.loadAll) this.loadAndRegisterAll();
+    client.managers.events = this;
   }
 
   /**
    * Load all events in collection
-   * @returns {Promise<Collection<keyof ClientEvents, Event>>}
+   * @returns {Promise<Collection<string, Event>>}
    */
-  public async loadAll(): Promise<Collection<keyof ClientEvents, Event> | undefined> {
-    const events = await loadFiles<keyof ClientEvents, Event>(
-      this.client,
-      this.directory,
-      "name"
-    );
-    this.client.collections.events = events;
+  public async loadAll(): Promise<Collection<string, Event> | undefined> {
+    const events = await loadFiles<string, Event>(this.client, {
+      directory: this.directory,
+      key: 'name',
+    });
+    if (events) this.client.collections.events = events;
     this.events = events;
+    new ShewenyInformation(this.client, `- Events loaded : ${this.client.collections.events.size}`);
     return events;
   }
 
   /**
    * Emit all events in collection
-   * @param {Collection<keyof ClientEvents, Event> | undefined} [events] Events collection that will be emit
+   * @param {Collection<string, Event> | undefined} [events] Events collection that will be emit
    * @returns {Promise<void>}
    */
-  public async registerAll(
-    events: Collection<keyof ClientEvents, Event> | undefined = this.events
-  ): Promise<void> {
-    if (!events) throw new Error("No events found");
+  public async registerAll(events: Collection<string, Event> | undefined | null = this.events): Promise<void> {
+    if (!events) throw new Error('No events found');
 
     for (const [name, evt] of events) {
-      if (evt.once) this.client.once(name, (...args: any[]) => evt.execute(...args));
-      else this.client.on(name, (...args: any[]) => evt.execute(...args));
+      if (!(evt.emitter instanceof EventEmitter)) throw new TypeError(`Event ${name} does not have a valid emitter.`);
+      if (evt.once) evt.emitter.once(name, (...args: any[]) => evt.execute(...args));
+      else evt.emitter.on(name, (...args: any[]) => evt.execute(...args));
     }
   }
 
@@ -80,5 +66,14 @@ export class EventsManager {
   public async loadAndRegisterAll(): Promise<void> {
     const events = await this.loadAll();
     await this.registerAll(events);
+  }
+
+  /**
+   * Unload all events
+   * @returns {void}
+   */
+  public unloadAll(): void {
+    this.events = null;
+    this.client.collections.events.clear();
   }
 }

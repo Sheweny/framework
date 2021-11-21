@@ -1,29 +1,37 @@
-import { Collection } from "collection-data";
-import { BaseStructure } from ".";
-import type { ShewenyClient } from "../client/Client";
+import { Collection } from 'discord.js';
+import { BaseStructure } from '.';
+import { COMMAND_CHANNEL, COMMAND_TYPE } from '../constants/constants';
+import type { ShewenyClient } from '../client/Client';
 import type {
-  CommandData,
   MessageCommandOptionData,
-  MessageCommandArgs,
-  CommandType,
+  CommandMessageArgsResolved,
   ContextMenuMessageData,
   ContextMenuUserData,
   SlashCommandData,
   MessageData,
-} from "../interfaces/Command";
+} from '../typescript/interfaces';
+import type { CommandData, CommandType } from '../typescript/types';
 import type {
   ApplicationCommandOptionData,
   CommandInteraction,
   ContextMenuInteraction,
   Message,
   PermissionString,
-} from "discord.js";
+  AutocompleteInteraction,
+} from 'discord.js';
+import type { CommandsManager } from '..';
 
 /**
  * Represents an Command structure
  * @extends {BaseStructure}
  */
 export abstract class Command extends BaseStructure {
+  /**
+   * The
+   * @type {CommandsManager}
+   */
+  public manager?: CommandsManager;
+
   /**
    * Name of a command
    * @type {string}
@@ -70,7 +78,7 @@ export abstract class Command extends BaseStructure {
    * Only channel where a command can be executed
    * @type {"GUILD" | "DM" | undefined}
    */
-  public channel?: "GUILD" | "DM";
+  public channel?: typeof COMMAND_CHANNEL.guild | typeof COMMAND_CHANNEL.dm;
 
   /**
    * Cooldown of a command
@@ -115,52 +123,45 @@ export abstract class Command extends BaseStructure {
    */
   constructor(client: ShewenyClient, data: CommandData) {
     super(client);
+    this.manager = this.client.managers.commands;
+
     this.name = data.name;
-    this.description = data.description || "";
-    this.type = data.type || "MESSAGE_COMMAND";
-    this.defaultPermission = this.isType(
-      "SLASH_COMMAND",
-      "CONTEXT_MENU_USER",
-      "CONTEXT_MENU_MESSAGE"
-    )
-      ? (data as SlashCommandData | ContextMenuUserData | ContextMenuMessageData)
-          .defaultPermission
+    this.description = data.description || '';
+    this.type = data.type || COMMAND_TYPE.cmdMsg;
+    this.defaultPermission = this.isType(COMMAND_TYPE.cmdSlash, COMMAND_TYPE.ctxUser, COMMAND_TYPE.ctxMsg)
+      ? (data as SlashCommandData | ContextMenuUserData | ContextMenuMessageData).defaultPermission
       : undefined;
-    this.options = this.isType("SLASH_COMMAND")
-      ? (data as SlashCommandData).options
-      : undefined;
-    this.args = this.isType("MESSAGE_COMMAND") ? (data as MessageData).args : undefined;
-    this.category = data.category || "";
+    this.options = this.isType(COMMAND_TYPE.cmdSlash) ? (data as SlashCommandData).options : undefined;
+    this.args = this.isType(COMMAND_TYPE.cmdMsg) ? (data as MessageData).args : undefined;
+    this.category = data.category || '';
     this.channel = data.channel;
     this.cooldown = data.cooldown || 0;
     this.adminsOnly = data.adminsOnly || false;
     this.userPermissions = data.userPermissions || [];
     this.clientPermissions = data.clientPermissions || [];
-    this.aliases = this.isType("MESSAGE_COMMAND") ? (data as MessageData).aliases : [];
+    this.aliases = this.isType(COMMAND_TYPE.cmdMsg) ? (data as MessageData).aliases : [];
     this.cooldowns = new Collection();
   }
 
   /**
    * This function is executed before executing the `execute` function
    * @param {CommandInteraction | ContextMenuInteraction | Message} interaction Interaction
-   * @param {MessageCommandArgs[]} [args] Arguments of the Message command
    * @returns {any | Promise<any>}
    */
-  before?(
-    interaction: CommandInteraction | ContextMenuInteraction | Message,
-    args?: MessageCommandArgs[]
-  ): any | Promise<any>;
+  before?(interaction: CommandInteraction | ContextMenuInteraction | Message): any | Promise<any>;
+
+  onAutocomplete?(interaction: AutocompleteInteraction): any | Promise<any>;
 
   /**
    * Main function `execute` for the commands
    * @param {CommandInteraction | ContextMenuInteraction | Message} interaction Interaction
-   * @param {MessageCommandArgs[]} [args] Arguments of the Message command
+   * @param {CommandMessageArgsResolved[]} [args] Arguments of the Message command
    * @returns {any | Promise<any>}
    */
   abstract execute(
     interaction: CommandInteraction | ContextMenuInteraction | Message,
-    args?: MessageCommandArgs[]
-  ): //args?: MessageCommandArgs
+    args?: CommandMessageArgsResolved[]
+  ): //args?: CommandMessageArgsResolved
   any | Promise<any>;
 
   /**

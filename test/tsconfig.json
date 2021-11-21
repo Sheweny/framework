@@ -1,0 +1,19 @@
+{
+  "version": "2.4.2",
+  "compilerOptions": {
+    "lib": ["ES2021"],
+    "target": "ES2021",
+    "module": "CommonJS",
+    "noEmitOnError": true,
+    "strict": true,
+    "moduleResolution": "node",
+    "sourceMap": false,
+    "outDir": "build",
+    "rootDir": "src",
+    "removeComments": false,
+    "noImplicitAny": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true
+  },
+  "exclude": ["node_modules"]
+}

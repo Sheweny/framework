@@ -1,0 +1,13 @@
+{
+  "include": ["src/**/*"],
+  "compilerOptions": {
+    "lib": ["ES2021"],
+    "target": "ES2021",
+    "allowJs": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "outDir": "typings",
+    "skipLibCheck": true,
+    "module": "CommonJS"
+  }
+}

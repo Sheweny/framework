@@ -1,6 +1,9 @@
-import { Collection } from "collection-data";
+import { Collection } from 'discord.js';
+import { BaseManager } from '.';
+import { loadFiles } from '../utils/loadFiles';
+import { COMMAND_TYPE } from '../constants/constants';
+import { ShewenyInformation } from '../helpers';
 import type {
-  Collection as CollectionDjs,
   ApplicationCommand,
   ApplicationCommandData,
   ApplicationCommandResolvable,
@@ -9,40 +12,38 @@ import type {
   GuildApplicationCommandPermissionData,
   ApplicationCommandType,
   Snowflake,
-} from "discord.js";
-import { EventEmitter } from "events";
-import { loadFiles } from "../utils/loadFiles";
-import type { ShewenyClient, Command } from "..";
-
-interface CommandsManagerOptions {
-  loadAll?: boolean;
-  guildId?: Snowflake;
-  prefix?: string;
-  applicationPermissions?: boolean;
-}
+} from 'discord.js';
+import type { ShewenyClient, Command } from '..';
+import type { CommandsManagerOptions } from '../typescript/interfaces';
 
 /**
  * Manager for Commands
  * @extends {EventEmitter}
  */
-export class CommandsManager extends EventEmitter {
+export class CommandsManager extends BaseManager {
   /**
-   * Client framework
-   * @type {ShewenyClient}
+   * If the applications commands are disabled according to the `userPermissions` array
+   * @type {boolean | undefined}
    */
-  private client: ShewenyClient;
+  public applicationPermissions?: boolean;
 
   /**
-   * Directory of the commands folder
-   * @type {string}
+   * Register application commands
+   * @type {boolean}
    */
-  public directory: string;
+  public autoRegisterApplicationCommands: boolean;
+
+  /**
+   * Collection of the commands
+   * @type {Collection<string, Command> | undefined}
+   */
+  public commands?: Collection<string, Command> | null;
 
   /**
    * ID of the guild where are set Applications Commands
    * @type {string | undefined}
    */
-  public guildId?: Snowflake;
+  public guildId?: Snowflake | Snowflake[];
 
   /**
    * Prefix for the Message Commands
@@ -51,41 +52,33 @@ export class CommandsManager extends EventEmitter {
   public prefix?: string;
 
   /**
-   * If the applications commands are disabled according to the `userPermissions` array
-   * @type {boolean | undefined}
-   */
-  public applicationPermissions?: boolean;
-
-  /**
-   * Collection of the commands
-   * @type {Collection<string, Command> | undefined}
-   */
-  public commands?: Collection<string, Command>;
-
-  /**
    * Constructor to manage commands
    * @param {ShewenyClient} client Client framework
    * @param {string} directory Directory of the commands folder
    * @param {CommandsManagerOptions} [options] Options of the commands manager
    */
-  constructor(
-    client: ShewenyClient,
-    directory: string,
-    options?: CommandsManagerOptions
-  ) {
-    super();
+  constructor(client: ShewenyClient, options: CommandsManagerOptions) {
+    super(client, options);
 
-    if (!client) throw new TypeError("Client must be provided.");
-    if (!directory) throw new TypeError("Directory must be provided.");
-
-    this.client = client;
-    this.directory = directory;
+    this.applicationPermissions = options?.applicationPermissions || false;
+    this.autoRegisterApplicationCommands = options?.autoRegisterApplicationCommands || false;
     this.guildId = options?.guildId;
     this.prefix = options?.prefix;
-    this.applicationPermissions = options?.applicationPermissions || false;
 
     if (options?.loadAll) this.loadAndRegisterAll();
-    client.handlers.commands = this;
+    client.managers.commands = this;
+  }
+  /**
+   * Load all and Register Application commands
+   * @returns {Promise<void>}
+   */
+  public async loadAndRegisterAll(): Promise<void> {
+    const commands = await this.loadAll();
+    const commandsToRegister = commands?.filter((cmd: Command) =>
+      //@ts-ignore
+      [COMMAND_TYPE.cmdSlash, COMMAND_TYPE.ctxMsg, COMMAND_TYPE.ctxUser].includes(cmd.type)
+    );
+    if (commandsToRegister && this.autoRegisterApplicationCommands) await this.registerApplicationCommands(commandsToRegister);
   }
 
   /**
@@ -93,23 +86,56 @@ export class CommandsManager extends EventEmitter {
    * @returns {Promise<Collection<string, Command>>}
    */
   public async loadAll(): Promise<Collection<string, Command> | undefined> {
-    const commands = await loadFiles<string, Command>(
-      this.client,
-      this.directory,
-      "name"
-    );
-    this.client.collections.commands = commands;
+    const commands = await loadFiles<string, Command>(this.client, {
+      directory: this.directory,
+      key: 'name',
+    });
+    if (commands) this.client.collections.commands = commands;
     this.commands = commands;
+    new ShewenyInformation(this.client, `- Commands loaded : ${this.client.collections.commands.size}`);
     return commands;
   }
 
   /**
-   * Load all and Register Application commands
-   * @returns {Promise<void>}
+   * Unload all commands
+   * @returns {void}
    */
-  public async loadAndRegisterAll(): Promise<void> {
-    const commands = await this.loadAll();
-    await this.registerAllApplicationCommands(commands);
+  public unloadAll(): void {
+    this.commands = null;
+    this.client.collections.commands.clear();
+  }
+
+  /**
+   * Set all application commands from the collection of commands in the client application
+   * @param {Collection<string, Command> | undefined} [commands] Collection of the commands
+   * @returns {Promise<Collection<Snowflake, ApplicationCommand<{}>> | Collection<Snowflake, ApplicationCommand<{ guild: GuildResolvable }>> | undefined>}
+   */
+  public async registerApplicationCommands(
+    commands: Collection<string, Command> | undefined | null = this.commands,
+    guildId: Snowflake | Snowflake[] | undefined = this.guildId
+  ): Promise<
+    | Collection<Snowflake, ApplicationCommand<{}>>
+    | Collection<Snowflake, ApplicationCommand<{ guild: GuildResolvable }>>
+    | boolean
+    | undefined
+  > {
+    if (guildId && guildId instanceof Array) return guildId.every((id) => this.registerApplicationCommands(commands, id));
+    if (!commands) throw new Error('Commands not found');
+    const data = this.getApplicationCommandData();
+
+    await this.client.awaitReady();
+
+    if (data instanceof Array && data.length > 0) {
+      const cmds =
+        guildId && typeof guildId === 'string'
+          ? await this.client.application?.commands.set(data, guildId)
+          : await this.client.application?.commands.set(data);
+
+      if (this.applicationPermissions) await this.registerPermissions(cmds, this.commands, guildId as string);
+
+      return cmds;
+    }
+    return undefined;
   }
 
   /**
@@ -118,11 +144,11 @@ export class CommandsManager extends EventEmitter {
    * @returns {ApplicationCommandType | undefined}
    */
   private renameCommandType(
-    type: "SLASH_COMMAND" | "CONTEXT_MENU_USER" | "CONTEXT_MENU_MESSAGE"
+    type: typeof COMMAND_TYPE.cmdSlash | typeof COMMAND_TYPE.ctxUser | typeof COMMAND_TYPE.ctxMsg
   ): ApplicationCommandType | undefined {
-    if (type === "SLASH_COMMAND") return "CHAT_INPUT";
-    if (type === "CONTEXT_MENU_MESSAGE") return "MESSAGE";
-    if (type === "CONTEXT_MENU_USER") return "USER";
+    if (type === COMMAND_TYPE.cmdSlash) return 'CHAT_INPUT';
+    if (type === COMMAND_TYPE.ctxMsg) return 'MESSAGE';
+    if (type === COMMAND_TYPE.ctxUser) return 'USER';
     return undefined;
   }
 
@@ -131,43 +157,36 @@ export class CommandsManager extends EventEmitter {
    * @param {Collection<string, Command> | Command | undefined} [commands] The command(s) to obtain their data
    * @returns {ApplicationCommandData[] | ApplicationCommandData | undefined}
    */
-  public getData(
-    commands: Collection<string, Command> | Command | undefined = this.commands
-  ): ApplicationCommandData[] | ApplicationCommandData | undefined {
-    if (!commands) throw new Error("Commands not found");
+  public getApplicationCommandData(
+    commands: Collection<string, Command> | Command | undefined | null = this.commands
+  ): ApplicationCommandData[] | ApplicationCommandData | null {
+    if (!commands) throw new Error('Commands not found');
 
     if (commands instanceof Collection) {
       const data: any[] = [];
       for (let [, cmd] of commands) {
-        if (cmd.type === "MESSAGE_COMMAND") continue;
+        if (cmd.type === COMMAND_TYPE.cmdMsg) continue;
 
         const newType = this.renameCommandType(cmd.type);
         if (!newType) continue;
 
-        if (cmd.type === "SLASH_COMMAND") {
+        if (cmd.type === COMMAND_TYPE.cmdSlash) {
           data.push({
             type: newType,
             name: cmd.name,
             description: cmd.description,
             options: cmd.options,
             defaultPermission:
-              this.applicationPermissions &&
-              this.guildId &&
-              cmd.userPermissions.length > 0
+              (this.applicationPermissions && this.guildId && cmd.userPermissions.length > 0) || cmd.adminsOnly
                 ? false
                 : cmd.defaultPermission,
           });
-        } else if (
-          cmd.type === "CONTEXT_MENU_MESSAGE" ||
-          cmd.type === "CONTEXT_MENU_USER"
-        ) {
+        } else if (cmd.type === COMMAND_TYPE.ctxMsg || cmd.type === COMMAND_TYPE.ctxUser) {
           data.push({
             type: newType,
             name: cmd.name,
             defaultPermission:
-              this.applicationPermissions &&
-              this.guildId &&
-              cmd.userPermissions.length > 0
+              (this.applicationPermissions && this.guildId && cmd.userPermissions.length > 0) || cmd.adminsOnly
                 ? false
                 : cmd.defaultPermission,
           });
@@ -176,100 +195,56 @@ export class CommandsManager extends EventEmitter {
 
       return data as ApplicationCommandData[];
     } else {
-      if (commands.type === "MESSAGE_COMMAND") return undefined;
+      if (commands.type === COMMAND_TYPE.cmdMsg) return null;
 
       const newType = this.renameCommandType(commands.type);
-      if (!newType) return undefined;
+      if (!newType) return null;
 
-      if (commands.type === "SLASH_COMMAND") {
+      if (commands.type === COMMAND_TYPE.cmdSlash) {
         return {
           type: newType,
           name: commands.name,
           description: commands.description,
           options: commands.options,
           defaultPermission:
-            this.applicationPermissions &&
-            this.guildId &&
-            commands.userPermissions.length > 0
+            this.applicationPermissions && this.guildId && commands.userPermissions.length > 0
               ? false
               : commands.defaultPermission,
         } as ApplicationCommandData;
-      } else if (
-        commands.type === "CONTEXT_MENU_MESSAGE" ||
-        commands.type === "CONTEXT_MENU_USER"
-      ) {
+      } else if (commands.type === COMMAND_TYPE.ctxMsg || commands.type === COMMAND_TYPE.ctxUser) {
         return {
           type: newType,
           name: commands.name,
           defaultPermission:
-            this.applicationPermissions &&
-            this.guildId &&
-            commands.userPermissions.length > 0
+            this.applicationPermissions && this.guildId && commands.userPermissions.length > 0
               ? false
               : commands.defaultPermission,
         } as ApplicationCommandData;
       }
     }
-  }
-
-  /**
-   * Set all application commands from the collection of commands in the client application
-   * @param {Collection<string, Command> | undefined} [commands] Collection of the commands
-   * @returns {Promise<CollectionDjs<Snowflake, ApplicationCommand<{}>> | CollectionDjs<Snowflake, ApplicationCommand<{ guild: GuildResolvable }>> | undefined>}
-   */
-  public async registerAllApplicationCommands(
-    commands: Collection<string, Command> | undefined = this.commands,
-    guildId: Snowflake | undefined = this.guildId
-  ): Promise<
-    | CollectionDjs<Snowflake, ApplicationCommand<{}>>
-    | CollectionDjs<Snowflake, ApplicationCommand<{ guild: GuildResolvable }>>
-    | undefined
-  > {
-    if (!commands) throw new Error("Commands not found");
-    const data = this.getData();
-
-    await this.client.awaitReady();
-
-    if (data instanceof Array && data.length > 0) {
-      const cmds = guildId
-        ? await this.client.application?.commands.set(data, guildId)
-        : await this.client.application?.commands.set(data);
-
-      if (this.applicationPermissions) await this.registerPermissions(cmds);
-
-      return cmds;
-    }
-    return undefined;
+    return null;
   }
 
   /**
    * Set permissions for each commands in guild
-   * @param {CollectionDjs<string, ApplicationCommand<{}>> | undefined} [applicationCommands] Commands coming from the client's application
+   * @param {Collection<string, ApplicationCommand<{}>> | undefined} [applicationCommands] Commands coming from the client's application
    * @param {Collection<string, Command> | undefined} [commandsCollection] Commands coming from the collection of the commands
    * @param {Snowflake | undefined} [guildId] Guild ID where permissions will be set
    * @returns {Promise<void>}
    */
   public async registerPermissions(
-    applicationCommands: CollectionDjs<string, ApplicationCommand<{}>> | undefined = this
-      .client.application?.commands.cache,
-    commandsCollection: Collection<string, Command> | undefined = this.commands,
-    guildId: Snowflake | Snowflake[] | undefined = this.guildId
+    applicationCommands: Collection<string, ApplicationCommand<{}>> | undefined = this.client.application?.commands.cache,
+    commandsCollection: Collection<string, Command> | undefined | null = this.commands,
+    guildId: Snowflake | undefined
   ): Promise<void | boolean> {
-    if (!applicationCommands)
-      throw new ReferenceError("Commands of application must be provided");
-    if (!commandsCollection)
-      throw new ReferenceError("Commands of client must be provided");
-    if (!guildId) throw new ReferenceError("Guild ID must be provided");
-
-    if (guildId instanceof Array)
-      return guildId.every(
-        async (gId) =>
-          await this.registerPermissions(applicationCommands, commandsCollection, gId)
-      );
+    if (!applicationCommands) throw new ReferenceError('Commands of application must be provided');
+    if (!commandsCollection) throw new ReferenceError('Commands of client must be provided');
+    if (!guildId) throw new ReferenceError('Guild ID must be provided');
+    if (typeof guildId !== 'string') throw new TypeError('Guild ID must be a string');
 
     const guild = this.client.guilds.cache.get(guildId as Snowflake);
     const getRoles = (command: Command) => {
-      if (command.userPermissions?.length === 0) return null;
+      if (!command.userPermissions?.length) return null;
       return guild?.roles.cache.filter((r) => r.permissions.has(command.userPermissions));
     };
 
@@ -277,21 +252,23 @@ export class CommandsManager extends EventEmitter {
     for (const [, appCommand] of applicationCommands) {
       const roles = getRoles(commandsCollection.get(appCommand.name)!);
       const permissions: ApplicationCommandPermissionData[] = [];
-
+      // Roles in the guild
       if (roles && roles.size)
         for (const [, role] of roles!) {
-          permissions.push({ id: role.id, type: "ROLE", permission: true });
+          permissions.push({ id: role.id, type: 'ROLE', permission: true });
         }
-      if (this.client.admins && this.client.admins.length)
+      // Owner of the guild
+      if (guild?.ownerId) permissions.push({ id: guild.ownerId, type: 'USER', permission: true });
+      // Bot addmins for adminsOnly permission
+      if (commandsCollection.get(appCommand.name)?.adminsOnly && this.client.admins?.length)
         for (const userId of this.client.admins) {
-          permissions.push({ id: userId, type: "USER", permission: true });
+          permissions.push({ id: userId, type: 'USER', permission: true });
         }
       fullPermissions.push({
         id: appCommand.id,
         permissions,
       });
     }
-
     await guild?.commands.permissions.set({ fullPermissions });
   }
 
@@ -304,17 +281,13 @@ export class CommandsManager extends EventEmitter {
   public async createCommand(
     command: Command,
     guildId?: Snowflake
-  ): Promise<
-    ApplicationCommand<{}> | ApplicationCommand<{ guild: GuildResolvable }> | undefined
-  > {
-    if (!command) throw new Error("Command not found");
+  ): Promise<ApplicationCommand<{}> | ApplicationCommand<{ guild: GuildResolvable }> | undefined> {
+    if (!command) throw new Error('Command not found');
 
-    const data = this.getData(command) as ApplicationCommandData;
+    const data = this.getApplicationCommandData(command) as ApplicationCommandData;
     if (!data) return undefined;
 
-    return guildId
-      ? this.client.application?.commands.create(data, guildId)
-      : this.client.application?.commands.create(data);
+    return guildId ? this.client.application?.commands.create(data, guildId) : this.client.application?.commands.create(data);
   }
 
   /**
@@ -328,13 +301,11 @@ export class CommandsManager extends EventEmitter {
     oldCommand: ApplicationCommandResolvable,
     newCommand: Command,
     guildId?: Snowflake
-  ): Promise<
-    ApplicationCommand<{}> | ApplicationCommand<{ guild: GuildResolvable }> | undefined
-  > {
-    if (!oldCommand) throw new Error("Old Command not found");
-    if (!newCommand) throw new Error("New Command not found");
+  ): Promise<ApplicationCommand<{}> | ApplicationCommand<{ guild: GuildResolvable }> | undefined> {
+    if (!oldCommand) throw new Error('Old Command not found');
+    if (!newCommand) throw new Error('New Command not found');
 
-    const data = this.getData(newCommand) as ApplicationCommandData;
+    const data = this.getApplicationCommandData(newCommand) as ApplicationCommandData;
     if (!data) return undefined;
 
     return guildId
@@ -352,7 +323,7 @@ export class CommandsManager extends EventEmitter {
     command: ApplicationCommandResolvable,
     guildId?: Snowflake
   ): Promise<ApplicationCommand<{ guild: GuildResolvable }> | null | undefined> {
-    if (!command) throw new Error("Command not found");
+    if (!command) throw new Error('Command not found');
 
     return guildId
       ? this.client.application?.commands.delete(command, guildId)
@@ -362,17 +333,13 @@ export class CommandsManager extends EventEmitter {
   /**
    * Delete all commands from the client's application commands
    * @param {Snowflake | undefined} [guildId] Guild ID where all commands will be deleted
-   * @returns {Promise<CollectionDjs<string, ApplicationCommand<{}>> | CollectionDjs<string, ApplicationCommand<{ guild: GuildResolvable }>> | undefined>}
+   * @returns {Promise<Collection<string, ApplicationCommand<{}>> | Collection<string, ApplicationCommand<{ guild: GuildResolvable }>> | undefined>}
    */
   public async deleteAllCommands(
     guildId?: Snowflake
   ): Promise<
-    | CollectionDjs<string, ApplicationCommand<{}>>
-    | CollectionDjs<string, ApplicationCommand<{ guild: GuildResolvable }>>
-    | undefined
+    Collection<string, ApplicationCommand<{}>> | Collection<string, ApplicationCommand<{ guild: GuildResolvable }>> | undefined
   > {
-    return guildId
-      ? this.client.application?.commands.set([], guildId)
-      : this.client.application?.commands.set([]);
+    return guildId ? this.client.application?.commands.set([], guildId) : this.client.application?.commands.set([]);
   }
 }
