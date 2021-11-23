@@ -4,19 +4,17 @@
 
 Sheweny is a framework for create discord bots with javascript (or typescript).
 
-- [Useful links](#useful-links)
+
 - [Main feactures](#main-features-)
 - [Getting started](#getting-started-)
+- [Useful links](#useful-links)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
   - [Command Line Interface](#cli) 
-- [Example](#example-)
+- [Example](#example-) 
+- [Contributing](#contributing)
+- [Help](#help)
 
-## Useful links
-
-- [WEBSITE](https://sheweny.js.org)  
-- [DOCUMENTATION](https://sheweny.js.org/doc)  
-- [GUIDE](https://sheweny.js.org/guide)  
 
 ## Main features ✨
 
@@ -56,6 +54,14 @@ yarn add sheweny
 
 You can also use our official [Command Line Interface](https://github.com/Sheweny/CLI) for create your bot and/or add components like commands, events etc. 
 
+## Useful links
+
+- [Website](https://sheweny.js.org)  
+- [Documentation](https://sheweny.js.org/doc)  
+- [Guide](https://sheweny.js.org/guide)
+- [Discord server](https://discord.gg/qgd85nEf5a)
+- [GitHub organization](https://github.com/Sheweny)
+
 
 ## Example 👀
 
@@ -89,3 +95,12 @@ const client = new ShewenyClient({
 
 client.login(config.token);
 ```
+
+## Contributing
+
+This project has an MIT license. And you are welcome to contribute.
+For more details on contributions, please read the [CONTRIBUTING.md](./CONTRIBUTING.md) file. 
+
+## Help
+
+If you need help with the framework or your bot you can open an issue for bugs report or [join the discord server](https://discord.gg/qgd85nEf5a) for the questions. 
