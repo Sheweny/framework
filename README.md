@@ -8,7 +8,7 @@ Sheweny is a framework for create discord bots with javascript (or typescript).
 - [DOCUMENTATION](https://sheweny.js.org/doc)  
 - [GUIDE](https://sheweny.js.org/guide)  
 
-## Main features
+## Main features ✨
 
 - Modular and reloadable commands, inhibitors, events and interactions.
 
@@ -22,13 +22,13 @@ Sheweny is a framework for create discord bots with javascript (or typescript).
 
 - Full javascript and typescript support
 
-## Getting Started
+## Getting Started 🎈
 
 Prerequisites
 
 Node.js 16.6.0 or newer is required.
 
-### Instalation
+### Installation ⚙️
 
 With npm :
 
@@ -71,19 +71,6 @@ const client = new ShewenyClient({
   },
 });
 
-client.managers.commands
-  .on('cooldownLimit', (interaction) => {
-    return interaction.reply({
-      content: 'Please slow down',
-      ephemeral: true,
-    });
-  })
-  .on('userMissingPermissions', (interaction, missing) => {
-    return interaction.reply({
-      content: `You don't have ${missing} permissions`,
-      ephemeral: true,
-    });
-  });
 
 client.login(config.token);
 ```
