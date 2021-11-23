@@ -2,6 +2,17 @@
 
 ![sheweny](https://cdn.discordapp.com/attachments/881988260925153322/882027519753224244/sheweny_baniere.png)
 
+<div align="center">
+
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/Smaug6739/Spiritus)
+[![made-with-Typescript](https://img.shields.io/badge/Made%20with-Typescript-1f425f.svg)](http://commonmark.org)
+[![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/Smaug6739/master/LICENSE)
+[![GitHub tag](https://img.shields.io/github/tag/Smaug6739/Spiritus.svg)](https://github.com/Smaug6739/Spiritus/tags/)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
+
+</div>
+
+
 Sheweny is a framework for create discord bots with javascript (or typescript).
 
 
