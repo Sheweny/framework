@@ -112,9 +112,6 @@ client.login(config.token);
 This project has an MIT license. And you are welcome to contribute.
 For more details on contributions, please read the [CONTRIBUTING.md](./CONTRIBUTING.md) file. 
 
-## Contributors
-
-[![](https://opencollective.com/Sheweny/framework.svg?width=890&button=false)](https://github.com/Sheweny/framework/graphs/contributors)
 
 ## Help 👍
 
