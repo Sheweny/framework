@@ -6,8 +6,8 @@
 
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/Smaug6739/Spiritus)
 [![made-with-Typescript](https://img.shields.io/badge/Made%20with-Typescript-1f425f.svg)](http://commonmark.org)
-[![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/Smaug6739/master/LICENSE)
-[![GitHub tag](https://img.shields.io/github/tag/Smaug6739/Spiritus.svg)](https://github.com/Smaug6739/Spiritus/tags/)
+[![GitHub license](https://img.shields.io/github/license/Sheweny/framework.svg)](https://github.com/Smaug6739/master/LICENSE)
+[![GitHub tag](https://img.shields.io/github/tag/Sheweny/framework.svg)](https://github.com/Sheweny/framework/tags/)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
 </div>
@@ -111,6 +111,10 @@ client.login(config.token);
 
 This project has an MIT license. And you are welcome to contribute.
 For more details on contributions, please read the [CONTRIBUTING.md](./CONTRIBUTING.md) file. 
+
+## Contributors
+
+[![](https://opencollective.com/Sheweny/framework.svg?width=890&button=false)](https://github.com/Sheweny/framework/graphs/contributors)
 
 ## Help 👍
 
