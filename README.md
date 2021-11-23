@@ -24,7 +24,7 @@ Sheweny is a framework for create discord bots with javascript (or typescript).
 - [Useful links](#useful-links)
 - [Example](#example-) 
 - [Contributing](#contributing-)
-- [Contributors](#contributors) 
+- [Contributors](#contributors-) 
 - [Help](#help-)
 
 
@@ -113,7 +113,7 @@ client.login(config.token);
 This project has an MIT license. And you are welcome to contribute.
 For more details on contributions, please read the [CONTRIBUTING.md](./CONTRIBUTING.md) file. 
 
-## Contributors
+## Contributors 💡
 
 - [Smaug6739]() - Developer and project owner. 
 - [Natchi59](https://github.com/Natchi59) - Old Sheweny developer
