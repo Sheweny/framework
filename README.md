@@ -9,6 +9,7 @@ Sheweny is a framework for create discord bots with javascript (or typescript).
 - [Getting started](#getting-started-)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
+  - [Command Line Interface](#cli) 
 - [Example](#example-)
 
 ## Useful links
@@ -50,6 +51,11 @@ With yarn :
 ```sh-session
 yarn add sheweny
 ```
+
+### CLI
+
+You can also use our official [Command Line Interface](https://github.com/Sheweny/CLI) for create your bot and/or add components like commands, events etc. 
+
 
 ## Example 👀
 
