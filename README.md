@@ -71,6 +71,7 @@ You can also use our official [Command Line Interface](https://github.com/Shewen
 - [Website](https://sheweny.js.org)  
 - [Documentation](https://sheweny.js.org/doc)  
 - [Guide](https://sheweny.js.org/guide)
+- [NPM Registry](https://www.npmjs.com/package/Sheweny)
 - [Discord server](https://discord.gg/qgd85nEf5a)
 - [GitHub organization](https://github.com/Sheweny)
 
