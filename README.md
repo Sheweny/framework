@@ -62,9 +62,12 @@ With yarn :
 yarn add sheweny
 ```
 
-### CLI
+### Command Line interface
 
 You can also use our official [Command Line Interface](https://github.com/Sheweny/CLI) for create your bot and/or add components like commands, events etc. 
+
+![image](https://user-images.githubusercontent.com/59796136/143768918-3ddf97df-e67e-47a9-89d6-5d56815f2287.png)
+
 
 ## Useful links
 
@@ -118,7 +121,7 @@ For more details on contributions, please read the [CONTRIBUTING.md](./CONTRIBUT
 
 - [Smaug6739]() - Developer and project owner. 
 - [Natchi59](https://github.com/Natchi59) - Old Sheweny developer
-- [Ludo-Code](https://github.com/Ludo-code) - Tester of the framework
+- [Ludo-Code](https://github.com/Ludo-code) - Tester of the framework and helper
 
 
 ## Help 👍
