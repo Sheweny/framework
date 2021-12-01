@@ -34,7 +34,7 @@ Sheweny is a framework for create discord bots with javascript (or typescript).
 
 - Flexible command handling and creation.
 
-- Interactions support like slash-commands, buttons, select-menus
+- Interactions support like slash-commands, buttons, select-menus, forms
 
 - Powerful and thorough command arguments parsing.
 
