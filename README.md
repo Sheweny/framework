@@ -130,4 +130,4 @@ If you need help with the framework or your bot you can open an issue for bugs r
 
 ---
 
-> Thank you to everyone who contributes to the project. Thank you also to all the people who use and support it. ❤️
+> Thank you to everyone who contributes to the project. Thanks also to all the people who use it. ❤️
