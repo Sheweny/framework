@@ -119,11 +119,15 @@ For more details on contributions, please read the [CONTRIBUTING.md](./CONTRIBUT
 
 ## Contributors 💡
 
-- [Smaug6739]() - Developer and project owner. 
+- [Smaug6739](https://github.com/Smaug6739) - Developer and project owner. 
 - [Natchi59](https://github.com/Natchi59) - Old Sheweny developer
 - [Ludo-Code](https://github.com/Ludo-code) - Tester of the framework and helper
-
 
 ## Help 👍
 
 If you need help with the framework or your bot you can open an issue for bugs report or [join the discord server](https://discord.gg/qgd85nEf5a) for the questions. 
+
+
+---
+
+> Thank you to everyone who contributes to the project. Thank you also to all the people who use and support it. ❤️
