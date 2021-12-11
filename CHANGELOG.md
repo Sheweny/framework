@@ -1,10 +1,26 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
+**All notable changes to this project will be documented in this file.**
 
-## [Unreleased]
+# [[3.1.0]](https://github.com/Sheweny/framework/compare/2.1.0...3.0.0) - 2021-11-12
 
-## [[3.0.0]](https://github.com/Sheweny/framework/compare/2.1.0...3.0.0) - 2021-11-21
+### Added
+
+- Github: Add changelog file ([#fbfd789](https://github.com/Sheweny/framework/commit/fbfd789bb5d05c807e82ac1ea98afd22521125fb))
+- Setup CodeQL for code analysis ([#8e45f7d](https://github.com/Sheweny/framework/commit/8e45f7de27ff54e8a8006885236d64e9477496fe))
+
+### Changed
+
+- Command: `cooldownLimit` event take a new parameter `time` ([#8b771b7](https://github.com/Sheweny/framework/commit/8b771b7f1c19f593c792f04d10584f41e871bc5c))
+- Button: `customId` property can be a Regex ([#d3020b8](https://github.com/Sheweny/framework/commit/d3020b8915fa045122c9730a86e951db328f6c7f) [#e27fbfe](https://github.com/Sheweny/framework/commit/e27fbfeb0e4712f0315fedb44475a19abf560805))
+- SelectMenus: `customId` property can be a Regex ([#d3020b8](https://github.com/Sheweny/framework/commit/d3020b8915fa045122c9730a86e951db328f6c7f) [#e27fbfe](https://github.com/Sheweny/framework/commit/e27fbfeb0e4712f0315fedb44475a19abf560805))
+
+### Fixed
+
+- Structures: Fix errors display ([#d6ee4f1](https://github.com/Sheweny/framework/commit/d6ee4f165ea3c08e454bf6442490b5317424e7d9))
+- Github: Fix readme syntax ([#24ad787](https://github.com/Sheweny/framework/commit/24ad787ec6cc7eb0ae156d5e91d8f40f4fa415d9))
+
+# [[3.0.0]](https://github.com/Sheweny/framework/compare/2.1.0...3.0.0) - 2021-11-21
 
 ### Added
 
@@ -29,7 +45,7 @@ All notable changes to this project will be documented in this file.
 
 - Down cast support: Add support for down casting to a specific type in commands ([#84d945c](https://github.com/Sheweny/framework/commit/84d945cc21e8d8d915c83dd73360a49a659ba035))
 
-## [[2.0.0]](https://github.com/Sheweny/framework/compare/1.0.0-beta3...2.0.0) - 2021-09-04
+# [[2.0.0]](https://github.com/Sheweny/framework/compare/1.0.0-beta3...2.0.0) - 2021-09-04
 
 ### Added
 
@@ -55,7 +71,7 @@ All notable changes to this project will be documented in this file.
 - ApplicationCommandsHandler has been removed ([#37b1417](https://github.com/Sheweny/framework/commit/37b1417f42027a6bc0f09109c0ea0c7a381a8ccc))
 - MessageCommandHandler has beed removed ([#37b1417](https://github.com/Sheweny/framework/commit/37b1417f42027a6bc0f09109c0ea0c7a381a8ccc))
 
-## [1.0.0] - 2021-08-29
+# [[1.0.0]](https://github.com/Sheweny/framework/releases/tag/1.0.0-beta.3) - 2021-08-29
 
 ### Added
 
