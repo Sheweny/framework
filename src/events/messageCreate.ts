@@ -80,7 +80,7 @@ export default async function run(client: ShewenyClient, message: Message) {
         const cdExpirationTime = (tStamps.get(message.author.id) || 0) + cdAmount;
         if (timeNow < cdExpirationTime) {
           // const timeLeft = (cdExpirationTime - timeNow) / 1000;
-          return client.managers.commands.emit(COMMAND_EVENTS.cooldownLimit, message);
+          return client.managers.commands.emit(COMMAND_EVENTS.cooldownLimit, message, cdExpirationTime - timeNow);
         }
       }
 

@@ -6,8 +6,7 @@ export default function run(client: ShewenyClient, interaction: Interaction) {
 
   if (interaction.isCommand() || interaction.isContextMenu()) client.emit('interactionCommandCreate', interaction);
 
-  if (interaction.isCommand() || interaction.isContextMenu() || interaction.isAutocomplete())
-    client.emit('interactionCommandOrAutocompleteCreate', interaction);
+  if (interaction.isAutocomplete()) client.emit('interactionAutocompleteCreate', interaction);
 
   if (interaction.isContextMenu()) client.emit('interactionContextMenuCreate', interaction);
 

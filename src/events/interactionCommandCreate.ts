@@ -16,7 +16,6 @@ export default async function run(
     //@ts-ignore
     if (!command || (command && ![COMMAND_TYPE.cmdSlash, COMMAND_TYPE.ctxUser, COMMAND_TYPE.ctxMsg].includes(command.type)))
       return;
-    if (interaction.isAutocomplete() && command.onAutocomplete) return await command.onAutocomplete(interaction);
     if (command.before) await command.before(interaction as CommandInteraction | ContextMenuInteraction);
     /**
      * Handle inhibitors
@@ -76,7 +75,7 @@ export default async function run(
         const cdExpirationTime = (tStamps.get(interaction.user.id) || 0) + cdAmount;
         if (timeNow < cdExpirationTime) {
           // const timeLeft = (cdExpirationTime - timeNow) / 1000;
-          return client.managers.commands?.emit(COMMAND_EVENTS.cooldownLimit, interaction);
+          return client.managers.commands?.emit(COMMAND_EVENTS.cooldownLimit, interaction, cdExpirationTime - timeNow);
         }
       }
 
