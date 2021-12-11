@@ -107,7 +107,7 @@ export interface ManagersCollections {
     commands: Collection<string, Command>;
     events: Collection<string, Event>;
     buttons: Collection<string[] | RegExp[], Button>;
-    selectMenus: Collection<string[], SelectMenu>;
+    selectMenus: Collection<string[] | RegExp[], SelectMenu>;
     inhibitors: Collection<string, Inhibitor>;
 }
 interface ManagersOptions {

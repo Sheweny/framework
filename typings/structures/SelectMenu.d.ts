@@ -15,15 +15,15 @@ export declare abstract class SelectMenu extends BaseStructure {
     manager?: SelectMenusManager;
     /**
      * Custom id for one or more select menus
-     * @type {string[]}
+     * @type {string[] | RegExp[]}
      */
-    customId: string[];
+    customId: string[] | RegExp[];
     /**
      * Constructor for build a Select Menu
      * @param {ShewenyClient} client Client framework
-     * @param {string[]} customId Custom id for one or more select menus
+     * @param {string[] | RegExp[]} customId Custom id for one or more select menus
      */
-    constructor(client: ShewenyClient, customId: string[]);
+    constructor(client: ShewenyClient, customId: string[] | RegExp[]);
     /**
      * This function is executed before executing the `execute` function
      * @param {SelectMenuInteraction} interaction Select Menu interaction
@@ -43,12 +43,12 @@ export declare abstract class SelectMenu extends BaseStructure {
     unregister(): boolean;
     /**
      * Reload a select menu
-     * @returns {Promise<Collection<string[], SelectMenu> | null>} The select menus collection
+     * @returns {Promise<Collection<string[]| RegExp[], SelectMenu> | null>} The select menus collection
      */
-    reload(): Promise<Collection<string[], SelectMenu> | null>;
+    reload(): Promise<Collection<string[] | RegExp[], SelectMenu> | null>;
     /**
      * Register a select menu in collections
-     * @returns {Collection<string[], SelectMenu>} The select menus collection
+     * @returns {Collection<string[]| RegExp[], SelectMenu>} The select menus collection
      */
-    register(): Promise<Collection<string[], SelectMenu>>;
+    register(): Promise<Collection<string[] | RegExp[], SelectMenu>>;
 }

@@ -15,13 +15,13 @@ export declare abstract class Button extends BaseStructure {
     manager?: ButtonsManager;
     /**
      * Custom id for one or more buttons
-     * @type {string[]}
+     * @type {string[] | RegExp[]}
      */
     customId: string[] | RegExp[];
     /**
      * Constructor for build a Button
      * @param {ShewenyClient} client Client framework
-     * @param {string[]} customId Custom id for one or more buttons
+     * @param {string[] | RegExp[]} customId Custom id for one or more buttons
      */
     constructor(client: ShewenyClient, customId: string[] | RegExp[]);
     /**
@@ -43,12 +43,12 @@ export declare abstract class Button extends BaseStructure {
     unregister(): boolean;
     /**
      * Reload a button
-     * @returns {Promise<Collection<string[], Button> | null>}
+     * @returns {Promise<Collection<string[] | RegExp[], Button> | null>}
      */
     reload(): Promise<Collection<string[] | RegExp[], Button> | null>;
     /**
      * Register a button in collections
-     * @returns {Collection<string[], Button>}
+     * @returns {Collection<string[] | RegExp[], Button>}
      */
     register(): Promise<Collection<string[] | RegExp[], Button>>;
 }
