@@ -1,11 +1,11 @@
-import { ShewenyClient, Command } from '../../../';
+import { ShewenyClient, Command } from '../../../../';
 import type { CommandInteraction } from 'discord.js';
 import { MessageSelectMenu, MessageActionRow } from 'discord.js';
 
 export class PingCommand extends Command {
   constructor(client: ShewenyClient) {
     super(client, {
-      name: 'select-menus',
+      name: 'select-regex',
       description: 'Send buttons',
       type: 'SLASH_COMMAND',
       category: 'Tests',
@@ -14,8 +14,9 @@ export class PingCommand extends Command {
   execute(interaction: CommandInteraction) {
     const row = new MessageActionRow().addComponents(
       new MessageSelectMenu()
-        .setCustomId('select')
+        .setCustomId('select-10')
         .setPlaceholder('Nothing selected')
+        .setMaxValues(2)
         .addOptions([
           {
             label: 'First option',

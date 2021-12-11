@@ -7,8 +7,20 @@ export default async function run(client: ShewenyClient, interaction: SelectMenu
   try {
     if (!client.collections.selectMenus) return;
 
-    const selectMenu = client.collections.selectMenus.find((value) => value.customId.includes(interaction.customId));
-
+    // Exact match
+    let selectMenu = client.collections.selectMenus
+      .filter((b) => b.customId.some((id) => !(id instanceof RegExp)))
+      .find((value) => (value.customId as string[]).includes(interaction.customId));
+    // Regex match
+    if (!selectMenu) {
+      selectMenu = client.collections.selectMenus
+        .filter((b) => b.customId.some((id) => id instanceof RegExp))
+        .find((value) => {
+          return value.customId.some((element) => {
+            return (element as RegExp).test(interaction.customId);
+          });
+        });
+    }
     if (!selectMenu) return;
     if (selectMenu.before) await selectMenu.before(interaction);
 
