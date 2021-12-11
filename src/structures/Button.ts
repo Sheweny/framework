@@ -17,16 +17,16 @@ export abstract class Button extends BaseStructure {
 
   /**
    * Custom id for one or more buttons
-   * @type {string[]}
+   * @type {string[] | RegExp[]}
    */
-  public customId: string[];
+  public customId: string[] | RegExp[];
 
   /**
    * Constructor for build a Button
    * @param {ShewenyClient} client Client framework
-   * @param {string[]} customId Custom id for one or more buttons
+   * @param {string[] | RegExp[]} customId Custom id for one or more buttons
    */
-  constructor(client: ShewenyClient, customId: string[]) {
+  constructor(client: ShewenyClient, customId: string[] | RegExp[]) {
     super(client);
 
     this.customId = customId;
@@ -59,9 +59,9 @@ export abstract class Button extends BaseStructure {
 
   /**
    * Reload a button
-   * @returns {Promise<Collection<string[], Button> | null>}
+   * @returns {Promise<Collection<string[] | RegExp[], Button> | null>}
    */
-  public async reload(): Promise<Collection<string[], Button> | null> {
+  public async reload(): Promise<Collection<string[] | RegExp[], Button> | null> {
     if (this.path) {
       this.unregister();
       return this.register();
@@ -71,13 +71,13 @@ export abstract class Button extends BaseStructure {
 
   /**
    * Register a button in collections
-   * @returns {Collection<string[], Button>}
+   * @returns {Collection<string[] | RegExp[], Button>}
    */
-  public async register(): Promise<Collection<string[], Button>> {
+  public async register(): Promise<Collection<string[] | RegExp[], Button>> {
     const Button = (await import(this.path!)).default;
     const btn = new Button(this.client);
     return this.client.collections.buttons
       ? this.client.collections.buttons.set(btn.customId, btn)
-      : new Collection<string[], Button>().set(btn.customId, btn);
+      : new Collection<string[] | RegExp[], Button>().set(btn.customId, btn);
   }
 }

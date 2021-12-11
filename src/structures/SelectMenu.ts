@@ -17,14 +17,14 @@ export abstract class SelectMenu extends BaseStructure {
 
   /**
    * Custom id for one or more select menus
-   * @type {string[]}
+   * @type {string[] | RegExp[]}
    */
-  public customId: string[];
+  public customId: string[] | RegExp[];
 
   /**
    * Constructor for build a Select Menu
    * @param {ShewenyClient} client Client framework
-   * @param {string[]} customId Custom id for one or more select menus
+   * @param {string[] | RegExp[]} customId Custom id for one or more select menus
    */
   constructor(client: ShewenyClient, customId: string[]) {
     super(client);
@@ -59,9 +59,9 @@ export abstract class SelectMenu extends BaseStructure {
 
   /**
    * Reload a select menu
-   * @returns {Promise<Collection<string[], SelectMenu> | null>} The select menus collection
+   * @returns {Promise<Collection<string[]| RegExp[], SelectMenu> | null>} The select menus collection
    */
-  public async reload(): Promise<Collection<string[], SelectMenu> | null> {
+  public async reload(): Promise<Collection<string[] | RegExp[], SelectMenu> | null> {
     if (this.path) {
       this.unregister();
       return this.register();
@@ -71,13 +71,13 @@ export abstract class SelectMenu extends BaseStructure {
 
   /**
    * Register a select menu in collections
-   * @returns {Collection<string[], SelectMenu>} The select menus collection
+   * @returns {Collection<string[]| RegExp[], SelectMenu>} The select menus collection
    */
-  public async register(): Promise<Collection<string[], SelectMenu>> {
+  public async register(): Promise<Collection<string[] | RegExp[], SelectMenu>> {
     const SelectMenu = (await import(this.path!)).default;
     const sm: SelectMenu = new SelectMenu(this.client);
     return this.client.collections.selectMenus
       ? this.client.collections.selectMenus.set(sm.customId, sm)
-      : new Collection<string[], SelectMenu>().set(sm.customId, sm);
+      : new Collection<string[] | RegExp[], SelectMenu>().set(sm.customId, sm);
   }
 }

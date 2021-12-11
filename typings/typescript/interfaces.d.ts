@@ -106,7 +106,7 @@ export interface Managers {
 export interface ManagersCollections {
     commands: Collection<string, Command>;
     events: Collection<string, Event>;
-    buttons: Collection<string[], Button>;
+    buttons: Collection<string[] | RegExp[], Button>;
     selectMenus: Collection<string[], SelectMenu>;
     inhibitors: Collection<string, Inhibitor>;
 }

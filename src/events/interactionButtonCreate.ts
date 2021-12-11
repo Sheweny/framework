@@ -7,7 +7,20 @@ export default async function run(client: ShewenyClient, interaction: ButtonInte
   try {
     if (!client.collections.buttons) return;
 
-    const button = client.collections.buttons.find((value) => value.customId.includes(interaction.customId));
+    // Exact match
+    let button = client.collections.buttons
+      .filter((b) => b.customId.some((id) => !(id instanceof RegExp)))
+      .find((value) => (value.customId as string[]).includes(interaction.customId));
+    // Regex match
+    if (!button) {
+      button = client.collections.buttons
+        .filter((b) => b.customId.some((id) => id instanceof RegExp))
+        .find((value) => {
+          return value.customId.some((element) => {
+            return (element as RegExp).test(interaction.customId);
+          });
+        });
+    }
 
     if (!button) return;
 
