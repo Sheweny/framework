@@ -12,21 +12,19 @@
 
 </div>
 
-
 Sheweny is a framework for create discord bots with javascript (or typescript).
 
-- [Sheweny](#sheweny) 
+- [Sheweny](#sheweny)
 - [Main feactures](#main-features-)
 - [Getting started](#getting-started-)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
   - [Command Line Interface](#command-line-interface)
 - [Useful links](#useful-links-)
-- [Example](#example-) 
+- [Example](#example-)
 - [Contributing](#contributing-)
-- [Contributors](#contributors-) 
+- [Contributors](#contributors-)
 - [Help](#help-)
-
 
 ## Main features ✨
 
@@ -34,7 +32,7 @@ Sheweny is a framework for create discord bots with javascript (or typescript).
 
 - Flexible command handling and creation.
 
-- Interactions support like slash-commands, buttons, select-menus, modals. 
+- Interactions support like slash-commands, buttons, select-menus, modals.
 
 - Powerful and thorough command arguments parsing.
 
@@ -64,20 +62,18 @@ yarn add sheweny
 
 ### Command Line interface
 
-You can also use our official [Command Line Interface](https://github.com/Sheweny/CLI) for create your bot and/or add components like commands, events etc. 
+You can also use our official [Command Line Interface](https://github.com/Sheweny/CLI) for create your bot and/or add components like commands, events etc.
 
 ![image](https://user-images.githubusercontent.com/59796136/143768918-3ddf97df-e67e-47a9-89d6-5d56815f2287.png)
 
-
 ## Useful links 📖
 
-- [Website](https://sheweny.js.org)  
-- [Documentation](https://sheweny.js.org/doc)  
+- [Website](https://sheweny.js.org)
+- [Documentation](https://sheweny.js.org/doc)
 - [Guide](https://sheweny.js.org/guide)
-- [NPM Registry](https://www.npmjs.com/package/Sheweny)
+- [NPM Registry](https://www.npmjs.com/package/sheweny)
 - [Discord server](https://discord.gg/qgd85nEf5a)
 - [GitHub organization](https://github.com/Sheweny)
-
 
 ## Example 👀
 
@@ -108,25 +104,23 @@ const client = new ShewenyClient({
   },
 });
 
-
 client.login(config.token);
 ```
 
 ## Contributing 🌍
 
 This project has an MIT license. And you are welcome to contribute.
-For more details on contributions, please read the [CONTRIBUTING.md](./CONTRIBUTING.md) file. 
+For more details on contributions, please read the [CONTRIBUTING.md](./CONTRIBUTING.md) file.
 
 ## Contributors 💡
 
-- [Smaug6739](https://github.com/Smaug6739) - Developer and project owner. 
+- [Smaug6739](https://github.com/Smaug6739) - Developer and project owner.
 - [Natchi59](https://github.com/Natchi59) - Old Sheweny developer
 - [Ludo-Code](https://github.com/Ludo-code) - Tester of the framework and helper
 
 ## Help 👍
 
-If you need help with the framework or your bot you can open an issue for bugs report or [join the discord server](https://discord.gg/qgd85nEf5a) for the questions. 
-
+If you need help with the framework or your bot you can open an issue for bugs report or [join the discord server](https://discord.gg/qgd85nEf5a) for the questions.
 
 ---
 

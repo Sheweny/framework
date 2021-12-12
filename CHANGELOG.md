@@ -8,6 +8,7 @@
 
 - Github: Add changelog file ([#fbfd789](https://github.com/Sheweny/framework/commit/fbfd789bb5d05c807e82ac1ea98afd22521125fb))
 - Setup CodeQL for code analysis ([#8e45f7d](https://github.com/Sheweny/framework/commit/8e45f7de27ff54e8a8006885236d64e9477496fe))
+- Github: Add pull-request template ([#6d17fc1](https://github.com/Sheweny/framework/commit/6d17fc18ac970a811799c9b6ebda5cf2e342c35a))
 
 ### Changed
 
