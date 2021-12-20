@@ -8,6 +8,11 @@ import type { ShewenyClientOptions, Managers, ManagersCollections } from '../typ
  */
 export declare class ShewenyClient extends Client {
     /**
+     * If the client is ready
+     * @type {boolean}
+     */
+    connected: boolean;
+    /**
      * The mode of the application (developement or production)
      * @type {string}
      */

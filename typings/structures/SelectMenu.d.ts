@@ -9,15 +9,15 @@ import type { SelectMenusManager } from '..';
  */
 export declare abstract class SelectMenu extends BaseStructure {
     /**
-     * The
-     * @type {SelectMenusManager}
-     */
-    manager?: SelectMenusManager;
-    /**
      * Custom id for one or more select menus
      * @type {string[] | RegExp[]}
      */
     customId: string[] | RegExp[];
+    /**
+     * The
+     * @type {SelectMenusManager}
+     */
+    manager?: SelectMenusManager;
     /**
      * Constructor for build a Select Menu
      * @param {ShewenyClient} client Client framework

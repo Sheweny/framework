@@ -12,11 +12,6 @@ import type { CommandsManager } from '..';
  */
 export declare abstract class Command extends BaseStructure {
     /**
-     * The
-     * @type {CommandsManager}
-     */
-    manager?: CommandsManager;
-    /**
      * Name of a command
      * @type {string}
      */
@@ -96,6 +91,11 @@ export declare abstract class Command extends BaseStructure {
      * @type {Collection<string, Collection<string, number>>}
      */
     cooldowns: Collection<string, Collection<string, number>>;
+    /**
+     * The
+     * @type {CommandsManager}
+     */
+    manager?: CommandsManager;
     /**
      * Constructor for build a Command
      * @param {ShewenyClient} client Client framework
