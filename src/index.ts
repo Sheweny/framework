@@ -21,8 +21,7 @@ export { BaseStructure, Button, Command, Event, Inhibitor, SelectMenu } from './
 /**
  * Managers
  */
-//TODO: Export base manager
-export { ButtonsManager, CommandsManager, EventsManager, InhibitorsManager, SelectMenusManager } from './managers';
+export { BaseManager, ButtonsManager, CommandsManager, EventsManager, InhibitorsManager, SelectMenusManager } from './managers';
 
 /**
  * Helpers
