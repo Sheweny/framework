@@ -52,12 +52,22 @@ export declare abstract class Command extends BaseStructure {
      */
     category: string;
     /**
+     * Usage of a command
+     * @type {string}
+     */
+    usage: string | string[];
+    /**
+     * Examples of a command
+     * @type {string}
+     */
+    examples: string | string[];
+    /**
      * Only channel where a command can be executed
      * @type {"GUILD" | "DM" | undefined}
      */
     channel?: typeof COMMAND_CHANNEL.guild | typeof COMMAND_CHANNEL.dm;
     /**
-     * Cooldown of a command
+     * Cooldown of a command in seconds
      * @type {number}
      */
     cooldown: number;

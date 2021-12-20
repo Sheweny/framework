@@ -8,6 +8,7 @@ export class PingCommand extends Command {
       description: 'Ping the bot',
       type: 'SLASH_COMMAND',
       category: 'Misc',
+      usage: 'ping',
     });
   }
   execute(interaction: CommandInteraction) {

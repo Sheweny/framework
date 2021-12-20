@@ -16,12 +16,6 @@ interface InhibitorOptions {
  */
 export abstract class Inhibitor extends BaseStructure {
   /**
-   * The
-   * @type {InhibitorsManager}
-   */
-  public manager?: InhibitorsManager;
-
-  /**
    * Name of a inhibitor
    * @type {string}
    */
@@ -38,6 +32,12 @@ export abstract class Inhibitor extends BaseStructure {
    * @type {number}
    */
   public priority: number;
+
+  /**
+   * The
+   * @type {InhibitorsManager}
+   */
+  public manager?: InhibitorsManager;
 
   /**
    * Constructor for build a Inhibitor

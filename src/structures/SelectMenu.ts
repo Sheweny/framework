@@ -10,16 +10,16 @@ import type { SelectMenusManager } from '..';
  */
 export abstract class SelectMenu extends BaseStructure {
   /**
-   * The
-   * @type {SelectMenusManager}
-   */
-  public manager?: SelectMenusManager;
-
-  /**
    * Custom id for one or more select menus
    * @type {string[] | RegExp[]}
    */
   public customId: string[] | RegExp[];
+
+  /**
+   * The
+   * @type {SelectMenusManager}
+   */
+  public manager?: SelectMenusManager;
 
   /**
    * Constructor for build a Select Menu

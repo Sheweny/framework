@@ -28,6 +28,8 @@ export interface SlashCommandData {
     options?: ApplicationCommandOptionData[];
     defaultPermission?: boolean;
     category?: string;
+    usage?: string | string[];
+    examples?: string | string[];
     channel?: typeof COMMAND_CHANNEL.dm | typeof COMMAND_CHANNEL.guild;
     cooldown?: number;
     adminsOnly?: boolean;
@@ -40,6 +42,8 @@ export interface ContextMenuUserData {
     description?: string;
     defaultPermission?: boolean;
     category?: string;
+    usage?: string | string[];
+    examples?: string | string[];
     channel?: typeof COMMAND_CHANNEL.dm | typeof COMMAND_CHANNEL.guild;
     cooldown?: number;
     adminsOnly?: boolean;
@@ -52,6 +56,8 @@ export interface ContextMenuMessageData {
     description?: string;
     defaultPermission?: boolean;
     category?: string;
+    usage?: string | string[];
+    examples?: string | string[];
     channel?: typeof COMMAND_CHANNEL.dm | typeof COMMAND_CHANNEL.guild;
     cooldown?: number;
     adminsOnly?: boolean;
@@ -64,6 +70,8 @@ export interface MessageData {
     args?: MessageCommandOptionData[];
     description?: string;
     category?: string;
+    usage?: string | string[];
+    examples?: string | string[];
     channel?: typeof COMMAND_CHANNEL.dm | typeof COMMAND_CHANNEL.guild;
     cooldown?: number;
     adminsOnly?: boolean;

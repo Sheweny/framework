@@ -10,16 +10,16 @@ import type { ShewenyClient } from '../client/Client';
  */
 export abstract class Button extends BaseStructure {
   /**
-   * The
-   * @type {ButtonsManager}
-   */
-  public manager?: ButtonsManager;
-
-  /**
    * Custom id for one or more buttons
    * @type {string[] | RegExp[]}
    */
   public customId: string[] | RegExp[];
+
+  /**
+   * The
+   * @type {ButtonsManager}
+   */
+  public manager?: ButtonsManager;
 
   /**
    * Constructor for build a Button

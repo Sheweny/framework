@@ -27,12 +27,6 @@ import type { CommandsManager } from '..';
  */
 export abstract class Command extends BaseStructure {
   /**
-   * The
-   * @type {CommandsManager}
-   */
-  public manager?: CommandsManager;
-
-  /**
    * Name of a command
    * @type {string}
    */
@@ -93,7 +87,7 @@ export abstract class Command extends BaseStructure {
   public channel?: typeof COMMAND_CHANNEL.guild | typeof COMMAND_CHANNEL.dm;
 
   /**
-   * Cooldown of a command
+   * Cooldown of a command in seconds
    * @type {number}
    */
   public cooldown: number;
@@ -129,14 +123,18 @@ export abstract class Command extends BaseStructure {
   public cooldowns: Collection<string, Collection<string, number>>;
 
   /**
+   * The
+   * @type {CommandsManager}
+   */
+  public manager?: CommandsManager;
+
+  /**
    * Constructor for build a Command
    * @param {ShewenyClient} client Client framework
    * @param {CommandData} data Data for build a Command
    */
   constructor(client: ShewenyClient, data: CommandData) {
     super(client);
-    this.manager = this.client.managers.commands;
-
     this.name = data.name;
     this.description = data.description || '';
     this.type = data.type || COMMAND_TYPE.cmdMsg;
@@ -155,6 +153,8 @@ export abstract class Command extends BaseStructure {
     this.clientPermissions = data.clientPermissions || [];
     this.aliases = this.isType(COMMAND_TYPE.cmdMsg) ? (data as MessageData).aliases : [];
     this.cooldowns = new Collection();
+
+    this.manager = this.client.managers.commands;
   }
 
   /**

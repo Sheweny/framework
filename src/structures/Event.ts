@@ -10,12 +10,6 @@ import type { EventsManager } from '..';
  */
 export abstract class Event extends BaseStructure {
   /**
-   * The
-   * @type {EventsManager}
-   */
-  public manager?: EventsManager;
-
-  /**
    * Name of a event
    * @type {string}
    */
@@ -38,6 +32,12 @@ export abstract class Event extends BaseStructure {
    * @type {boolean}
    */
   public once: boolean;
+
+  /**
+   * The
+   * @type {EventsManager}
+   */
+  public manager?: EventsManager;
 
   /**
    * Constructor for build a Event
