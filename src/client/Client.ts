@@ -12,6 +12,11 @@ import type { ShewenyClientOptions, Managers, ManagersCollections } from '../typ
  */
 export class ShewenyClient extends Client {
   /**
+   * If the client is ready
+   * @type {boolean}
+   */
+  public connected: boolean;
+  /**
    * The mode of the application (developement or production)
    * @type {string}
    */
@@ -60,7 +65,7 @@ export class ShewenyClient extends Client {
    */
   constructor(options: ShewenyClientOptions, clientOptions?: ClientOptions) {
     super(options || clientOptions);
-
+    this.connected = false;
     this.mode = options.mode || CLIENT_MODE.dev;
 
     if (options.mode === CLIENT_MODE.dev) new ShewenyWarning(this, 'START');
@@ -125,8 +130,9 @@ export class ShewenyClient extends Client {
    */
   public awaitReady(): Promise<boolean> {
     return new Promise((resolve) => {
-      this.on('ready', () => {
-        resolve(true);
+      if (this.connected) return resolve(true);
+      this.once('ready', () => {
+        return resolve(true);
       });
     });
   }

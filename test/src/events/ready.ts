@@ -10,9 +10,8 @@ export default class Ready extends Event {
       emitter: client,
     });
   }
-  execute(client: Client): void {
+  async execute(client: Client): Promise<void> {
     console.log('The client is logged in');
     client.user?.setActivity('with Sheweny V3 !');
-    console.log(this.client.collections.commands.get('ping'));
   }
 }
