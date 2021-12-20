@@ -33,6 +33,6 @@ export async function loadFiles<K, V>(client: ShewenyClient, options: LoadFilesO
 
     return collection;
   } catch (err: any) {
-    new ShewenyError(client, err.message);
+    new ShewenyError(client, err);
   }
 }
