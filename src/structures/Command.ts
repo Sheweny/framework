@@ -75,6 +75,18 @@ export abstract class Command extends BaseStructure {
   public category: string;
 
   /**
+   * Usage of a command
+   * @type {string}
+   */
+  public usage: string | string[];
+
+  /**
+   * Examples of a command
+   * @type {string}
+   */
+  public examples: string | string[];
+
+  /**
    * Only channel where a command can be executed
    * @type {"GUILD" | "DM" | undefined}
    */
@@ -134,6 +146,8 @@ export abstract class Command extends BaseStructure {
     this.options = this.isType(COMMAND_TYPE.cmdSlash) ? (data as SlashCommandData).options : undefined;
     this.args = this.isType(COMMAND_TYPE.cmdMsg) ? (data as MessageData).args : undefined;
     this.category = data.category || '';
+    this.usage = data.usage || '';
+    this.examples = data.examples || '';
     this.channel = data.channel;
     this.cooldown = data.cooldown || 0;
     this.adminsOnly = data.adminsOnly || false;
