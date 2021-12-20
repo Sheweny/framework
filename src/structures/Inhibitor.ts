@@ -47,11 +47,11 @@ export abstract class Inhibitor extends BaseStructure {
    */
   constructor(client: ShewenyClient, name: string, options?: InhibitorOptions) {
     super(client);
-    this.manager = this.client.managers.inhibitors;
-
     this.name = name;
     this.type = options?.type || ['MESSAGE_COMMAND'];
     this.priority = options?.priority || 0;
+
+    this.manager = this.client.managers.inhibitors;
   }
 
   /**

@@ -28,8 +28,8 @@ export abstract class Button extends BaseStructure {
    */
   constructor(client: ShewenyClient, customId: string[] | RegExp[]) {
     super(client);
-
     this.customId = customId;
+
     this.manager = this.client.managers.buttons;
   }
 
