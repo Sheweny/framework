@@ -16,6 +16,18 @@ export interface CommandsManagerOptions extends BaseManagerOptions {
   prefix?: string;
   applicationPermissions?: boolean;
   autoRegisterApplicationCommands?: boolean;
+  default: CommandManagerDefaultOptions;
+}
+export interface CommandManagerDefaultOptions {
+  adminOnly?: boolean;
+  category?: string;
+  channel?: typeof COMMAND_CHANNEL.dm | typeof COMMAND_CHANNEL.guild;
+  clientPermissions?: PermissionString[];
+  cooldown?: number;
+  examples?: string | string[];
+  type?: typeof COMMAND_TYPE.cmdSlash | typeof COMMAND_TYPE.cmdMsg | typeof COMMAND_TYPE.ctxMsg | typeof COMMAND_TYPE.ctxUser;
+  usage?: string | string[];
+  userPermissions?: PermissionString[];
 }
 /**
  * Intrefaces of Commands

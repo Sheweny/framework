@@ -14,7 +14,7 @@ import type {
   Snowflake,
 } from 'discord.js';
 import type { ShewenyClient, Command } from '..';
-import type { CommandsManagerOptions } from '../typescript/interfaces';
+import type { CommandsManagerOptions, CommandManagerDefaultOptions } from '../typescript/interfaces';
 
 /**
  * Manager for Commands
@@ -38,6 +38,12 @@ export class CommandsManager extends BaseManager {
    * @type {Collection<string, Command> | undefined}
    */
   public commands?: Collection<string, Command> | null;
+
+  /**
+   * Default data for the commands
+   * @type {Object}
+   */
+  public default: CommandManagerDefaultOptions;
 
   /**
    * ID of the guild where are set Applications Commands
@@ -64,7 +70,17 @@ export class CommandsManager extends BaseManager {
     this.autoRegisterApplicationCommands = options?.autoRegisterApplicationCommands || false;
     this.guildId = options?.guildId;
     this.prefix = options?.prefix;
-
+    this.default = {
+      adminOnly: options.default.adminOnly || false,
+      category: options.default.category || '',
+      channel: options.default.channel || undefined,
+      clientPermissions: options.default.clientPermissions || [],
+      cooldown: options.default.cooldown || 0,
+      examples: options.default.examples || '',
+      type: options.default.type || COMMAND_TYPE.cmdMsg,
+      usage: options.default.usage || '',
+      userPermissions: options.default.userPermissions || [],
+    };
     if (options?.loadAll) this.loadAndRegisterAll();
     client.managers.commands = this;
   }

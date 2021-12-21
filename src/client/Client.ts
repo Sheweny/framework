@@ -81,6 +81,7 @@ export class ShewenyClient extends Client {
           prefix: options.managers.commands.prefix,
           applicationPermissions: options.managers.commands.applicationPermissions,
           autoRegisterApplicationCommands: options.managers.commands.autoRegisterApplicationCommands ?? true,
+          default: options.managers.commands.default,
         })
       : undefined;
 

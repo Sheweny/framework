@@ -72,13 +72,13 @@ export abstract class Command extends BaseStructure {
    * Usage of a command
    * @type {string}
    */
-  public usage: string | string[];
+  public usage?: string | string[];
 
   /**
    * Examples of a command
    * @type {string}
    */
-  public examples: string | string[];
+  public examples?: string | string[];
 
   /**
    * Only channel where a command can be executed
@@ -135,26 +135,27 @@ export abstract class Command extends BaseStructure {
    */
   constructor(client: ShewenyClient, data: CommandData) {
     super(client);
-    this.name = data.name;
-    this.description = data.description || '';
-    this.type = data.type || COMMAND_TYPE.cmdMsg;
+    const defaultData = client.managers.commands?.default!;
+
+    this.adminsOnly = data.adminsOnly || defaultData.adminOnly!;
+    this.aliases = this.isType(COMMAND_TYPE.cmdMsg) ? (data as MessageData).aliases : [];
+    this.args = this.isType(COMMAND_TYPE.cmdMsg) ? (data as MessageData).args : undefined;
+    this.category = data.category || defaultData.category!;
+    this.channel = data.channel || defaultData.channel;
+    this.clientPermissions = data.clientPermissions || defaultData.clientPermissions!;
+    this.cooldown = data.cooldown || defaultData.cooldown!;
+    this.cooldowns = new Collection();
     this.defaultPermission = this.isType(COMMAND_TYPE.cmdSlash, COMMAND_TYPE.ctxUser, COMMAND_TYPE.ctxMsg)
       ? (data as SlashCommandData | ContextMenuUserData | ContextMenuMessageData).defaultPermission
       : undefined;
-    this.options = this.isType(COMMAND_TYPE.cmdSlash) ? (data as SlashCommandData).options : undefined;
-    this.args = this.isType(COMMAND_TYPE.cmdMsg) ? (data as MessageData).args : undefined;
-    this.category = data.category || '';
-    this.usage = data.usage || '';
-    this.examples = data.examples || '';
-    this.channel = data.channel;
-    this.cooldown = data.cooldown || 0;
-    this.adminsOnly = data.adminsOnly || false;
-    this.userPermissions = data.userPermissions || [];
-    this.clientPermissions = data.clientPermissions || [];
-    this.aliases = this.isType(COMMAND_TYPE.cmdMsg) ? (data as MessageData).aliases : [];
-    this.cooldowns = new Collection();
-
+    this.description = data.description || '';
+    this.examples = data.examples || defaultData.examples;
     this.manager = this.client.managers.commands;
+    this.name = data.name;
+    this.options = this.isType(COMMAND_TYPE.cmdSlash) ? (data as SlashCommandData).options : undefined;
+    this.type = data.type || defaultData.type!;
+    this.usage = data.usage || defaultData.usage;
+    this.userPermissions = data.userPermissions || defaultData.userPermissions!;
   }
 
   /**
