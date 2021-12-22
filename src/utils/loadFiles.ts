@@ -24,7 +24,7 @@ export async function loadFiles<K, V>(client: ShewenyClient, options: LoadFilesO
           continue;
         }
         instance.path = filePath;
-        if (collection.get(instance[options.key])) new ShewenyWarning(client, 'DUPLICATE_CLASS', options.key, filePath);
+        if (collection.get(instance[options.key])) new ShewenyWarning(client, 'DUPLICATE_CLASS', instance[options.key], filePath);
         collection.set(instance[options.key], instance);
       } catch (e) {
         new ShewenyWarning(client, 'INVALID_CLASS', Structure, filePath);

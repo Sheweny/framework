@@ -7,7 +7,7 @@ const Messages: any = {
   MISSING_CLASS: (path: string) => `Cannot find a class to load at path :\n${path}`,
   MISSING_PROPERTY_CLASS: (property: string, path: string) => `The property ${property} is missing on class.\nPath : ${path}`,
   DUPLICATE_CLASS: (property: string, path: string) =>
-    `The class ${property} is already loaded only the last one will take effect.\nPath : ${path}`,
+    `The class with id "${property}" is already loaded, only the last one will take effect.\nPath : ${path}`,
 };
 
 export class ShewenyWarning {
@@ -15,6 +15,7 @@ export class ShewenyWarning {
     if (!client || client.mode !== 'development') return;
 
     if (client.mode === 'development') {
+      console.log('');
       if (Messages[name]) console.warn(`\x1b[33m${Messages[name](...args)}\x1b[0m`);
       else console.warn(`\x1b[33m${name}\x1b[0m`);
       console.log('');
