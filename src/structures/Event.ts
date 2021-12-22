@@ -10,12 +10,6 @@ import type { EventsManager } from '..';
  */
 export abstract class Event extends BaseStructure {
   /**
-   * Name of a event
-   * @type {string}
-   */
-  public name: string;
-
-  /**
    * Description of a event
    * @type {string}
    */
@@ -28,16 +22,22 @@ export abstract class Event extends BaseStructure {
   public emitter: EventEmitter;
 
   /**
-   * If the listener is deleted after it is executed
-   * @type {boolean}
-   */
-  public once: boolean;
-
-  /**
    * The
    * @type {EventsManager}
    */
   public manager?: EventsManager;
+
+  /**
+   * Name of a event
+   * @type {string}
+   */
+  public name: string;
+
+  /**
+   * If the listener is deleted after it is executed
+   * @type {boolean}
+   */
+  public once: boolean;
 
   /**
    * Constructor for build a Event
@@ -47,13 +47,13 @@ export abstract class Event extends BaseStructure {
    */
   constructor(client: ShewenyClient, name: string, options?: EventOptions) {
     super(client);
+    const defaultData = client.managers.events?.default!;
 
-    this.name = name;
     this.description = options?.description || '';
-    this.emitter = options?.emitter || this.client;
-    this.once = options?.once || false;
-
+    this.emitter = options?.emitter || defaultData.emitter!;
     this.manager = this.client.managers.events;
+    this.name = name;
+    this.once = options?.once || defaultData.once!;
   }
 
   before?(...args: any[]): any | Promise<any>;

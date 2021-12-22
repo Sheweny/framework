@@ -2,13 +2,20 @@ import { Collection } from 'discord.js';
 import { BaseManager } from '.';
 import { loadFiles } from '../utils/loadFiles';
 import { ShewenyInformation } from '../helpers';
+import { INHIBITOR_TYPE } from '../constants/constants';
 import type { ShewenyClient, Inhibitor } from '..';
-import type { BaseManagerOptions } from '../typescript/interfaces';
+import type { InhibitorsManagerOptions, InhibitorsManagerDefaultOptions } from '../typescript/interfaces';
 
 /**
  * Manager for Inhibitors
  */
 export class InhibitorsManager extends BaseManager {
+  /**
+   * Default data for the inhibitors
+   * @type {InhibitorsManagerDefaultOptions}
+   */
+  public default: InhibitorsManagerDefaultOptions;
+
   /**
    * Collection of the inhibitors
    * @type {Collection<string, Inhibitor> | undefined}
@@ -21,9 +28,12 @@ export class InhibitorsManager extends BaseManager {
    * @param {string} directory Directory of the inhibitors folder
    * @param {boolean} [loadAll] If the inhibitors are loaded during bot launch
    */
-  constructor(client: ShewenyClient, options: BaseManagerOptions) {
+  constructor(client: ShewenyClient, options: InhibitorsManagerOptions) {
     super(client, options);
-
+    this.default = {
+      priority: options.default?.priority || 0,
+      type: options.default?.type || [INHIBITOR_TYPE.message],
+    };
     if (options?.loadAll) this.loadAll();
     client.managers.inhibitors = this;
   }

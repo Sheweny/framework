@@ -3,13 +3,18 @@ import { Collection } from 'discord.js';
 import { BaseManager } from '.';
 import { loadFiles } from '../utils/loadFiles';
 import { ShewenyInformation } from '../helpers';
-import type { BaseManagerOptions } from '../typescript/interfaces';
+import type { EventsManagerOptions, EventsManagerDefaultOptions } from '../typescript/interfaces';
 import type { ShewenyClient, Event } from '..';
 
 /**
  * Manager for Events
  */
 export class EventsManager extends BaseManager {
+  /**
+   * Default data for the events
+   * @type {EventsManagerDefaultOptions}
+   */
+  public default: EventsManagerDefaultOptions;
   /**
    * Collection of the events
    * @type {Collection<string, Event> | undefined}
@@ -22,9 +27,12 @@ export class EventsManager extends BaseManager {
    * @param {string} directory Directory of the events folder
    * @param {boolean} [loadAll] If the events are loaded during bot launch
    */
-  constructor(client: ShewenyClient, options: BaseManagerOptions) {
+  constructor(client: ShewenyClient, options: EventsManagerOptions) {
     super(client, options);
-
+    this.default = {
+      emitter: options.default?.emitter || this.client,
+      once: options.default?.once || false,
+    };
     if (options?.loadAll) this.loadAndRegisterAll();
     client.managers.events = this;
   }

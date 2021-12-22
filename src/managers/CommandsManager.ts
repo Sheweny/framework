@@ -14,7 +14,7 @@ import type {
   Snowflake,
 } from 'discord.js';
 import type { ShewenyClient, Command } from '..';
-import type { CommandsManagerOptions, CommandManagerDefaultOptions } from '../typescript/interfaces';
+import type { CommandsManagerOptions, CommandsManagerDefaultOptions } from '../typescript/interfaces';
 
 /**
  * Manager for Commands
@@ -41,9 +41,9 @@ export class CommandsManager extends BaseManager {
 
   /**
    * Default data for the commands
-   * @type {Object}
+   * @type {CommandsManagerDefaultOptions}
    */
-  public default: CommandManagerDefaultOptions;
+  public default: CommandsManagerDefaultOptions;
 
   /**
    * ID of the guild where are set Applications Commands

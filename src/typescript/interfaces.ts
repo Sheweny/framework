@@ -3,7 +3,13 @@ import type { EventEmitter } from 'events';
 import type { ClientOptions, Snowflake } from 'discord.js';
 import type { ButtonsManager, CommandsManager, EventsManager, InhibitorsManager, SelectMenusManager } from '../managers';
 import type { Button, Command, Event, Inhibitor, SelectMenu } from '../structures';
-import type { CLIENT_MODE, COMMAND_CHANNEL, COMMAND_MESSAGE_ARGS_TYPE, COMMAND_TYPE } from '../constants/constants';
+import type {
+  CLIENT_MODE,
+  COMMAND_CHANNEL,
+  COMMAND_MESSAGE_ARGS_TYPE,
+  COMMAND_TYPE,
+  INHIBITOR_TYPE,
+} from '../constants/constants';
 /**
  * Interfaces of managers
  */
@@ -16,9 +22,9 @@ export interface CommandsManagerOptions extends BaseManagerOptions {
   prefix?: string;
   applicationPermissions?: boolean;
   autoRegisterApplicationCommands?: boolean;
-  default: CommandManagerDefaultOptions;
+  default: CommandsManagerDefaultOptions;
 }
-export interface CommandManagerDefaultOptions {
+export interface CommandsManagerDefaultOptions {
   adminOnly?: boolean;
   category?: string;
   channel?: typeof COMMAND_CHANNEL.dm | typeof COMMAND_CHANNEL.guild;
@@ -28,6 +34,26 @@ export interface CommandManagerDefaultOptions {
   type?: typeof COMMAND_TYPE.cmdSlash | typeof COMMAND_TYPE.cmdMsg | typeof COMMAND_TYPE.ctxMsg | typeof COMMAND_TYPE.ctxUser;
   usage?: string | string[];
   userPermissions?: PermissionString[];
+}
+export interface EventsManagerOptions extends BaseManagerOptions {
+  default?: EventsManagerDefaultOptions;
+}
+export interface EventsManagerDefaultOptions {
+  emitter?: EventEmitter;
+  once?: boolean;
+}
+
+export interface InhibitorsManagerOptions extends BaseManagerOptions {
+  default?: InhibitorsManagerDefaultOptions;
+}
+export interface InhibitorsManagerDefaultOptions {
+  priority?: number;
+  type?:
+    | typeof INHIBITOR_TYPE.message[]
+    | typeof INHIBITOR_TYPE.appCommand[]
+    | typeof INHIBITOR_TYPE.button[]
+    | typeof INHIBITOR_TYPE.select[]
+    | typeof INHIBITOR_TYPE.all[];
 }
 /**
  * Intrefaces of Commands
@@ -164,10 +190,10 @@ export interface ManagersCollections {
 //Client options for managers
 interface ManagersOptions {
   commands?: CommandsManagerOptions;
-  events?: BaseManagerOptions;
+  events?: EventsManagerOptions;
   buttons?: BaseManagerOptions;
   selectMenus?: BaseManagerOptions;
-  inhibitors?: BaseManagerOptions;
+  inhibitors?: InhibitorsManagerOptions;
 }
 
 /**

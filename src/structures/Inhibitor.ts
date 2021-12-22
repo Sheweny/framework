@@ -16,16 +16,16 @@ interface InhibitorOptions {
  */
 export abstract class Inhibitor extends BaseStructure {
   /**
+   * The
+   * @type {InhibitorsManager}
+   */
+  public manager?: InhibitorsManager;
+
+  /**
    * Name of a inhibitor
    * @type {string}
    */
   public name: string;
-
-  /**
-   * Type(s) of a inhibitor
-   * @type {InhibitorType[]}
-   */
-  public type: InhibitorType[];
 
   /**
    * Priority of a inhibitor
@@ -34,10 +34,10 @@ export abstract class Inhibitor extends BaseStructure {
   public priority: number;
 
   /**
-   * The
-   * @type {InhibitorsManager}
+   * Type(s) of a inhibitor
+   * @type {InhibitorType[]}
    */
-  public manager?: InhibitorsManager;
+  public type: InhibitorType[];
 
   /**
    * Constructor for build a Inhibitor
@@ -47,11 +47,12 @@ export abstract class Inhibitor extends BaseStructure {
    */
   constructor(client: ShewenyClient, name: string, options?: InhibitorOptions) {
     super(client);
-    this.name = name;
-    this.type = options?.type || ['MESSAGE_COMMAND'];
-    this.priority = options?.priority || 0;
+    const defaultData = client.managers.inhibitors?.default!;
 
     this.manager = this.client.managers.inhibitors;
+    this.name = name;
+    this.priority = options?.priority || defaultData.priority!;
+    this.type = options?.type || defaultData.type!;
   }
 
   /**
