@@ -2,6 +2,12 @@
 
 **All notable changes to this project will be documented in this file.**
 
+# [[3.3.2]](https://github.com/Sheweny/framework/compare/3.3.1...3.3.2) - December 22, 2021
+
+### Fixed
+
+- Command: Fix bug in command message argument caused by order of properties ([f23193c](https://github.com/Sheweny/framework/commit/f23193ce4e012cc1f19c8faf4b3d4e6438041811))
+
 # [[3.3.1]](https://github.com/Sheweny/framework/compare/3.3.0...3.3.1) - December 22, 2021
 
 ### Fixed
