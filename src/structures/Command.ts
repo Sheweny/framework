@@ -136,23 +136,24 @@ export abstract class Command extends BaseStructure {
   constructor(client: ShewenyClient, data: CommandData) {
     super(client);
     const defaultData = client.managers.commands?.default!;
+    const type = data.type || defaultData.type!;
 
     this.adminsOnly = data.adminsOnly || defaultData.adminOnly!;
-    this.aliases = this.isType(COMMAND_TYPE.cmdMsg) ? (data as MessageData).aliases : [];
-    this.args = this.isType(COMMAND_TYPE.cmdMsg) ? (data as MessageData).args : undefined;
+    this.aliases = this.isType(type, COMMAND_TYPE.cmdMsg) ? (data as MessageData).aliases : [];
+    this.args = this.isType(type, COMMAND_TYPE.cmdMsg) ? (data as MessageData).args : undefined;
     this.category = data.category || defaultData.category!;
     this.channel = data.channel || defaultData.channel;
     this.clientPermissions = data.clientPermissions || defaultData.clientPermissions!;
     this.cooldown = data.cooldown || defaultData.cooldown!;
     this.cooldowns = new Collection();
-    this.defaultPermission = this.isType(COMMAND_TYPE.cmdSlash, COMMAND_TYPE.ctxUser, COMMAND_TYPE.ctxMsg)
+    this.defaultPermission = this.isType(type, COMMAND_TYPE.cmdSlash, COMMAND_TYPE.ctxUser, COMMAND_TYPE.ctxMsg)
       ? (data as SlashCommandData | ContextMenuUserData | ContextMenuMessageData).defaultPermission
       : undefined;
     this.description = data.description || '';
     this.examples = data.examples || defaultData.examples;
     this.manager = this.client.managers.commands;
     this.name = data.name;
-    this.options = this.isType(COMMAND_TYPE.cmdSlash) ? (data as SlashCommandData).options : undefined;
+    this.options = this.isType(type, COMMAND_TYPE.cmdSlash) ? (data as SlashCommandData).options : undefined;
     this.type = data.type || defaultData.type!;
     this.usage = data.usage || defaultData.usage;
     this.userPermissions = data.userPermissions || defaultData.userPermissions!;
@@ -212,8 +213,8 @@ export abstract class Command extends BaseStructure {
       ? this.client.collections.commands.set(AC.name, AC)
       : new Collection<string, Command>().set(AC.name, AC);
   }
-  private isType(...types: string[]): boolean {
-    if (types.includes(this.type)) return true;
+  private isType(type: string, ...types: string[]): boolean {
+    if (types.includes(type)) return true;
     return false;
   }
 }
