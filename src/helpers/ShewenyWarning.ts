@@ -6,6 +6,8 @@ const Messages: any = {
   INVALID_CLASS: (name: string, path: string) => `The class ${name} is malformed. Unable to load it.\nPath : ${path}`,
   MISSING_CLASS: (path: string) => `Cannot find a class to load at path :\n${path}`,
   MISSING_PROPERTY_CLASS: (property: string, path: string) => `The property ${property} is missing on class.\nPath : ${path}`,
+  DUPLICATE_CLASS: (property: string, path: string) =>
+    `The class ${property} is already loaded only the last one will take effect.\nPath : ${path}`,
 };
 
 export class ShewenyWarning {
