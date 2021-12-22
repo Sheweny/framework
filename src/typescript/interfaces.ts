@@ -16,7 +16,7 @@ export interface CommandsManagerOptions extends BaseManagerOptions {
   prefix?: string;
   applicationPermissions?: boolean;
   autoRegisterApplicationCommands?: boolean;
-  default?: CommandManagerDefaultOptions;
+  default: CommandManagerDefaultOptions;
 }
 export interface CommandManagerDefaultOptions {
   adminOnly?: boolean;
@@ -36,7 +36,7 @@ export interface CommandManagerDefaultOptions {
 //Data option for `SLASH_COMMAND` type
 export interface SlashCommandData {
   name: string;
-  type: typeof COMMAND_TYPE.cmdSlash;
+  type?: typeof COMMAND_TYPE.cmdSlash;
   description: string;
   options?: ApplicationCommandOptionData[];
   defaultPermission?: boolean;
@@ -53,7 +53,7 @@ export interface SlashCommandData {
 // Data option for `CONTEXT_MENU_USER` type
 export interface ContextMenuUserData {
   name: string;
-  type: typeof COMMAND_TYPE.ctxUser;
+  type?: typeof COMMAND_TYPE.ctxUser;
   description?: string;
   defaultPermission?: boolean;
   category?: string;
@@ -69,7 +69,7 @@ export interface ContextMenuUserData {
 // Data option for `CONTEXT_MENU_MESSAGE` type
 export interface ContextMenuMessageData {
   name: string;
-  type: typeof COMMAND_TYPE.ctxMsg;
+  type?: typeof COMMAND_TYPE.ctxMsg;
   description?: string;
   defaultPermission?: boolean;
   category?: string;
