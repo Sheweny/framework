@@ -22,7 +22,7 @@ export interface CommandsManagerOptions extends BaseManagerOptions {
   prefix?: string;
   applicationPermissions?: boolean;
   autoRegisterApplicationCommands?: boolean;
-  default: CommandsManagerDefaultOptions;
+  default?: CommandsManagerDefaultOptions;
 }
 export interface CommandsManagerDefaultOptions {
   adminOnly?: boolean;
