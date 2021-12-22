@@ -1,11 +1,16 @@
 import { Collection } from 'discord.js';
 import { BaseManager } from '.';
 import type { ShewenyClient, Inhibitor } from '..';
-import type { BaseManagerOptions } from '../typescript/interfaces';
+import type { InhibitorsManagerOptions, InhibitorsManagerDefaultOptions } from '../typescript/interfaces';
 /**
  * Manager for Inhibitors
  */
 export declare class InhibitorsManager extends BaseManager {
+    /**
+     * Default data for the inhibitors
+     * @type {InhibitorsManagerDefaultOptions}
+     */
+    default: InhibitorsManagerDefaultOptions;
     /**
      * Collection of the inhibitors
      * @type {Collection<string, Inhibitor> | undefined}
@@ -17,7 +22,7 @@ export declare class InhibitorsManager extends BaseManager {
      * @param {string} directory Directory of the inhibitors folder
      * @param {boolean} [loadAll] If the inhibitors are loaded during bot launch
      */
-    constructor(client: ShewenyClient, options: BaseManagerOptions);
+    constructor(client: ShewenyClient, options: InhibitorsManagerOptions);
     /**
      * Load all inhibitors in collection
      * @returns {Promise<Collection<string, Inhibitor>>}

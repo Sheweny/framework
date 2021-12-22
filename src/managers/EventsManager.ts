@@ -29,8 +29,9 @@ export class EventsManager extends BaseManager {
    */
   constructor(client: ShewenyClient, options: EventsManagerOptions) {
     super(client, options);
+
     this.default = {
-      emitter: options.default?.emitter || this.client,
+      emitter: options.default?.emitter || client,
       once: options.default?.once || false,
     };
     if (options?.loadAll) this.loadAndRegisterAll();

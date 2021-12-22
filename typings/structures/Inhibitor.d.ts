@@ -14,25 +14,25 @@ interface InhibitorOptions {
  */
 export declare abstract class Inhibitor extends BaseStructure {
     /**
+     * The
+     * @type {InhibitorsManager}
+     */
+    manager?: InhibitorsManager;
+    /**
      * Name of a inhibitor
      * @type {string}
      */
     name: string;
-    /**
-     * Type(s) of a inhibitor
-     * @type {InhibitorType[]}
-     */
-    type: InhibitorType[];
     /**
      * Priority of a inhibitor
      * @type {number}
      */
     priority: number;
     /**
-     * The
-     * @type {InhibitorsManager}
+     * Type(s) of a inhibitor
+     * @type {InhibitorType[]}
      */
-    manager?: InhibitorsManager;
+    type: InhibitorType[];
     /**
      * Constructor for build a Inhibitor
      * @param {ShewenyClient} client Client framework

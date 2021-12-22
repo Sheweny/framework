@@ -1,11 +1,16 @@
 import { Collection } from 'discord.js';
 import { BaseManager } from '.';
-import type { BaseManagerOptions } from '../typescript/interfaces';
+import type { EventsManagerOptions, EventsManagerDefaultOptions } from '../typescript/interfaces';
 import type { ShewenyClient, Event } from '..';
 /**
  * Manager for Events
  */
 export declare class EventsManager extends BaseManager {
+    /**
+     * Default data for the events
+     * @type {EventsManagerDefaultOptions}
+     */
+    default: EventsManagerDefaultOptions;
     /**
      * Collection of the events
      * @type {Collection<string, Event> | undefined}
@@ -17,7 +22,7 @@ export declare class EventsManager extends BaseManager {
      * @param {string} directory Directory of the events folder
      * @param {boolean} [loadAll] If the events are loaded during bot launch
      */
-    constructor(client: ShewenyClient, options: BaseManagerOptions);
+    constructor(client: ShewenyClient, options: EventsManagerOptions);
     /**
      * Load all events in collection
      * @returns {Promise<Collection<string, Event>>}

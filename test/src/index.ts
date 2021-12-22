@@ -37,10 +37,17 @@ const client = new ShewenyClient({
     events: {
       directory: './events',
       loadAll: true,
+      default: {
+        once: false,
+      },
     },
     inhibitors: {
       directory: './inhibitors',
       loadAll: true,
+      default: {
+        type: ['MESSAGE_COMMAND'],
+        priority: 15,
+      },
     },
   },
 });

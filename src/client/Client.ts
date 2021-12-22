@@ -89,6 +89,7 @@ export class ShewenyClient extends Client {
       ? new EventsManager(this, {
           directory: options.managers.events.directory,
           loadAll: options.managers.events.loadAll ?? true,
+          default: options.managers.events.default,
         })
       : undefined;
 
@@ -110,6 +111,7 @@ export class ShewenyClient extends Client {
       ? new InhibitorsManager(this, {
           directory: options.managers.inhibitors.directory,
           loadAll: options.managers.inhibitors.loadAll ?? true,
+          default: options.managers.inhibitors.default,
         })
       : undefined;
 

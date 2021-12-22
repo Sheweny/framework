@@ -11,11 +11,6 @@ import type { EventsManager } from '..';
  */
 export declare abstract class Event extends BaseStructure {
     /**
-     * Name of a event
-     * @type {string}
-     */
-    name: string;
-    /**
      * Description of a event
      * @type {string}
      */
@@ -26,15 +21,20 @@ export declare abstract class Event extends BaseStructure {
      */
     emitter: EventEmitter;
     /**
-     * If the listener is deleted after it is executed
-     * @type {boolean}
-     */
-    once: boolean;
-    /**
      * The
      * @type {EventsManager}
      */
     manager?: EventsManager;
+    /**
+     * Name of a event
+     * @type {string}
+     */
+    name: string;
+    /**
+     * If the listener is deleted after it is executed
+     * @type {boolean}
+     */
+    once: boolean;
     /**
      * Constructor for build a Event
      * @param {ShewenyClient} client Client framework
