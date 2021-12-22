@@ -71,15 +71,15 @@ export class CommandsManager extends BaseManager {
     this.guildId = options?.guildId;
     this.prefix = options?.prefix;
     this.default = {
-      adminOnly: options.default.adminOnly || false,
-      category: options.default.category || '',
-      channel: options.default.channel || undefined,
-      clientPermissions: options.default.clientPermissions || [],
-      cooldown: options.default.cooldown || 0,
-      examples: options.default.examples || '',
-      type: options.default.type || COMMAND_TYPE.cmdMsg,
-      usage: options.default.usage || '',
-      userPermissions: options.default.userPermissions || [],
+      adminOnly: options.default?.adminOnly || false,
+      category: options.default?.category || '',
+      channel: options.default?.channel || undefined,
+      clientPermissions: options.default?.clientPermissions || [],
+      cooldown: options.default?.cooldown || 0,
+      examples: options.default?.examples || '',
+      type: options.default?.type || COMMAND_TYPE.cmdMsg,
+      usage: options.default?.usage || '',
+      userPermissions: options.default?.userPermissions || [],
     };
     if (options?.loadAll) this.loadAndRegisterAll();
     client.managers.commands = this;

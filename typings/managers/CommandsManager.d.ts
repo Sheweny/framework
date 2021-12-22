@@ -2,7 +2,7 @@ import { Collection } from 'discord.js';
 import { BaseManager } from '.';
 import type { ApplicationCommand, ApplicationCommandData, ApplicationCommandResolvable, GuildResolvable, Snowflake } from 'discord.js';
 import type { ShewenyClient, Command } from '..';
-import type { CommandsManagerOptions } from '../typescript/interfaces';
+import type { CommandsManagerOptions, CommandManagerDefaultOptions } from '../typescript/interfaces';
 /**
  * Manager for Commands
  * @extends {EventEmitter}
@@ -23,6 +23,11 @@ export declare class CommandsManager extends BaseManager {
      * @type {Collection<string, Command> | undefined}
      */
     commands?: Collection<string, Command> | null;
+    /**
+     * Default data for the commands
+     * @type {Object}
+     */
+    default: CommandManagerDefaultOptions;
     /**
      * ID of the guild where are set Applications Commands
      * @type {string | undefined}

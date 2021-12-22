@@ -16,7 +16,7 @@ export interface CommandsManagerOptions extends BaseManagerOptions {
   prefix?: string;
   applicationPermissions?: boolean;
   autoRegisterApplicationCommands?: boolean;
-  default: CommandManagerDefaultOptions;
+  default?: CommandManagerDefaultOptions;
 }
 export interface CommandManagerDefaultOptions {
   adminOnly?: boolean;

@@ -13,6 +13,17 @@ const client = new ShewenyClient({
       autoRegisterApplicationCommands: true,
       applicationPermissions: true,
       loadAll: true,
+      default: {
+        adminOnly: false,
+        category: 'Default category',
+        channel: 'GUILD',
+        clientPermissions: [],
+        cooldown: 3.5,
+        examples: ['Example 1', 'Example 2'],
+        type: 'SLASH_COMMAND',
+        usage: '?command',
+        userPermissions: [],
+      },
     },
 
     buttons: {

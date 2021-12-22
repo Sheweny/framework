@@ -50,12 +50,12 @@ export declare abstract class Command extends BaseStructure {
      * Usage of a command
      * @type {string}
      */
-    usage: string | string[];
+    usage?: string | string[];
     /**
      * Examples of a command
      * @type {string}
      */
-    examples: string | string[];
+    examples?: string | string[];
     /**
      * Only channel where a command can be executed
      * @type {"GUILD" | "DM" | undefined}

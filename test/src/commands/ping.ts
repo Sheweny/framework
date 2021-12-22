@@ -5,10 +5,7 @@ export class PingCommand extends Command {
   constructor(client: ShewenyClient) {
     super(client, {
       name: 'ping',
-      description: 'Ping the bot',
-      type: 'SLASH_COMMAND',
-      category: 'Misc',
-      usage: 'ping',
+      description: 'Ping !',
     });
   }
   execute(interaction: CommandInteraction) {
