@@ -2,7 +2,24 @@
 
 **All notable changes to this project will be documented in this file.**
 
-# [[3.2.0]](https://github.com/Sheweny/framework/compare/2.1.0...3.0.0) - December 20, 2021
+# [[3.3.0]](https://github.com/Sheweny/framework/compare/3.2.0...3.3.0) - December 22, 2021
+
+### Added
+
+- CommandManager: Add default object in options for set default values in commands ([b893913](https://github.com/Sheweny/framework/commit/b8939131a833a2b60bc06899c47d4e4dc3b14888)).
+- EventsManager: Add default object in options for set default values in events ([8127b56](https://github.com/Sheweny/framework/commit/8127b568e485aea88c60c35062119fa84d3b3ba2))
+- InhibitorsManager: Add default object in options for set default values in inhibitors ([8127b56](https://github.com/Sheweny/framework/commit/8127b568e485aea88c60c35062119fa84d3b3ba2))
+- DevelopmentMode: Add duplicate class check ([03de4ad](https://github.com/Sheweny/framework/commit/03de4ad528777887f91442cce8cf1a190e0dfeea))
+
+### Changed
+
+- ShewenyClientOptions: Add default object in options for set default values in commands ([8127b56](https://github.com/Sheweny/framework/commit/8127b568e485aea88c60c35062119fa84d3b3ba2) [8127b56](https://github.com/Sheweny/framework/commit/8127b568e485aea88c60c35062119fa84d3b3ba2))
+
+### Fixed
+
+- Command: Fix type property, now optional ([1807dc6](https://github.com/Sheweny/framework/commit/1807dc692b2bf4b826ae24802beb7accc77c6a70))
+
+# [[3.2.0]](https://github.com/Sheweny/framework/compare/3.1.0...3.2.0) - December 20, 2021
 
 ### Added
 
@@ -19,7 +36,7 @@
 - Client: Fix `awaitReady()` method when the client is already loged ([b8bf7d1](https://github.com/Sheweny/framework/commit/b8bf7d1e49f8c4cbe5b8ad26254583dca140ecef))
 - Managers: Fix loadAll errors display ([13f48f7](https://github.com/Sheweny/framework/commit/13f48f7352b30d181ba9a3bf83f967b947c1ee1e))
 
-# [[3.1.0]](https://github.com/Sheweny/framework/compare/2.1.0...3.0.0) - December 11, 2021
+# [[3.1.0]](https://github.com/Sheweny/framework/compare/3.0.0...3.1.0) - December 11, 2021
 
 ### Added
 
