@@ -2,6 +2,12 @@
 
 **All notable changes to this project will be documented in this file.**
 
+# [[3.3.1]](https://github.com/Sheweny/framework/compare/3.3.0...3.3.1) - December 22, 2021
+
+### Fixed
+
+- CommandsManager: The `default` property is now optional ([3019c2e](https://github.com/Sheweny/framework/commit/3019c2e611fcf67ccfa96f69e34cec426c9d37b2))
+
 # [[3.3.0]](https://github.com/Sheweny/framework/compare/3.2.0...3.3.0) - December 22, 2021
 
 ### Added
