@@ -27,34 +27,16 @@ import type { CommandsManager } from '..';
  */
 export abstract class Command extends BaseStructure {
   /**
-   * Name of a command
-   * @type {string}
+   * If a command is reserved for bot admins
+   * @type {boolean}
    */
-  public name: string;
+  public adminsOnly: boolean;
 
   /**
-   * Description of a command
-   * @type {string | undefined}
+   * Aliases of the Message command
+   * @type {string[] | undefined}
    */
-  public description?: string;
-
-  /**
-   * Type of a command
-   * @type {CommandType}
-   */
-  public type: CommandType;
-
-  /**
-   * Default permission of a Application command
-   * @type {boolean | undefined}
-   */
-  public defaultPermission?: boolean;
-
-  /**
-   * Options of a Application command
-   * @type {ApplicationCommandOptionData[] | undefined}
-   */
-  public options?: ApplicationCommandOptionData[];
+  public aliases?: string[];
 
   /**
    * Args of a Message command
@@ -69,40 +51,10 @@ export abstract class Command extends BaseStructure {
   public category: string;
 
   /**
-   * Usage of a command
-   * @type {string}
-   */
-  public usage?: string | string[];
-
-  /**
-   * Examples of a command
-   * @type {string}
-   */
-  public examples?: string | string[];
-
-  /**
    * Only channel where a command can be executed
    * @type {"GUILD" | "DM" | undefined}
    */
   public channel?: typeof COMMAND_CHANNEL.guild | typeof COMMAND_CHANNEL.dm;
-
-  /**
-   * Cooldown of a command in seconds
-   * @type {number}
-   */
-  public cooldown: number;
-
-  /**
-   * If a command is reserved for bot admins
-   * @type {boolean}
-   */
-  public adminsOnly: boolean;
-
-  /**
-   * The permissions required to be executed by the user
-   * @type {PermissionString[]}
-   */
-  public userPermissions: PermissionString[];
 
   /**
    * The permissions required for the client
@@ -111,10 +63,10 @@ export abstract class Command extends BaseStructure {
   public clientPermissions: PermissionString[];
 
   /**
-   * Aliases of the Message command
-   * @type {string[] | undefined}
+   * Cooldown of a command in seconds
+   * @type {number}
    */
-  public aliases?: string[];
+  public cooldown: number;
 
   /**
    * Cooldowns collection
@@ -123,10 +75,58 @@ export abstract class Command extends BaseStructure {
   public cooldowns: Collection<string, Collection<string, number>>;
 
   /**
+   * Default permission of a Application command
+   * @type {boolean | undefined}
+   */
+  public defaultPermission?: boolean;
+
+  /**
+   * Description of a command
+   * @type {string | undefined}
+   */
+  public description?: string;
+
+  /**
+   * Examples of a command
+   * @type {string}
+   */
+  public examples?: string | string[];
+
+  /**
    * The
    * @type {CommandsManager}
    */
   public manager?: CommandsManager;
+
+  /**
+   * Name of a command
+   * @type {string}
+   */
+  public name: string;
+
+  /**
+   * Options of a Application command
+   * @type {ApplicationCommandOptionData[] | undefined}
+   */
+  public options?: ApplicationCommandOptionData[];
+
+  /**
+   * Type of a command
+   * @type {CommandType}
+   */
+  public type: CommandType;
+
+  /**
+   * Usage of a command
+   * @type {string}
+   */
+  public usage?: string | string[];
+
+  /**
+   * The permissions required to be executed by the user
+   * @type {PermissionString[]}
+   */
+  public userPermissions: PermissionString[];
 
   /**
    * Constructor for build a Command
@@ -166,8 +166,6 @@ export abstract class Command extends BaseStructure {
    */
   before?(interaction: CommandInteraction | ContextMenuInteraction | Message): any | Promise<any>;
 
-  onAutocomplete?(interaction: AutocompleteInteraction): any | Promise<any>;
-
   /**
    * Main function `execute` for the commands
    * @param {CommandInteraction | ContextMenuInteraction | Message} interaction Interaction
@@ -181,26 +179,22 @@ export abstract class Command extends BaseStructure {
   any | Promise<any>;
 
   /**
-   * Unregister a command from collections
+   * Check the type of a command
+   * @param type - Type of a command
+   * @param types - Types allowed
    * @returns {boolean}
    */
-  public unregister(): boolean {
-    this.client.collections.commands?.delete(this.name);
-    delete require.cache[require.resolve(this.path!)];
-    return true;
+  private isType(type: string, ...types: string[]): boolean {
+    if (types.includes(type)) return true;
+    return false;
   }
 
   /**
-   * Reload a command
-   * @returns {Promise<Collection<string, Command> | null>} The Application Commands collection
+   *
+   * @param {AutocompleteInteraction} interaction
+   * @returns {any | Promise<any>}
    */
-  public async reload(): Promise<Collection<string, Command> | null> {
-    if (this.path) {
-      this.unregister();
-      return this.register();
-    }
-    return null;
-  }
+  onAutocomplete?(interaction: AutocompleteInteraction): any | Promise<any>;
 
   /**
    * Register a command in collections
@@ -213,8 +207,24 @@ export abstract class Command extends BaseStructure {
       ? this.client.collections.commands.set(AC.name, AC)
       : new Collection<string, Command>().set(AC.name, AC);
   }
-  private isType(type: string, ...types: string[]): boolean {
-    if (types.includes(type)) return true;
-    return false;
+  /**
+   * Reload a command
+   * @returns {Promise<Collection<string, Command> | null>} The Application Commands collection
+   */
+  public async reload(): Promise<Collection<string, Command> | null> {
+    if (this.path) {
+      this.unregister();
+      return this.register();
+    }
+    return null;
+  }
+  /**
+   * Unregister a command from collections
+   * @returns {boolean}
+   */
+  public unregister(): boolean {
+    this.client.collections.commands?.delete(this.name);
+    delete require.cache[require.resolve(this.path!)];
+    return true;
   }
 }
