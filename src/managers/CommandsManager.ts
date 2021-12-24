@@ -68,8 +68,6 @@ export class CommandsManager extends BaseManager {
 
     this.applicationPermissions = options?.applicationPermissions || false;
     this.autoRegisterApplicationCommands = options?.autoRegisterApplicationCommands || false;
-    this.guildId = options?.guildId;
-    this.prefix = options?.prefix;
     this.default = {
       adminOnly: options.default?.adminOnly || false,
       category: options.default?.category || '',
@@ -81,90 +79,81 @@ export class CommandsManager extends BaseManager {
       usage: options.default?.usage || '',
       userPermissions: options.default?.userPermissions || [],
     };
+    this.guildId = options?.guildId;
+    this.prefix = options?.prefix;
+
     if (options?.loadAll) this.loadAndRegisterAll();
   }
+
   /**
-   * Load all and Register Application commands
-   * @returns {Promise<void>}
+   * Create a command in the client's application commands
+   * @param {Command} command Command to create
+   * @param {Snowflake | undefined} [guildId] Guild ID where the order will be created
+   * @returns {Promise<ApplicationCommand<{}> | ApplicationCommand<{ guild: GuildResolvable }> | undefined>}
    */
-  public async loadAndRegisterAll(): Promise<void> {
-    const commands = await this.loadAll();
-    const commandsToRegister = commands?.filter((cmd: Command) =>
-      //@ts-ignore
-      [COMMAND_TYPE.cmdSlash, COMMAND_TYPE.ctxMsg, COMMAND_TYPE.ctxUser].includes(cmd.type)
-    );
-    if (commandsToRegister && this.autoRegisterApplicationCommands) await this.registerApplicationCommands(commandsToRegister);
+  public async createCommand(
+    command: Command,
+    guildId?: Snowflake
+  ): Promise<ApplicationCommand<{}> | ApplicationCommand<{ guild: GuildResolvable }> | undefined> {
+    if (!command) throw new Error('Command not found');
+
+    const data = this.getApplicationCommandData(command) as ApplicationCommandData;
+    if (!data) return undefined;
+
+    return guildId ? this.client.application?.commands.create(data, guildId) : this.client.application?.commands.create(data);
   }
 
   /**
-   * Load all commands in collection
-   * @returns {Promise<Collection<string, Command>>}
+   * Delete all commands from the client's application commands
+   * @param {Snowflake | undefined} [guildId] Guild ID where all commands will be deleted
+   * @returns {Promise<Collection<string, ApplicationCommand<{}>> | Collection<string, ApplicationCommand<{ guild: GuildResolvable }>> | undefined>}
    */
-  public async loadAll(): Promise<Collection<string, Command> | undefined> {
-    const commands = await loadFiles<string, Command>(this.client, {
-      directory: this.directory,
-      key: 'name',
-    });
-    if (commands) this.client.collections.commands = commands;
-    this.commands = commands;
-    new ShewenyInformation(this.client, `- Commands loaded : ${this.client.collections.commands.size}`);
-    return commands;
-  }
-
-  /**
-   * Unload all commands
-   * @returns {void}
-   */
-  public unloadAll(): void {
-    this.commands = null;
-    this.client.collections.commands.clear();
-  }
-
-  /**
-   * Set all application commands from the collection of commands in the client application
-   * @param {Collection<string, Command> | undefined} [commands] Collection of the commands
-   * @returns {Promise<Collection<Snowflake, ApplicationCommand<{}>> | Collection<Snowflake, ApplicationCommand<{ guild: GuildResolvable }>> | undefined>}
-   */
-  public async registerApplicationCommands(
-    commands: Collection<string, Command> | undefined | null = this.commands,
-    guildId: Snowflake | Snowflake[] | undefined = this.guildId
+  public async deleteAllCommands(
+    guildId?: Snowflake
   ): Promise<
-    | Collection<Snowflake, ApplicationCommand<{}>>
-    | Collection<Snowflake, ApplicationCommand<{ guild: GuildResolvable }>>
-    | boolean
-    | undefined
+    Collection<string, ApplicationCommand<{}>> | Collection<string, ApplicationCommand<{ guild: GuildResolvable }>> | undefined
   > {
-    if (guildId && guildId instanceof Array) return guildId.every((id) => this.registerApplicationCommands(commands, id));
-    if (!commands) throw new Error('Commands not found');
-    const data = this.getApplicationCommandData();
-
-    await this.client.awaitReady();
-
-    if (data instanceof Array && data.length > 0) {
-      const cmds =
-        guildId && typeof guildId === 'string'
-          ? await this.client.application?.commands.set(data, guildId)
-          : await this.client.application?.commands.set(data);
-
-      if (this.applicationPermissions) await this.registerPermissions(cmds, this.commands, guildId as string);
-
-      return cmds;
-    }
-    return undefined;
+    return guildId ? this.client.application?.commands.set([], guildId) : this.client.application?.commands.set([]);
   }
 
   /**
-   * Rename command type to the type of Application command
-   * @param {"SLASH_COMMAND" | "CONTEXT_MENU_USER" | "CONTEXT_MENU_MESSAGE"} type Type of command
-   * @returns {ApplicationCommandType | undefined}
+   * Removes an command from the client's application commands
+   * @param {ApplicationCommandResolvable} command Command deleted
+   * @param {Snowflake | undefined} [guildId] Guild ID where the command will be deleted
+   * @returns {Promise<ApplicationCommand<{ guild: GuildResolvable }> | null | undefined>}
    */
-  private renameCommandType(
-    type: typeof COMMAND_TYPE.cmdSlash | typeof COMMAND_TYPE.ctxUser | typeof COMMAND_TYPE.ctxMsg
-  ): ApplicationCommandType | undefined {
-    if (type === COMMAND_TYPE.cmdSlash) return 'CHAT_INPUT';
-    if (type === COMMAND_TYPE.ctxMsg) return 'MESSAGE';
-    if (type === COMMAND_TYPE.ctxUser) return 'USER';
-    return undefined;
+  public async deleteCommand(
+    command: ApplicationCommandResolvable,
+    guildId?: Snowflake
+  ): Promise<ApplicationCommand<{ guild: GuildResolvable }> | null | undefined> {
+    if (!command) throw new Error('Command not found');
+
+    return guildId
+      ? this.client.application?.commands.delete(command, guildId)
+      : this.client.application?.commands.delete(command);
+  }
+
+  /**
+   * Edit an command with a new command in the client's application commands
+   * @param {ApplicationCommandResolvable} oldCommand Command edited
+   * @param {Command} newCommand The new command that will take the place of the old one
+   * @param {Snowflake | undefined} [guildId] Guild ID where the order will be edited
+   * @returns {Promise<ApplicationCommand<{}> | ApplicationCommand<{ guild: GuildResolvable }> | undefined>}
+   */
+  public async editCommand(
+    oldCommand: ApplicationCommandResolvable,
+    newCommand: Command,
+    guildId?: Snowflake
+  ): Promise<ApplicationCommand<{}> | ApplicationCommand<{ guild: GuildResolvable }> | undefined> {
+    if (!oldCommand) throw new Error('Old Command not found');
+    if (!newCommand) throw new Error('New Command not found');
+
+    const data = this.getApplicationCommandData(newCommand) as ApplicationCommandData;
+    if (!data) return undefined;
+
+    return guildId
+      ? this.client.application?.commands.edit(oldCommand, data, guildId)
+      : this.client.application?.commands.edit(oldCommand, data);
   }
 
   /**
@@ -241,6 +230,67 @@ export class CommandsManager extends BaseManager {
   }
 
   /**
+   * Load all commands in collection
+   * @returns {Promise<Collection<string, Command>>}
+   */
+  public async loadAll(): Promise<Collection<string, Command> | undefined> {
+    const commands = await loadFiles<string, Command>(this.client, {
+      directory: this.directory,
+      key: 'name',
+    });
+    if (commands) this.client.collections.commands = commands;
+    this.commands = commands;
+    new ShewenyInformation(this.client, `- Commands loaded : ${this.client.collections.commands.size}`);
+    return commands;
+  }
+
+  /**
+   * Load all and Register Application commands
+   * @returns {Promise<void>}
+   */
+  public async loadAndRegisterAll(): Promise<void> {
+    const commands = await this.loadAll();
+    const commandsToRegister = commands?.filter((cmd: Command) =>
+      //@ts-ignore
+      [COMMAND_TYPE.cmdSlash, COMMAND_TYPE.ctxMsg, COMMAND_TYPE.ctxUser].includes(cmd.type)
+    );
+    if (commandsToRegister && this.autoRegisterApplicationCommands) await this.registerApplicationCommands(commandsToRegister);
+  }
+
+  /**
+   * Set all application commands from the collection of commands in the client application
+   * @param {Collection<string, Command> | undefined} [commands] Collection of the commands
+   * @returns {Promise<Collection<Snowflake, ApplicationCommand<{}>> | Collection<Snowflake, ApplicationCommand<{ guild: GuildResolvable }>> | undefined>}
+   */
+  public async registerApplicationCommands(
+    commands: Collection<string, Command> | undefined | null = this.commands,
+    guildId: Snowflake | Snowflake[] | undefined = this.guildId
+  ): Promise<
+    | Collection<Snowflake, ApplicationCommand<{}>>
+    | Collection<Snowflake, ApplicationCommand<{ guild: GuildResolvable }>>
+    | boolean
+    | undefined
+  > {
+    if (guildId && guildId instanceof Array) return guildId.every((id) => this.registerApplicationCommands(commands, id));
+    if (!commands) throw new Error('Commands not found');
+    const data = this.getApplicationCommandData();
+
+    await this.client.awaitReady();
+
+    if (data instanceof Array && data.length > 0) {
+      const cmds =
+        guildId && typeof guildId === 'string'
+          ? await this.client.application?.commands.set(data, guildId)
+          : await this.client.application?.commands.set(data);
+
+      if (this.applicationPermissions) await this.registerPermissions(cmds, this.commands, guildId as string);
+
+      return cmds;
+    }
+    return undefined;
+  }
+
+  /**
    * Set permissions for each commands in guild
    * @param {Collection<string, ApplicationCommand<{}>> | undefined} [applicationCommands] Commands coming from the client's application
    * @param {Collection<string, Command> | undefined} [commandsCollection] Commands coming from the collection of the commands
@@ -294,73 +344,25 @@ export class CommandsManager extends BaseManager {
   }
 
   /**
-   * Create a command in the client's application commands
-   * @param {Command} command Command to create
-   * @param {Snowflake | undefined} [guildId] Guild ID where the order will be created
-   * @returns {Promise<ApplicationCommand<{}> | ApplicationCommand<{ guild: GuildResolvable }> | undefined>}
+   * Rename command type to the type of Application command
+   * @param {"SLASH_COMMAND" | "CONTEXT_MENU_USER" | "CONTEXT_MENU_MESSAGE"} type Type of command
+   * @returns {ApplicationCommandType | undefined}
    */
-  public async createCommand(
-    command: Command,
-    guildId?: Snowflake
-  ): Promise<ApplicationCommand<{}> | ApplicationCommand<{ guild: GuildResolvable }> | undefined> {
-    if (!command) throw new Error('Command not found');
-
-    const data = this.getApplicationCommandData(command) as ApplicationCommandData;
-    if (!data) return undefined;
-
-    return guildId ? this.client.application?.commands.create(data, guildId) : this.client.application?.commands.create(data);
+  private renameCommandType(
+    type: typeof COMMAND_TYPE.cmdSlash | typeof COMMAND_TYPE.ctxUser | typeof COMMAND_TYPE.ctxMsg
+  ): ApplicationCommandType | undefined {
+    if (type === COMMAND_TYPE.cmdSlash) return 'CHAT_INPUT';
+    if (type === COMMAND_TYPE.ctxMsg) return 'MESSAGE';
+    if (type === COMMAND_TYPE.ctxUser) return 'USER';
+    return undefined;
   }
 
   /**
-   * Edit an command with a new command in the client's application commands
-   * @param {ApplicationCommandResolvable} oldCommand Command edited
-   * @param {Command} newCommand The new command that will take the place of the old one
-   * @param {Snowflake | undefined} [guildId] Guild ID where the order will be edited
-   * @returns {Promise<ApplicationCommand<{}> | ApplicationCommand<{ guild: GuildResolvable }> | undefined>}
+   * Unload all commands
+   * @returns {void}
    */
-  public async editCommand(
-    oldCommand: ApplicationCommandResolvable,
-    newCommand: Command,
-    guildId?: Snowflake
-  ): Promise<ApplicationCommand<{}> | ApplicationCommand<{ guild: GuildResolvable }> | undefined> {
-    if (!oldCommand) throw new Error('Old Command not found');
-    if (!newCommand) throw new Error('New Command not found');
-
-    const data = this.getApplicationCommandData(newCommand) as ApplicationCommandData;
-    if (!data) return undefined;
-
-    return guildId
-      ? this.client.application?.commands.edit(oldCommand, data, guildId)
-      : this.client.application?.commands.edit(oldCommand, data);
-  }
-
-  /**
-   * Removes an command from the client's application commands
-   * @param {ApplicationCommandResolvable} command Command deleted
-   * @param {Snowflake | undefined} [guildId] Guild ID where the command will be deleted
-   * @returns {Promise<ApplicationCommand<{ guild: GuildResolvable }> | null | undefined>}
-   */
-  public async deleteCommand(
-    command: ApplicationCommandResolvable,
-    guildId?: Snowflake
-  ): Promise<ApplicationCommand<{ guild: GuildResolvable }> | null | undefined> {
-    if (!command) throw new Error('Command not found');
-
-    return guildId
-      ? this.client.application?.commands.delete(command, guildId)
-      : this.client.application?.commands.delete(command);
-  }
-
-  /**
-   * Delete all commands from the client's application commands
-   * @param {Snowflake | undefined} [guildId] Guild ID where all commands will be deleted
-   * @returns {Promise<Collection<string, ApplicationCommand<{}>> | Collection<string, ApplicationCommand<{ guild: GuildResolvable }>> | undefined>}
-   */
-  public async deleteAllCommands(
-    guildId?: Snowflake
-  ): Promise<
-    Collection<string, ApplicationCommand<{}>> | Collection<string, ApplicationCommand<{ guild: GuildResolvable }>> | undefined
-  > {
-    return guildId ? this.client.application?.commands.set([], guildId) : this.client.application?.commands.set([]);
+  public unloadAll(): void {
+    this.commands = null;
+    this.client.collections.commands.clear();
   }
 }

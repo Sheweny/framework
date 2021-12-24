@@ -35,8 +35,10 @@ export class ButtonsManager extends BaseManager {
       directory: this.directory,
       key: 'customId',
     });
-    if (buttons) this.client.collections.buttons = buttons;
-    this.buttons = buttons;
+    if (buttons) {
+      this.client.collections.buttons = buttons;
+      this.buttons = buttons;
+    }
     new ShewenyInformation(this.client, `- Buttons loaded : ${this.client.collections.buttons.size}`);
     return buttons;
   }
