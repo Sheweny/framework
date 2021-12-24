@@ -13,7 +13,7 @@ export declare class EventsManager extends BaseManager {
     default: EventsManagerDefaultOptions;
     /**
      * Collection of the events
-     * @type {Collection<string, Event> | undefined}
+     * @type {Collection<string, Event> | null}
      */
     events?: Collection<string, Event> | null;
     /**
@@ -29,16 +29,16 @@ export declare class EventsManager extends BaseManager {
      */
     loadAll(): Promise<Collection<string, Event> | undefined>;
     /**
+     * Load all and Register events
+     * @returns {Promise<void>}
+     */
+    loadAndRegisterAll(): Promise<void>;
+    /**
      * Emit all events in collection
      * @param {Collection<string, Event> | undefined} [events] Events collection that will be emit
      * @returns {Promise<void>}
      */
     registerAll(events?: Collection<string, Event> | undefined | null): Promise<void>;
-    /**
-     * Load all and Register events
-     * @returns {Promise<void>}
-     */
-    loadAndRegisterAll(): Promise<void>;
     /**
      * Unload all events
      * @returns {void}

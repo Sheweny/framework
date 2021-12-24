@@ -12,30 +12,15 @@ import type { CommandsManager } from '..';
  */
 export declare abstract class Command extends BaseStructure {
     /**
-     * Name of a command
-     * @type {string}
+     * If a command is reserved for bot admins
+     * @type {boolean}
      */
-    name: string;
+    adminsOnly: boolean;
     /**
-     * Description of a command
-     * @type {string | undefined}
+     * Aliases of the Message command
+     * @type {string[] | undefined}
      */
-    description?: string;
-    /**
-     * Type of a command
-     * @type {CommandType}
-     */
-    type: CommandType;
-    /**
-     * Default permission of a Application command
-     * @type {boolean | undefined}
-     */
-    defaultPermission?: boolean;
-    /**
-     * Options of a Application command
-     * @type {ApplicationCommandOptionData[] | undefined}
-     */
-    options?: ApplicationCommandOptionData[];
+    aliases?: string[];
     /**
      * Args of a Message command
      * @type {MessageCommandOptionData | undefined}
@@ -47,55 +32,70 @@ export declare abstract class Command extends BaseStructure {
      */
     category: string;
     /**
-     * Usage of a command
-     * @type {string}
-     */
-    usage?: string | string[];
-    /**
-     * Examples of a command
-     * @type {string}
-     */
-    examples?: string | string[];
-    /**
      * Only channel where a command can be executed
      * @type {"GUILD" | "DM" | undefined}
      */
     channel?: typeof COMMAND_CHANNEL.guild | typeof COMMAND_CHANNEL.dm;
-    /**
-     * Cooldown of a command in seconds
-     * @type {number}
-     */
-    cooldown: number;
-    /**
-     * If a command is reserved for bot admins
-     * @type {boolean}
-     */
-    adminsOnly: boolean;
-    /**
-     * The permissions required to be executed by the user
-     * @type {PermissionString[]}
-     */
-    userPermissions: PermissionString[];
     /**
      * The permissions required for the client
      * @type {PermissionString[]}
      */
     clientPermissions: PermissionString[];
     /**
-     * Aliases of the Message command
-     * @type {string[] | undefined}
+     * Cooldown of a command in seconds
+     * @type {number}
      */
-    aliases?: string[];
+    cooldown: number;
     /**
      * Cooldowns collection
      * @type {Collection<string, Collection<string, number>>}
      */
     cooldowns: Collection<string, Collection<string, number>>;
     /**
+     * Default permission of a Application command
+     * @type {boolean | undefined}
+     */
+    defaultPermission?: boolean;
+    /**
+     * Description of a command
+     * @type {string | undefined}
+     */
+    description?: string;
+    /**
+     * Examples of a command
+     * @type {string}
+     */
+    examples?: string | string[];
+    /**
      * The
      * @type {CommandsManager}
      */
     manager?: CommandsManager;
+    /**
+     * Name of a command
+     * @type {string}
+     */
+    name: string;
+    /**
+     * Options of a Application command
+     * @type {ApplicationCommandOptionData[] | undefined}
+     */
+    options?: ApplicationCommandOptionData[];
+    /**
+     * Type of a command
+     * @type {CommandType}
+     */
+    type: CommandType;
+    /**
+     * Usage of a command
+     * @type {string}
+     */
+    usage?: string | string[];
+    /**
+     * The permissions required to be executed by the user
+     * @type {PermissionString[]}
+     */
+    userPermissions: PermissionString[];
     /**
      * Constructor for build a Command
      * @param {ShewenyClient} client Client framework
@@ -108,7 +108,6 @@ export declare abstract class Command extends BaseStructure {
      * @returns {any | Promise<any>}
      */
     before?(interaction: CommandInteraction | ContextMenuInteraction | Message): any | Promise<any>;
-    onAutocomplete?(interaction: AutocompleteInteraction): any | Promise<any>;
     /**
      * Main function `execute` for the commands
      * @param {CommandInteraction | ContextMenuInteraction | Message} interaction Interaction
@@ -118,19 +117,31 @@ export declare abstract class Command extends BaseStructure {
     abstract execute(interaction: CommandInteraction | ContextMenuInteraction | Message, args?: CommandMessageArgsResolved[]): //args?: CommandMessageArgsResolved
     any | Promise<any>;
     /**
-     * Unregister a command from collections
+     * Check the type of a command
+     * @param type - Type of a command
+     * @param types - Types allowed
      * @returns {boolean}
      */
-    unregister(): boolean;
+    private isType;
+    /**
+     *
+     * @param {AutocompleteInteraction} interaction
+     * @returns {any | Promise<any>}
+     */
+    onAutocomplete?(interaction: AutocompleteInteraction): any | Promise<any>;
+    /**
+     * Register a command in collections
+     * @returns {Collection<string, ApplicationCommand>} The Application Commands collection
+     */
+    register(): Promise<Collection<string, Command>>;
     /**
      * Reload a command
      * @returns {Promise<Collection<string, Command> | null>} The Application Commands collection
      */
     reload(): Promise<Collection<string, Command> | null>;
     /**
-     * Register a command in collections
-     * @returns {Collection<string, ApplicationCommand>} The Application Commands collection
+     * Unregister a command from collections
+     * @returns {boolean}
      */
-    register(): Promise<Collection<string, Command>>;
-    private isType;
+    unregister(): boolean;
 }

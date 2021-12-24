@@ -37,18 +37,18 @@ export declare abstract class SelectMenu extends BaseStructure {
      */
     abstract execute(interaction: SelectMenuInteraction): any | Promise<any>;
     /**
-     * Unregister a select menu from collections
-     * @returns {boolean}
+     * Register a select menu in collections
+     * @returns {Collection<string[]| RegExp[], SelectMenu>} The select menus collection
      */
-    unregister(): boolean;
+    register(): Promise<Collection<string[] | RegExp[], SelectMenu>>;
     /**
      * Reload a select menu
      * @returns {Promise<Collection<string[]| RegExp[], SelectMenu> | null>} The select menus collection
      */
     reload(): Promise<Collection<string[] | RegExp[], SelectMenu> | null>;
     /**
-     * Register a select menu in collections
-     * @returns {Collection<string[]| RegExp[], SelectMenu>} The select menus collection
+     * Unregister a select menu from collections
+     * @returns {boolean}
      */
-    register(): Promise<Collection<string[] | RegExp[], SelectMenu>>;
+    unregister(): boolean;
 }
