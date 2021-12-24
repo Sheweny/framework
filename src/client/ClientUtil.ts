@@ -10,18 +10,23 @@ export class ClientUtil extends DiscordResolve {
     super(client);
     this.client = client;
   }
-  getCommands() {
-    return this.client.collections.commands.values();
-  }
-  getEvents() {
-    return this.client.collections.events.values();
-  }
-  getInhibitors() {
-    return this.client.collections.inhibitors.values();
-  }
+  // BUTTONS
   getButtons() {
     return this.client.collections.buttons.values();
   }
+  // COMMANDS
+  getCommands() {
+    return this.client.collections.commands.values();
+  }
+  // EVENTS
+  getEvents() {
+    return this.client.collections.events.values();
+  }
+  // INHIBITORS
+  getInhibitors() {
+    return this.client.collections.inhibitors.values();
+  }
+  // SELECT MENUS
   getSelectMenus() {
     return this.client.collections.selectMenus.values();
   }

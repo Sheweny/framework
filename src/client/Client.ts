@@ -12,6 +12,18 @@ import type { ShewenyClientOptions, Managers, ManagersCollections } from '../typ
  */
 export class ShewenyClient extends Client {
   /**
+   * The ID of the bot admins
+   * @type {Snowflake[]}
+   */
+  public admins: Snowflake[];
+
+  /**
+   * The collections of handlers
+   * @type {ManagersCollections}
+   */
+  public collections: ManagersCollections;
+
+  /**
    * If the client is ready
    * @type {boolean}
    */
@@ -23,34 +35,16 @@ export class ShewenyClient extends Client {
   public mode?: typeof CLIENT_MODE.prod | typeof CLIENT_MODE.dev;
 
   /**
-   * The ID of the bot admins
-   * @type {Snowflake[]}
-   */
-  public admins: Snowflake[];
-
-  /**
    * The manager of handlers
    * @type {Managers}
    */
-  public managers: Managers = {};
-
-  /**
-   * The collections of handlers
-   * @type {Managers}
-   */
-  public collections: ManagersCollections = {
-    commands: new Collection(),
-    events: new Collection(),
-    buttons: new Collection(),
-    selectMenus: new Collection(),
-    inhibitors: new Collection(),
-  };
+  public managers: Managers;
 
   /**
    * A util tool to resolve channel, user, get data etc
    * @type {ClientUtil}
    */
-  public util: ClientUtil = new ClientUtil(this);
+  public util: ClientUtil;
 
   /**
    * If the client joins a Thread when created
@@ -65,56 +59,70 @@ export class ShewenyClient extends Client {
    */
   constructor(options: ShewenyClientOptions, clientOptions?: ClientOptions) {
     super(options || clientOptions);
+    this.admins = options.admins || [];
+    this.collections = {
+      commands: new Collection(),
+      events: new Collection(),
+      buttons: new Collection(),
+      selectMenus: new Collection(),
+      inhibitors: new Collection(),
+    };
     this.connected = false;
-    this.mode = options.mode || CLIENT_MODE.dev;
+    this.joinThreadsOnCreate = options.joinThreadsOnCreate || false;
+    this.managers = {
+      // BUTTONS
+      buttons: options.managers?.buttons
+        ? new ButtonsManager(this, {
+            directory: options.managers.buttons.directory,
+            loadAll: options.managers.buttons.loadAll ?? true,
+          })
+        : undefined,
 
+      //COMMANDS
+      commands: options.managers?.commands
+        ? new CommandsManager(this, {
+            directory: options.managers.commands.directory,
+            loadAll: true,
+            guildId: options.managers.commands.guildId,
+            prefix: options.managers.commands.prefix,
+            applicationPermissions: options.managers.commands.applicationPermissions,
+            autoRegisterApplicationCommands: options.managers.commands.autoRegisterApplicationCommands ?? true,
+            default: options.managers.commands.default,
+          })
+        : undefined,
+
+      // EVENTS
+      events: options.managers?.events
+        ? new EventsManager(this, {
+            directory: options.managers.events.directory,
+            loadAll: options.managers.events.loadAll ?? true,
+            default: options.managers.events.default,
+          })
+        : undefined,
+
+      // INHIBITORS
+      inhibitors: options.managers?.inhibitors
+        ? new InhibitorsManager(this, {
+            directory: options.managers.inhibitors.directory,
+            loadAll: options.managers.inhibitors.loadAll ?? true,
+            default: options.managers.inhibitors.default,
+          })
+        : undefined,
+
+      //SELECT MENUS
+      selectMenus: options.managers?.selectMenus
+        ? new SelectMenusManager(this, {
+            directory: options.managers.selectMenus.directory,
+            loadAll: options.managers.selectMenus.loadAll ?? true,
+          })
+        : undefined,
+    };
+
+    this.mode = options.mode || CLIENT_MODE.dev;
+    this.util = new ClientUtil(this);
     if (options.mode === CLIENT_MODE.dev) new ShewenyWarning(this, 'START');
 
-    this.admins = options.admins || [];
-    this.joinThreadsOnCreate = options.joinThreadsOnCreate || false;
-
-    this.managers.commands = options.managers?.commands
-      ? new CommandsManager(this, {
-          directory: options.managers.commands.directory,
-          loadAll: true,
-          guildId: options.managers.commands.guildId,
-          prefix: options.managers.commands.prefix,
-          applicationPermissions: options.managers.commands.applicationPermissions,
-          autoRegisterApplicationCommands: options.managers.commands.autoRegisterApplicationCommands ?? true,
-          default: options.managers.commands.default,
-        })
-      : undefined;
-
-    this.managers.events = options.managers?.events
-      ? new EventsManager(this, {
-          directory: options.managers.events.directory,
-          loadAll: options.managers.events.loadAll ?? true,
-          default: options.managers.events.default,
-        })
-      : undefined;
-
-    this.managers.buttons = options.managers?.buttons
-      ? new ButtonsManager(this, {
-          directory: options.managers.buttons.directory,
-          loadAll: options.managers.buttons.loadAll ?? true,
-        })
-      : undefined;
-
-    this.managers.selectMenus = options.managers?.selectMenus
-      ? new SelectMenusManager(this, {
-          directory: options.managers.selectMenus.directory,
-          loadAll: options.managers.selectMenus.loadAll ?? true,
-        })
-      : undefined;
-
-    this.managers.inhibitors = options.managers?.inhibitors
-      ? new InhibitorsManager(this, {
-          directory: options.managers.inhibitors.directory,
-          loadAll: options.managers.inhibitors.loadAll ?? true,
-          default: options.managers.inhibitors.default,
-        })
-      : undefined;
-
+    // Load framework events
     (async () => {
       const dir = join(__dirname, '../events');
       const files = await readdir(dir);
