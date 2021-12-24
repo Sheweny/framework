@@ -35,7 +35,6 @@ export class EventsManager extends BaseManager {
       once: options.default?.once || false,
     };
     if (options?.loadAll) this.loadAndRegisterAll();
-    client.managers.events = this;
   }
 
   /**

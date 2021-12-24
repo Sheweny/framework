@@ -8,6 +8,16 @@ import type { ShewenyClientOptions, Managers, ManagersCollections } from '../typ
  */
 export declare class ShewenyClient extends Client {
     /**
+     * The ID of the bot admins
+     * @type {Snowflake[]}
+     */
+    admins: Snowflake[];
+    /**
+     * The collections of handlers
+     * @type {ManagersCollections}
+     */
+    collections: ManagersCollections;
+    /**
      * If the client is ready
      * @type {boolean}
      */
@@ -18,20 +28,10 @@ export declare class ShewenyClient extends Client {
      */
     mode?: typeof CLIENT_MODE.prod | typeof CLIENT_MODE.dev;
     /**
-     * The ID of the bot admins
-     * @type {Snowflake[]}
-     */
-    admins: Snowflake[];
-    /**
      * The manager of handlers
      * @type {Managers}
      */
     managers: Managers;
-    /**
-     * The collections of handlers
-     * @type {Managers}
-     */
-    collections: ManagersCollections;
     /**
      * A util tool to resolve channel, user, get data etc
      * @type {ClientUtil}

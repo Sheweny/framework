@@ -6,9 +6,9 @@ import type { ShewenyClient } from '..';
 export declare class ClientUtil extends DiscordResolve {
     client: ShewenyClient;
     constructor(client: ShewenyClient);
+    getButtons(): IterableIterator<import("..").Button>;
     getCommands(): IterableIterator<import("..").Command>;
     getEvents(): IterableIterator<import("..").Event>;
     getInhibitors(): IterableIterator<import("..").Inhibitor>;
-    getButtons(): IterableIterator<import("..").Button>;
     getSelectMenus(): IterableIterator<import("..").SelectMenu>;
 }

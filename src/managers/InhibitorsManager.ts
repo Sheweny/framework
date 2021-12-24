@@ -35,7 +35,6 @@ export class InhibitorsManager extends BaseManager {
       type: options.default?.type || [INHIBITOR_TYPE.message],
     };
     if (options?.loadAll) this.loadAll();
-    client.managers.inhibitors = this;
   }
 
   /**

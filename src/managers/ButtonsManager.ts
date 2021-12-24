@@ -24,7 +24,6 @@ export class ButtonsManager extends BaseManager {
     super(client, options);
 
     if (options?.loadAll) this.loadAll();
-    client.managers.buttons = this;
   }
 
   /**

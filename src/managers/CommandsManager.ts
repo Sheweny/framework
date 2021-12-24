@@ -82,7 +82,6 @@ export class CommandsManager extends BaseManager {
       userPermissions: options.default?.userPermissions || [],
     };
     if (options?.loadAll) this.loadAndRegisterAll();
-    client.managers.commands = this;
   }
   /**
    * Load all and Register Application commands

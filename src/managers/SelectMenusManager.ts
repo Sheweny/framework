@@ -25,7 +25,6 @@ export class SelectMenusManager extends BaseManager {
     super(client, options);
 
     if (options?.loadAll) this.loadAll();
-    client.managers.selectMenus = this;
   }
 
   /**
