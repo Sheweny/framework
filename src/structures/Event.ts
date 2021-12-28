@@ -58,17 +58,24 @@ export abstract class Event extends BaseStructure {
 
   before?(...args: any[]): any | Promise<any>;
 
+  /**
+   * Execute the events
+   * @param {any} args
+   */
   abstract execute(...args: any[]): any | Promise<any>;
 
   /**
-   * Unregister an event
+   * Register an event
    * @public
-   * @returns {boolean}
+   * @async
+   * @returns {Promise<Collection<string, Event>>} The events collection
    */
-  public unregister(): boolean {
-    this.client.collections.events?.delete(this.name);
-    delete require.cache[require.resolve(this.path!)];
-    return true;
+  public async register(): Promise<Collection<string, Event>> {
+    const event = (await import(this.path!)).default;
+    const evt: Event = new event(this.client);
+    return this.client.collections.events
+      ? this.client.collections.events.set(evt.name, evt)
+      : new Collection<string, Event>().set(evt.name, evt);
   }
 
   /**
@@ -86,16 +93,13 @@ export abstract class Event extends BaseStructure {
   }
 
   /**
-   * Register an event
+   * Unregister an event
    * @public
-   * @async
-   * @returns {Promise<Collection<string, Event>>} The events collection
+   * @returns {boolean}
    */
-  public async register(): Promise<Collection<string, Event>> {
-    const event = (await import(this.path!)).default;
-    const evt: Event = new event(this.client);
-    return this.client.collections.events
-      ? this.client.collections.events.set(evt.name, evt)
-      : new Collection<string, Event>().set(evt.name, evt);
+  public unregister(): boolean {
+    this.client.collections.events?.delete(this.name);
+    delete require.cache[require.resolve(this.path!)];
+    return true;
   }
 }

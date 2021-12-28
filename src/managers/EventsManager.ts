@@ -17,7 +17,7 @@ export class EventsManager extends BaseManager {
   public default: EventsManagerDefaultOptions;
   /**
    * Collection of the events
-   * @type {Collection<string, Event> | undefined}
+   * @type {Collection<string, Event> | null}
    */
   public events?: Collection<string, Event> | null;
 
@@ -53,6 +53,15 @@ export class EventsManager extends BaseManager {
   }
 
   /**
+   * Load all and Register events
+   * @returns {Promise<void>}
+   */
+  public async loadAndRegisterAll(): Promise<void> {
+    const events = await this.loadAll();
+    await this.registerAll(events);
+  }
+
+  /**
    * Emit all events in collection
    * @param {Collection<string, Event> | undefined} [events] Events collection that will be emit
    * @returns {Promise<void>}
@@ -65,15 +74,6 @@ export class EventsManager extends BaseManager {
       if (evt.once) evt.emitter.once(name, (...args: any[]) => evt.execute(...args));
       else evt.emitter.on(name, (...args: any[]) => evt.execute(...args));
     }
-  }
-
-  /**
-   * Load all and Register events
-   * @returns {Promise<void>}
-   */
-  public async loadAndRegisterAll(): Promise<void> {
-    const events = await this.loadAll();
-    await this.registerAll(events);
   }
 
   /**

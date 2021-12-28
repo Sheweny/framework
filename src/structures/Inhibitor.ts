@@ -56,13 +56,6 @@ export abstract class Inhibitor extends BaseStructure {
   }
 
   /**
-   * This function is executed when the main `execute` function has failed
-   * @param {any[]} args Arguments
-   * @returns {any | Promise<any>}
-   */
-  abstract onFailure(client: ShewenyClient, ctx: Interaction | Message): any | Promise<any>;
-
-  /**
    * Main function `execute` for the inhibitors
    * @param {any[]} args Button interaction
    * @returns {any | Promise<any>}
@@ -70,13 +63,22 @@ export abstract class Inhibitor extends BaseStructure {
   abstract execute(client: ShewenyClient, ctx: Interaction | Message): any | Promise<any>;
 
   /**
-   * Unregister a inhibitor from collections
-   * @returns {boolean}
+   * This function is executed when the main `execute` function has failed
+   * @param {any[]} args Arguments
+   * @returns {any | Promise<any>}
    */
-  public unregister(): boolean {
-    this.client.collections.inhibitors?.delete(this.name);
-    delete require.cache[require.resolve(this.path!)];
-    return true;
+  abstract onFailure(client: ShewenyClient, ctx: Interaction | Message): any | Promise<any>;
+
+  /**
+   * Register a inhibitor in collections
+   * @returns {Collection<string[], Inhibitor>} The inhibitors collection
+   */
+  public async register(): Promise<Collection<string, Inhibitor>> {
+    const Inhibitor = (await import(this.path!)).default;
+    const inhib: Inhibitor = new Inhibitor(this.client);
+    return this.client.collections.inhibitors
+      ? this.client.collections.inhibitors.set(inhib.name, inhib)
+      : new Collection<string, Inhibitor>().set(inhib.name, inhib);
   }
 
   /**
@@ -90,16 +92,13 @@ export abstract class Inhibitor extends BaseStructure {
     }
     return null;
   }
-
   /**
-   * Register a inhibitor in collections
-   * @returns {Collection<string[], Inhibitor>} The inhibitors collection
+   * Unregister a inhibitor from collections
+   * @returns {boolean}
    */
-  public async register(): Promise<Collection<string, Inhibitor>> {
-    const Inhibitor = (await import(this.path!)).default;
-    const inhib: Inhibitor = new Inhibitor(this.client);
-    return this.client.collections.inhibitors
-      ? this.client.collections.inhibitors.set(inhib.name, inhib)
-      : new Collection<string, Inhibitor>().set(inhib.name, inhib);
+  public unregister(): boolean {
+    this.client.collections.inhibitors?.delete(this.name);
+    delete require.cache[require.resolve(this.path!)];
+    return true;
   }
 }

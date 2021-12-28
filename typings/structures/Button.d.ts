@@ -37,18 +37,18 @@ export declare abstract class Button extends BaseStructure {
      */
     abstract execute(interaction: ButtonInteraction): any | Promise<any>;
     /**
-     * Unregister a button from collections
-     * @returns {boolean}
+     * Register a button in collections
+     * @returns {Collection<string[] | RegExp[], Button>}
      */
-    unregister(): boolean;
+    register(): Promise<Collection<string[] | RegExp[], Button>>;
     /**
      * Reload a button
      * @returns {Promise<Collection<string[] | RegExp[], Button> | null>}
      */
     reload(): Promise<Collection<string[] | RegExp[], Button> | null>;
     /**
-     * Register a button in collections
-     * @returns {Collection<string[] | RegExp[], Button>}
+     * Unregister a button from collections
+     * @returns {boolean}
      */
-    register(): Promise<Collection<string[] | RegExp[], Button>>;
+    unregister(): boolean;
 }

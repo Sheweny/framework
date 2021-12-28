@@ -28,8 +28,8 @@ export abstract class Button extends BaseStructure {
    */
   constructor(client: ShewenyClient, customId: string[] | RegExp[]) {
     super(client);
-    this.customId = customId;
 
+    this.customId = customId;
     this.manager = this.client.managers.buttons;
   }
 
@@ -48,13 +48,15 @@ export abstract class Button extends BaseStructure {
   abstract execute(interaction: ButtonInteraction): any | Promise<any>;
 
   /**
-   * Unregister a button from collections
-   * @returns {boolean}
+   * Register a button in collections
+   * @returns {Collection<string[] | RegExp[], Button>}
    */
-  public unregister(): boolean {
-    this.client.collections.buttons?.delete(this.customId);
-    delete require.cache[require.resolve(this.path!)];
-    return true;
+  public async register(): Promise<Collection<string[] | RegExp[], Button>> {
+    const Button = (await import(this.path!)).default;
+    const btn = new Button(this.client);
+    return this.client.collections.buttons
+      ? this.client.collections.buttons.set(btn.customId, btn)
+      : new Collection<string[] | RegExp[], Button>().set(btn.customId, btn);
   }
 
   /**
@@ -70,14 +72,12 @@ export abstract class Button extends BaseStructure {
   }
 
   /**
-   * Register a button in collections
-   * @returns {Collection<string[] | RegExp[], Button>}
+   * Unregister a button from collections
+   * @returns {boolean}
    */
-  public async register(): Promise<Collection<string[] | RegExp[], Button>> {
-    const Button = (await import(this.path!)).default;
-    const btn = new Button(this.client);
-    return this.client.collections.buttons
-      ? this.client.collections.buttons.set(btn.customId, btn)
-      : new Collection<string[] | RegExp[], Button>().set(btn.customId, btn);
+  public unregister(): boolean {
+    this.client.collections.buttons?.delete(this.customId);
+    delete require.cache[require.resolve(this.path!)];
+    return true;
   }
 }

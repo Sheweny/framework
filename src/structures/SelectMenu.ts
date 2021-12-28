@@ -28,8 +28,8 @@ export abstract class SelectMenu extends BaseStructure {
    */
   constructor(client: ShewenyClient, customId: string[] | RegExp[]) {
     super(client);
-    this.customId = customId;
 
+    this.customId = customId;
     this.manager = this.client.managers.selectMenus;
   }
 
@@ -48,13 +48,15 @@ export abstract class SelectMenu extends BaseStructure {
   abstract execute(interaction: SelectMenuInteraction): any | Promise<any>;
 
   /**
-   * Unregister a select menu from collections
-   * @returns {boolean}
+   * Register a select menu in collections
+   * @returns {Collection<string[]| RegExp[], SelectMenu>} The select menus collection
    */
-  public unregister(): boolean {
-    this.client.collections.selectMenus?.delete(this.customId);
-    delete require.cache[require.resolve(this.path!)];
-    return true;
+  public async register(): Promise<Collection<string[] | RegExp[], SelectMenu>> {
+    const SelectMenu = (await import(this.path!)).default;
+    const sm: SelectMenu = new SelectMenu(this.client);
+    return this.client.collections.selectMenus
+      ? this.client.collections.selectMenus.set(sm.customId, sm)
+      : new Collection<string[] | RegExp[], SelectMenu>().set(sm.customId, sm);
   }
 
   /**
@@ -70,14 +72,12 @@ export abstract class SelectMenu extends BaseStructure {
   }
 
   /**
-   * Register a select menu in collections
-   * @returns {Collection<string[]| RegExp[], SelectMenu>} The select menus collection
+   * Unregister a select menu from collections
+   * @returns {boolean}
    */
-  public async register(): Promise<Collection<string[] | RegExp[], SelectMenu>> {
-    const SelectMenu = (await import(this.path!)).default;
-    const sm: SelectMenu = new SelectMenu(this.client);
-    return this.client.collections.selectMenus
-      ? this.client.collections.selectMenus.set(sm.customId, sm)
-      : new Collection<string[] | RegExp[], SelectMenu>().set(sm.customId, sm);
+  public unregister(): boolean {
+    this.client.collections.selectMenus?.delete(this.customId);
+    delete require.cache[require.resolve(this.path!)];
+    return true;
   }
 }

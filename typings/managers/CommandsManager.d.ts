@@ -46,49 +46,6 @@ export declare class CommandsManager extends BaseManager {
      */
     constructor(client: ShewenyClient, options: CommandsManagerOptions);
     /**
-     * Load all and Register Application commands
-     * @returns {Promise<void>}
-     */
-    loadAndRegisterAll(): Promise<void>;
-    /**
-     * Load all commands in collection
-     * @returns {Promise<Collection<string, Command>>}
-     */
-    loadAll(): Promise<Collection<string, Command> | undefined>;
-    /**
-     * Unload all commands
-     * @returns {void}
-     */
-    unloadAll(): void;
-    /**
-     * Set all application commands from the collection of commands in the client application
-     * @param {Collection<string, Command> | undefined} [commands] Collection of the commands
-     * @returns {Promise<Collection<Snowflake, ApplicationCommand<{}>> | Collection<Snowflake, ApplicationCommand<{ guild: GuildResolvable }>> | undefined>}
-     */
-    registerApplicationCommands(commands?: Collection<string, Command> | undefined | null, guildId?: Snowflake | Snowflake[] | undefined): Promise<Collection<Snowflake, ApplicationCommand<{}>> | Collection<Snowflake, ApplicationCommand<{
-        guild: GuildResolvable;
-    }>> | boolean | undefined>;
-    /**
-     * Rename command type to the type of Application command
-     * @param {"SLASH_COMMAND" | "CONTEXT_MENU_USER" | "CONTEXT_MENU_MESSAGE"} type Type of command
-     * @returns {ApplicationCommandType | undefined}
-     */
-    private renameCommandType;
-    /**
-     * Get data of Application Command
-     * @param {Collection<string, Command> | Command | undefined} [commands] The command(s) to obtain their data
-     * @returns {ApplicationCommandData[] | ApplicationCommandData | undefined}
-     */
-    getApplicationCommandData(commands?: Collection<string, Command> | Command | undefined | null): ApplicationCommandData[] | ApplicationCommandData | null;
-    /**
-     * Set permissions for each commands in guild
-     * @param {Collection<string, ApplicationCommand<{}>> | undefined} [applicationCommands] Commands coming from the client's application
-     * @param {Collection<string, Command> | undefined} [commandsCollection] Commands coming from the collection of the commands
-     * @param {Snowflake | undefined} [guildId] Guild ID where permissions will be set
-     * @returns {Promise<void>}
-     */
-    registerPermissions(applicationCommands: Collection<string, ApplicationCommand<{}>> | undefined, commandsCollection: Collection<string, Command> | undefined | null, guildId: Snowflake | undefined): Promise<void | boolean>;
-    /**
      * Create a command in the client's application commands
      * @param {Command} command Command to create
      * @param {Snowflake | undefined} [guildId] Guild ID where the order will be created
@@ -97,6 +54,23 @@ export declare class CommandsManager extends BaseManager {
     createCommand(command: Command, guildId?: Snowflake): Promise<ApplicationCommand<{}> | ApplicationCommand<{
         guild: GuildResolvable;
     }> | undefined>;
+    /**
+     * Delete all commands from the client's application commands
+     * @param {Snowflake | undefined} [guildId] Guild ID where all commands will be deleted
+     * @returns {Promise<Collection<string, ApplicationCommand<{}>> | Collection<string, ApplicationCommand<{ guild: GuildResolvable }>> | undefined>}
+     */
+    deleteAllCommands(guildId?: Snowflake): Promise<Collection<string, ApplicationCommand<{}>> | Collection<string, ApplicationCommand<{
+        guild: GuildResolvable;
+    }>> | undefined>;
+    /**
+     * Removes an command from the client's application commands
+     * @param {ApplicationCommandResolvable} command Command deleted
+     * @param {Snowflake | undefined} [guildId] Guild ID where the command will be deleted
+     * @returns {Promise<ApplicationCommand<{ guild: GuildResolvable }> | null | undefined>}
+     */
+    deleteCommand(command: ApplicationCommandResolvable, guildId?: Snowflake): Promise<ApplicationCommand<{
+        guild: GuildResolvable;
+    }> | null | undefined>;
     /**
      * Edit an command with a new command in the client's application commands
      * @param {ApplicationCommandResolvable} oldCommand Command edited
@@ -108,20 +82,46 @@ export declare class CommandsManager extends BaseManager {
         guild: GuildResolvable;
     }> | undefined>;
     /**
-     * Removes an command from the client's application commands
-     * @param {ApplicationCommandResolvable} command Command deleted
-     * @param {Snowflake | undefined} [guildId] Guild ID where the command will be deleted
-     * @returns {Promise<ApplicationCommand<{ guild: GuildResolvable }> | null | undefined>}
+     * Get data of Application Command
+     * @param {Collection<string, Command> | Command | undefined} [commands] The command(s) to obtain their data
+     * @returns {ApplicationCommandData[] | ApplicationCommandData | undefined}
      */
-    deleteCommand(command: ApplicationCommandResolvable, guildId?: Snowflake): Promise<ApplicationCommand<{
-        guild: GuildResolvable;
-    }> | null | undefined>;
+    getApplicationCommandData(commands?: Collection<string, Command> | Command | undefined | null): ApplicationCommandData[] | ApplicationCommandData | null;
     /**
-     * Delete all commands from the client's application commands
-     * @param {Snowflake | undefined} [guildId] Guild ID where all commands will be deleted
-     * @returns {Promise<Collection<string, ApplicationCommand<{}>> | Collection<string, ApplicationCommand<{ guild: GuildResolvable }>> | undefined>}
+     * Load all commands in collection
+     * @returns {Promise<Collection<string, Command>>}
      */
-    deleteAllCommands(guildId?: Snowflake): Promise<Collection<string, ApplicationCommand<{}>> | Collection<string, ApplicationCommand<{
+    loadAll(): Promise<Collection<string, Command> | undefined>;
+    /**
+     * Load all and Register Application commands
+     * @returns {Promise<void>}
+     */
+    loadAndRegisterAll(): Promise<void>;
+    /**
+     * Set all application commands from the collection of commands in the client application
+     * @param {Collection<string, Command> | undefined} [commands] Collection of the commands
+     * @returns {Promise<Collection<Snowflake, ApplicationCommand<{}>> | Collection<Snowflake, ApplicationCommand<{ guild: GuildResolvable }>> | undefined>}
+     */
+    registerApplicationCommands(commands?: Collection<string, Command> | undefined | null, guildId?: Snowflake | Snowflake[] | undefined): Promise<Collection<Snowflake, ApplicationCommand<{}>> | Collection<Snowflake, ApplicationCommand<{
         guild: GuildResolvable;
-    }>> | undefined>;
+    }>> | boolean | undefined>;
+    /**
+     * Set permissions for each commands in guild
+     * @param {Collection<string, ApplicationCommand<{}>> | undefined} [applicationCommands] Commands coming from the client's application
+     * @param {Collection<string, Command> | undefined} [commandsCollection] Commands coming from the collection of the commands
+     * @param {Snowflake | undefined} [guildId] Guild ID where permissions will be set
+     * @returns {Promise<void>}
+     */
+    registerPermissions(applicationCommands: Collection<string, ApplicationCommand<{}>> | undefined, commandsCollection: Collection<string, Command> | undefined | null, guildId: Snowflake | undefined): Promise<void | boolean>;
+    /**
+     * Rename command type to the type of Application command
+     * @param {"SLASH_COMMAND" | "CONTEXT_MENU_USER" | "CONTEXT_MENU_MESSAGE"} type Type of command
+     * @returns {ApplicationCommandType | undefined}
+     */
+    private renameCommandType;
+    /**
+     * Unload all commands
+     * @returns {void}
+     */
+    unloadAll(): void;
 }

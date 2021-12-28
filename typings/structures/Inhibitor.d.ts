@@ -41,31 +41,31 @@ export declare abstract class Inhibitor extends BaseStructure {
      */
     constructor(client: ShewenyClient, name: string, options?: InhibitorOptions);
     /**
-     * This function is executed when the main `execute` function has failed
-     * @param {any[]} args Arguments
-     * @returns {any | Promise<any>}
-     */
-    abstract onFailure(client: ShewenyClient, ctx: Interaction | Message): any | Promise<any>;
-    /**
      * Main function `execute` for the inhibitors
      * @param {any[]} args Button interaction
      * @returns {any | Promise<any>}
      */
     abstract execute(client: ShewenyClient, ctx: Interaction | Message): any | Promise<any>;
     /**
-     * Unregister a inhibitor from collections
-     * @returns {boolean}
+     * This function is executed when the main `execute` function has failed
+     * @param {any[]} args Arguments
+     * @returns {any | Promise<any>}
      */
-    unregister(): boolean;
+    abstract onFailure(client: ShewenyClient, ctx: Interaction | Message): any | Promise<any>;
+    /**
+     * Register a inhibitor in collections
+     * @returns {Collection<string[], Inhibitor>} The inhibitors collection
+     */
+    register(): Promise<Collection<string, Inhibitor>>;
     /**
      * Reload a inhibitor
      * @returns {Promise<Collection<string[], Inhibitor> | null>} The inhibitors collection
      */
     reload(): Promise<Collection<string, Inhibitor> | null>;
     /**
-     * Register a inhibitor in collections
-     * @returns {Collection<string[], Inhibitor>} The inhibitors collection
+     * Unregister a inhibitor from collections
+     * @returns {boolean}
      */
-    register(): Promise<Collection<string, Inhibitor>>;
+    unregister(): boolean;
 }
 export {};

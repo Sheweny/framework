@@ -43,13 +43,18 @@ export declare abstract class Event extends BaseStructure {
      */
     constructor(client: ShewenyClient, name: string, options?: EventOptions);
     before?(...args: any[]): any | Promise<any>;
+    /**
+     * Execute the events
+     * @param {any} args
+     */
     abstract execute(...args: any[]): any | Promise<any>;
     /**
-     * Unregister an event
+     * Register an event
      * @public
-     * @returns {boolean}
+     * @async
+     * @returns {Promise<Collection<string, Event>>} The events collection
      */
-    unregister(): boolean;
+    register(): Promise<Collection<string, Event>>;
     /**
      * Reload an event
      * @public
@@ -58,10 +63,9 @@ export declare abstract class Event extends BaseStructure {
      */
     reload(): Promise<Collection<string, Event> | null>;
     /**
-     * Register an event
+     * Unregister an event
      * @public
-     * @async
-     * @returns {Promise<Collection<string, Event>>} The events collection
+     * @returns {boolean}
      */
-    register(): Promise<Collection<string, Event>>;
+    unregister(): boolean;
 }
