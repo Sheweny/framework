@@ -22,6 +22,7 @@ export const COMMAND_TYPE = {
 
 export const COMMAND_CHANNEL = {
   dm: 'DM' as 'DM',
+  global: 'GLOBAL' as 'GLOBAL',
   guild: 'GUILD' as 'GUILD',
 };
 export const COMMAND_MESSAGE_ARGS_TYPE = {

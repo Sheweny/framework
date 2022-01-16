@@ -27,7 +27,7 @@ export interface CommandsManagerOptions extends BaseManagerOptions {
 export interface CommandsManagerDefaultOptions {
   adminOnly?: boolean;
   category?: string;
-  channel?: typeof COMMAND_CHANNEL.dm | typeof COMMAND_CHANNEL.guild;
+  channel?: typeof COMMAND_CHANNEL.dm | typeof COMMAND_CHANNEL.global | typeof COMMAND_CHANNEL.guild;
   clientPermissions?: PermissionString[];
   cooldown?: number;
   description?: string;

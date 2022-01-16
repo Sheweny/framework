@@ -54,7 +54,7 @@ export abstract class Command extends BaseStructure {
    * Only channel where a command can be executed
    * @type {"GUILD" | "DM" | undefined}
    */
-  public channel?: typeof COMMAND_CHANNEL.guild | typeof COMMAND_CHANNEL.dm;
+  public channel?: typeof COMMAND_CHANNEL.dm | typeof COMMAND_CHANNEL.global | typeof COMMAND_CHANNEL.guild;
 
   /**
    * The permissions required for the client

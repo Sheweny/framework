@@ -66,7 +66,7 @@ export default async function run(client: ShewenyClient, message: Message) {
       }
     } else {
       /* ---------------IN-DM--------------- */
-      if (command.channel === 'GUILD') return;
+      if (command.channel === COMMAND_CHANNEL.guild) return;
     }
     /* ---------------COOLDOWNS--------------- */
     if (!client.admins?.includes(message.author.id)) {
