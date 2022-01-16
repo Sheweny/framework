@@ -12,22 +12,22 @@ export class ClientUtil extends DiscordResolve {
   }
   // BUTTONS
   getButtons() {
-    return this.client.collections.buttons.values();
+    return Array.from(this.client.collections.buttons.values());
   }
   // COMMANDS
   getCommands() {
-    return this.client.collections.commands.values();
+    return Array.from(this.client.collections.commands.values());
   }
   // EVENTS
   getEvents() {
-    return this.client.collections.events.values();
+    return Array.from(this.client.collections.events.values());
   }
   // INHIBITORS
   getInhibitors() {
-    return this.client.collections.inhibitors.values();
+    return Array.from(this.client.collections.inhibitors.values());
   }
   // SELECT MENUS
   getSelectMenus() {
-    return this.client.collections.selectMenus.values();
+    return Array.from(this.client.collections.selectMenus.values());
   }
 }
