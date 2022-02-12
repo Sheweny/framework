@@ -63,8 +63,8 @@ export class EventsManager extends BaseManager {
 
     for (const [name, evt] of events) {
       if (!(evt.emitter instanceof EventEmitter)) throw new TypeError(`Event ${name} does not have a valid emitter.`);
-      if (evt.once) evt.emitter.once(name, (...args: any[]) => evt.execute(...args));
-      else evt.emitter.on(name, (...args: any[]) => evt.execute(...args));
+      if (evt.once) evt.emitter.once(name, async (...args: any[]) => await evt.execute(...args));
+      else evt.emitter.on(name, async (...args: any[]) => await evt.execute(...args));
     }
   }
 
