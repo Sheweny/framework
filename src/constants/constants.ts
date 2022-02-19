@@ -15,9 +15,9 @@ export const CLIENT_UTIL = {
  */
 export const COMMAND_TYPE = {
   cmdMsg: 'MESSAGE_COMMAND' as 'MESSAGE_COMMAND',
-  cmdSlash: 'SLASH_COMMAND' as 'SLASH_COMMAND',
-  ctxMsg: 'CONTEXT_MENU_MESSAGE' as 'CONTEXT_MENU_MESSAGE',
-  ctxUser: 'CONTEXT_MENU_USER' as 'CONTEXT_MENU_USER',
+  cmdSlash: (('SLASH_COMMAND' || 'CHAT_INPUT') as 'SLASH_COMMAND') || 'CHAT_INPUT',
+  ctxMsg: (('CONTEXT_MENU_MESSAGE' || 'MESSAGE') as 'CONTEXT_MENU_MESSAGE') || 'MESSAGE',
+  ctxUser: (('CONTEXT_MENU_USER' || 'USER') as 'CONTEXT_MENU_USER') || 'USER',
 };
 
 export const COMMAND_CHANNEL = {

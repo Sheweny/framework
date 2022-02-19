@@ -22,9 +22,10 @@ export interface CommandsManagerOptions extends BaseManagerOptions {
 export interface CommandsManagerDefaultOptions {
     adminOnly?: boolean;
     category?: string;
-    channel?: typeof COMMAND_CHANNEL.dm | typeof COMMAND_CHANNEL.guild;
+    channel?: typeof COMMAND_CHANNEL.dm | typeof COMMAND_CHANNEL.global | typeof COMMAND_CHANNEL.guild;
     clientPermissions?: PermissionString[];
     cooldown?: number;
+    description?: string;
     examples?: string | string[];
     type?: typeof COMMAND_TYPE.cmdSlash | typeof COMMAND_TYPE.cmdMsg | typeof COMMAND_TYPE.ctxMsg | typeof COMMAND_TYPE.ctxUser;
     usage?: string | string[];

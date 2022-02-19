@@ -6,6 +6,7 @@ export class PingCommand extends Command {
     super(client, {
       name: 'ping',
       description: 'Ping !',
+      type: 'CHAT_INPUT',
     });
   }
   execute(interaction: CommandInteraction) {

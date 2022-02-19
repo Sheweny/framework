@@ -14,12 +14,13 @@ export declare const CLIENT_UTIL: {
  */
 export declare const COMMAND_TYPE: {
     cmdMsg: "MESSAGE_COMMAND";
-    cmdSlash: "SLASH_COMMAND";
-    ctxMsg: "CONTEXT_MENU_MESSAGE";
-    ctxUser: "CONTEXT_MENU_USER";
+    cmdSlash: string;
+    ctxMsg: string;
+    ctxUser: string;
 };
 export declare const COMMAND_CHANNEL: {
     dm: "DM";
+    global: "GLOBAL";
     guild: "GUILD";
 };
 export declare const COMMAND_MESSAGE_ARGS_TYPE: {
