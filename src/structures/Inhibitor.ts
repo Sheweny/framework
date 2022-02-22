@@ -15,45 +15,45 @@ interface InhibitorOptions {
  * @extends {BaseStructure}
  */
 export abstract class Inhibitor extends BaseStructure {
-  /**
+	/**
    * The
    * @type {InhibitorsManager}
    */
-  public manager?: InhibitorsManager;
+	public manager?: InhibitorsManager;
 
-  /**
+	/**
    * Name of a inhibitor
    * @type {string}
    */
-  public name: string;
+	public name: string;
 
-  /**
+	/**
    * Priority of a inhibitor
    * @type {number}
    */
-  public priority: number;
+	public priority: number;
 
-  /**
+	/**
    * Type(s) of a inhibitor
    * @type {InhibitorType[]}
    */
-  public type: InhibitorType[];
+	public type: InhibitorType[];
 
-  /**
+	/**
    * Constructor for build a Inhibitor
    * @param {ShewenyClient} client Client framework
    * @param {string} name Name of the event
    * @param {InhibitorOptions} [options] Options for the inhibitor
    */
-  constructor(client: ShewenyClient, name: string, options?: InhibitorOptions) {
-    super(client);
-    const defaultData = client.managers.inhibitors?.default!;
+	constructor(client: ShewenyClient, name: string, options?: InhibitorOptions) {
+		super(client);
+		const defaultData = client.managers.inhibitors?.default!;
 
-    this.manager = this.client.managers.inhibitors;
-    this.name = name;
-    this.priority = options?.priority || defaultData.priority!;
-    this.type = options?.type || defaultData.type!;
-  }
+		this.manager = this.client.managers.inhibitors;
+		this.name = name;
+		this.priority = options?.priority || defaultData.priority!;
+		this.type = options?.type || defaultData.type!;
+	}
 
   /**
    * Main function `execute` for the inhibitors
@@ -74,11 +74,11 @@ export abstract class Inhibitor extends BaseStructure {
    * @returns {Collection<string[], Inhibitor>} The inhibitors collection
    */
   public async register(): Promise<Collection<string, Inhibitor>> {
-    const Inhibitor = (await import(this.path!)).default;
-    const inhib: Inhibitor = new Inhibitor(this.client);
-    return this.client.collections.inhibitors
-      ? this.client.collections.inhibitors.set(inhib.name, inhib)
-      : new Collection<string, Inhibitor>().set(inhib.name, inhib);
+  	const Inhibitor = (await import(this.path!)).default;
+  	const inhib: Inhibitor = new Inhibitor(this.client);
+  	return this.client.collections.inhibitors
+  		? this.client.collections.inhibitors.set(inhib.name, inhib)
+  		: new Collection<string, Inhibitor>().set(inhib.name, inhib);
   }
 
   /**
@@ -86,19 +86,19 @@ export abstract class Inhibitor extends BaseStructure {
    * @returns {Promise<Collection<string[], Inhibitor> | null>} The inhibitors collection
    */
   public async reload(): Promise<Collection<string, Inhibitor> | null> {
-    if (this.path) {
-      this.unregister();
-      return this.register();
-    }
-    return null;
+  	if (this.path) {
+  		this.unregister();
+  		return this.register();
+  	}
+  	return null;
   }
   /**
    * Unregister a inhibitor from collections
    * @returns {boolean}
    */
   public unregister(): boolean {
-    this.client.collections.inhibitors?.delete(this.name);
-    delete require.cache[require.resolve(this.path!)];
-    return true;
+  	this.client.collections.inhibitors?.delete(this.name);
+  	delete require.cache[require.resolve(this.path!)];
+  	return true;
   }
 }

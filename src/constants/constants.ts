@@ -2,53 +2,53 @@
  * Client constants
  */
 export const CLIENT_MODE = {
-  dev: 'development' as 'development',
-  prod: 'production' as 'production',
+	dev: 'development' as const,
+	prod: 'production' as const,
 };
 
 /**
  * Command constants
  */
 export const COMMAND_TYPE = {
-  cmdMsg: 'MESSAGE_COMMAND' as 'MESSAGE_COMMAND',
-  cmdSlash: (('SLASH_COMMAND' || 'CHAT_INPUT') as 'SLASH_COMMAND') || 'CHAT_INPUT',
-  ctxMsg: (('CONTEXT_MENU_MESSAGE' || 'MESSAGE') as 'CONTEXT_MENU_MESSAGE') || 'MESSAGE',
-  ctxUser: (('CONTEXT_MENU_USER' || 'USER') as 'CONTEXT_MENU_USER') || 'USER',
+	cmdMsg: 'MESSAGE_COMMAND' as const,
+	cmdSlash: (('SLASH_COMMAND' || 'CHAT_INPUT') as 'SLASH_COMMAND') || 'CHAT_INPUT',
+	ctxMsg: (('CONTEXT_MENU_MESSAGE' || 'MESSAGE') as 'CONTEXT_MENU_MESSAGE') || 'MESSAGE',
+	ctxUser: (('CONTEXT_MENU_USER' || 'USER') as 'CONTEXT_MENU_USER') || 'USER',
 };
 
 export const COMMAND_CHANNEL = {
-  dm: 'DM' as 'DM',
-  global: 'GLOBAL' as 'GLOBAL',
-  guild: 'GUILD' as 'GUILD',
+	dm: 'DM' as const,
+	global: 'GLOBAL' as const,
+	guild: 'GUILD' as const,
 };
 export const COMMAND_MESSAGE_ARGS_TYPE = {
-  string: 'STRING' as 'STRING',
-  number: 'NUMBER' as 'NUMBER',
-  boolean: 'BOOLEAN' as 'BOOLEAN',
-  rest: 'REST' as 'REST',
-  guild: 'GUILD' as 'GUILD',
-  channel: 'CHANNEL' as 'CHANNEL',
-  member: 'MEMBER' as 'MEMBER',
-  guild_emoji: 'GUILD_EMOJI' as 'GUILD_EMOJI',
-  role: 'ROLE' as 'ROLE',
-  user: 'USER' as 'USER',
+	string: 'STRING' as const,
+	number: 'NUMBER' as const,
+	boolean: 'BOOLEAN' as const,
+	rest: 'REST' as const,
+	guild: 'GUILD' as const,
+	channel: 'CHANNEL' as const,
+	member: 'MEMBER' as const,
+	guild_emoji: 'GUILD_EMOJI' as const,
+	role: 'ROLE' as const,
+	user: 'USER' as const,
 };
 export const COMMAND_PERMISSIONS = {
-  admin: 'BOT_ADMIN' as 'BOT_ADMIN',
+	admin: 'BOT_ADMIN' as const,
 };
 export const COMMAND_EVENTS = {
-  userMissingPerm: 'userMissingPermissions' as 'userMissingPermissions',
-  clientMissingPerm: 'clientMissingPermissions' as 'clientMissingPermissions',
-  cooldownLimit: 'cooldownLimit' as 'cooldownLimit',
+	userMissingPerm: 'userMissingPermissions' as const,
+	clientMissingPerm: 'clientMissingPermissions' as const,
+	cooldownLimit: 'cooldownLimit' as const,
 };
 
 /**
  * Inhibitor constants
  */
 export const INHIBITOR_TYPE = {
-  message: 'MESSAGE_COMMAND' as 'MESSAGE_COMMAND',
-  appCommand: 'APPLICATION_COMMAND' as 'APPLICATION_COMMAND',
-  button: 'BUTTON' as 'BUTTON',
-  select: 'SELECT_MENU' as 'SELECT_MENU',
-  all: 'ALL' as 'ALL',
+	message: 'MESSAGE_COMMAND' as const,
+	appCommand: 'APPLICATION_COMMAND' as const,
+	button: 'BUTTON' as const,
+	select: 'SELECT_MENU' as const,
+	all: 'ALL' as const,
 };

@@ -9,36 +9,36 @@ import type { ShewenyClient } from '../client/Client';
  * @extends {BaseStructure}
  */
 export abstract class Button extends BaseStructure {
-  /**
+	/**
    * Custom id for one or more buttons
    * @type {string[] | RegExp[]}
    */
-  public customId: string[] | RegExp[];
+	public customId: string[] | RegExp[];
 
-  /**
+	/**
    * The
    * @type {ButtonsManager}
    */
-  public manager?: ButtonsManager;
+	public manager?: ButtonsManager;
 
-  /**
+	/**
    * Constructor for build a Button
    * @param {ShewenyClient} client Client framework
    * @param {string[] | RegExp[]} customId Custom id for one or more buttons
    */
-  constructor(client: ShewenyClient, customId: string[] | RegExp[]) {
-    super(client);
+	constructor(client: ShewenyClient, customId: string[] | RegExp[]) {
+		super(client);
 
-    this.customId = customId;
-    this.manager = this.client.managers.buttons;
-  }
+		this.customId = customId;
+		this.manager = this.client.managers.buttons;
+	}
 
-  /**
+	/**
    * This function is executed before executing the `execute` function
    * @param {ButtonInteraction} interaction Button interaction
    * @returns {any | Promise<any>}
    */
-  before?(interaction: ButtonInteraction): any | Promise<any>;
+	before?(interaction: ButtonInteraction): any | Promise<any>;
 
   /**
    * Main function `execute` for the buttons
@@ -52,11 +52,11 @@ export abstract class Button extends BaseStructure {
    * @returns {Collection<string[] | RegExp[], Button>}
    */
   public async register(): Promise<Collection<string[] | RegExp[], Button>> {
-    const Button = (await import(this.path!)).default;
-    const btn = new Button(this.client);
-    return this.client.collections.buttons
-      ? this.client.collections.buttons.set(btn.customId, btn)
-      : new Collection<string[] | RegExp[], Button>().set(btn.customId, btn);
+  	const Button = (await import(this.path!)).default;
+  	const btn = new Button(this.client);
+  	return this.client.collections.buttons
+  		? this.client.collections.buttons.set(btn.customId, btn)
+  		: new Collection<string[] | RegExp[], Button>().set(btn.customId, btn);
   }
 
   /**
@@ -64,11 +64,11 @@ export abstract class Button extends BaseStructure {
    * @returns {Promise<Collection<string[] | RegExp[], Button> | null>}
    */
   public async reload(): Promise<Collection<string[] | RegExp[], Button> | null> {
-    if (this.path) {
-      this.unregister();
-      return this.register();
-    }
-    return null;
+  	if (this.path) {
+  		this.unregister();
+  		return this.register();
+  	}
+  	return null;
   }
 
   /**
@@ -76,8 +76,8 @@ export abstract class Button extends BaseStructure {
    * @returns {boolean}
    */
   public unregister(): boolean {
-    this.client.collections.buttons?.delete(this.customId);
-    delete require.cache[require.resolve(this.path!)];
-    return true;
+  	this.client.collections.buttons?.delete(this.customId);
+  	delete require.cache[require.resolve(this.path!)];
+  	return true;
   }
 }

@@ -4,11 +4,11 @@ import type { ClientOptions, Snowflake } from 'discord.js';
 import type { ButtonsManager, CommandsManager, EventsManager, InhibitorsManager, SelectMenusManager } from '../managers';
 import type { Button, Command, Event, Inhibitor, SelectMenu } from '../structures';
 import type {
-  CLIENT_MODE,
-  COMMAND_CHANNEL,
-  COMMAND_MESSAGE_ARGS_TYPE,
-  COMMAND_TYPE,
-  INHIBITOR_TYPE,
+	CLIENT_MODE,
+	COMMAND_CHANNEL,
+	COMMAND_MESSAGE_ARGS_TYPE,
+	COMMAND_TYPE,
+	INHIBITOR_TYPE,
 } from '../constants/constants';
 /**
  * Interfaces of managers
@@ -60,7 +60,7 @@ export interface InhibitorsManagerDefaultOptions {
  * Intrefaces of Commands
  */
 
-//Data option for `SLASH_COMMAND` type
+// Data option for `SLASH_COMMAND` type
 export interface SlashCommandData {
   name: string;
   type?: typeof COMMAND_TYPE.cmdSlash;
@@ -188,7 +188,7 @@ export interface ManagersCollections {
   inhibitors: Collection<string, Inhibitor>;
 }
 
-//Client options for managers
+// Client options for managers
 interface ManagersOptions {
   commands?: CommandsManagerOptions;
   events?: EventsManagerOptions;
@@ -205,4 +205,4 @@ export interface LoadFilesOptions {
   key: string;
 }
 
-//#endregion Interfaces
+// #endregion Interfaces

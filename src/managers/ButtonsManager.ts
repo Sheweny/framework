@@ -8,47 +8,47 @@ import type { BaseManagerOptions } from '../typescript/interfaces';
  * Manager for Buttons
  */
 export class ButtonsManager extends BaseManager {
-  /**
+	/**
    * Collection of the buttons
    * @type {Collection<string[], Button> | undefined}
    */
-  public buttons?: Collection<string[], Button> | null;
+	public buttons?: Collection<string[], Button> | null;
 
-  /**
+	/**
    * Constructor to manage buttons
    * @param {ShewenyClient} client Client framework
    * @param {string} directory Directory of the buttons folder
    * @param {boolean} [loadAll] If the buttons are loaded during bot launch
    */
-  constructor(client: ShewenyClient, options: BaseManagerOptions) {
-    super(client, options);
+	constructor(client: ShewenyClient, options: BaseManagerOptions) {
+		super(client, options);
 
-    if (options?.loadAll) this.loadAll();
-  }
+		if (options?.loadAll) this.loadAll();
+	}
 
-  /**
+	/**
    * Load all buttons in collection
    * @returns {Promise<Collection<string[], Button>>}
    */
-  public async loadAll(): Promise<Collection<string[], Button> | undefined> {
-    const buttons = await loadFiles<string[], Button>(this.client, {
-      directory: this.directory,
-      key: 'customId',
-    });
-    if (buttons) {
-      this.client.collections.buttons = buttons;
-      this.buttons = buttons;
-    }
-    new ShewenyInformation(this.client, `- Buttons loaded : ${this.client.collections.buttons.size}`);
-    return buttons;
-  }
+	public async loadAll(): Promise<Collection<string[], Button> | undefined> {
+		const buttons = await loadFiles<string[], Button>(this.client, {
+			directory: this.directory,
+			key: 'customId',
+		});
+		if (buttons) {
+			this.client.collections.buttons = buttons;
+			this.buttons = buttons;
+		}
+		new ShewenyInformation(this.client, `- Buttons loaded : ${this.client.collections.buttons.size}`);
+		return buttons;
+	}
 
-  /**
+	/**
    * Unload all buttons
    * @returns {void}
    */
-  public unloadAll(): void {
-    this.buttons = null;
-    this.client.collections.buttons.clear();
-  }
+	public unloadAll(): void {
+		this.buttons = null;
+		this.client.collections.buttons.clear();
+	}
 }

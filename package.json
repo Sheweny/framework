@@ -7,7 +7,8 @@
   "scripts": {
     "build": "tsc",
     "build:typings": "tsc --build tsconfig.typings.json",
-    "dev": "tsnd --respawn --transpile-only --cls ./test/ts/src/index.ts"
+    "dev": "tsnd --respawn --transpile-only --cls ./test/ts/src/index.ts",
+    "lint": "eslint src/**/*.ts"
   },
   "author": "Smaug#6739, Natchi#8537",
   "license": "MIT",
@@ -33,8 +34,12 @@
   },
   "devDependencies": {
     "@types/node": "^16.6.1",
+    "@typescript-eslint/eslint-plugin": "^5.12.1",
+    "@typescript-eslint/parser": "^5.12.1",
     "discord.js": "^14.0.0-dev.1645402068.78aa36f",
-    "ts-node-dev": "^1.1.8"
+    "eslint": "^8.9.0",
+    "ts-node-dev": "^1.1.8",
+    "typescript": "^4.5.5"
   },
   "engines": {
     "node": ">=16.9.0"
