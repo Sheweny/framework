@@ -1,6 +1,6 @@
 import { ShewenyClient, Command } from '../../../../';
 import type { CommandInteraction } from 'discord.js';
-import { MessageSelectMenu, MessageActionRow } from 'discord.js';
+import { SelectMenuComponent, ActionRow, UnsafeSelectMenuOption } from 'discord.js';
 
 export class PingCommand extends Command {
   constructor(client: ShewenyClient) {
@@ -12,23 +12,15 @@ export class PingCommand extends Command {
     });
   }
   execute(interaction: CommandInteraction) {
-    const row = new MessageActionRow().addComponents(
-      new MessageSelectMenu()
+    const row = new ActionRow().addComponents(
+      new SelectMenuComponent()
         .setCustomId('select-10')
         .setPlaceholder('Nothing selected')
         .setMaxValues(2)
-        .addOptions([
-          {
-            label: 'First option',
-            description: 'The first option',
-            value: 'first_option',
-          },
-          {
-            label: 'Second option',
-            description: 'The second option',
-            value: 'second_option',
-          },
-        ])
+        .addOptions(
+          new UnsafeSelectMenuOption().setLabel('First option').setDescription('The first option').setValue('first'),
+          new UnsafeSelectMenuOption().setLabel('Second option').setDescription('The second option').setValue('second')
+        )
     );
     interaction.reply({ content: 'Test the select-menus', components: [row] });
   }

@@ -5,10 +5,6 @@ export declare const CLIENT_MODE: {
     dev: "development";
     prod: "production";
 };
-export declare const CLIENT_UTIL: {
-    allIntents: import("discord.js").Intents;
-    allPartials: import("discord.js").PartialTypes[];
-};
 /**
  * Command constants
  */

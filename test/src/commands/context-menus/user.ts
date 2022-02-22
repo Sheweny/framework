@@ -15,7 +15,7 @@ export class GetAvatar extends Command {
 
   execute(interaction: ContextMenuCommandInteraction) {
     return interaction.reply({
-      content: interaction.options.getUser('user')?.displayAvatarURL({ dynamic: true, format: 'png', size: 512 }),
+      content: interaction.options.getUser('user')?.displayAvatarURL(),
     });
   }
 }

@@ -11,7 +11,7 @@ export class BlackListInhibitor extends Inhibitor {
     return !['809702809196560405'].includes(ctx.guildId!);
   }
   onFailure(client: ShewenyClient, interaction: Interaction) {
-    if (interaction.isCommand() || interaction.isApplicationCommand() || interaction.isButton() || interaction.isSelectMenu())
+    if (interaction.isCommand() || interaction.isContextMenuCommand() || interaction.isButton() || interaction.isSelectMenu())
       interaction.reply('Your guild is blacklisted.');
   }
 }

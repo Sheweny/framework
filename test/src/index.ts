@@ -1,8 +1,14 @@
-import { ShewenyClient, Constants } from '../../';
+import { ShewenyClient } from '../../';
+import { IntentsBitField, Partials } from 'discord.js';
 const config = require('../config-test.json');
 const client = new ShewenyClient({
-  intents: Constants.CLIENT_UTIL.allIntents,
-  partials: Constants.CLIENT_UTIL.allPartials,
+  intents: [
+    IntentsBitField.Flags.Guilds,
+    IntentsBitField.Flags.GuildMessages,
+    IntentsBitField.Flags.DirectMessages,
+    IntentsBitField.Flags.DirectMessageReactions,
+  ],
+  partials: [Partials.Channel, Partials.Message, Partials.Reaction, Partials.User, Partials.GuildMember],
   admins: ['611468402263064577'],
   mode: 'development',
   managers: {

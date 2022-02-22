@@ -1,4 +1,5 @@
 import { Command, ShewenyClient } from '../../../../';
+import { EnumResolvers } from 'discord.js';
 import type { AutocompleteInteraction, CommandInteraction } from 'discord.js';
 
 export class PingCommand extends Command {
@@ -9,13 +10,18 @@ export class PingCommand extends Command {
       type: 'SLASH_COMMAND',
       category: 'Misc',
       options: [
-        { name: 'name', description: 'description', type: 'STRING', autocomplete: true },
-        { name: 'theme', description: 'description', type: 'STRING', autocomplete: true },
+        {
+          name: 'test',
+          description: 'The name of the command',
+          type: 3,
+          autocomplete: true,
+        },
       ],
     });
   }
   execute(interaction: CommandInteraction) {
-    interaction.reply('Autocomplete work !');
+    const option = interaction.options.get('test')?.value;
+    interaction.reply('Autocomplete work !' + option);
   }
   onAutocomplete(interaction: AutocompleteInteraction) {
     const focusedOption = interaction.options.getFocused(true);

@@ -1,5 +1,5 @@
 import { Command } from '../../../../';
-import { MessageEmbed } from 'discord.js';
+import { Embed } from 'discord.js';
 import type { ShewenyClient } from '../../../../';
 import type { ContextMenuCommandInteraction } from 'discord.js';
 
@@ -16,10 +16,10 @@ export class GetAvatar extends Command {
 
   async execute(interaction: ContextMenuCommandInteraction) {
     const message = await interaction.channel!.messages.fetch(interaction.targetId);
-    const embed = new MessageEmbed()
-      .setAuthor(message.author.tag, message.author.displayAvatarURL())
+    const embed = new Embed()
+      .setAuthor({ iconURL: message.author.displayAvatarURL(), name: message.author.tag })
       .setDescription(message.content)
-      .setColor('RANDOM')
+      .setColor(111111)
       .setTimestamp();
     interaction.reply({ embeds: [embed] });
   }

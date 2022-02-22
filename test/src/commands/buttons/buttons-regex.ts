@@ -1,5 +1,5 @@
 import { Command } from '../../../..';
-import { MessageButton, MessageActionRow } from 'discord.js';
+import { ButtonComponent, ActionRow, EnumResolvers } from 'discord.js';
 import type { ShewenyClient } from '../../../..';
 import type { CommandInteraction } from 'discord.js';
 
@@ -14,11 +14,25 @@ export default class PingCommand extends Command {
   }
 
   execute(interaction: CommandInteraction) {
-    const row = new MessageActionRow()
-      .addComponents(new MessageButton().setCustomId('sheweny-1').setLabel('Button').setStyle('SUCCESS'))
-      .addComponents(new MessageButton().setCustomId('sheweny-56').setLabel('Button').setStyle('SUCCESS'))
-      .addComponents(new MessageButton().setCustomId('sheweny-a').setLabel('Button (not work)').setStyle('DANGER'))
-      .addComponents(new MessageButton().setCustomId('sheweny-ab').setLabel('Button (not work)').setStyle('DANGER'));
+    const row = new ActionRow()
+      .addComponents(
+        new ButtonComponent().setCustomId('sheweny-1').setLabel('Button').setStyle(EnumResolvers.resolveButtonStyle('SUCCESS'))
+      )
+      .addComponents(
+        new ButtonComponent().setCustomId('sheweny-56').setLabel('Button').setStyle(EnumResolvers.resolveButtonStyle('SUCCESS'))
+      )
+      .addComponents(
+        new ButtonComponent()
+          .setCustomId('sheweny-a')
+          .setLabel('Button (not work)')
+          .setStyle(EnumResolvers.resolveButtonStyle('DANGER'))
+      )
+      .addComponents(
+        new ButtonComponent()
+          .setCustomId('sheweny-ab')
+          .setLabel('Button (not work)')
+          .setStyle(EnumResolvers.resolveButtonStyle('DANGER'))
+      );
     interaction.reply({ content: 'Test the buttons with regex', components: [row] });
   }
 }

@@ -1,5 +1,5 @@
 import { Command } from '../../../..';
-import { MessageButton, MessageActionRow } from 'discord.js';
+import { ButtonComponent, ActionRow, EnumResolvers } from 'discord.js';
 import type { ShewenyClient } from '../../../..';
 import type { CommandInteraction } from 'discord.js';
 
@@ -14,11 +14,22 @@ export default class PingCommand extends Command {
   }
 
   execute(interaction: CommandInteraction) {
-    const row = new MessageActionRow()
-      .addComponents(new MessageButton().setCustomId('primary').setLabel('Primary').setStyle('PRIMARY'))
-      .addComponents(new MessageButton().setCustomId('secondary').setLabel('Secondary').setStyle('SECONDARY'))
-      .addComponents(new MessageButton().setCustomId('success').setLabel('Success').setStyle('SUCCESS'))
-      .addComponents(new MessageButton().setCustomId('danger').setLabel('Danger').setStyle('DANGER'));
+    const row = new ActionRow()
+      .addComponents(
+        new ButtonComponent().setCustomId('primary').setLabel('Primary').setStyle(EnumResolvers.resolveButtonStyle('PRIMARY'))
+      )
+      .addComponents(
+        new ButtonComponent()
+          .setCustomId('secondary')
+          .setLabel('Secondary')
+          .setStyle(EnumResolvers.resolveButtonStyle('SECONDARY'))
+      )
+      .addComponents(
+        new ButtonComponent().setCustomId('success').setLabel('Success').setStyle(EnumResolvers.resolveButtonStyle('SUCCESS'))
+      )
+      .addComponents(
+        new ButtonComponent().setCustomId('danger').setLabel('Danger').setStyle(EnumResolvers.resolveButtonStyle('DANGER'))
+      );
     interaction.reply({ content: 'Test the buttons', components: [row] });
   }
 }
