@@ -29,11 +29,11 @@
   },
   "homepage": "https://sheweny.js.org",
   "dependencies": {
-    "@sheweny/resolve": "^1.3.2",
-    "discord.js": "^14.0.0-dev.1645402068.78aa36f"
+    "@sheweny/resolve": "^1.3.2"
   },
   "devDependencies": {
     "@types/node": "^16.6.1",
+    "discord.js": "^14.0.0-dev.1645402068.78aa36f",
     "ts-node-dev": "^1.1.8"
   },
   "engines": {
