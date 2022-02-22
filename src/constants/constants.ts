@@ -1,4 +1,3 @@
-import { getAllIntents, getAllPartials } from '../utils/client-util';
 /**
  * Client constants
  */
@@ -6,10 +5,7 @@ export const CLIENT_MODE = {
   dev: 'development' as 'development',
   prod: 'production' as 'production',
 };
-export const CLIENT_UTIL = {
-  allIntents: getAllIntents(),
-  allPartials: getAllPartials(),
-};
+
 /**
  * Command constants
  */

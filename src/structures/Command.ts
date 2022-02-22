@@ -14,9 +14,9 @@ import type { CommandData, CommandType } from '../typescript/types';
 import type {
   ApplicationCommandOptionData,
   CommandInteraction,
-  ContextMenuInteraction,
+  ContextMenuCommandInteraction,
   Message,
-  PermissionString,
+  PermissionsString,
   AutocompleteInteraction,
 } from 'discord.js';
 import type { CommandsManager } from '..';
@@ -58,9 +58,9 @@ export abstract class Command extends BaseStructure {
 
   /**
    * The permissions required for the client
-   * @type {PermissionString[]}
+   * @type {PermissionsString[]}
    */
-  public clientPermissions: PermissionString[];
+  public clientPermissions: PermissionsString[];
 
   /**
    * Cooldown of a command in seconds
@@ -124,9 +124,9 @@ export abstract class Command extends BaseStructure {
 
   /**
    * The permissions required to be executed by the user
-   * @type {PermissionString[]}
+   * @type {PermissionsString[]}
    */
-  public userPermissions: PermissionString[];
+  public userPermissions: PermissionsString[];
 
   /**
    * Constructor for build a Command
@@ -161,19 +161,19 @@ export abstract class Command extends BaseStructure {
 
   /**
    * This function is executed before executing the `execute` function
-   * @param {CommandInteraction | ContextMenuInteraction | Message} interaction Interaction
+   * @param {CommandInteraction | ContextMenuCommandInteraction | Message} interaction Interaction
    * @returns {any | Promise<any>}
    */
-  before?(interaction: CommandInteraction | ContextMenuInteraction | Message): any | Promise<any>;
+  before?(interaction: CommandInteraction | ContextMenuCommandInteraction | Message): any | Promise<any>;
 
   /**
    * Main function `execute` for the commands
-   * @param {CommandInteraction | ContextMenuInteraction | Message} interaction Interaction
+   * @param {CommandInteraction | ContextMenuCommandInteraction | Message} interaction Interaction
    * @param {CommandMessageArgsResolved[]} [args] Arguments of the Message command
    * @returns {any | Promise<any>}
    */
   abstract execute(
-    interaction: CommandInteraction | ContextMenuInteraction | Message,
+    interaction: CommandInteraction | ContextMenuCommandInteraction | Message,
     args?: CommandMessageArgsResolved[]
   ): //args?: CommandMessageArgsResolved
   any | Promise<any>;

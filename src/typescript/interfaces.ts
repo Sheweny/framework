@@ -1,4 +1,4 @@
-import type { ApplicationCommandOptionData, PermissionString, Collection } from 'discord.js';
+import type { ApplicationCommandOptionData, PermissionsString, Collection } from 'discord.js';
 import type { EventEmitter } from 'events';
 import type { ClientOptions, Snowflake } from 'discord.js';
 import type { ButtonsManager, CommandsManager, EventsManager, InhibitorsManager, SelectMenusManager } from '../managers';
@@ -28,13 +28,13 @@ export interface CommandsManagerDefaultOptions {
   adminOnly?: boolean;
   category?: string;
   channel?: typeof COMMAND_CHANNEL.dm | typeof COMMAND_CHANNEL.global | typeof COMMAND_CHANNEL.guild;
-  clientPermissions?: PermissionString[];
+  clientPermissions?: PermissionsString[];
   cooldown?: number;
   description?: string;
   examples?: string | string[];
   type?: typeof COMMAND_TYPE.cmdSlash | typeof COMMAND_TYPE.cmdMsg | typeof COMMAND_TYPE.ctxMsg | typeof COMMAND_TYPE.ctxUser;
   usage?: string | string[];
-  userPermissions?: PermissionString[];
+  userPermissions?: PermissionsString[];
 }
 export interface EventsManagerOptions extends BaseManagerOptions {
   default?: EventsManagerDefaultOptions;
@@ -73,8 +73,8 @@ export interface SlashCommandData {
   channel?: typeof COMMAND_CHANNEL.dm | typeof COMMAND_CHANNEL.guild;
   cooldown?: number;
   adminsOnly?: boolean;
-  userPermissions?: PermissionString[];
-  clientPermissions?: PermissionString[];
+  userPermissions?: PermissionsString[];
+  clientPermissions?: PermissionsString[];
 }
 
 // Data option for `CONTEXT_MENU_USER` type
@@ -89,8 +89,8 @@ export interface ContextMenuUserData {
   channel?: typeof COMMAND_CHANNEL.dm | typeof COMMAND_CHANNEL.guild;
   cooldown?: number;
   adminsOnly?: boolean;
-  userPermissions?: PermissionString[];
-  clientPermissions?: PermissionString[];
+  userPermissions?: PermissionsString[];
+  clientPermissions?: PermissionsString[];
 }
 
 // Data option for `CONTEXT_MENU_MESSAGE` type
@@ -105,8 +105,8 @@ export interface ContextMenuMessageData {
   channel?: typeof COMMAND_CHANNEL.dm | typeof COMMAND_CHANNEL.guild;
   cooldown?: number;
   adminsOnly?: boolean;
-  userPermissions?: PermissionString[];
-  clientPermissions?: PermissionString[];
+  userPermissions?: PermissionsString[];
+  clientPermissions?: PermissionsString[];
 }
 
 //  Data option for `MESSAGE_COMMAND` type
@@ -121,8 +121,8 @@ export interface MessageData {
   channel?: typeof COMMAND_CHANNEL.dm | typeof COMMAND_CHANNEL.guild;
   cooldown?: number;
   adminsOnly?: boolean;
-  userPermissions?: PermissionString[];
-  clientPermissions?: PermissionString[];
+  userPermissions?: PermissionsString[];
+  clientPermissions?: PermissionsString[];
   aliases?: string[];
 }
 

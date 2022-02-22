@@ -3,10 +3,10 @@ import { COMMAND_TYPE, INHIBITOR_TYPE, COMMAND_CHANNEL, COMMAND_PERMISSIONS, COM
 import { ShewenyError } from '../helpers';
 import type { ShewenyClient } from '..';
 import type { Inhibitor } from '../structures';
-import type { CommandInteraction, ContextMenuInteraction } from 'discord.js';
+import type { CommandInteraction, ContextMenuCommandInteraction } from 'discord.js';
 export default async function run(
   client: ShewenyClient,
-  interaction: CommandInteraction | ContextMenuInteraction | AutocompleteInteraction
+  interaction: CommandInteraction | ContextMenuCommandInteraction | AutocompleteInteraction
 ) {
   try {
     if (!client.managers.commands) return;
@@ -16,7 +16,7 @@ export default async function run(
     //@ts-ignore
     if (!command || (command && ![COMMAND_TYPE.cmdSlash, COMMAND_TYPE.ctxUser, COMMAND_TYPE.ctxMsg].includes(command.type)))
       return;
-    if (command.before) await command.before(interaction as CommandInteraction | ContextMenuInteraction);
+    if (command.before) await command.before(interaction as CommandInteraction | ContextMenuCommandInteraction);
     /**
      * Handle inhibitors
      */
@@ -85,7 +85,7 @@ export default async function run(
 
     /* ---------------COMMAND--------------- */
 
-    await command.execute(interaction as CommandInteraction | ContextMenuInteraction);
+    await command.execute(interaction as CommandInteraction | ContextMenuCommandInteraction);
   } catch (e: any) {
     new ShewenyError(client, e);
   }

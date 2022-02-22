@@ -1,6 +1,6 @@
 import { Command } from '../../../../';
 import type { ShewenyClient } from '../../../../';
-import type { ContextMenuInteraction } from 'discord.js';
+import type { ContextMenuCommandInteraction } from 'discord.js';
 
 export class GetAvatar extends Command {
   constructor(client: ShewenyClient) {
@@ -13,7 +13,7 @@ export class GetAvatar extends Command {
     });
   }
 
-  execute(interaction: ContextMenuInteraction) {
+  execute(interaction: ContextMenuCommandInteraction) {
     return interaction.reply({
       content: interaction.options.getUser('user')?.displayAvatarURL({ dynamic: true, format: 'png', size: 512 }),
     });

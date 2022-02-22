@@ -1,4 +1,4 @@
-import { Collection } from 'discord.js';
+import { Collection, EnumResolvers } from 'discord.js';
 import { BaseManager } from '.';
 import { loadFiles } from '../utils/loadFiles';
 import { COMMAND_TYPE } from '../constants/constants';
@@ -320,7 +320,11 @@ export class CommandsManager extends BaseManager {
         // Bot admin permissions
         if (this.client.admins?.length)
           for (const userId of this.client.admins) {
-            permissions.push({ id: userId, type: 'USER', permission: true });
+            permissions.push({
+              id: userId,
+              type: EnumResolvers.resolveApplicationCommandPermissionType('USER'),
+              permission: true,
+            });
           }
       } else {
         // Guild permissions
@@ -328,10 +332,19 @@ export class CommandsManager extends BaseManager {
         // Roles in the guild
         if (roles && roles.size)
           for (const [, role] of roles!) {
-            permissions.push({ id: role.id, type: 'ROLE', permission: true });
+            permissions.push({
+              id: role.id,
+              type: EnumResolvers.resolveApplicationCommandPermissionType('ROLE'),
+              permission: true,
+            });
           }
         // Owner of the guild
-        if (guild?.ownerId) permissions.push({ id: guild.ownerId, type: 'USER', permission: true });
+        if (guild?.ownerId)
+          permissions.push({
+            id: guild.ownerId,
+            type: EnumResolvers.resolveApplicationCommandPermissionType('USER'),
+            permission: true,
+          });
         // Bot addmins for adminsOnly permission
       }
 
@@ -351,9 +364,9 @@ export class CommandsManager extends BaseManager {
   private renameCommandType(
     type: typeof COMMAND_TYPE.cmdSlash | typeof COMMAND_TYPE.ctxUser | typeof COMMAND_TYPE.ctxMsg
   ): ApplicationCommandType | undefined {
-    if (type === COMMAND_TYPE.cmdSlash) return 'CHAT_INPUT';
-    if (type === COMMAND_TYPE.ctxMsg) return 'MESSAGE';
-    if (type === COMMAND_TYPE.ctxUser) return 'USER';
+    if (type === COMMAND_TYPE.cmdSlash) return EnumResolvers.resolveApplicationCommandType('CHAT_INPUT');
+    if (type === COMMAND_TYPE.ctxMsg) return EnumResolvers.resolveApplicationCommandType('MESSAGE');
+    if (type === COMMAND_TYPE.ctxUser) return EnumResolvers.resolveApplicationCommandType('USER');
     return undefined;
   }
 
