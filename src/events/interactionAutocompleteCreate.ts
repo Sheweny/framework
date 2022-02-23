@@ -12,6 +12,7 @@ export default async function run(
 
     /* -----------------COMMAND----------------- */
     const command = client.collections.commands?.get(interaction.commandName);
+    // eslint-disable-next-line
     // @ts-ignore
     if (!command || (command && ![COMMAND_TYPE.cmdSlash, COMMAND_TYPE.ctxUser, COMMAND_TYPE.ctxMsg].includes(command.type))) {
       return;

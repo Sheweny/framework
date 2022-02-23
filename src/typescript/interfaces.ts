@@ -140,12 +140,12 @@ export interface MessageCommandOptionData {
     | typeof COMMAND_MESSAGE_ARGS_TYPE.guild_emoji
     | typeof COMMAND_MESSAGE_ARGS_TYPE.role
     | typeof COMMAND_MESSAGE_ARGS_TYPE.user;
-  default?: any;
+  default?: unknown;
 }
 
 // The arguments in execute functions
 export interface CommandMessageArgsResolved {
-  [index: string]: any;
+  [index: string]: unknown;
 }
 
 /**

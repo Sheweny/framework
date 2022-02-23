@@ -169,7 +169,7 @@ export class CommandsManager extends BaseManager {
     if (!commands) throw new Error('Commands not found');
 
     if (commands instanceof Collection) {
-      const data: any[] = [];
+      const data: ApplicationCommandData[] = [];
       for (const [, cmd] of commands) {
         if (cmd.type === COMMAND_TYPE.cmdMsg) continue;
 
@@ -191,6 +191,7 @@ export class CommandsManager extends BaseManager {
           data.push({
             type: newType,
             name: cmd.name,
+            description: cmd.description,
             defaultPermission:
               this.applicationPermissions && this.guildId && (cmd.userPermissions?.length > 0 || cmd.adminsOnly)
                 ? false
@@ -253,6 +254,7 @@ export class CommandsManager extends BaseManager {
   public async loadAndRegisterAll(): Promise<void> {
     const commands = await this.loadAll();
     const commandsToRegister = commands?.filter((cmd: Command) =>
+      // eslint-disable-next-line
       // @ts-ignore
       [COMMAND_TYPE.cmdSlash, COMMAND_TYPE.ctxMsg, COMMAND_TYPE.ctxUser].includes(cmd.type),
     );
@@ -331,11 +333,13 @@ export class CommandsManager extends BaseManager {
           }
         }
       } else {
+        const command = commandsCollection.get(appCommand.name);
+        if (!command) continue;
         // Guild permissions
-        const roles = getRoles(commandsCollection.get(appCommand.name)!);
+        const roles = getRoles(command);
         // Roles in the guild
         if (roles && roles.size) {
-          for (const [, role] of roles!) {
+          for (const [, role] of roles) {
             permissions.push({
               id: role.id,
               type: EnumResolvers.resolveApplicationCommandPermissionType('ROLE'),

@@ -2,7 +2,6 @@ import { Collection } from 'discord.js';
 import { BaseManager } from '.';
 import { loadFiles } from '../utils/loadFiles';
 import { ShewenyInformation } from '../helpers';
-import { INHIBITOR_TYPE } from '../constants/constants';
 import type { ShewenyClient, Inhibitor } from '..';
 import type { InhibitorsManagerOptions, InhibitorsManagerDefaultOptions } from '../typescript/interfaces';
 

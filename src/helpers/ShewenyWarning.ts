@@ -1,6 +1,7 @@
 import type { ShewenyClient } from '../client/Client';
+import type { IMessages } from '../typescript/utilityTypes';
 
-const Messages: any = {
+const Messages: IMessages = {
   START: () =>
     'You are running Sheweny in development mode. Make sure to turn on production mode when deploying for production to avoid warnings.',
   INVALID_CLASS: (name: string, path: string) => `The class ${name} is malformed. Unable to load it.\nPath : ${path}`,
@@ -11,7 +12,7 @@ const Messages: any = {
 };
 
 export class ShewenyWarning {
-  constructor(client: ShewenyClient, name: string, ...args: any[]) {
+  constructor(client: ShewenyClient, name: string, ...args: string[]) {
     if (!client || client.mode !== 'development') return;
 
     if (client.mode === 'development') {

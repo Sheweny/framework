@@ -1,14 +1,10 @@
 import { ShewenyClient } from '../client/Client';
-
+import type { IMessages } from '../typescript/utilityTypes';
 // interface ErrorMessages {
 //   INVALID_CLASS(name: string, path: string): string;
 //   MISSING_PROPERTY_CLASS(property: string, path: string): string;
 // }
-type CallbackFunctionVariadic = (...args: any[]) => string;
-
-interface IMessages {
-  [key: string]: CallbackFunctionVariadic;
-}
+// eslint-disable-next-line
 
 const Messages: IMessages = {
   INVALID_CLASS: (name: string, path: string) => `The class ${name} is malformed.\nPath : ${path}`,

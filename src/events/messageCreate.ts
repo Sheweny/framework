@@ -23,10 +23,14 @@ export default async function run(client: ShewenyClient, message: Message) {
     if (!args[0]) return;
     if (!message.content?.startsWith(prefix)) return;
     /* -----------------COMMAND----------------- */
-    const commandName = args.shift()!.toLowerCase();
+    const commandName = args.shift()?.toLowerCase();
+    if (!commandName) return;
     const command =
       client.collections.commands?.get(commandName) ||
-      client.collections.commands?.find(cmd => cmd.aliases! && cmd.aliases.includes(commandName));
+      client.collections.commands?.find(cmd => {
+        if (cmd.aliases && cmd.aliases.length && cmd.aliases.includes(commandName)) return true;
+        else return false;
+      });
     if (!command || (command && command.type !== COMMAND_TYPE.cmdMsg)) return;
     if (command.before) await command.before(message);
     /**
@@ -93,7 +97,7 @@ export default async function run(client: ShewenyClient, message: Message) {
         setTimeout(() => tStamps.delete(message.author.id), cdAmount);
       }
     }
-
+    // eslint-disable-next-line
     const messageArgs: any = {};
     /* ---------------ARGUMENTS--------------- */
     const types = [

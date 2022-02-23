@@ -86,7 +86,7 @@ export abstract class Command extends BaseStructure {
    * Description of a command
    * @type {string | undefined}
    */
-  public description?: string;
+  public description: string;
 
   /**
    * Examples of a command
@@ -151,7 +151,7 @@ export abstract class Command extends BaseStructure {
     this.defaultPermission = this.isType(type, COMMAND_TYPE.cmdSlash, COMMAND_TYPE.ctxUser, COMMAND_TYPE.ctxMsg)
       ? (data as SlashCommandData | ContextMenuUserData | ContextMenuMessageData).defaultPermission
       : undefined;
-    this.description = data.description || defaultData.description;
+    this.description = (data.description || defaultData.description) ?? '';
     this.examples = data.examples || defaultData.examples;
     this.manager = this.client.managers.commands;
     this.name = data.name;
