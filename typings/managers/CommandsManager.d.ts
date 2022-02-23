@@ -51,7 +51,7 @@ export declare class CommandsManager extends BaseManager {
      * @param {Snowflake | undefined} [guildId] Guild ID where the order will be created
      * @returns {Promise<ApplicationCommand<{}> | ApplicationCommand<{ guild: GuildResolvable }> | undefined>}
      */
-    createCommand(command: Command, guildId?: Snowflake): Promise<ApplicationCommand<{}> | ApplicationCommand<{
+    createCommand(command: Command, guildId?: Snowflake): Promise<ApplicationCommand<Record<string, unknown>> | ApplicationCommand<{
         guild: GuildResolvable;
     }> | undefined>;
     /**
@@ -59,7 +59,7 @@ export declare class CommandsManager extends BaseManager {
      * @param {Snowflake | undefined} [guildId] Guild ID where all commands will be deleted
      * @returns {Promise<Collection<string, ApplicationCommand<{}>> | Collection<string, ApplicationCommand<{ guild: GuildResolvable }>> | undefined>}
      */
-    deleteAllCommands(guildId?: Snowflake): Promise<Collection<string, ApplicationCommand<{}>> | Collection<string, ApplicationCommand<{
+    deleteAllCommands(guildId?: Snowflake): Promise<Collection<string, ApplicationCommand<Record<string, unknown>>> | Collection<string, ApplicationCommand<{
         guild: GuildResolvable;
     }>> | undefined>;
     /**
@@ -78,7 +78,7 @@ export declare class CommandsManager extends BaseManager {
      * @param {Snowflake | undefined} [guildId] Guild ID where the order will be edited
      * @returns {Promise<ApplicationCommand<{}> | ApplicationCommand<{ guild: GuildResolvable }> | undefined>}
      */
-    editCommand(oldCommand: ApplicationCommandResolvable, newCommand: Command, guildId?: Snowflake): Promise<ApplicationCommand<{}> | ApplicationCommand<{
+    editCommand(oldCommand: ApplicationCommandResolvable, newCommand: Command, guildId?: Snowflake): Promise<ApplicationCommand<Record<string, unknown>> | ApplicationCommand<{
         guild: GuildResolvable;
     }> | undefined>;
     /**
@@ -102,7 +102,7 @@ export declare class CommandsManager extends BaseManager {
      * @param {Collection<string, Command> | undefined} [commands] Collection of the commands
      * @returns {Promise<Collection<Snowflake, ApplicationCommand<{}>> | Collection<Snowflake, ApplicationCommand<{ guild: GuildResolvable }>> | undefined>}
      */
-    registerApplicationCommands(commands?: Collection<string, Command> | undefined | null, guildId?: Snowflake | Snowflake[] | undefined): Promise<Collection<Snowflake, ApplicationCommand<{}>> | Collection<Snowflake, ApplicationCommand<{
+    registerApplicationCommands(commands?: Collection<string, Command> | undefined | null, guildId?: Snowflake | Snowflake[] | undefined): Promise<Collection<Snowflake, ApplicationCommand<Record<string, unknown>>> | Collection<Snowflake, ApplicationCommand<{
         guild: GuildResolvable;
     }>> | boolean | undefined>;
     /**
@@ -112,7 +112,7 @@ export declare class CommandsManager extends BaseManager {
      * @param {Snowflake | undefined} [guildId] Guild ID where permissions will be set
      * @returns {Promise<void>}
      */
-    registerPermissions(applicationCommands: Collection<string, ApplicationCommand<{}>> | undefined, commandsCollection: Collection<string, Command> | undefined | null, guildId: Snowflake | undefined): Promise<void | boolean>;
+    registerPermissions(applicationCommands: Collection<string, ApplicationCommand<Record<string, unknown>>> | undefined, commandsCollection: Collection<string, Command> | undefined | null, guildId: Snowflake | undefined): Promise<void | boolean>;
     /**
      * Rename command type to the type of Application command
      * @param {"SLASH_COMMAND" | "CONTEXT_MENU_USER" | "CONTEXT_MENU_MESSAGE"} type Type of command

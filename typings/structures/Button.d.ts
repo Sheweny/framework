@@ -1,8 +1,10 @@
 import { Collection } from 'discord.js';
 import { BaseStructure } from '.';
+import { ShewenyError } from '../helpers';
 import type { ButtonInteraction } from 'discord.js';
 import type { ButtonsManager } from '..';
 import type { ShewenyClient } from '../client/Client';
+import type { Awaitable } from '../typescript/utilityTypes';
 /**
  * Represents an Button structure
  * @extends {BaseStructure}
@@ -29,23 +31,23 @@ export declare abstract class Button extends BaseStructure {
      * @param {ButtonInteraction} interaction Button interaction
      * @returns {any | Promise<any>}
      */
-    before?(interaction: ButtonInteraction): any | Promise<any>;
+    before?(interaction: ButtonInteraction): Awaitable<unknown>;
     /**
      * Main function `execute` for the buttons
      * @param {ButtonInteraction} interaction Button interaction
      * @returns {any | Promise<any>}
      */
-    abstract execute(interaction: ButtonInteraction): any | Promise<any>;
+    abstract execute(interaction: ButtonInteraction): Awaitable<unknown>;
     /**
      * Register a button in collections
      * @returns {Collection<string[] | RegExp[], Button>}
      */
-    register(): Promise<Collection<string[] | RegExp[], Button>>;
+    register(): Promise<Collection<string[] | RegExp[], Button> | ShewenyError>;
     /**
      * Reload a button
-     * @returns {Promise<Collection<string[] | RegExp[], Button> | null>}
+     * @returns {Promise<Collection<string[] | RegExp[], Button> | ShewenyError>}
      */
-    reload(): Promise<Collection<string[] | RegExp[], Button> | null>;
+    reload(): Promise<Collection<string[] | RegExp[], Button> | ShewenyError>;
     /**
      * Unregister a button from collections
      * @returns {boolean}

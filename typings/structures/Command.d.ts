@@ -1,11 +1,13 @@
 import { Collection } from 'discord.js';
 import { BaseStructure } from '.';
+import { ShewenyError } from '../helpers';
 import { COMMAND_CHANNEL } from '../constants/constants';
 import type { ShewenyClient } from '../client/Client';
 import type { MessageCommandOptionData, CommandMessageArgsResolved } from '../typescript/interfaces';
 import type { CommandData, CommandType } from '../typescript/types';
 import type { ApplicationCommandOptionData, CommandInteraction, ContextMenuCommandInteraction, Message, PermissionsString, AutocompleteInteraction } from 'discord.js';
 import type { CommandsManager } from '..';
+import type { Awaitable } from '../typescript/utilityTypes';
 /**
  * Represents an Command structure
  * @extends {BaseStructure}
@@ -60,7 +62,7 @@ export declare abstract class Command extends BaseStructure {
      * Description of a command
      * @type {string | undefined}
      */
-    description?: string;
+    description: string;
     /**
      * Examples of a command
      * @type {string}
@@ -107,15 +109,14 @@ export declare abstract class Command extends BaseStructure {
      * @param {CommandInteraction | ContextMenuCommandInteraction | Message} interaction Interaction
      * @returns {any | Promise<any>}
      */
-    before?(interaction: CommandInteraction | ContextMenuCommandInteraction | Message): any | Promise<any>;
+    before?(interaction: CommandInteraction | ContextMenuCommandInteraction | Message): Awaitable<unknown>;
     /**
      * Main function `execute` for the commands
      * @param {CommandInteraction | ContextMenuCommandInteraction | Message} interaction Interaction
      * @param {CommandMessageArgsResolved[]} [args] Arguments of the Message command
      * @returns {any | Promise<any>}
      */
-    abstract execute(interaction: CommandInteraction | ContextMenuCommandInteraction | Message, args?: CommandMessageArgsResolved[]): //args?: CommandMessageArgsResolved
-    any | Promise<any>;
+    abstract execute(interaction: CommandInteraction | ContextMenuCommandInteraction | Message, args?: CommandMessageArgsResolved[]): Awaitable<unknown>;
     /**
      * Check the type of a command
      * @param type - Type of a command
@@ -128,17 +129,17 @@ export declare abstract class Command extends BaseStructure {
      * @param {AutocompleteInteraction} interaction
      * @returns {any | Promise<any>}
      */
-    onAutocomplete?(interaction: AutocompleteInteraction): any | Promise<any>;
+    onAutocomplete?(interaction: AutocompleteInteraction): Awaitable<unknown>;
     /**
      * Register a command in collections
      * @returns {Collection<string, ApplicationCommand>} The Application Commands collection
      */
-    register(): Promise<Collection<string, Command>>;
+    register(): Promise<Collection<string, Command> | ShewenyError>;
     /**
      * Reload a command
-     * @returns {Promise<Collection<string, Command> | null>} The Application Commands collection
+     * @returns {Promise<Collection<string, Command> | ShewenyError>} The Application Commands collection
      */
-    reload(): Promise<Collection<string, Command> | null>;
+    reload(): Promise<Collection<string, Command> | ShewenyError>;
     /**
      * Unregister a command from collections
      * @returns {boolean}

@@ -1,9 +1,11 @@
 import { Collection } from 'discord.js';
 import { BaseStructure } from '.';
+import { ShewenyError } from '../helpers';
 import type { InhibitorsManager } from '..';
 import type { ShewenyClient } from '../client/Client';
 import type { InhibitorType } from '../typescript/types';
 import type { Interaction, Message } from 'discord.js';
+import type { Awaitable } from '../typescript/utilityTypes';
 interface InhibitorOptions {
     type?: InhibitorType[];
     priority?: number;
@@ -43,25 +45,25 @@ export declare abstract class Inhibitor extends BaseStructure {
     /**
      * Main function `execute` for the inhibitors
      * @param {any[]} args Button interaction
-     * @returns {any | Promise<any>}
+     * @returns: Awaitable<unknown>}
      */
-    abstract execute(client: ShewenyClient, ctx: Interaction | Message): any | Promise<any>;
+    abstract execute(client: ShewenyClient, ctx: Interaction | Message): Awaitable<unknown>;
     /**
      * This function is executed when the main `execute` function has failed
      * @param {any[]} args Arguments
-     * @returns {any | Promise<any>}
+     * @returns: Awaitable<unknown>}
      */
-    abstract onFailure(client: ShewenyClient, ctx: Interaction | Message): any | Promise<any>;
+    abstract onFailure(client: ShewenyClient, ctx: Interaction | Message): Awaitable<unknown>;
     /**
      * Register a inhibitor in collections
      * @returns {Collection<string[], Inhibitor>} The inhibitors collection
      */
-    register(): Promise<Collection<string, Inhibitor>>;
+    register(): Promise<Collection<string, Inhibitor> | ShewenyError>;
     /**
      * Reload a inhibitor
-     * @returns {Promise<Collection<string[], Inhibitor> | null>} The inhibitors collection
+     * @returns {Promise<Collection<string[], Inhibitor> | ShewenyError>} The inhibitors collection
      */
-    reload(): Promise<Collection<string, Inhibitor> | null>;
+    reload(): Promise<Collection<string, Inhibitor> | ShewenyError>;
     /**
      * Unregister a inhibitor from collections
      * @returns {boolean}

@@ -109,10 +109,10 @@ export interface MessageData {
 export interface MessageCommandOptionData {
     name: string;
     type: typeof COMMAND_MESSAGE_ARGS_TYPE.string | typeof COMMAND_MESSAGE_ARGS_TYPE.number | typeof COMMAND_MESSAGE_ARGS_TYPE.boolean | typeof COMMAND_MESSAGE_ARGS_TYPE.rest | typeof COMMAND_MESSAGE_ARGS_TYPE.guild | typeof COMMAND_MESSAGE_ARGS_TYPE.channel | typeof COMMAND_MESSAGE_ARGS_TYPE.member | typeof COMMAND_MESSAGE_ARGS_TYPE.guild_emoji | typeof COMMAND_MESSAGE_ARGS_TYPE.role | typeof COMMAND_MESSAGE_ARGS_TYPE.user;
-    default?: any;
+    default?: unknown;
 }
 export interface CommandMessageArgsResolved {
-    [index: string]: any;
+    [index: string]: unknown;
 }
 /**
  * Interfaces of events

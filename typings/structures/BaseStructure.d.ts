@@ -18,5 +18,5 @@ export declare abstract class BaseStructure {
      * @param {ShewenyClient} client Client framework
      * @param {string} [path] Path for the structure
      */
-    constructor(client: ShewenyClient | any, path?: string);
+    constructor(client: ShewenyClient, path?: string);
 }
