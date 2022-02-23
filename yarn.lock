@@ -3,9 +3,9 @@
 
 
 "@discordjs/builders@^0.13.0-dev":
-  version "0.13.0-dev.1645402064.78aa36f"
-  resolved "https://registry.yarnpkg.com/@discordjs/builders/-/builders-0.13.0-dev.1645402064.78aa36f.tgz#7373c20f56b7ae403feafcd04042c3da9e190b16"
-  integrity sha512-7AN+/uSf+9CVX3GuG03md7axqCxAcJXZa6okd0xp7kF1ehh8nlm+2/dZkr7/wzuOfUwd3bHjYTu26w34pgOLPw==
+  version "0.13.0-dev.1645617791.5158332"
+  resolved "https://registry.yarnpkg.com/@discordjs/builders/-/builders-0.13.0-dev.1645617791.5158332.tgz#84a61be4ebc0fc9044fba61e4d8032a1a66fd1cf"
+  integrity sha512-0PDn9nhwPPiJjtpkfw9vWqE3HlYagvhoituOGcDe9VSwTfatFIiCe0UYilj1au9Yhl3JjPID+t07uwq5nAh4jQ==
   dependencies:
     "@sindresorhus/is" "^4.4.0"
     discord-api-types "^0.27.0"
@@ -15,14 +15,14 @@
     zod "^3.11.6"
 
 "@discordjs/collection@^0.6.0-dev":
-  version "0.6.0-dev.1645402055.78aa36f"
-  resolved "https://registry.yarnpkg.com/@discordjs/collection/-/collection-0.6.0-dev.1645402055.78aa36f.tgz#89ff91eea9da4dfa7ceef352b1887e0f17901a45"
-  integrity sha512-L5YdY5HS0drabU4/RIetdobF+ooQd7Oys5g/TXYpS9JcnuB1pbg6pVRciAGxLI4iCnBNKvn7ibaSKNEzFhOE1Q==
+  version "0.6.0-dev.1645617795.5158332"
+  resolved "https://registry.yarnpkg.com/@discordjs/collection/-/collection-0.6.0-dev.1645617795.5158332.tgz#d2b0e4caf52ef5e8b1ee1f39a5eb3736727eb82c"
+  integrity sha512-0RVbpAwrO44SZ+EPRvarUXJJm1bndLjMALXvWwKyD4KMFF5/Mpoq67G17wJbbOyoHfypPpYZcm9oSo43b5Tm9g==
 
 "@discordjs/rest@^0.4.0-dev":
-  version "0.4.0-dev.1645402054.78aa36f"
-  resolved "https://registry.yarnpkg.com/@discordjs/rest/-/rest-0.4.0-dev.1645402054.78aa36f.tgz#232aaf6c940588887e1a6a0e229621aff26b95a0"
-  integrity sha512-lXCJpWAfhvHm6tXXOFtJ3qkk9fh/8Imw48oh8V4W0u9+GJn5XdGQwJUlFIqfpD1ZO43zIaI+SmIpz5Z2Dgmu4w==
+  version "0.4.0-dev.1645617800.5158332"
+  resolved "https://registry.yarnpkg.com/@discordjs/rest/-/rest-0.4.0-dev.1645617800.5158332.tgz#1496318f7d04aacc7281a19711ec1ba0ae73a51f"
+  integrity sha512-ytfo2aQYgj2WWwBxFribiYo1sjSMiz8WGxROWYudnl4D8TYxvNwvQPOyyWS46j7NEPr1l1y6pwHAvIjGHgkllw==
   dependencies:
     "@discordjs/collection" "^0.6.0-dev"
     "@sapphire/async-queue" "^1.2.0"
@@ -117,9 +117,9 @@
     form-data "^3.0.0"
 
 "@types/node@*":
-  version "17.0.19"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.19.tgz#726171367f404bfbe8512ba608a09ebad810c7e6"
-  integrity sha512-PfeQhvcMR4cPFVuYfBN4ifG7p9c+Dlh3yUZR6k+5yQK7wX3gDgVxBly4/WkBRs9x4dmcy1TVl08SY67wwtEvmA==
+  version "17.0.21"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.21.tgz#864b987c0c68d07b4345845c3e63b75edd143644"
+  integrity sha512-DBZCJbhII3r90XbQxI8Y9IjjiiOGlZ0Hr32omXIZvwwZ7p4DMMXGrKXVyPfuoBOri9XNtL0UK69jYIBIsRX3QQ==
 
 "@types/node@^16.6.1":
   version "16.11.25"
@@ -414,9 +414,9 @@ discord-api-types@^0.27.0:
   integrity sha512-70Uy283dXKpphwuVQIhQJCBAMIxLwCywdyjTKAjjrzFONZZIRQr9oupj3K1rS+hGnI6cp6y7eStRQvTbeSC+Zw==
 
 discord.js@^14.0.0-dev.1645402068.78aa36f:
-  version "14.0.0-dev.1645402068.78aa36f"
-  resolved "https://registry.yarnpkg.com/discord.js/-/discord.js-14.0.0-dev.1645402068.78aa36f.tgz#40355b3339e12cb1a30f4f9c6a1c8f79f1b3c448"
-  integrity sha512-nL/PCqrdxqp0mwSDl7DoA3rfG64XoS1tQagHcYT1CKOqR46iPEbncZFBm/3BG9THBS5I9jzrbTzEJE9QadTxyQ==
+  version "14.0.0-dev.1645617805.5158332"
+  resolved "https://registry.yarnpkg.com/discord.js/-/discord.js-14.0.0-dev.1645617805.5158332.tgz#c0c53407789379f343d11c2a88b2fbc0f4821fd0"
+  integrity sha512-tOBlAWRn8pFZ8upTY1dbbz4KTKTFaXq8q7cnfnSoZbwFsog3e9w1aN5Kj6ezdRkfILi6BzVSX1lAkjuiOas+mQ==
   dependencies:
     "@discordjs/builders" "^0.13.0-dev"
     "@discordjs/collection" "^0.6.0-dev"
@@ -425,7 +425,7 @@ discord.js@^14.0.0-dev.1645402068.78aa36f:
     "@types/ws" "^8.2.2"
     discord-api-types "^0.27.0"
     lodash.snakecase "^4.1.1"
-    node-fetch "^2.6.7"
+    undici "^4.14.1"
     ws "^8.5.0"
 
 doctrine@^3.0.0:
@@ -1213,6 +1213,11 @@ typescript@^4.5.5:
   version "4.5.5"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.5.5.tgz#d8c953832d28924a9e3d37c73d729c846c5896f3"
   integrity sha512-TCTIul70LyWe6IJWT8QSYeA54WQe8EjQFU4wY52Fasj5UKx88LNYKCgBEHcOMOrFF1rKGbD8v/xcNWVUq9SymA==
+
+undici@^4.14.1:
+  version "4.14.1"
+  resolved "https://registry.yarnpkg.com/undici/-/undici-4.14.1.tgz#7633b143a8a10d6d63335e00511d071e8d52a1d9"
+  integrity sha512-WJ+g+XqiZcATcBaUeluCajqy4pEDcQfK1vy+Fo+bC4/mqXI9IIQD/XWHLS70fkGUT6P52Drm7IFslO651OdLPQ==
 
 uri-js@^4.2.2:
   version "4.4.1"
