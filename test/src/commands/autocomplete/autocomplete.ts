@@ -1,5 +1,4 @@
 import { Command, ShewenyClient } from '../../../../';
-import { EnumResolvers } from 'discord.js';
 import type { AutocompleteInteraction, CommandInteraction } from 'discord.js';
 
 export class PingCommand extends Command {
@@ -11,7 +10,7 @@ export class PingCommand extends Command {
       category: 'Misc',
       options: [
         {
-          name: 'test',
+          name: 'name',
           description: 'The name of the command',
           type: 3,
           autocomplete: true,

@@ -188,10 +188,12 @@ export class CommandsManager extends BaseManager {
                 : cmd.defaultPermission,
           });
         } else if (cmd.type === COMMAND_TYPE.ctxMsg || cmd.type === COMMAND_TYPE.ctxUser) {
+          // eslint-disable-next-line
+          // @ts-ignore
           data.push({
             type: newType,
             name: cmd.name,
-            description: cmd.description,
+            // description : A context menu command doesn't have a description
             defaultPermission:
               this.applicationPermissions && this.guildId && (cmd.userPermissions?.length > 0 || cmd.adminsOnly)
                 ? false
