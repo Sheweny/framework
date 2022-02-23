@@ -1,8 +1,13 @@
 {
-  "extends": ["eslint:recommended", "plugin:@typescript-eslint/eslint-recommended", "plugin:@typescript-eslint/recommended"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended"
+  ],
   "env": {
     "node": true,
-    "es6": true
+    "es2022": true
   },
   "parser": "@typescript-eslint/parser",
   "plugins": ["@typescript-eslint"],
@@ -13,14 +18,13 @@
 
   "rules": {
     "arrow-spacing": ["warn", { "before": true, "after": true }],
-    "brace-style": ["error", "stroustrup", { "allowSingleLine": true }],
-    "comma-dangle": ["error", "always-multiline"],
+    //"brace-style": ["error", "1tbs", { "allowSingleLine": true }],
+    //"comma-dangle": ["error", "always-multiline"],
     "comma-spacing": "error",
     "comma-style": "error",
     "curly": ["error", "multi-line", "consistent"],
     "dot-location": ["error", "property"],
     "handle-callback-err": "off",
-    "indent": ["error", "tab"],
     "keyword-spacing": "error",
     "max-nested-callbacks": ["error", { "max": 4 }],
     "max-statements-per-line": ["error", { "max": 2 }],

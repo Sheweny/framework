@@ -4,11 +4,11 @@ import type { ClientOptions, Snowflake } from 'discord.js';
 import type { ButtonsManager, CommandsManager, EventsManager, InhibitorsManager, SelectMenusManager } from '../managers';
 import type { Button, Command, Event, Inhibitor, SelectMenu } from '../structures';
 import type {
-	CLIENT_MODE,
-	COMMAND_CHANNEL,
-	COMMAND_MESSAGE_ARGS_TYPE,
-	COMMAND_TYPE,
-	INHIBITOR_TYPE,
+  CLIENT_MODE,
+  COMMAND_CHANNEL,
+  COMMAND_MESSAGE_ARGS_TYPE,
+  COMMAND_TYPE,
+  INHIBITOR_TYPE,
 } from '../constants/constants';
 /**
  * Interfaces of managers
