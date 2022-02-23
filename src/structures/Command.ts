@@ -1,5 +1,6 @@
 import { Collection } from 'discord.js';
 import { BaseStructure } from '.';
+import { ShewenyError } from '../helpers';
 import { COMMAND_CHANNEL, COMMAND_TYPE } from '../constants/constants';
 import type { ShewenyClient } from '../client/Client';
 import type {
@@ -20,6 +21,7 @@ import type {
   AutocompleteInteraction,
 } from 'discord.js';
 import type { CommandsManager } from '..';
+import type { Awaitable } from '../typescript/utilityTypes';
 
 /**
  * Represents an Command structure
@@ -135,16 +137,16 @@ export abstract class Command extends BaseStructure {
    */
   constructor(client: ShewenyClient, data: CommandData) {
     super(client);
-    const defaultData = client.managers.commands?.default!;
-    const type = data.type || defaultData.type!;
+    const defaultData = client.managers.commands?.default || {};
+    const type = data.type || defaultData.type || COMMAND_TYPE.cmdMsg;
 
-    this.adminsOnly = data.adminsOnly || defaultData.adminOnly!;
+    this.adminsOnly = (data.adminsOnly || defaultData.adminOnly) ?? false;
     this.aliases = this.isType(type, COMMAND_TYPE.cmdMsg) ? (data as MessageData).aliases : [];
     this.args = this.isType(type, COMMAND_TYPE.cmdMsg) ? (data as MessageData).args : undefined;
-    this.category = data.category || defaultData.category!;
+    this.category = (data.category || defaultData.category) ?? '';
     this.channel = data.channel || defaultData.channel;
-    this.clientPermissions = data.clientPermissions || defaultData.clientPermissions!;
-    this.cooldown = data.cooldown || defaultData.cooldown!;
+    this.clientPermissions = (data.clientPermissions || defaultData.clientPermissions) ?? [];
+    this.cooldown = (data.cooldown || defaultData.cooldown) ?? 0;
     this.cooldowns = new Collection();
     this.defaultPermission = this.isType(type, COMMAND_TYPE.cmdSlash, COMMAND_TYPE.ctxUser, COMMAND_TYPE.ctxMsg)
       ? (data as SlashCommandData | ContextMenuUserData | ContextMenuMessageData).defaultPermission
@@ -154,9 +156,9 @@ export abstract class Command extends BaseStructure {
     this.manager = this.client.managers.commands;
     this.name = data.name;
     this.options = this.isType(type, COMMAND_TYPE.cmdSlash) ? (data as SlashCommandData).options : undefined;
-    this.type = data.type || defaultData.type!;
+    this.type = type;
     this.usage = data.usage || defaultData.usage;
-    this.userPermissions = data.userPermissions || defaultData.userPermissions!;
+    this.userPermissions = (data.userPermissions || defaultData.userPermissions) ?? [];
   }
 
   /**
@@ -164,7 +166,7 @@ export abstract class Command extends BaseStructure {
    * @param {CommandInteraction | ContextMenuCommandInteraction | Message} interaction Interaction
    * @returns {any | Promise<any>}
    */
-  before?(interaction: CommandInteraction | ContextMenuCommandInteraction | Message): any | Promise<any>;
+  before?(interaction: CommandInteraction | ContextMenuCommandInteraction | Message): Awaitable<unknown>;
 
   /**
    * Main function `execute` for the commands
@@ -175,7 +177,7 @@ export abstract class Command extends BaseStructure {
   abstract execute(
     interaction: CommandInteraction | ContextMenuCommandInteraction | Message,
     args?: CommandMessageArgsResolved[],
-  ): any | Promise<any>;
+  ): Awaitable<unknown>;
 
   /**
    * Check the type of a command
@@ -193,14 +195,15 @@ export abstract class Command extends BaseStructure {
    * @param {AutocompleteInteraction} interaction
    * @returns {any | Promise<any>}
    */
-  onAutocomplete?(interaction: AutocompleteInteraction): any | Promise<any>;
+  onAutocomplete?(interaction: AutocompleteInteraction): Awaitable<unknown>;
 
   /**
    * Register a command in collections
    * @returns {Collection<string, ApplicationCommand>} The Application Commands collection
    */
-  public async register(): Promise<Collection<string, Command>> {
-    const CommandImported = (await import(this.path!)).default;
+  public async register(): Promise<Collection<string, Command> | ShewenyError> {
+    if (!this.path) return new ShewenyError(this.client, 'PATH_NOT_DEFINE', 'Command', this.name);
+    const CommandImported = (await import(this.path)).default;
     const AC: Command = new CommandImported(this.client);
     return this.client.collections.commands
       ? this.client.collections.commands.set(AC.name, AC)
@@ -208,14 +211,11 @@ export abstract class Command extends BaseStructure {
   }
   /**
    * Reload a command
-   * @returns {Promise<Collection<string, Command> | null>} The Application Commands collection
+   * @returns {Promise<Collection<string, Command> | ShewenyError>} The Application Commands collection
    */
-  public async reload(): Promise<Collection<string, Command> | null> {
-    if (this.path) {
-      this.unregister();
-      return this.register();
-    }
-    return null;
+  public async reload(): Promise<Collection<string, Command> | ShewenyError> {
+    this.unregister();
+    return this.register();
   }
   /**
    * Unregister a command from collections
@@ -223,7 +223,8 @@ export abstract class Command extends BaseStructure {
    */
   public unregister(): boolean {
     this.client.collections.commands?.delete(this.name);
-    delete require.cache[require.resolve(this.path!)];
+    if (!this.path) return false;
+    delete require.cache[require.resolve(this.path)];
     return true;
   }
 }

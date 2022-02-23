@@ -51,8 +51,8 @@ export default async function run(client: ShewenyClient, message: Message) {
     if (message.guild) {
       if (command.channel === COMMAND_CHANNEL.dm) return;
 
-      let member = message.guild!.members.cache.get(message.author.id);
-      if (!member) member = await message.guild!.members.fetch(message.author.id);
+      let member = message.guild.members.cache.get(message.author.id);
+      if (!member) member = await message.guild.members.fetch(message.author.id);
       if (command.userPermissions.length > 0) {
         for (const permission of command.userPermissions) {
           if (!member.permissions.has(permission)) {
@@ -63,7 +63,7 @@ export default async function run(client: ShewenyClient, message: Message) {
 
       if (command.clientPermissions.length > 0) {
         for (const permission of command.clientPermissions) {
-          if (!message.guild!.me!.permissions.has(permission)) {
+          if (!message.guild.me?.permissions.has(permission)) {
             return client.managers.commands.emit(COMMAND_EVENTS.clientMissingPerm, message, permission);
           }
         }
@@ -78,18 +78,20 @@ export default async function run(client: ShewenyClient, message: Message) {
         command.cooldowns.set(command.name, new Collection());
       }
       const timeNow = Date.now();
-      const tStamps = command.cooldowns.get(command.name)!;
-      const cdAmount = (command.cooldown || 0) * 1000;
-      if (tStamps.has(message.author.id)) {
-        const cdExpirationTime = (tStamps.get(message.author.id) || 0) + cdAmount;
-        if (timeNow < cdExpirationTime) {
-          // const timeLeft = (cdExpirationTime - timeNow) / 1000;
-          return client.managers.commands.emit(COMMAND_EVENTS.cooldownLimit, message, cdExpirationTime - timeNow);
+      const tStamps = command.cooldowns.get(command.name);
+      if (tStamps) {
+        const cdAmount = (command.cooldown || 0) * 1000;
+        if (tStamps.has(message.author.id)) {
+          const cdExpirationTime = (tStamps.get(message.author.id) || 0) + cdAmount;
+          if (timeNow < cdExpirationTime) {
+            // const timeLeft = (cdExpirationTime - timeNow) / 1000;
+            return client.managers.commands.emit(COMMAND_EVENTS.cooldownLimit, message, cdExpirationTime - timeNow);
+          }
         }
-      }
 
-      tStamps.set(message.author.id, timeNow);
-      setTimeout(() => tStamps.delete(message.author.id), cdAmount);
+        tStamps.set(message.author.id, timeNow);
+        setTimeout(() => tStamps.delete(message.author.id), cdAmount);
+      }
     }
 
     const messageArgs: any = {};

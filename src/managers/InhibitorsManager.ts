@@ -31,8 +31,8 @@ export class InhibitorsManager extends BaseManager {
   constructor(client: ShewenyClient, options: InhibitorsManagerOptions) {
     super(client, options);
     this.default = {
-      priority: options.default?.priority || 0,
-      type: options.default?.type || [INHIBITOR_TYPE.message],
+      priority: options.default?.priority,
+      type: options.default?.type,
     };
     if (options?.loadAll) this.loadAll();
   }

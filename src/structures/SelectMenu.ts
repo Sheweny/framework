@@ -1,9 +1,10 @@
 import { Collection } from 'discord.js';
 import { BaseStructure } from '.';
+import { ShewenyError } from '../helpers';
 import type { SelectMenuInteraction } from 'discord.js';
 import type { ShewenyClient } from '../client/Client';
 import type { SelectMenusManager } from '..';
-import { ShewenyError } from '../helpers';
+import type { Awaitable } from '../typescript/utilityTypes';
 
 /**
  * Represents an Select Menu structure
@@ -39,14 +40,14 @@ export abstract class SelectMenu extends BaseStructure {
    * @param {SelectMenuInteraction} interaction Select Menu interaction
    * @returns {any | Promise<any>}
    */
-  before?(interaction: SelectMenuInteraction): any | Promise<any>;
+  before?(interaction: SelectMenuInteraction): Awaitable<unknown>;
 
   /**
    * Main function `execute` for the select menus
    * @param {SelectMenuInteraction} interaction Select Menus interaction
    * @returns {any | Promise<any>}
    */
-  abstract execute(interaction: SelectMenuInteraction): any | Promise<any>;
+  abstract execute(interaction: SelectMenuInteraction): Awaitable<unknown>;
 
   /**
    * Register a select menu in collections
@@ -76,7 +77,8 @@ export abstract class SelectMenu extends BaseStructure {
    */
   public unregister(): boolean {
     this.client.collections.selectMenus?.delete(this.customId);
-    delete require.cache[require.resolve(this.path!)];
+    if (!this.path) return false;
+    delete require.cache[require.resolve(this.path)];
     return true;
   }
 }

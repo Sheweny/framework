@@ -69,15 +69,15 @@ export class CommandsManager extends BaseManager {
     this.applicationPermissions = options?.applicationPermissions || false;
     this.autoRegisterApplicationCommands = options?.autoRegisterApplicationCommands || false;
     this.default = {
-      adminOnly: options.default?.adminOnly || false,
-      category: options.default?.category || '',
-      channel: options.default?.channel || undefined,
-      clientPermissions: options.default?.clientPermissions || [],
-      cooldown: options.default?.cooldown || 0,
-      examples: options.default?.examples || '',
-      type: options.default?.type || COMMAND_TYPE.cmdMsg,
-      usage: options.default?.usage || '',
-      userPermissions: options.default?.userPermissions || [],
+      adminOnly: options.default?.adminOnly,
+      category: options.default?.category,
+      channel: options.default?.channel,
+      clientPermissions: options.default?.clientPermissions,
+      cooldown: options.default?.cooldown,
+      examples: options.default?.examples,
+      type: options.default?.type,
+      usage: options.default?.usage,
+      userPermissions: options.default?.userPermissions,
     };
     this.guildId = options?.guildId;
     this.prefix = options?.prefix;
@@ -94,7 +94,7 @@ export class CommandsManager extends BaseManager {
   public async createCommand(
     command: Command,
     guildId?: Snowflake,
-  ): Promise<ApplicationCommand<{}> | ApplicationCommand<{ guild: GuildResolvable }> | undefined> {
+  ): Promise<ApplicationCommand<Record<string, unknown>> | ApplicationCommand<{ guild: GuildResolvable }> | undefined> {
     if (!command) throw new Error('Command not found');
 
     const data = this.getApplicationCommandData(command) as ApplicationCommandData;
@@ -111,7 +111,9 @@ export class CommandsManager extends BaseManager {
   public async deleteAllCommands(
     guildId?: Snowflake,
   ): Promise<
-    Collection<string, ApplicationCommand<{}>> | Collection<string, ApplicationCommand<{ guild: GuildResolvable }>> | undefined
+    | Collection<string, ApplicationCommand<Record<string, unknown>>>
+    | Collection<string, ApplicationCommand<{ guild: GuildResolvable }>>
+    | undefined
   > {
     return guildId ? this.client.application?.commands.set([], guildId) : this.client.application?.commands.set([]);
   }
@@ -144,7 +146,7 @@ export class CommandsManager extends BaseManager {
     oldCommand: ApplicationCommandResolvable,
     newCommand: Command,
     guildId?: Snowflake,
-  ): Promise<ApplicationCommand<{}> | ApplicationCommand<{ guild: GuildResolvable }> | undefined> {
+  ): Promise<ApplicationCommand<Record<string, unknown>> | ApplicationCommand<{ guild: GuildResolvable }> | undefined> {
     if (!oldCommand) throw new Error('Old Command not found');
     if (!newCommand) throw new Error('New Command not found');
 

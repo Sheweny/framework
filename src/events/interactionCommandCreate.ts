@@ -39,12 +39,12 @@ export default async function run(
     }
 
     /* ---------------IN-GUILD--------------- */
-    if (interaction.inGuild()) {
+    if (interaction.inGuild() && interaction.guild) {
       if (command.channel === COMMAND_CHANNEL.dm) return;
 
       if (!client.managers.commands.applicationPermissions) {
-        let member = interaction.guild!.members.cache.get(interaction.user.id);
-        if (!member) member = await interaction.guild!.members.fetch(interaction.user.id);
+        let member = interaction.guild.members.cache.get(interaction.user.id);
+        if (!member) member = await interaction.guild.members.fetch(interaction.user.id);
         if (command.userPermissions.length) {
           for (const permission of command.userPermissions) {
             if (!member.permissions.has(permission)) {
@@ -56,7 +56,7 @@ export default async function run(
 
       if (command.clientPermissions.length) {
         for (const permission of command.clientPermissions) {
-          if (!interaction.guild!.me!.permissions.has(permission)) {
+          if (!interaction.guild.me?.permissions.has(permission)) {
             return client.managers.commands?.emit(COMMAND_EVENTS.clientMissingPerm, interaction, permission);
           }
         }
@@ -71,18 +71,19 @@ export default async function run(
         command.cooldowns.set(command.name, new Collection());
       }
       const timeNow = Date.now();
-      const tStamps = command.cooldowns.get(command.name)!;
-      const cdAmount = (command.cooldown || 0) * 1000;
-      if (tStamps.has(interaction.user.id)) {
-        const cdExpirationTime = (tStamps.get(interaction.user.id) || 0) + cdAmount;
-        if (timeNow < cdExpirationTime) {
-          // const timeLeft = (cdExpirationTime - timeNow) / 1000;
-          return client.managers.commands?.emit(COMMAND_EVENTS.cooldownLimit, interaction, cdExpirationTime - timeNow);
+      const tStamps = command.cooldowns.get(command.name);
+      if (tStamps) {
+        const cdAmount = (command.cooldown || 0) * 1000;
+        if (tStamps.has(interaction.user.id)) {
+          const cdExpirationTime = (tStamps.get(interaction.user.id) || 0) + cdAmount;
+          if (timeNow < cdExpirationTime) {
+            // const timeLeft = (cdExpirationTime - timeNow) / 1000;
+            return client.managers.commands?.emit(COMMAND_EVENTS.cooldownLimit, interaction, cdExpirationTime - timeNow);
+          }
         }
+        tStamps.set(interaction.user.id, timeNow);
+        setTimeout(() => tStamps.delete(interaction.user.id), cdAmount);
       }
-
-      tStamps.set(interaction.user.id, timeNow);
-      setTimeout(() => tStamps.delete(interaction.user.id), cdAmount);
     }
 
     /* ---------------COMMAND--------------- */
