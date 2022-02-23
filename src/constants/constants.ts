@@ -32,6 +32,7 @@ export const COMMAND_MESSAGE_ARGS_TYPE = {
   guild_emoji: 'GUILD_EMOJI' as const,
   role: 'ROLE' as const,
   user: 'USER' as const,
+  command: 'COMMAND' as const,
 };
 export const COMMAND_PERMISSIONS = {
   admin: 'BOT_ADMIN' as const,

@@ -111,6 +111,7 @@ export default async function run(client: ShewenyClient, message: Message) {
       COMMAND_MESSAGE_ARGS_TYPE.guild_emoji,
       COMMAND_MESSAGE_ARGS_TYPE.role,
       COMMAND_MESSAGE_ARGS_TYPE.user,
+      COMMAND_MESSAGE_ARGS_TYPE.command,
     ];
 
     if (command.args && command.args.length > 0) {
@@ -169,6 +170,9 @@ export default async function run(client: ShewenyClient, message: Message) {
             break;
           case COMMAND_MESSAGE_ARGS_TYPE.user:
             messageArgs[argCommand?.name] = await client.util.resolveUser(args[i]);
+            break;
+          case COMMAND_MESSAGE_ARGS_TYPE.command:
+            messageArgs[argCommand?.name] = await client.util.resolveCommand(args[i]);
             break;
         }
       }

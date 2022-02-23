@@ -139,7 +139,8 @@ export interface MessageCommandOptionData {
     | typeof COMMAND_MESSAGE_ARGS_TYPE.member
     | typeof COMMAND_MESSAGE_ARGS_TYPE.guild_emoji
     | typeof COMMAND_MESSAGE_ARGS_TYPE.role
-    | typeof COMMAND_MESSAGE_ARGS_TYPE.user;
+    | typeof COMMAND_MESSAGE_ARGS_TYPE.user
+    | typeof COMMAND_MESSAGE_ARGS_TYPE.command;
   default?: unknown;
 }
 
