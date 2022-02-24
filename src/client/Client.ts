@@ -24,10 +24,21 @@ export class ShewenyClient extends Client {
   public collections: ManagersCollections;
 
   /**
+   * If the cooldown should be desactivated for admins
+   * @type {boolean}
+   */
+  public disableCooldownsForAdmins: boolean;
+
+  /**
    * If the client is ready
    * @type {boolean}
    */
   public connected: boolean;
+  /**
+   * If the client joins a Thread when created
+   * @type {boolean}
+   */
+  public joinThreadsOnCreate: boolean;
   /**
    * The mode of the application (developement or production)
    * @type {string}
@@ -47,12 +58,6 @@ export class ShewenyClient extends Client {
   public util: ClientUtil;
 
   /**
-   * If the client joins a Thread when created
-   * @type {boolean}
-   */
-  public joinThreadsOnCreate: boolean;
-
-  /**
    * Set options and your client is ready
    * @param {ShewenyClientOptions} options Client framework options
    * @param {ClientOptions} [clientOptions] Client discord.js options
@@ -68,6 +73,7 @@ export class ShewenyClient extends Client {
       inhibitors: new Collection(),
     };
     this.connected = false;
+    this.disableCooldownsForAdmins = options.disableCooldownsForAdmins || false;
     this.joinThreadsOnCreate = options.joinThreadsOnCreate || false;
     this.managers = {
       // BUTTONS

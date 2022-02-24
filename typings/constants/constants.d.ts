@@ -30,6 +30,7 @@ export declare const COMMAND_MESSAGE_ARGS_TYPE: {
     guild_emoji: "GUILD_EMOJI";
     role: "ROLE";
     user: "USER";
+    command: "COMMAND";
 };
 export declare const COMMAND_PERMISSIONS: {
     admin: "BOT_ADMIN";

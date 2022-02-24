@@ -165,10 +165,11 @@ export interface EventOptions {
 
 // Options for Sheweny client framework
 export interface ShewenyClientOptions extends ClientOptions {
-  mode?: typeof CLIENT_MODE.dev | typeof CLIENT_MODE.prod;
   admins?: Snowflake[];
-  managers?: ManagersOptions;
+  disableCooldownsForAdmins?: boolean;
   joinThreadsOnCreate?: boolean;
+  managers?: ManagersOptions;
+  mode?: typeof CLIENT_MODE.dev | typeof CLIENT_MODE.prod;
 }
 
 // Managers

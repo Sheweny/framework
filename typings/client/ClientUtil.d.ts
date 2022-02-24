@@ -11,4 +11,5 @@ export declare class ClientUtil extends DiscordResolve {
     getEvents(): import("..").Event[];
     getInhibitors(): import("..").Inhibitor[];
     getSelectMenus(): import("..").SelectMenu[];
+    resolveCommand(command: string): import("..").Command;
 }

@@ -67,7 +67,10 @@ export default async function run(
     }
 
     /* ---------------COOLDOWNS--------------- */
-    if (!client.admins?.includes(interaction.user.id)) {
+    if (
+      !client.disableCooldownsForAdmins ||
+      (client.disableCooldownsForAdmins && !client.admins?.includes(interaction.user.id))
+    ) {
       if (!command.cooldowns.has(command.name)) {
         command.cooldowns.set(command.name, new Collection());
       }

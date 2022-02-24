@@ -77,7 +77,7 @@ export default async function run(client: ShewenyClient, message: Message) {
     }
 
     /* ---------------COOLDOWNS--------------- */
-    if (!client.admins?.includes(message.author.id)) {
+    if (!client.disableCooldownsForAdmins || (client.disableCooldownsForAdmins && !client.admins?.includes(message.author.id))) {
       if (!command.cooldowns.has(command.name)) {
         command.cooldowns.set(command.name, new Collection());
       }

@@ -108,7 +108,7 @@ export interface MessageData {
 }
 export interface MessageCommandOptionData {
     name: string;
-    type: typeof COMMAND_MESSAGE_ARGS_TYPE.string | typeof COMMAND_MESSAGE_ARGS_TYPE.number | typeof COMMAND_MESSAGE_ARGS_TYPE.boolean | typeof COMMAND_MESSAGE_ARGS_TYPE.rest | typeof COMMAND_MESSAGE_ARGS_TYPE.guild | typeof COMMAND_MESSAGE_ARGS_TYPE.channel | typeof COMMAND_MESSAGE_ARGS_TYPE.member | typeof COMMAND_MESSAGE_ARGS_TYPE.guild_emoji | typeof COMMAND_MESSAGE_ARGS_TYPE.role | typeof COMMAND_MESSAGE_ARGS_TYPE.user;
+    type: typeof COMMAND_MESSAGE_ARGS_TYPE.string | typeof COMMAND_MESSAGE_ARGS_TYPE.number | typeof COMMAND_MESSAGE_ARGS_TYPE.boolean | typeof COMMAND_MESSAGE_ARGS_TYPE.rest | typeof COMMAND_MESSAGE_ARGS_TYPE.guild | typeof COMMAND_MESSAGE_ARGS_TYPE.channel | typeof COMMAND_MESSAGE_ARGS_TYPE.member | typeof COMMAND_MESSAGE_ARGS_TYPE.guild_emoji | typeof COMMAND_MESSAGE_ARGS_TYPE.role | typeof COMMAND_MESSAGE_ARGS_TYPE.user | typeof COMMAND_MESSAGE_ARGS_TYPE.command;
     default?: unknown;
 }
 export interface CommandMessageArgsResolved {
@@ -126,10 +126,11 @@ export interface EventOptions {
  * Client interfaces
  */
 export interface ShewenyClientOptions extends ClientOptions {
-    mode?: typeof CLIENT_MODE.dev | typeof CLIENT_MODE.prod;
     admins?: Snowflake[];
-    managers?: ManagersOptions;
+    disableCooldownsForAdmins?: boolean;
     joinThreadsOnCreate?: boolean;
+    managers?: ManagersOptions;
+    mode?: typeof CLIENT_MODE.dev | typeof CLIENT_MODE.prod;
 }
 export interface Managers {
     commands?: CommandsManager;

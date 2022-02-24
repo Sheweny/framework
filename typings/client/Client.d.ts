@@ -18,10 +18,20 @@ export declare class ShewenyClient extends Client {
      */
     collections: ManagersCollections;
     /**
+     * If the cooldown should be desactivated for admins
+     * @type {boolean}
+     */
+    disableCooldownsForAdmins: boolean;
+    /**
      * If the client is ready
      * @type {boolean}
      */
     connected: boolean;
+    /**
+     * If the client joins a Thread when created
+     * @type {boolean}
+     */
+    joinThreadsOnCreate: boolean;
     /**
      * The mode of the application (developement or production)
      * @type {string}
@@ -37,11 +47,6 @@ export declare class ShewenyClient extends Client {
      * @type {ClientUtil}
      */
     util: ClientUtil;
-    /**
-     * If the client joins a Thread when created
-     * @type {boolean}
-     */
-    joinThreadsOnCreate: boolean;
     /**
      * Set options and your client is ready
      * @param {ShewenyClientOptions} options Client framework options
