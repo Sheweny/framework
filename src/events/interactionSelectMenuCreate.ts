@@ -17,7 +17,10 @@ export default async function run(client: ShewenyClient, interaction: SelectMenu
         .filter((b) => b.customId.some((id) => id instanceof RegExp))
         .find((value) => {
           return value.customId.some((element) => {
-            return (element as RegExp).test(interaction.customId);
+            if ((element as RegExp).test(interaction.customId)) {
+              (element as RegExp).lastIndex = 0;
+              return true;
+            }
           });
         });
     }
