@@ -14,10 +14,13 @@ export default async function run(client: ShewenyClient, interaction: SelectMenu
     // Regex match
     if (!selectMenu) {
       selectMenu = client.collections.selectMenus
-        .filter(b => b.customId.some(id => id instanceof RegExp))
-        .find(value => {
-          return value.customId.some(element => {
-            return (element as RegExp).test(interaction.customId);
+        .filter((b) => b.customId.some((id) => id instanceof RegExp))
+        .find((value) => {
+          return value.customId.some((element) => {
+            if ((element as RegExp).test(interaction.customId)) {
+              (element as RegExp).lastIndex = 0;
+              return true;
+            }
           });
         });
     }
@@ -31,7 +34,7 @@ export default async function run(client: ShewenyClient, interaction: SelectMenu
     if (inhibitors && inhibitors.size) {
       const sorted = [...inhibitors.values()].sort((a, b) => b.priority - a.priority);
       for (const i of sorted) {
-        if (!i.execute(client, interaction)) return i.onFailure(client, interaction);
+        if (!(await i.execute(client, interaction))) return await i.onFailure(client, interaction);
       }
     }
 
