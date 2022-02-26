@@ -2,6 +2,13 @@
 
 **All notable changes to this project will be documented in this file.**
 
+# [[3.3.4]](https://github.com/Sheweny/framework/compare/3.3.3...3.3.4) - February 26, 2022
+
+### Fixed
+
+- Buttons : Fix regex match for global flag ([639de8a](https://github.com/Sheweny/framework/commit/639de8a1de857e93137a2e770e3ec66a3ac9526e)).
+- SelectMenus Fix regex match for global flag ([ff10711](https://github.com/Sheweny/framework/commit/ff10711716a58594ca77b80d2504b4ab2534240a)).
+
 # [[3.3.3]](https://github.com/Sheweny/framework/compare/3.3.2...3.3.3) - February 12, 2022
 
 ### Fixed
