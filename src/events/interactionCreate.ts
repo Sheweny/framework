@@ -13,4 +13,6 @@ export default function run(client: ShewenyClient, interaction: Interaction) {
   if (interaction.isSelectMenu()) client.emit('interactionSelectMenuCreate', interaction);
 
   if (interaction.isMessageComponent()) client.emit('interactionMessageComponentCreate', interaction);
+
+  if (interaction.isModalSubmit()) client.emit('interactionModalSubmitCreate', interaction);
 }

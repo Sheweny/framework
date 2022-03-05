@@ -51,5 +51,6 @@ export const INHIBITOR_TYPE = {
   appCommand: 'APPLICATION_COMMAND' as const,
   button: 'BUTTON' as const,
   select: 'SELECT_MENU' as const,
+  modal: 'MODAL' as const,
   all: 'ALL' as const,
 };

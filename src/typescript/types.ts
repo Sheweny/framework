@@ -21,4 +21,5 @@ export type InhibitorType =
   | typeof INHIBITOR_TYPE.appCommand
   | typeof INHIBITOR_TYPE.button
   | typeof INHIBITOR_TYPE.select
+  | typeof INHIBITOR_TYPE.modal
   | typeof INHIBITOR_TYPE.all;

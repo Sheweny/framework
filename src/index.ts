@@ -16,12 +16,20 @@ export { ClientUtil } from './client/ClientUtil';
 /**
  * Structures
  */
-export { BaseStructure, Button, Command, Event, Inhibitor, SelectMenu } from './structures';
+export { BaseStructure, Button, Command, Event, Inhibitor, Modal, SelectMenu } from './structures';
 
 /**
  * Managers
  */
-export { BaseManager, ButtonsManager, CommandsManager, EventsManager, InhibitorsManager, SelectMenusManager } from './managers';
+export {
+  BaseManager,
+  ButtonsManager,
+  CommandsManager,
+  EventsManager,
+  InhibitorsManager,
+  ModalsManager,
+  SelectMenusManager,
+} from './managers';
 
 /**
  * Helpers

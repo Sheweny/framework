@@ -1,8 +1,15 @@
 import type { ApplicationCommandOptionData, PermissionsString, Collection } from 'discord.js';
 import type { EventEmitter } from 'events';
 import type { ClientOptions, Snowflake } from 'discord.js';
-import type { ButtonsManager, CommandsManager, EventsManager, InhibitorsManager, SelectMenusManager } from '../managers';
-import type { Button, Command, Event, Inhibitor, SelectMenu } from '../structures';
+import type {
+  ButtonsManager,
+  CommandsManager,
+  EventsManager,
+  InhibitorsManager,
+  ModalsManager,
+  SelectMenusManager,
+} from '../managers';
+import type { Button, Command, Event, Inhibitor, SelectMenu, Modal } from '../structures';
 import type {
   CLIENT_MODE,
   COMMAND_CHANNEL,
@@ -174,20 +181,22 @@ export interface ShewenyClientOptions extends ClientOptions {
 
 // Managers
 export interface Managers {
+  buttons?: ButtonsManager;
   commands?: CommandsManager;
   events?: EventsManager;
-  buttons?: ButtonsManager;
-  selectMenus?: SelectMenusManager;
   inhibitors?: InhibitorsManager;
+  modals?: ModalsManager;
+  selectMenus?: SelectMenusManager;
 }
 
 // Collections of managers
 export interface ManagersCollections {
+  buttons: Collection<string[] | RegExp[], Button>;
   commands: Collection<string, Command>;
   events: Collection<string, Event>;
-  buttons: Collection<string[] | RegExp[], Button>;
-  selectMenus: Collection<string[] | RegExp[], SelectMenu>;
   inhibitors: Collection<string, Inhibitor>;
+  modals: Collection<string[] | RegExp[], Modal>;
+  selectMenus: Collection<string[] | RegExp[], SelectMenu>;
 }
 
 // Client options for managers
@@ -196,6 +205,7 @@ interface ManagersOptions {
   events?: EventsManagerOptions;
   buttons?: BaseManagerOptions;
   selectMenus?: BaseManagerOptions;
+  modals?: BaseManagerOptions;
   inhibitors?: InhibitorsManagerOptions;
 }
 

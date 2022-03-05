@@ -14,9 +14,9 @@ export default async function run(client: ShewenyClient, interaction: ButtonInte
     // Regex match
     if (!button) {
       button = client.collections.buttons
-        .filter((b) => b.customId.some((id) => id instanceof RegExp))
-        .find((value) => {
-          return value.customId.some((element) => {
+        .filter(b => b.customId.some(id => id instanceof RegExp))
+        .find(value => {
+          return value.customId.some(element => {
             if ((element as RegExp).test(interaction.customId)) {
               (element as RegExp).lastIndex = 0;
               return true;

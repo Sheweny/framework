@@ -47,6 +47,10 @@ const client = new ShewenyClient({
         once: false,
       },
     },
+    modals: {
+      directory: './interactions/modals',
+      loadAll: true,
+    },
     inhibitors: {
       directory: './inhibitors',
       loadAll: true,

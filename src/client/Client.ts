@@ -2,7 +2,14 @@ import { join } from 'path';
 import { readdir } from 'fs/promises';
 import { Client, Collection } from 'discord.js';
 import { ClientUtil } from './ClientUtil';
-import { ButtonsManager, CommandsManager, EventsManager, InhibitorsManager, SelectMenusManager } from '../managers';
+import {
+  ButtonsManager,
+  CommandsManager,
+  EventsManager,
+  InhibitorsManager,
+  ModalsManager,
+  SelectMenusManager,
+} from '../managers';
 import { ShewenyWarning } from '../helpers';
 import { CLIENT_MODE } from '../constants/constants';
 import type { Snowflake, ClientOptions } from 'discord.js';
@@ -69,8 +76,9 @@ export class ShewenyClient extends Client {
       commands: new Collection(),
       events: new Collection(),
       buttons: new Collection(),
-      selectMenus: new Collection(),
       inhibitors: new Collection(),
+      modals: new Collection(),
+      selectMenus: new Collection(),
     };
     this.connected = false;
     this.disableCooldownsForAdmins = options.disableCooldownsForAdmins || false;
@@ -112,6 +120,14 @@ export class ShewenyClient extends Client {
             directory: options.managers.inhibitors.directory,
             loadAll: options.managers.inhibitors.loadAll ?? true,
             default: options.managers.inhibitors.default,
+          })
+        : undefined,
+
+      // Modals
+      modals: options.managers?.modals
+        ? new ModalsManager(this, {
+            directory: options.managers.modals.directory,
+            loadAll: options.managers.modals.loadAll ?? true,
           })
         : undefined,
 

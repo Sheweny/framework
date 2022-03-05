@@ -1,15 +1,16 @@
 {
   "name": "sheweny",
-  "version": "3.3.4",
+  "version": "4.0.0-dev.1",
   "description": "The powerful framework for create discord bots",
   "main": "build/index.js",
   "types": "./typings/index.d.ts",
   "scripts": {
     "build": "tsc",
     "build:typings": "tsc --build tsconfig.typings.json",
+    "lint": "eslint src/**/*.ts",
     "dev": "tsnd --respawn --transpile-only --cls ./test/ts/src/index.ts"
   },
-  "author": "Smaug#6739, Natchi#8537",
+  "author": "Smaug#6739",
   "license": "MIT",
   "keywords": [
     "discord",
@@ -32,8 +33,18 @@
     "@sheweny/resolve": "^1.3.2"
   },
   "devDependencies": {
-    "@types/node": "^16.6.1",
-    "discord.js": "^13.3.0",
-    "ts-node-dev": "^1.1.8"
+    "@types/node": "^16.9.0",
+    "@typescript-eslint/eslint-plugin": "^5.12.1",
+    "@typescript-eslint/parser": "^5.12.1",
+    "discord.js": "^14.0.0-dev.1646395406.6f7a366",
+    "eslint": "^8.9.0",
+    "eslint-config-prettier": "^8.4.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "prettier": "^2.5.1",
+    "ts-node-dev": "^1.1.8",
+    "typescript": "^4.5.5"
+  },
+  "engines": {
+    "node": ">=16.9.0"
   }
 }
