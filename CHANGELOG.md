@@ -2,6 +2,13 @@
 
 **All notable changes to this project will be documented in this file.**
 
+# [[3.4.0]](https://github.com/Sheweny/framework/compare/3.3.3...3.3.4) - March 21, 2022
+
+### Added
+
+- Buttons: Add cooldown option ([f7d764d](https://github.com/Sheweny/framework/commit/f7d764d8ea3abe057141ec599bd4352991185ce1) [e2574de](https://github.com/Sheweny/framework/commit/e2574de545b16a4cd04fb2e4d14bbca223a7efce))
+- SelectMenus: Add cooldown option ([f7d764d](https://github.com/Sheweny/framework/commit/f7d764d8ea3abe057141ec599bd4352991185ce1) [e2574de](https://github.com/Sheweny/framework/commit/e2574de545b16a4cd04fb2e4d14bbca223a7efce))
+
 # [[3.3.4]](https://github.com/Sheweny/framework/compare/3.3.3...3.3.4) - February 26, 2022
 
 ### Fixed
