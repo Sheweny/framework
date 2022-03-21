@@ -28,11 +28,10 @@ export class ButtonsManager extends BaseManager {
    */
   constructor(client: ShewenyClient, options: BaseManagerOptions) {
     super(client, options);
-
-    if (options?.loadAll) this.loadAll();
     this.default = {
       cooldown: options.cooldown || 0,
     };
+    if (options?.loadAll) this.loadAll();
     client.managers.buttons = this;
   }
 

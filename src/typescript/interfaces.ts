@@ -194,13 +194,18 @@ export interface Managers {
   inhibitors?: InhibitorsManager;
 }
 
-// Collections of managers
+// Collections
 export interface ManagersCollections {
   commands: Collection<string, Command>;
   events: Collection<string, Event>;
   buttons: Collection<string[] | RegExp[], Button>;
   selectMenus: Collection<string[] | RegExp[], SelectMenu>;
   inhibitors: Collection<string, Inhibitor>;
+}
+export interface Cooldowns {
+  commands: Collection<string, Collection<string, number>>;
+  buttons: Collection<string[] | RegExp[], Collection<string, number>>;
+  selectMenus: Collection<string[] | RegExp[], Collection<string, number>>;
 }
 
 //Client options for managers

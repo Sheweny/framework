@@ -1,5 +1,6 @@
-import { INHIBITOR_TYPE } from '../constants/constants';
+import { INHIBITOR_TYPE, SELECT_EVENTS } from '../constants/constants';
 import { ShewenyError } from '../helpers';
+import { Collection } from 'discord.js';
 import type { SelectMenuInteraction } from 'discord.js';
 import type { ShewenyClient } from '../client/Client';
 import type { Inhibitor } from '../structures/Inhibitor';
@@ -36,6 +37,25 @@ export default async function run(client: ShewenyClient, interaction: SelectMenu
       for (const i of sorted) {
         if (!(await i.execute(client, interaction))) return await i.onFailure(client, interaction);
       }
+    }
+    /* ---------------COOLDOWNS--------------- */
+    if (!client.admins?.includes(interaction.user.id)) {
+      if (!client.cooldowns.selectMenus.has(selectMenu.customId)) {
+        client.cooldowns.selectMenus.set(selectMenu.customId, new Collection<string, number>());
+      }
+      const timeNow = Date.now();
+      const tStamps = client.cooldowns.selectMenus.get(selectMenu.customId)!;
+      const cdAmount = (selectMenu.cooldown || 0) * 1000;
+      if (tStamps.has(interaction.user.id)) {
+        const cdExpirationTime = (tStamps.get(interaction.user.id) || 0) + cdAmount;
+        if (timeNow < cdExpirationTime) {
+          // const timeLeft = (cdExpirationTime - timeNow) / 1000;
+          return client.managers.selectMenus?.emit(SELECT_EVENTS.cooldownLimit, interaction, cdExpirationTime - timeNow);
+        }
+      }
+
+      tStamps.set(interaction.user.id, timeNow);
+      setTimeout(() => tStamps.delete(interaction.user.id), cdAmount);
     }
 
     await selectMenu.execute(interaction);

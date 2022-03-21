@@ -3,12 +3,17 @@ import { BaseManager } from '.';
 import { loadFiles } from '../utils/loadFiles';
 import { ShewenyInformation } from '../helpers';
 import type { ShewenyClient, SelectMenu } from '..';
-import type { BaseManagerOptions } from '../typescript/interfaces';
+import type { BaseManagerOptions, SelectMenusManagerDefaultOptions } from '../typescript/interfaces';
 
 /**
  * Manager for Select Menus
  */
 export class SelectMenusManager extends BaseManager {
+  /**
+   * Default data for the buttons
+   * @type {Collection<string[], Button> | undefined}
+   */
+  public default?: SelectMenusManagerDefaultOptions;
   /**
    * Collection of the select menus
    * @type {Collection<string[], SelectMenu> | undefined}
@@ -23,7 +28,9 @@ export class SelectMenusManager extends BaseManager {
    */
   constructor(client: ShewenyClient, options: BaseManagerOptions) {
     super(client, options);
-
+    this.default = {
+      cooldown: options.cooldown || 0,
+    };
     if (options?.loadAll) this.loadAll();
     client.managers.selectMenus = this;
   }

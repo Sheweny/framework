@@ -17,12 +17,6 @@ export abstract class Button extends BaseStructure {
   public cooldown: number;
 
   /**
-   * Cooldowns collection
-   * @type {Collection<string, Collection<string, number>>}
-   */
-  public cooldowns: Collection<string, Collection<string, number>>;
-
-  /**
    * Custom id for one or more buttons
    * @type {string[] | RegExp[]}
    */
@@ -39,10 +33,9 @@ export abstract class Button extends BaseStructure {
    * @param {ShewenyClient} client Client framework
    * @param {string[] | RegExp[]} customId Custom id for one or more buttons
    */
-  constructor(client: ShewenyClient, customId: string[] | RegExp[], data: ButtonData) {
+  constructor(client: ShewenyClient, customId: string[] | RegExp[], data?: ButtonData) {
     super(client);
-    this.cooldown = data.cooldown || client.managers.buttons?.default?.cooldown!;
-    this.cooldowns = new Collection();
+    this.cooldown = data?.cooldown || client.managers.buttons?.default?.cooldown!;
     this.customId = customId;
 
     this.manager = this.client.managers.buttons;

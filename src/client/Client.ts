@@ -6,7 +6,7 @@ import { ButtonsManager, CommandsManager, EventsManager, InhibitorsManager, Sele
 import { ShewenyWarning } from '../helpers';
 import { CLIENT_MODE } from '../constants/constants';
 import type { Snowflake, ClientOptions } from 'discord.js';
-import type { ShewenyClientOptions, Managers, ManagersCollections } from '../typescript/interfaces';
+import type { ShewenyClientOptions, Managers, ManagersCollections, Cooldowns } from '../typescript/interfaces';
 /**
  * Sheweny framework client
  */
@@ -16,6 +16,13 @@ export class ShewenyClient extends Client {
    * @type {boolean}
    */
   public connected: boolean;
+
+  /**
+   * If the client is ready
+   * @type {boolean}
+   */
+  public cooldowns: Cooldowns;
+
   /**
    * The mode of the application (developement or production)
    * @type {string}
@@ -72,6 +79,11 @@ export class ShewenyClient extends Client {
 
     this.admins = options.admins || [];
     this.joinThreadsOnCreate = options.joinThreadsOnCreate || false;
+    this.cooldowns = {
+      commands: new Collection(),
+      buttons: new Collection(),
+      selectMenus: new Collection(),
+    };
 
     this.managers.commands = options.managers?.commands
       ? new CommandsManager(this, {

@@ -1,5 +1,6 @@
 import { ShewenyError } from '../helpers';
-import { INHIBITOR_TYPE } from '../constants/constants';
+import { BUTTON_EVENTS, INHIBITOR_TYPE } from '../constants/constants';
+import { Collection } from 'discord.js';
 import type { ButtonInteraction } from 'discord.js';
 import type { ShewenyClient } from '../client/Client';
 import type { Inhibitor } from '../structures/Inhibitor';
@@ -38,6 +39,33 @@ export default async function run(client: ShewenyClient, interaction: ButtonInte
       for (const i of sorted) {
         if (!(await i.execute(client, interaction))) return await i.onFailure(client, interaction);
       }
+    }
+    /* ---------------COOLDOWNS--------------- */
+    if (!client.admins?.includes(interaction.user.id)) {
+      if (!client.cooldowns.buttons.has(button.customId)) {
+        client.cooldowns.buttons.set(button.customId, new Collection<string, number>());
+      }
+
+      const timeNow = Date.now();
+      const tStamps = client.cooldowns.buttons.get(button.customId)!;
+      const cdAmount = (button.cooldown || 0) * 1000;
+
+      if (tStamps.has(interaction.user.id)) {
+        console.log(0);
+
+        const cdExpirationTime = (tStamps.get(interaction.user.id) || 0) + cdAmount;
+        console.log(1);
+
+        if (timeNow < cdExpirationTime) {
+          console.log(2);
+
+          // const timeLeft = (cdExpirationTime - timeNow) / 1000;
+          return client.managers.buttons?.emit(BUTTON_EVENTS.cooldownLimit, interaction, cdExpirationTime - timeNow);
+        }
+      }
+
+      tStamps.set(interaction.user.id, timeNow);
+      setTimeout(() => tStamps.delete(interaction.user.id), cdAmount);
     }
 
     await button.execute(interaction);

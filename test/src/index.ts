@@ -3,7 +3,7 @@ const config = require('../config-test.json');
 const client = new ShewenyClient({
   intents: Constants.CLIENT_UTIL.allIntents,
   partials: Constants.CLIENT_UTIL.allPartials,
-  admins: ['611468402263064577'],
+  //admins: ['611468402263064577'],
   mode: 'development',
   managers: {
     commands: {

@@ -3,7 +3,7 @@ import type { ButtonInteraction } from 'discord.js';
 
 export class Btns extends Button {
   constructor(client: ShewenyClient) {
-    super(client, ['primary', 'secondary', 'success', 'danger']);
+    super(client, ['primary', 'secondary', 'success', 'danger'], { cooldown: 3.5 });
   }
   async execute(button: ButtonInteraction) {
     switch (button.customId) {
