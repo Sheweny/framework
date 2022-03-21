@@ -15,6 +15,7 @@ import type {
  */
 export interface BaseManagerOptions {
   directory: string;
+  cooldown?: number;
   loadAll?: boolean;
 }
 export interface CommandsManagerOptions extends BaseManagerOptions {
@@ -23,6 +24,12 @@ export interface CommandsManagerOptions extends BaseManagerOptions {
   applicationPermissions?: boolean;
   autoRegisterApplicationCommands?: boolean;
   default?: CommandsManagerDefaultOptions;
+}
+export interface ButtonsManagerDefaultOptions {
+  cooldown?: number;
+}
+export interface SelectMenusManagerDefaultOptions {
+  cooldown?: number;
 }
 export interface CommandsManagerDefaultOptions {
   adminOnly?: boolean;
@@ -157,6 +164,15 @@ export interface EventOptions {
   once?: boolean;
 }
 
+/**
+ * Other interfaces
+ */
+export interface ButtonData {
+  cooldown?: number;
+}
+export interface SelectMenuData {
+  cooldown?: number;
+}
 /**
  * Client interfaces
  */

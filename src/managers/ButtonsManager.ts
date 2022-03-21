@@ -3,7 +3,7 @@ import { loadFiles } from '../utils/loadFiles';
 import { BaseManager } from '.';
 import { ShewenyInformation } from '../helpers';
 import type { ShewenyClient, Button } from '..';
-import type { BaseManagerOptions } from '../typescript/interfaces';
+import type { BaseManagerOptions, ButtonsManagerDefaultOptions } from '../typescript/interfaces';
 /**
  * Manager for Buttons
  */
@@ -15,6 +15,12 @@ export class ButtonsManager extends BaseManager {
   public buttons?: Collection<string[], Button> | null;
 
   /**
+   * Default data for the buttons
+   * @type {Collection<string[], Button> | undefined}
+   */
+  public default?: ButtonsManagerDefaultOptions;
+
+  /**
    * Constructor to manage buttons
    * @param {ShewenyClient} client Client framework
    * @param {string} directory Directory of the buttons folder
@@ -24,6 +30,9 @@ export class ButtonsManager extends BaseManager {
     super(client, options);
 
     if (options?.loadAll) this.loadAll();
+    this.default = {
+      cooldown: options.cooldown || 0,
+    };
     client.managers.buttons = this;
   }
 
