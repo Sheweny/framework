@@ -3,7 +3,7 @@ import { BaseManager } from '.';
 import { loadFiles } from '../utils/loadFiles';
 import { ShewenyInformation } from '../helpers';
 import type { ShewenyClient, SelectMenu } from '..';
-import type { BaseManagerOptions, SelectMenusManagerDefaultOptions } from '../typescript/interfaces';
+import type { BaseManagerOptions, SelectMenusManagerDefaultOptions, SelectMenusManagerOptions } from '../typescript/interfaces';
 
 /**
  * Manager for Select Menus
@@ -26,7 +26,7 @@ export class SelectMenusManager extends BaseManager {
    * @param {string} directory Directory of the select menus folder
    * @param {boolean} [loadAll] If the select menus are loaded during bot launch
    */
-  constructor(client: ShewenyClient, options: BaseManagerOptions) {
+  constructor(client: ShewenyClient, options: SelectMenusManagerOptions) {
     super(client, options);
     this.default = {
       cooldown: options.cooldown || 0,

@@ -3,7 +3,7 @@ import { loadFiles } from '../utils/loadFiles';
 import { BaseManager } from '.';
 import { ShewenyInformation } from '../helpers';
 import type { ShewenyClient, Button } from '..';
-import type { BaseManagerOptions, ButtonsManagerDefaultOptions } from '../typescript/interfaces';
+import type { BaseManagerOptions, ButtonsManagerDefaultOptions, ButtonsManagerOptions } from '../typescript/interfaces';
 /**
  * Manager for Buttons
  */
@@ -26,7 +26,7 @@ export class ButtonsManager extends BaseManager {
    * @param {string} directory Directory of the buttons folder
    * @param {boolean} [loadAll] If the buttons are loaded during bot launch
    */
-  constructor(client: ShewenyClient, options: BaseManagerOptions) {
+  constructor(client: ShewenyClient, options: ButtonsManagerOptions) {
     super(client, options);
     this.default = {
       cooldown: options.cooldown || 0,

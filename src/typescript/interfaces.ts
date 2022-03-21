@@ -15,8 +15,13 @@ import type {
  */
 export interface BaseManagerOptions {
   directory: string;
-  cooldown?: number;
   loadAll?: boolean;
+}
+export interface ButtonsManagerOptions extends BaseManagerOptions {
+  cooldown?: number;
+}
+export interface SelectMenusManagerOptions extends BaseManagerOptions {
+  cooldown?: number;
 }
 export interface CommandsManagerOptions extends BaseManagerOptions {
   guildId?: Snowflake | Snowflake[];
