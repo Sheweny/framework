@@ -3,7 +3,7 @@ import { loadFiles } from '../utils/loadFiles';
 import { BaseManager } from '.';
 import { ShewenyInformation } from '../helpers';
 import type { ShewenyClient, Button } from '..';
-import type { BaseManagerOptions, ButtonsManagerDefaultOptions, ButtonsManagerOptions } from '../typescript/interfaces';
+import type { ButtonsManagerDefaultOptions, ButtonsManagerOptions } from '../typescript/interfaces';
 /**
  * Manager for Buttons
  */

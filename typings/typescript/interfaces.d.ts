@@ -10,8 +10,13 @@ import type { CLIENT_MODE, COMMAND_CHANNEL, COMMAND_MESSAGE_ARGS_TYPE, COMMAND_T
  */
 export interface BaseManagerOptions {
     directory: string;
-    cooldown?: number;
     loadAll?: boolean;
+}
+export interface ButtonsManagerOptions extends BaseManagerOptions {
+    cooldown?: number;
+}
+export interface SelectMenusManagerOptions extends BaseManagerOptions {
+    cooldown?: number;
 }
 export interface CommandsManagerOptions extends BaseManagerOptions {
     guildId?: Snowflake | Snowflake[];

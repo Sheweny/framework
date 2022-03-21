@@ -3,7 +3,7 @@ import { BaseManager } from '.';
 import { loadFiles } from '../utils/loadFiles';
 import { ShewenyInformation } from '../helpers';
 import type { ShewenyClient, SelectMenu } from '..';
-import type { BaseManagerOptions, SelectMenusManagerDefaultOptions, SelectMenusManagerOptions } from '../typescript/interfaces';
+import type { SelectMenusManagerDefaultOptions, SelectMenusManagerOptions } from '../typescript/interfaces';
 
 /**
  * Manager for Select Menus

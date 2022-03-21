@@ -1,7 +1,7 @@
 import { Collection } from 'discord.js';
 import { BaseManager } from '.';
 import type { ShewenyClient, Button } from '..';
-import type { BaseManagerOptions, ButtonsManagerDefaultOptions } from '../typescript/interfaces';
+import type { ButtonsManagerDefaultOptions, ButtonsManagerOptions } from '../typescript/interfaces';
 /**
  * Manager for Buttons
  */
@@ -22,7 +22,7 @@ export declare class ButtonsManager extends BaseManager {
      * @param {string} directory Directory of the buttons folder
      * @param {boolean} [loadAll] If the buttons are loaded during bot launch
      */
-    constructor(client: ShewenyClient, options: BaseManagerOptions);
+    constructor(client: ShewenyClient, options: ButtonsManagerOptions);
     /**
      * Load all buttons in collection
      * @returns {Promise<Collection<string[], Button>>}
