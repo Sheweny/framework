@@ -51,14 +51,8 @@ export default async function run(client: ShewenyClient, interaction: ButtonInte
       const cdAmount = (button.cooldown || 0) * 1000;
 
       if (tStamps.has(interaction.user.id)) {
-        console.log(0);
-
         const cdExpirationTime = (tStamps.get(interaction.user.id) || 0) + cdAmount;
-        console.log(1);
-
         if (timeNow < cdExpirationTime) {
-          console.log(2);
-
           // const timeLeft = (cdExpirationTime - timeNow) / 1000;
           return client.managers.buttons?.emit(BUTTON_EVENTS.cooldownLimit, interaction, cdExpirationTime - timeNow);
         }
