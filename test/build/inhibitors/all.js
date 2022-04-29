@@ -4,7 +4,9 @@ exports.BlackListInhibitor = void 0;
 const __1 = require("../../../");
 class BlackListInhibitor extends __1.Inhibitor {
     constructor(client) {
-        super(client, 'blacklist', {});
+        super(client, 'blacklist', {
+            type: ['BUTTON'],
+        });
     }
     execute(client, ctx) {
         console.log('Inhibitor called');

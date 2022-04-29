@@ -36,9 +36,6 @@ export class PingCommand extends Command {
     }
 
     const filtered = choices!.filter((choice: any) => choice.startsWith(focusedOption.value));
-    interaction
-      .respond(filtered.map((choice: any) => ({ name: choice, value: choice })))
-      .then(console.log)
-      .catch(console.error);
+    interaction.respond(filtered.map((choice: any) => ({ name: choice, value: choice })));
   }
 }

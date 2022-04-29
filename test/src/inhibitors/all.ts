@@ -4,7 +4,9 @@ import type { Interaction } from 'discord.js';
 
 export class BlackListInhibitor extends Inhibitor {
   constructor(client: ShewenyClient) {
-    super(client, 'blacklist', {});
+    super(client, 'blacklist', {
+      type: ['BUTTON'],
+    });
   }
   execute(client: ShewenyClient, ctx: Interaction) {
     console.log('Inhibitor called');

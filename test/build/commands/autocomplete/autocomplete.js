@@ -33,10 +33,7 @@ class PingCommand extends __1.Command {
             choices = ['halloween', 'christmas', 'summer'];
         }
         const filtered = choices.filter((choice) => choice.startsWith(focusedOption.value));
-        interaction
-            .respond(filtered.map((choice) => ({ name: choice, value: choice })))
-            .then(console.log)
-            .catch(console.error);
+        interaction.respond(filtered.map((choice) => ({ name: choice, value: choice })));
     }
 }
 exports.PingCommand = PingCommand;

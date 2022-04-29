@@ -19,7 +19,9 @@ async function run(client, interaction) {
         /**
          * Handle inhibitors
          */
+        console.log(client.collections.inhibitors);
         const inhibitors = client.collections.inhibitors?.filter((i) => i.type.includes(constants_1.INHIBITOR_TYPE.appCommand) || i.type.includes(constants_1.INHIBITOR_TYPE.all));
+        console.log(inhibitors);
         if (inhibitors && inhibitors.size) {
             const sorted = [...inhibitors.values()].sort((a, b) => b.priority - a.priority);
             for (const i of sorted) {

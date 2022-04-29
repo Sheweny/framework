@@ -15,7 +15,7 @@ class GetAvatar extends __1.Command {
     }
     async execute(interaction) {
         const message = await interaction.channel.messages.fetch(interaction.targetId);
-        const embed = new discord_js_1.Embed()
+        const embed = new discord_js_1.EmbedBuilder()
             .setAuthor({ iconURL: message.author.displayAvatarURL(), name: message.author.tag })
             .setDescription(message.content)
             .setColor(111111)
