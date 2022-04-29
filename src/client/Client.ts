@@ -31,16 +31,17 @@ export class ShewenyClient extends Client {
   public collections: ManagersCollections;
 
   /**
+   * If the client is ready
+   * @type {boolean}
+   */
+  public connected: boolean;
+
+  /**
    * If the cooldown should be desactivated for admins
    * @type {boolean}
    */
   public disableCooldownsForAdmins: boolean;
 
-  /**
-   * If the client is ready
-   * @type {boolean}
-   */
-  public connected: boolean;
   /**
    * If the client joins a Thread when created
    * @type {boolean}
