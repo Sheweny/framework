@@ -45,6 +45,24 @@ export interface InhibitorsManagerDefaultOptions {
     priority?: number;
     type?: typeof INHIBITOR_TYPE.message[] | typeof INHIBITOR_TYPE.appCommand[] | typeof INHIBITOR_TYPE.button[] | typeof INHIBITOR_TYPE.select[] | typeof INHIBITOR_TYPE.all[];
 }
+export interface ButtonsManagerOptions extends BaseManagerOptions {
+    default?: ButtonsManagerDefaultOptions;
+}
+export interface ButtonsManagerDefaultOptions {
+    cooldown?: number;
+}
+export interface SelectMenusManagerOptions extends BaseManagerOptions {
+    default?: SelectMenusManagerDefaultOptions;
+}
+export interface SelectMenusManagerDefaultOptions {
+    cooldown?: number;
+}
+export interface ModalsManagerOptions extends BaseManagerOptions {
+    default?: ModalsManagerDefaultOptions;
+}
+export interface ModalsManagerDefaultOptions {
+    cooldown?: number;
+}
 /**
  * Intrefaces of Commands
  */
@@ -122,6 +140,15 @@ export interface EventOptions {
     emitter?: EventEmitter;
     once?: boolean;
 }
+export interface ButtonOptions {
+    cooldown?: number;
+}
+export interface ModalOptions {
+    cooldown?: number;
+}
+export interface SelectMenuOptions {
+    cooldown?: number;
+}
 /**
  * Client interfaces
  */
@@ -131,6 +158,12 @@ export interface ShewenyClientOptions extends ClientOptions {
     joinThreadsOnCreate?: boolean;
     managers?: ManagersOptions;
     mode?: typeof CLIENT_MODE.dev | typeof CLIENT_MODE.prod;
+}
+export interface Cooldowns {
+    commands: Collection<string, Collection<string, number>>;
+    buttons: Collection<string[] | RegExp[], Collection<string, number>>;
+    selectMenus: Collection<string[] | RegExp[], Collection<string, number>>;
+    modals: Collection<string[] | RegExp[], Collection<string, number>>;
 }
 export interface Managers {
     buttons?: ButtonsManager;

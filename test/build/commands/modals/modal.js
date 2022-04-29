@@ -23,7 +23,7 @@ class ModalCmd extends __1.Command {
             .setCustomId('haikuField')
             .setLabel('Write down your favorite haiku')
             .setStyle(discord_js_1.TextInputStyle.Paragraph);
-        const rows = [tvShowInputComponent, haikuInputComponent].map(component => new discord_js_1.ActionRow().addComponents(component));
+        const rows = [tvShowInputComponent, haikuInputComponent].map(component => new discord_js_1.ActionRowBuilderBuilder().addComponents(component));
         // Add action rows to form
         modal.addComponents(...rows);
         await interaction.showModal(modal);

@@ -1,6 +1,6 @@
 import { ShewenyClient, Command } from '../../../../';
-import type { CommandInteraction } from 'discord.js';
-import { SelectMenuComponent, ActionRow, UnsafeSelectMenuOption } from 'discord.js';
+import { CommandInteraction } from 'discord.js';
+import { SelectMenuBuilder, ActionRowBuilder, SelectMenuOptionBuilder } from 'discord.js';
 
 export class PingCommand extends Command {
   constructor(client: ShewenyClient) {
@@ -12,15 +12,15 @@ export class PingCommand extends Command {
     });
   }
   execute(interaction: CommandInteraction) {
-    const row = new ActionRow().addComponents(
-      new SelectMenuComponent()
+    const row = new ActionRowBuilder<SelectMenuBuilder>().addComponents([
+      new SelectMenuBuilder()
         .setCustomId('select')
         .setPlaceholder('Nothing selected')
-        .addOptions(
-          new UnsafeSelectMenuOption().setLabel('First option').setDescription('The first option').setValue('first'),
-          new UnsafeSelectMenuOption().setLabel('Second option').setDescription('The second option').setValue('second')
-        )
-    );
+        .addOptions([
+          new SelectMenuOptionBuilder().setLabel('First option').setDescription('The first option').setValue('first'),
+          new SelectMenuOptionBuilder().setLabel('Second option').setDescription('The second option').setValue('second'),
+        ]),
+    ]);
     interaction.reply({ content: 'Test the select-menus', components: [row] });
   }
 }

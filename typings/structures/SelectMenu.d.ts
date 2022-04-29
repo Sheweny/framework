@@ -5,11 +5,17 @@ import type { SelectMenuInteraction } from 'discord.js';
 import type { ShewenyClient } from '../client/Client';
 import type { SelectMenusManager } from '..';
 import type { Awaitable } from '../typescript/utilityTypes';
+import { SelectMenuOptions } from '../typescript/interfaces';
 /**
  * Represents an Select Menu structure
  * @extends {BaseStructure}
  */
 export declare abstract class SelectMenu extends BaseStructure {
+    /**
+     * Cooldown of a button in seconds
+     * @type {number}
+     */
+    cooldown: number;
     /**
      * Custom id for one or more select menus
      * @type {string[] | RegExp[]}
@@ -25,7 +31,7 @@ export declare abstract class SelectMenu extends BaseStructure {
      * @param {ShewenyClient} client Client framework
      * @param {string[] | RegExp[]} customId Custom id for one or more select menus
      */
-    constructor(client: ShewenyClient, customId: string[] | RegExp[]);
+    constructor(client: ShewenyClient, customId: string[] | RegExp[], options?: SelectMenuOptions);
     /**
      * This function is executed before executing the `execute` function
      * @param {SelectMenuInteraction} interaction Select Menu interaction

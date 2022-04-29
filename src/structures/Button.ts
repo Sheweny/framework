@@ -34,7 +34,7 @@ export abstract class Button extends BaseStructure {
    * @param {ShewenyClient} client Client framework
    * @param {string[] | RegExp[]} customId Custom id for one or more buttons
    */
-  constructor(client: ShewenyClient, customId: string[] | RegExp[], options: ButtonOptions) {
+  constructor(client: ShewenyClient, customId: string[] | RegExp[], options?: ButtonOptions) {
     super(client);
     this.cooldown = (options?.cooldown || client.managers.buttons?.default?.cooldown) ?? 0;
     this.customId = customId;

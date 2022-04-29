@@ -2,7 +2,7 @@ import { Client } from 'discord.js';
 import { ClientUtil } from './ClientUtil';
 import { CLIENT_MODE } from '../constants/constants';
 import type { Snowflake, ClientOptions } from 'discord.js';
-import type { ShewenyClientOptions, Managers, ManagersCollections } from '../typescript/interfaces';
+import type { ShewenyClientOptions, Managers, ManagersCollections, Cooldowns } from '../typescript/interfaces';
 /**
  * Sheweny framework client
  */
@@ -18,15 +18,20 @@ export declare class ShewenyClient extends Client {
      */
     collections: ManagersCollections;
     /**
-     * If the cooldown should be desactivated for admins
+     * If the client is ready
      * @type {boolean}
      */
-    disableCooldownsForAdmins: boolean;
+    cooldowns: Cooldowns;
     /**
      * If the client is ready
      * @type {boolean}
      */
     connected: boolean;
+    /**
+     * If the cooldown should be desactivated for admins
+     * @type {boolean}
+     */
+    disableCooldownsForAdmins: boolean;
     /**
      * If the client joins a Thread when created
      * @type {boolean}

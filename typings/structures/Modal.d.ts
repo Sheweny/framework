@@ -5,11 +5,17 @@ import type { ModalSubmitInteraction } from 'discord.js';
 import type { ModalsManager } from '..';
 import type { ShewenyClient } from '../client/Client';
 import type { Awaitable } from '../typescript/utilityTypes';
+import { ModalOptions } from '../typescript/interfaces';
 /**
  * Represents an Modal structure
  * @extends {BaseStructure}
  */
 export declare abstract class Modal extends BaseStructure {
+    /**
+     * Cooldown of a button in seconds
+     * @type {number}
+     */
+    cooldown: number;
     /**
      * Custom id for one or more modals
      * @type {string[] | RegExp[]}
@@ -25,7 +31,7 @@ export declare abstract class Modal extends BaseStructure {
      * @param {ShewenyClient} client Client framework
      * @param {string[] | RegExp[]} customId Custom id for one or more modals
      */
-    constructor(client: ShewenyClient, customId: string[] | RegExp[]);
+    constructor(client: ShewenyClient, customId: string[] | RegExp[], options?: ModalOptions);
     /**
      * This function is executed before executing the `execute` function
      * @param {ModalSubmitInteraction} interaction Modal interaction

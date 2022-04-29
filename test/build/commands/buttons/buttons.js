@@ -12,14 +12,14 @@ class PingCommand extends __1.Command {
         });
     }
     execute(interaction) {
-        const row = new discord_js_1.ActionRow()
-            .addComponents(new discord_js_1.ButtonComponent().setCustomId('primary').setLabel('Primary').setStyle(discord_js_1.EnumResolvers.resolveButtonStyle('PRIMARY')))
-            .addComponents(new discord_js_1.ButtonComponent()
+        const row = new discord_js_1.ActionRowBuilderBuilder()
+            .addComponents(new discord_js_1.ButtonBuilder().setCustomId('primary').setLabel('Primary').setStyle(discord_js_1.EnumResolvers.resolveButtonStyle('PRIMARY')))
+            .addComponents(new discord_js_1.ButtonBuilder()
             .setCustomId('secondary')
             .setLabel('Secondary')
             .setStyle(discord_js_1.EnumResolvers.resolveButtonStyle('SECONDARY')))
-            .addComponents(new discord_js_1.ButtonComponent().setCustomId('success').setLabel('Success').setStyle(discord_js_1.EnumResolvers.resolveButtonStyle('SUCCESS')))
-            .addComponents(new discord_js_1.ButtonComponent().setCustomId('danger').setLabel('Danger').setStyle(discord_js_1.EnumResolvers.resolveButtonStyle('DANGER')));
+            .addComponents(new discord_js_1.ButtonBuilder().setCustomId('success').setLabel('Success').setStyle(discord_js_1.EnumResolvers.resolveButtonStyle('SUCCESS')))
+            .addComponents(new discord_js_1.ButtonBuilder().setCustomId('danger').setLabel('Danger').setStyle(discord_js_1.EnumResolvers.resolveButtonStyle('DANGER')));
         interaction.reply({ content: 'Test the buttons', components: [row] });
     }
 }

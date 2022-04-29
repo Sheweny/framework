@@ -13,7 +13,7 @@ class PingCommand extends __1.Command {
         });
     }
     execute(interaction) {
-        const row = new discord_js_1.ActionRow().addComponents(new discord_js_1.SelectMenuComponent()
+        const row = new discord_js_1.ActionRowBuilderBuilder().addComponents(new discord_js_1.SelectMenuComponent()
             .setCustomId('select-10')
             .setPlaceholder('Nothing selected')
             .setMaxValues(2)

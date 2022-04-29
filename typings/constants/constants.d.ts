@@ -40,6 +40,15 @@ export declare const COMMAND_EVENTS: {
     clientMissingPerm: "clientMissingPermissions";
     cooldownLimit: "cooldownLimit";
 };
+export declare const BUTTON_EVENTS: {
+    cooldownLimit: "cooldownLimit";
+};
+export declare const SELECT_EVENTS: {
+    cooldownLimit: "cooldownLimit";
+};
+export declare const MODAL_EVENTS: {
+    cooldownLimit: "cooldownLimit";
+};
 /**
  * Inhibitor constants
  */

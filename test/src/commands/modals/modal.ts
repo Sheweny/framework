@@ -1,6 +1,6 @@
 import { Command, ShewenyClient } from '../../../../';
-import type { CommandInteraction } from 'discord.js';
-import { ActionRow, TextInputComponent, TextInputStyle, Modal, type ModalActionRowComponent } from 'discord.js';
+import { ActionRowBuilder, CommandInteraction, TextInputComponent } from 'discord.js';
+import { TextInputBuilder, TextInputStyle, ModalBuilder, ModalActionRowComponent } from 'discord.js';
 export class ModalCmd extends Command {
   constructor(client: ShewenyClient) {
     super(client, {
@@ -11,25 +11,24 @@ export class ModalCmd extends Command {
   }
   async execute(interaction: CommandInteraction) {
     // Create the modal
-    const modal = new Modal().setTitle('My Awesome Form').setCustomId('AwesomeForm');
+    const modal = new ModalBuilder().setTitle('My Awesome Form').setCustomId('AwesomeForm');
 
     // Create text input fields
-    const tvShowInputComponent = new TextInputComponent()
+    const tvShowInputComponent = new TextInputBuilder()
       .setCustomId('tsField')
       .setLabel('Favorite TV show')
       .setStyle(TextInputStyle.Short);
 
-    const haikuInputComponent = new TextInputComponent()
+    const haikuInputComponent = new TextInputBuilder()
       .setCustomId('haikuField')
       .setLabel('Write down your favorite haiku')
       .setStyle(TextInputStyle.Paragraph);
-
-    const rows = [tvShowInputComponent, haikuInputComponent].map(component =>
-      new ActionRow<ModalActionRowComponent>().addComponents(component),
-    );
-
+    const rows = [];
+    for (const component of [tvShowInputComponent, haikuInputComponent]) {
+      rows.push(new ActionRowBuilder<TextInputBuilder>().addComponents([component]));
+    }
     // Add action rows to form
-    modal.addComponents(...rows);
+    modal.addComponents(rows);
     await interaction.showModal(modal);
   }
 }

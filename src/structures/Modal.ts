@@ -34,7 +34,7 @@ export abstract class Modal extends BaseStructure {
    * @param {ShewenyClient} client Client framework
    * @param {string[] | RegExp[]} customId Custom id for one or more modals
    */
-  constructor(client: ShewenyClient, customId: string[] | RegExp[], options: ModalOptions) {
+  constructor(client: ShewenyClient, customId: string[] | RegExp[], options?: ModalOptions) {
     super(client);
     this.cooldown = (options?.cooldown || client.managers.buttons?.default?.cooldown) ?? 0;
     this.customId = customId;

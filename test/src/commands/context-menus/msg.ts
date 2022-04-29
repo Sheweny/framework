@@ -1,5 +1,5 @@
 import { Command } from '../../../../';
-import { Embed } from 'discord.js';
+import { EmbedBuilder } from 'discord.js';
 import type { ShewenyClient } from '../../../../';
 import type { ContextMenuCommandInteraction } from 'discord.js';
 
@@ -16,7 +16,7 @@ export class GetAvatar extends Command {
 
   async execute(interaction: ContextMenuCommandInteraction) {
     const message = await interaction.channel!.messages.fetch(interaction.targetId);
-    const embed = new Embed()
+    const embed = new EmbedBuilder()
       .setAuthor({ iconURL: message.author.displayAvatarURL(), name: message.author.tag })
       .setDescription(message.content)
       .setColor(111111)

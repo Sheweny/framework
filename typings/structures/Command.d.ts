@@ -49,11 +49,6 @@ export declare abstract class Command extends BaseStructure {
      */
     cooldown: number;
     /**
-     * Cooldowns collection
-     * @type {Collection<string, Collection<string, number>>}
-     */
-    cooldowns: Collection<string, Collection<string, number>>;
-    /**
      * Default permission of a Application command
      * @type {boolean | undefined}
      */
