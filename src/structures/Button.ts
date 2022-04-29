@@ -5,12 +5,18 @@ import type { ButtonInteraction } from 'discord.js';
 import type { ButtonsManager } from '..';
 import type { ShewenyClient } from '../client/Client';
 import type { Awaitable } from '../typescript/utilityTypes';
+import { ButtonOptions } from '../typescript/interfaces';
 
 /**
  * Represents an Button structure
  * @extends {BaseStructure}
  */
 export abstract class Button extends BaseStructure {
+  /**
+   * Cooldown of a button in seconds
+   * @type {number}
+   */
+  public cooldown: number;
   /**
    * Custom id for one or more buttons
    * @type {string[] | RegExp[]}
@@ -28,9 +34,9 @@ export abstract class Button extends BaseStructure {
    * @param {ShewenyClient} client Client framework
    * @param {string[] | RegExp[]} customId Custom id for one or more buttons
    */
-  constructor(client: ShewenyClient, customId: string[] | RegExp[]) {
+  constructor(client: ShewenyClient, customId: string[] | RegExp[], options: ButtonOptions) {
     super(client);
-
+    this.cooldown = (options?.cooldown || client.managers.buttons?.default?.cooldown) ?? 0;
     this.customId = customId;
     this.manager = this.client.managers.buttons;
   }

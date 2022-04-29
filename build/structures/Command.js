@@ -26,7 +26,6 @@ class Command extends _1.BaseStructure {
         this.channel = data.channel || defaultData.channel;
         this.clientPermissions = (data.clientPermissions || defaultData.clientPermissions) ?? [];
         this.cooldown = (data.cooldown || defaultData.cooldown) ?? 0;
-        this.cooldowns = new discord_js_1.Collection();
         this.defaultPermission = this.isType(type, constants_1.COMMAND_TYPE.cmdSlash, constants_1.COMMAND_TYPE.ctxUser, constants_1.COMMAND_TYPE.ctxMsg)
             ? data.defaultPermission
             : undefined;

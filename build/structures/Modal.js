@@ -14,8 +14,9 @@ class Modal extends _1.BaseStructure {
      * @param {ShewenyClient} client Client framework
      * @param {string[] | RegExp[]} customId Custom id for one or more modals
      */
-    constructor(client, customId) {
+    constructor(client, customId, options) {
         super(client);
+        this.cooldown = (options?.cooldown || client.managers.buttons?.default?.cooldown) ?? 0;
         this.customId = customId;
         this.manager = this.client.managers.modals;
     }

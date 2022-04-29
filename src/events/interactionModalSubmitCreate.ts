@@ -1,6 +1,6 @@
 import { ShewenyError } from '../helpers';
-import { INHIBITOR_TYPE } from '../constants/constants';
-import type { ModalSubmitInteraction } from 'discord.js';
+import { INHIBITOR_TYPE, MODAL_EVENTS } from '../constants/constants';
+import { Collection, ModalSubmitInteraction } from 'discord.js';
 import type { ShewenyClient } from '../client/Client';
 import type { Inhibitor } from '../structures/Inhibitor';
 export default async function run(client: ShewenyClient, interaction: ModalSubmitInteraction) {
@@ -39,7 +39,29 @@ export default async function run(client: ShewenyClient, interaction: ModalSubmi
         if (!(await i.execute(client, interaction))) return await i.onFailure(client, interaction);
       }
     }
+    /* ---------------COOLDOWNS--------------- */
+    if (!client.admins?.includes(interaction.user.id)) {
+      if (!client.cooldowns.buttons.has(modal.customId)) {
+        client.cooldowns.buttons.set(modal.customId, new Collection<string, number>());
+      }
 
+      const timeNow = Date.now();
+      const tStamps = client.cooldowns.buttons.get(modal.customId);
+      const cdAmount = (modal.cooldown || 0) * 1000;
+
+      if (tStamps) {
+        if (tStamps.has(interaction.user.id)) {
+          const cdExpirationTime = (tStamps.get(interaction.user.id) || 0) + cdAmount;
+          if (timeNow < cdExpirationTime) {
+            // const timeLeft = (cdExpirationTime - timeNow) / 1000;
+            return client.managers.buttons?.emit(MODAL_EVENTS.cooldownLimit, interaction, cdExpirationTime - timeNow);
+          }
+        }
+
+        tStamps.set(interaction.user.id, timeNow);
+        setTimeout(() => tStamps.delete(interaction.user.id), cdAmount);
+      }
+    }
     await modal.execute(interaction);
   } catch (err) {
     const e = err as Error;

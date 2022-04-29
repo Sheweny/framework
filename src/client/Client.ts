@@ -13,7 +13,7 @@ import {
 import { ShewenyWarning } from '../helpers';
 import { CLIENT_MODE } from '../constants/constants';
 import type { Snowflake, ClientOptions } from 'discord.js';
-import type { ShewenyClientOptions, Managers, ManagersCollections } from '../typescript/interfaces';
+import type { ShewenyClientOptions, Managers, ManagersCollections, Cooldowns } from '../typescript/interfaces';
 /**
  * Sheweny framework client
  */
@@ -29,6 +29,12 @@ export class ShewenyClient extends Client {
    * @type {ManagersCollections}
    */
   public collections: ManagersCollections;
+
+  /**
+   * If the client is ready
+   * @type {boolean}
+   */
+  public cooldowns: Cooldowns;
 
   /**
    * If the client is ready
@@ -80,6 +86,12 @@ export class ShewenyClient extends Client {
       inhibitors: new Collection(),
       modals: new Collection(),
       selectMenus: new Collection(),
+    };
+    this.cooldowns = {
+      commands: new Collection(),
+      buttons: new Collection(),
+      selectMenus: new Collection(),
+      modals: new Collection(),
     };
     this.connected = false;
     this.disableCooldownsForAdmins = options.disableCooldownsForAdmins || false;

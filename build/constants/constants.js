@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.INHIBITOR_TYPE = exports.COMMAND_EVENTS = exports.COMMAND_PERMISSIONS = exports.COMMAND_MESSAGE_ARGS_TYPE = exports.COMMAND_CHANNEL = exports.COMMAND_TYPE = exports.CLIENT_MODE = void 0;
+exports.INHIBITOR_TYPE = exports.MODAL_EVENTS = exports.SELECT_EVENTS = exports.BUTTON_EVENTS = exports.COMMAND_EVENTS = exports.COMMAND_PERMISSIONS = exports.COMMAND_MESSAGE_ARGS_TYPE = exports.COMMAND_CHANNEL = exports.COMMAND_TYPE = exports.CLIENT_MODE = void 0;
 /**
  * Client constants
  */
@@ -41,6 +41,15 @@ exports.COMMAND_PERMISSIONS = {
 exports.COMMAND_EVENTS = {
     userMissingPerm: 'userMissingPermissions',
     clientMissingPerm: 'clientMissingPermissions',
+    cooldownLimit: 'cooldownLimit',
+};
+exports.BUTTON_EVENTS = {
+    cooldownLimit: 'cooldownLimit',
+};
+exports.SELECT_EVENTS = {
+    cooldownLimit: 'cooldownLimit',
+};
+exports.MODAL_EVENTS = {
     cooldownLimit: 'cooldownLimit',
 };
 /**

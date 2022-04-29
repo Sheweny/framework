@@ -71,12 +71,6 @@ export abstract class Command extends BaseStructure {
   public cooldown: number;
 
   /**
-   * Cooldowns collection
-   * @type {Collection<string, Collection<string, number>>}
-   */
-  public cooldowns: Collection<string, Collection<string, number>>;
-
-  /**
    * Default permission of a Application command
    * @type {boolean | undefined}
    */
@@ -147,7 +141,6 @@ export abstract class Command extends BaseStructure {
     this.channel = data.channel || defaultData.channel;
     this.clientPermissions = (data.clientPermissions || defaultData.clientPermissions) ?? [];
     this.cooldown = (data.cooldown || defaultData.cooldown) ?? 0;
-    this.cooldowns = new Collection();
     this.defaultPermission = this.isType(type, COMMAND_TYPE.cmdSlash, COMMAND_TYPE.ctxUser, COMMAND_TYPE.ctxMsg)
       ? (data as SlashCommandData | ContextMenuUserData | ContextMenuMessageData).defaultPermission
       : undefined;

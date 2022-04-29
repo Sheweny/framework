@@ -78,11 +78,11 @@ export default async function run(client: ShewenyClient, message: Message) {
 
     /* ---------------COOLDOWNS--------------- */
     if (!client.disableCooldownsForAdmins || (client.disableCooldownsForAdmins && !client.admins?.includes(message.author.id))) {
-      if (!command.cooldowns.has(command.name)) {
-        command.cooldowns.set(command.name, new Collection());
+      if (!client.cooldowns.commands.has(command.name)) {
+        client.cooldowns.commands.set(command.name, new Collection());
       }
       const timeNow = Date.now();
-      const tStamps = command.cooldowns.get(command.name);
+      const tStamps = client.cooldowns.commands.get(command.name);
       if (tStamps) {
         const cdAmount = (command.cooldown || 0) * 1000;
         if (tStamps.has(message.author.id)) {

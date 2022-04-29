@@ -16,6 +16,9 @@ class ButtonsManager extends _1.BaseManager {
      */
     constructor(client, options) {
         super(client, options);
+        this.default = {
+            cooldown: options.default?.cooldown || 0,
+        };
         if (options?.loadAll)
             this.loadAll();
     }

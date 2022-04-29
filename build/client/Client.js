@@ -28,6 +28,12 @@ class ShewenyClient extends discord_js_1.Client {
             modals: new discord_js_1.Collection(),
             selectMenus: new discord_js_1.Collection(),
         };
+        this.cooldowns = {
+            commands: new discord_js_1.Collection(),
+            buttons: new discord_js_1.Collection(),
+            selectMenus: new discord_js_1.Collection(),
+            modals: new discord_js_1.Collection(),
+        };
         this.connected = false;
         this.disableCooldownsForAdmins = options.disableCooldownsForAdmins || false;
         this.joinThreadsOnCreate = options.joinThreadsOnCreate || false;
