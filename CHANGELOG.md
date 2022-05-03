@@ -2,6 +2,10 @@
 
 **All notable changes to this project will be documented in this file.**
 
+# [[3.4.2]](https://github.com/Sheweny/framework/compare/3.4.1...3.4.2) - May 3, 2022
+
+- Buttons & Select-menus: Fix, strings and array in same directory ([bf556a7](https://github.com/Sheweny/framework/commit/bf556a77c31bb4a6b10c2501d75505b78d2cb2f1))
+
 # [[3.4.1]](https://github.com/Sheweny/framework/compare/3.4.0...3.4.1) - March 23, 2022
 
 - Buttons: Fix remove console.log ([bf556a7](https://github.com/Sheweny/framework/commit/bf556a77c31bb4a6b10c2501d75505b78d2cb2f1))
