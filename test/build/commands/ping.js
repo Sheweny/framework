@@ -8,6 +8,7 @@ class PingCommand extends __1.Command {
             name: 'ping',
             description: 'Ping !',
             type: 'SLASH_COMMAND',
+            channel: "DM"
         });
     }
     execute(interaction) {

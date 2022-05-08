@@ -42,6 +42,7 @@ exports.COMMAND_EVENTS = {
     userMissingPerm: 'userMissingPermissions',
     clientMissingPerm: 'clientMissingPermissions',
     cooldownLimit: 'cooldownLimit',
+    invalidChannel: 'invalidChannel'
 };
 exports.BUTTON_EVENTS = {
     cooldownLimit: 'cooldownLimit',

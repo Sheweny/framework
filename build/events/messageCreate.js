@@ -49,7 +49,7 @@ async function run(client, message) {
         /* ---------------IN-GUILD--------------- */
         if (message.guild) {
             if (command.channel === constants_1.COMMAND_CHANNEL.dm)
-                return;
+                return client.managers.commands.emit(constants_1.COMMAND_EVENTS.invalidChannel, command, message);
             let member = message.guild.members.cache.get(message.author.id);
             if (!member)
                 member = await message.guild.members.fetch(message.author.id);
@@ -69,7 +69,7 @@ async function run(client, message) {
             }
         }
         else if (command.channel === constants_1.COMMAND_CHANNEL.guild) {
-            return;
+            return client.managers.commands.emit(constants_1.COMMAND_EVENTS.invalidChannel, command, message);
         }
         /* ---------------COOLDOWNS--------------- */
         if (!client.disableCooldownsForAdmins || (client.disableCooldownsForAdmins && !client.admins?.includes(message.author.id))) {

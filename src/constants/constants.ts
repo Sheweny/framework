@@ -41,6 +41,7 @@ export const COMMAND_EVENTS = {
   userMissingPerm: 'userMissingPermissions' as const,
   clientMissingPerm: 'clientMissingPermissions' as const,
   cooldownLimit: 'cooldownLimit' as const,
+  invalidChannel: 'invalidChannel' as const
 };
 export const BUTTON_EVENTS = {
   cooldownLimit: 'cooldownLimit' as const,

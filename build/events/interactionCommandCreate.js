@@ -34,7 +34,7 @@ async function run(client, interaction) {
         /* ---------------IN-GUILD--------------- */
         if (interaction.inGuild() && interaction.guild) {
             if (command.channel === constants_1.COMMAND_CHANNEL.dm)
-                return;
+                return client.managers.commands.emit(constants_1.COMMAND_EVENTS.invalidChannel, command, interaction);
             if (!client.managers.commands.applicationPermissions) {
                 let member = interaction.guild.members.cache.get(interaction.user.id);
                 if (!member)
@@ -56,7 +56,7 @@ async function run(client, interaction) {
             }
         }
         else if (command.channel === constants_1.COMMAND_CHANNEL.guild) {
-            return;
+            return client.managers.commands.emit(constants_1.COMMAND_EVENTS.invalidChannel, command, interaction);
         }
         /* ---------------COOLDOWNS--------------- */
         if (!client.disableCooldownsForAdmins ||

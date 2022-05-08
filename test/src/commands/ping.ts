@@ -7,6 +7,7 @@ export class PingCommand extends Command {
       name: 'ping',
       description: 'Ping !',
       type: 'SLASH_COMMAND',
+      channel: "DM"
     });
   }
   execute(interaction: CommandInteraction) {
