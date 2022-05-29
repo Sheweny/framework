@@ -175,6 +175,8 @@ class CommandsManager extends _1.BaseManager {
         this.commands = commands;*/
         const loader = new Loader_1.Loader(this.client, this.directory, "name");
         this.commands = await loader.load();
+        // TODO: Refactor client.collection system
+        this.client.collections.commands = this.commands;
         new helpers_1.ShewenyInformation(this.client, `- Commands loaded : ${this.commands.size}`);
         return this.commands;
     }
