@@ -10,14 +10,14 @@ class Loader {
     constructor(client, path, mainKey) {
         this.client = client;
         this.collection = new discord_js_1.Collection();
-        this.mainPath = path;
+        this.mainPath = this.absolutePath(path);
         this.paths = [];
         this.mainKey = mainKey;
     }
     // Return the number of loaded paths
     async load(dir = this.mainPath) {
         if (dir)
-            await this.readDirectory(dir);
+            await this.readDirectory(this.absolutePath(dir));
         else if (this.mainPath)
             await this.readDirectory(this.mainPath);
         else
@@ -28,6 +28,9 @@ class Loader {
             await this.loadFileStructures(path);
         }
         return this.collection;
+    }
+    absolutePath(dir) {
+        return (0, path_1.resolve)(require.main.path, dir);
     }
     async readDirectory(dir) {
         const result = await (0, promises_1.readdir)(dir);
@@ -67,8 +70,9 @@ class Loader {
             if (!Object.hasOwn(instance, this.mainKey))
                 return new helpers_1.ShewenyWarning(this.client, "MISSING_PROPERTY_CLASS", this.mainKey, path);
             if (this.collection.get(instance[this.mainKey])) {
-                new helpers_1.ShewenyWarning(this.client, "DUPLICATE_CLASS", path);
+                return new helpers_1.ShewenyWarning(this.client, "DUPLICATE_CLASS", path);
             }
+            this.collection.set(instance[this.mainKey], instance);
         }
         catch (err) {
             const error = err;

@@ -1,6 +1,5 @@
 import { Collection } from 'discord.js';
 import { BaseManager } from '.';
-import { loadFiles } from '../utils/loadFiles';
 import { COMMAND_TYPE } from '../constants/constants';
 import { ShewenyInformation } from '../helpers';
 import {
@@ -13,6 +12,7 @@ import {
 } from 'discord.js';
 import type { ShewenyClient, Command } from '..';
 import type { CommandsManagerOptions, CommandsManagerDefaultOptions } from '../typescript/interfaces';
+import { Loader } from '../utils/Loader';
 
 /**
  * Manager for Commands
@@ -236,14 +236,16 @@ export class CommandsManager extends BaseManager {
    * @returns {Promise<Collection<string, Command>>}
    */
   public async loadAll(): Promise<Collection<string, Command> | undefined> {
-    const commands = await loadFiles<string, Command>(this.client, {
+    /*const commands = await loadFiles<string, Command>(this.client, {
       directory: this.directory,
       key: 'name',
     });
     if (commands) this.client.collections.commands = commands;
-    this.commands = commands;
-    new ShewenyInformation(this.client, `- Commands loaded : ${this.client.collections.commands.size}`);
-    return commands;
+    this.commands = commands;*/
+    const loader = new Loader<string, Command>(this.client, this.directory, "name");
+    this.commands = await loader.load();
+    new ShewenyInformation(this.client, `- Commands loaded : ${this.commands.size}`);
+    return this.commands;
   }
 
   /**

@@ -3,10 +3,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CommandsManager = void 0;
 const discord_js_1 = require("discord.js");
 const _1 = require(".");
-const loadFiles_1 = require("../utils/loadFiles");
 const constants_1 = require("../constants/constants");
 const helpers_1 = require("../helpers");
 const discord_js_2 = require("discord.js");
+const Loader_1 = require("../utils/Loader");
 /**
  * Manager for Commands
  * @extends {EventEmitter}
@@ -167,15 +167,16 @@ class CommandsManager extends _1.BaseManager {
      * @returns {Promise<Collection<string, Command>>}
      */
     async loadAll() {
-        const commands = await (0, loadFiles_1.loadFiles)(this.client, {
-            directory: this.directory,
-            key: 'name',
+        /*const commands = await loadFiles<string, Command>(this.client, {
+          directory: this.directory,
+          key: 'name',
         });
-        if (commands)
-            this.client.collections.commands = commands;
-        this.commands = commands;
-        new helpers_1.ShewenyInformation(this.client, `- Commands loaded : ${this.client.collections.commands.size}`);
-        return commands;
+        if (commands) this.client.collections.commands = commands;
+        this.commands = commands;*/
+        const loader = new Loader_1.Loader(this.client, this.directory, "name");
+        this.commands = await loader.load();
+        new helpers_1.ShewenyInformation(this.client, `- Commands loaded : ${this.commands.size}`);
+        return this.commands;
     }
     /**
      * Load all and Register Application commands

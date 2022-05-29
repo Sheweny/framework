@@ -13,10 +13,10 @@ class PingCommand extends __1.Command {
     }
     execute(interaction) {
         const row = new discord_js_1.ActionRowBuilder().addComponents([
-            new discord_js_1.ButtonBuilder().setCustomId('primary').setLabel('Primary').setStyle(discord_js_1.EnumResolvers.resolveButtonStyle('PRIMARY')),
-            new discord_js_1.ButtonBuilder().setCustomId('secondary').setLabel('Secondary').setStyle(discord_js_1.EnumResolvers.resolveButtonStyle('SECONDARY')),
-            new discord_js_1.ButtonBuilder().setCustomId('success').setLabel('Success').setStyle(discord_js_1.EnumResolvers.resolveButtonStyle('SUCCESS')),
-            new discord_js_1.ButtonBuilder().setCustomId('danger').setLabel('Danger').setStyle(discord_js_1.EnumResolvers.resolveButtonStyle('DANGER')),
+            new discord_js_1.ButtonBuilder().setCustomId('primary').setLabel('Primary').setStyle(discord_js_1.ButtonStyle.Primary),
+            new discord_js_1.ButtonBuilder().setCustomId('secondary').setLabel('Secondary').setStyle(discord_js_1.ButtonStyle.Secondary),
+            new discord_js_1.ButtonBuilder().setCustomId('success').setLabel('Success').setStyle(discord_js_1.ButtonStyle.Success),
+            new discord_js_1.ButtonBuilder().setCustomId('danger').setLabel('Danger').setStyle(discord_js_1.ButtonStyle.Danger),
         ]);
         interaction.reply({ content: 'Test the buttons', components: [row] });
     }

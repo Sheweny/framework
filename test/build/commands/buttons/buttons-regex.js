@@ -14,16 +14,16 @@ class PingCommand extends __1.Command {
     execute(interaction) {
         const row = new discord_js_1.ActionRowBuilder();
         row.addComponents([
-            new discord_js_1.ButtonBuilder().setCustomId('sheweny-1').setLabel('Button').setStyle(discord_js_1.EnumResolvers.resolveButtonStyle('SUCCESS')),
-            new discord_js_1.ButtonBuilder().setCustomId('sheweny-56').setLabel('Button').setStyle(discord_js_1.EnumResolvers.resolveButtonStyle('SUCCESS')),
+            new discord_js_1.ButtonBuilder().setCustomId('sheweny-1').setLabel('Button').setStyle(discord_js_1.ButtonStyle.Success),
+            new discord_js_1.ButtonBuilder().setCustomId('sheweny-56').setLabel('Button').setStyle(discord_js_1.ButtonStyle.Success),
             new discord_js_1.ButtonBuilder()
                 .setCustomId('sheweny-a')
                 .setLabel('Button (not work)')
-                .setStyle(discord_js_1.EnumResolvers.resolveButtonStyle('DANGER')),
+                .setStyle(discord_js_1.ButtonStyle.Danger),
             new discord_js_1.ButtonBuilder()
                 .setCustomId('sheweny-ab')
                 .setLabel('Button (not work)')
-                .setStyle(discord_js_1.EnumResolvers.resolveButtonStyle('DANGER')),
+                .setStyle(discord_js_1.ButtonStyle.Danger),
         ]);
         interaction.reply({ content: 'Test the buttons with regex', components: [row] });
     }

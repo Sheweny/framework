@@ -21,14 +21,14 @@ export class Loader<K, V> {
   constructor(client:ShewenyClient, path:string, mainKey:string){
     this.client = client;
     this.collection = new Collection<K, V>();
-    this.mainPath = path;
+    this.mainPath = this.absolutePath(path);
     this.paths = [];
     this.mainKey = mainKey;
   }
   
   // Return the number of loaded paths
   public async load(dir:string = this.mainPath){
-    if(dir) await this.readDirectory(dir);
+    if(dir) await this.readDirectory(this.absolutePath(dir));
     else if(this.mainPath) await this.readDirectory(this.mainPath);
     else new ShewenyError(this.client, "MISSING_PATH_LOADER");
     if(!this.paths.length) return this.collection;
@@ -36,6 +36,10 @@ export class Loader<K, V> {
       await this.loadFileStructures(path);
     }
     return this.collection;
+  }
+
+  private absolutePath(dir:string){
+    return resolve(require.main!.path, dir);
   }
 
   private async readDirectory(dir:string){
@@ -71,10 +75,9 @@ export class Loader<K, V> {
       if(!instance) return;
       if(!Object.hasOwn(instance, this.mainKey)) return new ShewenyWarning(this.client, "MISSING_PROPERTY_CLASS", this.mainKey, path); 
       if(this.collection.get(instance[this.mainKey])){
-        new ShewenyWarning(this.client, "DUPLICATE_CLASS", path)
-
+        return new ShewenyWarning(this.client, "DUPLICATE_CLASS", path)
       }
-
+      this.collection.set(instance[this.mainKey], instance)
     } catch (err) {
       const error = err as Error;
       // TODO: Implement this error
