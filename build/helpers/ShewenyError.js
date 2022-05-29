@@ -10,6 +10,7 @@ const Messages = {
     INVALID_CLASS: (name, path) => `The class ${name} is malformed.\nPath : ${path}`,
     PATH_NOT_DEFINE: (classD, customId) => `The class ${classD} with customId ${customId} doesn't have path.`,
     MISSING_PROPERTY_CLASS: (property, path) => `The property ${property} is missing on class.\nPath : ${path}`,
+    MISSING_PATH_LOADER: () => `Missing path for loader.`
 };
 class ShewenyError extends Error {
     constructor(client, err, ...args) {
@@ -23,6 +24,7 @@ class ShewenyError extends Error {
         else if (err)
             message = err;
         super(message);
+        // Display error
         if (client.mode === 'development')
             throw err;
         else

@@ -62,7 +62,7 @@ async function run(client, message) {
             }
             if (command.clientPermissions.length > 0) {
                 for (const permission of command.clientPermissions) {
-                    if (!message.guild.me?.permissions.has(permission)) {
+                    if (!message.guild.members.me?.permissions.has(permission)) {
                         return client.managers.commands.emit(constants_1.COMMAND_EVENTS.clientMissingPerm, message, permission);
                     }
                 }

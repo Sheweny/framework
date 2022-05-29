@@ -6,6 +6,7 @@ const _1 = require(".");
 const loadFiles_1 = require("../utils/loadFiles");
 const constants_1 = require("../constants/constants");
 const helpers_1 = require("../helpers");
+const discord_js_2 = require("discord.js");
 /**
  * Manager for Commands
  * @extends {EventEmitter}
@@ -14,7 +15,6 @@ class CommandsManager extends _1.BaseManager {
     /**
      * Constructor to manage commands
      * @param {ShewenyClient} client Client framework
-     * @param {string} directory Directory of the commands folder
      * @param {CommandsManagerOptions} [options] Options of the commands manager
      */
     constructor(client, options) {
@@ -206,82 +206,9 @@ class CommandsManager extends _1.BaseManager {
             const cmds = guildId && typeof guildId === 'string'
                 ? await this.client.application?.commands.set(data, guildId)
                 : await this.client.application?.commands.set(data);
-            if (this.applicationPermissions)
-                await this.registerPermissions(cmds, this.commands, guildId);
             return cmds;
         }
         return undefined;
-    }
-    /**
-     * Set permissions for each commands in guild
-     * @param {Collection<string, ApplicationCommand<{}>> | undefined} [applicationCommands] Commands coming from the client's application
-     * @param {Collection<string, Command> | undefined} [commandsCollection] Commands coming from the collection of the commands
-     * @param {Snowflake | undefined} [guildId] Guild ID where permissions will be set
-     * @returns {Promise<void>}
-     */
-    async registerPermissions(applicationCommands = this.client.application
-        ?.commands.cache, commandsCollection = this.commands, guildId) {
-        if (!applicationCommands)
-            throw new ReferenceError('Commands of application must be provided');
-        if (!commandsCollection)
-            throw new ReferenceError('Commands of client must be provided');
-        if (!guildId)
-            throw new ReferenceError('Guild ID must be provided');
-        if (typeof guildId !== 'string')
-            throw new TypeError('Guild ID must be a string');
-        const guild = this.client.guilds.cache.get(guildId);
-        const getRoles = (command) => {
-            if (!command.userPermissions?.length)
-                return null;
-            return guild?.roles.cache.filter(r => r.permissions.has(command.userPermissions));
-        };
-        const fullPermissions = [];
-        for (const [, appCommand] of applicationCommands) {
-            const permissions = [];
-            if (commandsCollection.get(appCommand.name)?.adminsOnly) {
-                // Bot admin permissions
-                if (this.client.admins?.length) {
-                    for (const userId of this.client.admins) {
-                        permissions.push({
-                            id: userId,
-                            type: discord_js_1.EnumResolvers.resolveApplicationCommandPermissionType('USER'),
-                            permission: true,
-                        });
-                    }
-                }
-            }
-            else {
-                const command = commandsCollection.get(appCommand.name);
-                if (!command)
-                    continue;
-                // Guild permissions
-                const roles = getRoles(command);
-                // Roles in the guild
-                if (roles && roles.size) {
-                    for (const [, role] of roles) {
-                        permissions.push({
-                            id: role.id,
-                            type: discord_js_1.EnumResolvers.resolveApplicationCommandPermissionType('ROLE'),
-                            permission: true,
-                        });
-                    }
-                }
-                // Owner of the guild
-                if (guild?.ownerId) {
-                    permissions.push({
-                        id: guild.ownerId,
-                        type: discord_js_1.EnumResolvers.resolveApplicationCommandPermissionType('USER'),
-                        permission: true,
-                    });
-                }
-                // Bot addmins for adminsOnly permission
-            }
-            fullPermissions.push({
-                id: appCommand.id,
-                permissions,
-            });
-        }
-        await guild?.commands.permissions.set({ fullPermissions });
     }
     /**
      * Rename command type to the type of Application command
@@ -290,11 +217,11 @@ class CommandsManager extends _1.BaseManager {
      */
     renameCommandType(type) {
         if (type === constants_1.COMMAND_TYPE.cmdSlash)
-            return discord_js_1.EnumResolvers.resolveApplicationCommandType('CHAT_INPUT');
+            return discord_js_2.ApplicationCommandType.ChatInput;
         if (type === constants_1.COMMAND_TYPE.ctxMsg)
-            return discord_js_1.EnumResolvers.resolveApplicationCommandType('MESSAGE');
+            return discord_js_2.ApplicationCommandType.Message;
         if (type === constants_1.COMMAND_TYPE.ctxUser)
-            return discord_js_1.EnumResolvers.resolveApplicationCommandType('USER');
+            return discord_js_2.ApplicationCommandType.User;
         return undefined;
     }
     /**

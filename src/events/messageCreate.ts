@@ -67,7 +67,7 @@ export default async function run(client: ShewenyClient, message: Message) {
 
       if (command.clientPermissions.length > 0) {
         for (const permission of command.clientPermissions) {
-          if (!message.guild.me?.permissions.has(permission)) {
+          if (!message.guild.members.me?.permissions.has(permission)) {
             return client.managers.commands.emit(COMMAND_EVENTS.clientMissingPerm, message, permission);
           }
         }
