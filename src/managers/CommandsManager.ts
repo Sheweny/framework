@@ -60,7 +60,6 @@ export class CommandsManager extends BaseManager {
   /**
    * Constructor to manage commands
    * @param {ShewenyClient} client Client framework
-   * @param {string} directory Directory of the commands folder
    * @param {CommandsManagerOptions} [options] Options of the commands manager
    */
   constructor(client: ShewenyClient, options: CommandsManagerOptions) {
