@@ -7,6 +7,8 @@ import { ShewenyError, ShewenyWarning } from '../helpers';
 import type { ShewenyClient } from '../client/Client';
 import type { LoadFilesOptions } from '../typescript/interfaces';
 import type { Constructable } from '../typescript/utilityTypes';
+
+// Old version
 export async function loadFiles<K, V>(client: ShewenyClient, options: LoadFilesOptions): Promise<Collection<K, V> | undefined> {
   try {
     const collection = new Collection<K, V>();
