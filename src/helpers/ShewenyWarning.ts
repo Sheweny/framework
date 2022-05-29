@@ -2,13 +2,12 @@ import type { ShewenyClient } from '../client/Client';
 import type { IMessages } from '../typescript/utilityTypes';
 
 const Messages: IMessages = {
-  START: () =>
-    'You are running Sheweny in development mode. Make sure to turn on production mode when deploying for production to avoid warnings.',
-  INVALID_CLASS: (name: string, path: string) => `The class ${name} is malformed. Unable to load it.\nPath : ${path}`,
+  START: () => 'You are running Sheweny in development mode. Make sure to turn on production mode when deploying for production to avoid warnings.',
+  // LOADER
+  INVALID_CLASS: (name: string, path: string, error:Error) => `The class ${name} is malformed. Unable to load it.\nPath: ${path}\nError: ${error.message}\n${error.stack}`,
   MISSING_CLASS: (path: string) => `Cannot find a class to load at path :\n${path}`,
   MISSING_PROPERTY_CLASS: (property: string, path: string) => `The property ${property} is missing on class.\nPath : ${path}`,
-  DUPLICATE_CLASS: (property: string, path: string) =>
-    `The class with id "${property}" is already loaded, only the last one will take effect.\nPath : ${path}`,
+  DUPLICATE_CLASS: (property: string, path: string) => `The structure with id "${property}" is already loaded, only the last one will take effect.\nPath : ${path}`,
 };
 
 export class ShewenyWarning {
