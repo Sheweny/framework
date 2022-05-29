@@ -11,7 +11,7 @@ const Messages: IMessages = {
 };
 
 export class ShewenyWarning {
-  constructor(client: ShewenyClient, name: string, ...args: string[]) {
+  constructor(client: ShewenyClient, name: string, ...args: Array<string|Error>) {
     if (!client || client.mode !== 'development') return;
 
     if (client.mode === 'development') {
