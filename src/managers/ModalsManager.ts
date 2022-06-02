@@ -1,5 +1,5 @@
 import { Collection } from 'discord.js';
-import { loadFiles } from '../utils/loadFiles';
+import { Loader } from '../utils/Loader';
 import { BaseManager } from '.';
 import { ShewenyInformation } from '../helpers';
 import type { ShewenyClient, Modal } from '..';
@@ -23,8 +23,7 @@ export class ModalsManager extends BaseManager {
   /**
    * Constructor to manage modals
    * @param {ShewenyClient} client Client framework
-   * @param {string} directory Directory of the modals folder
-   * @param {boolean} [loadAll] If the modals are loaded during bot launch
+   * @param {boolean} [options] The options of the manager
    */
   constructor(client: ShewenyClient, options: ModalsManagerOptions) {
     super(client, options);
@@ -39,16 +38,13 @@ export class ModalsManager extends BaseManager {
    * @returns {Promise<Collection<string[], Modal>>}
    */
   public async loadAll(): Promise<Collection<string[], Modal> | undefined> {
-    const modals = await loadFiles<string[], Modal>(this.client, {
-      directory: this.directory,
-      key: 'customId',
-    });
-    if (modals) {
-      this.client.collections.modals = modals;
-      this.modals = modals;
-    }
-    new ShewenyInformation(this.client, `- Modals loaded : ${this.client.collections.modals.size}`);
-    return modals;
+    const loader = new Loader<string[], Modal>(this.client, this.directory, "customId");
+    this.modals = await loader.load();
+    //TODO: Refactor for new system
+    this.client.collections.modals = this.modals;
+    new ShewenyInformation(this.client, `- Modals loaded : ${this.modals.size}`);
+    return this.modals;
+
   }
 
   /**

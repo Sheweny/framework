@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ModalsManager = void 0;
-const loadFiles_1 = require("../utils/loadFiles");
+const Loader_1 = require("../utils/Loader");
 const _1 = require(".");
 const helpers_1 = require("../helpers");
 /**
@@ -11,8 +11,7 @@ class ModalsManager extends _1.BaseManager {
     /**
      * Constructor to manage modals
      * @param {ShewenyClient} client Client framework
-     * @param {string} directory Directory of the modals folder
-     * @param {boolean} [loadAll] If the modals are loaded during bot launch
+     * @param {boolean} [options] The options of the manager
      */
     constructor(client, options) {
         super(client, options);
@@ -27,16 +26,12 @@ class ModalsManager extends _1.BaseManager {
      * @returns {Promise<Collection<string[], Modal>>}
      */
     async loadAll() {
-        const modals = await (0, loadFiles_1.loadFiles)(this.client, {
-            directory: this.directory,
-            key: 'customId',
-        });
-        if (modals) {
-            this.client.collections.modals = modals;
-            this.modals = modals;
-        }
-        new helpers_1.ShewenyInformation(this.client, `- Modals loaded : ${this.client.collections.modals.size}`);
-        return modals;
+        const loader = new Loader_1.Loader(this.client, this.directory, "customId");
+        this.modals = await loader.load();
+        //TODO: Refactor for new system
+        this.client.collections.modals = this.modals;
+        new helpers_1.ShewenyInformation(this.client, `- Modals loaded : ${this.modals.size}`);
+        return this.modals;
     }
     /**
      * Unload all modals
