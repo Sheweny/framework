@@ -5,7 +5,6 @@ const discord_js_1 = require("discord.js");
 const _1 = require(".");
 const constants_1 = require("../constants/constants");
 const helpers_1 = require("../helpers");
-const discord_js_2 = require("discord.js");
 const Loader_1 = require("../utils/Loader");
 /**
  * Manager for Commands
@@ -167,12 +166,6 @@ class CommandsManager extends _1.BaseManager {
      * @returns {Promise<Collection<string, Command>>}
      */
     async loadAll() {
-        /*const commands = await loadFiles<string, Command>(this.client, {
-          directory: this.directory,
-          key: 'name',
-        });
-        if (commands) this.client.collections.commands = commands;
-        this.commands = commands;*/
         const loader = new Loader_1.Loader(this.client, this.directory, "name");
         this.commands = await loader.load();
         // TODO: Refactor client.collection system
@@ -220,11 +213,11 @@ class CommandsManager extends _1.BaseManager {
      */
     renameCommandType(type) {
         if (type === constants_1.COMMAND_TYPE.cmdSlash)
-            return discord_js_2.ApplicationCommandType.ChatInput;
+            return discord_js_1.ApplicationCommandType.ChatInput;
         if (type === constants_1.COMMAND_TYPE.ctxMsg)
-            return discord_js_2.ApplicationCommandType.Message;
+            return discord_js_1.ApplicationCommandType.Message;
         if (type === constants_1.COMMAND_TYPE.ctxUser)
-            return discord_js_2.ApplicationCommandType.User;
+            return discord_js_1.ApplicationCommandType.User;
         return undefined;
     }
     /**

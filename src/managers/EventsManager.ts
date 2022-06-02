@@ -1,8 +1,8 @@
 import { EventEmitter } from 'events';
 import { Collection } from 'discord.js';
 import { BaseManager } from '.';
-import { loadFiles } from '../utils/loadFiles';
 import { ShewenyInformation } from '../helpers';
+import { Loader } from '../utils/Loader';
 import type { EventsManagerOptions, EventsManagerDefaultOptions } from '../typescript/interfaces';
 import type { ShewenyClient, Event } from '..';
 
@@ -24,8 +24,7 @@ export class EventsManager extends BaseManager {
   /**
    * Constructor to manage events
    * @param {ShewenyClient} client Client framework
-   * @param {string} directory Directory of the events folder
-   * @param {boolean} [loadAll] If the events are loaded during bot launch
+   * @param {EventsManagerOptions} [options] The options of the event manager
    */
   constructor(client: ShewenyClient, options: EventsManagerOptions) {
     super(client, options);
@@ -39,18 +38,16 @@ export class EventsManager extends BaseManager {
 
   /**
    * Load all events in collection
-   * @returns {Promise<Collection<string, Event>>}
+   * @returns {Promise<Collection<string, Event>>} the events
    */
   public async loadAll(): Promise<Collection<string, Event> | undefined> {
-    const events = await loadFiles<string, Event>(this.client, {
-      directory: this.directory,
-      key: 'name',
-    });
-    if (events) this.client.collections.events = events;
-    this.events = events;
-    new ShewenyInformation(this.client, `- Events loaded : ${this.client.collections.events.size}`);
-    return events;
-  }
+    const loader = new Loader<string, Event>(this.client, this.directory, "name");
+    this.events = await loader.load();
+    //TODO: Refactor for new system
+    this.client.collections.events = this.events;
+    new ShewenyInformation(this.client, `- Events loaded : ${this.events.size}`);
+    return this.events;
+   }
 
   /**
    * Load all and Register events

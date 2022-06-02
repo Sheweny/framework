@@ -1,6 +1,6 @@
 import { Collection } from 'discord.js';
 import { BaseManager } from '.';
-import { loadFiles } from '../utils/loadFiles';
+import { Loader } from '../utils/Loader';
 import { ShewenyInformation } from '../helpers';
 import type { ShewenyClient, Inhibitor } from '..';
 import type { InhibitorsManagerOptions, InhibitorsManagerDefaultOptions } from '../typescript/interfaces';
@@ -24,8 +24,7 @@ export class InhibitorsManager extends BaseManager {
   /**
    * Constructor to manage inhibitors
    * @param {ShewenyClient} client Client framework
-   * @param {string} directory Directory of the inhibitors folder
-   * @param {boolean} [loadAll] If the inhibitors are loaded during bot launch
+   * @param {boolean} [options] The options of the manager
    */
   constructor(client: ShewenyClient, options: InhibitorsManagerOptions) {
     super(client, options);
@@ -41,14 +40,12 @@ export class InhibitorsManager extends BaseManager {
    * @returns {Promise<Collection<string, Inhibitor>>}
    */
   public async loadAll(): Promise<Collection<string, Inhibitor> | undefined> {
-    const inhibitors = await loadFiles<string, Inhibitor>(this.client, {
-      directory: this.directory,
-      key: 'name',
-    });
-    if (inhibitors) this.client.collections.inhibitors = inhibitors;
-    this.inhibitors = inhibitors;
-    new ShewenyInformation(this.client, `- Inhibitors loaded : ${this.client.collections.inhibitors.size}`);
-    return inhibitors;
+    const loader = new Loader<string, Inhibitor>(this.client, this.directory, "name");
+    this.inhibitors = await loader.load();
+    //TODO: Refactor for new system
+    this.client.collections.inhibitors = this.inhibitors;
+    new ShewenyInformation(this.client, `- Inhibitors loaded : ${this.inhibitors.size}`);
+    return this.inhibitors;
   }
 
   /**

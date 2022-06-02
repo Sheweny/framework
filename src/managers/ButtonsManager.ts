@@ -1,6 +1,6 @@
 import { Collection } from 'discord.js';
-import { loadFiles } from '../utils/loadFiles';
 import { BaseManager } from '.';
+import { Loader } from '../utils/Loader';
 import { ShewenyInformation } from '../helpers';
 import type { ShewenyClient, Button } from '..';
 import type { ButtonsManagerDefaultOptions, ButtonsManagerOptions } from '../typescript/interfaces';
@@ -23,8 +23,7 @@ export class ButtonsManager extends BaseManager {
   /**
    * Constructor to manage buttons
    * @param {ShewenyClient} client Client framework
-   * @param {string} directory Directory of the buttons folder
-   * @param {boolean} [loadAll] If the buttons are loaded during bot launch
+   * @param {ButtonsManagerOptions} options The options of the manager
    */
   constructor(client: ShewenyClient, options: ButtonsManagerOptions) {
     super(client, options);
@@ -39,16 +38,13 @@ export class ButtonsManager extends BaseManager {
    * @returns {Promise<Collection<string[], Button>>}
    */
   public async loadAll(): Promise<Collection<string[], Button> | undefined> {
-    const buttons = await loadFiles<string[], Button>(this.client, {
-      directory: this.directory,
-      key: 'customId',
-    });
-    if (buttons) {
-      this.client.collections.buttons = buttons;
-      this.buttons = buttons;
-    }
-    new ShewenyInformation(this.client, `- Buttons loaded : ${this.client.collections.buttons.size}`);
-    return buttons;
+    const loader = new Loader<string[], Button>(this.client, this.directory, "customId");
+    this.buttons = await loader.load();
+    //TODO: Refactor for new system
+    this.client.collections.buttons = this.buttons;
+    new ShewenyInformation(this.client, `- Buttons loaded : ${this.buttons.size}`);
+    return this.buttons;
+
   }
 
   /**

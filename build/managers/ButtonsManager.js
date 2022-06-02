@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ButtonsManager = void 0;
-const loadFiles_1 = require("../utils/loadFiles");
 const _1 = require(".");
+const Loader_1 = require("../utils/Loader");
 const helpers_1 = require("../helpers");
 /**
  * Manager for Buttons
@@ -11,8 +11,7 @@ class ButtonsManager extends _1.BaseManager {
     /**
      * Constructor to manage buttons
      * @param {ShewenyClient} client Client framework
-     * @param {string} directory Directory of the buttons folder
-     * @param {boolean} [loadAll] If the buttons are loaded during bot launch
+     * @param {ButtonsManagerOptions} options The options of the manager
      */
     constructor(client, options) {
         super(client, options);
@@ -27,16 +26,12 @@ class ButtonsManager extends _1.BaseManager {
      * @returns {Promise<Collection<string[], Button>>}
      */
     async loadAll() {
-        const buttons = await (0, loadFiles_1.loadFiles)(this.client, {
-            directory: this.directory,
-            key: 'customId',
-        });
-        if (buttons) {
-            this.client.collections.buttons = buttons;
-            this.buttons = buttons;
-        }
-        new helpers_1.ShewenyInformation(this.client, `- Buttons loaded : ${this.client.collections.buttons.size}`);
-        return buttons;
+        const loader = new Loader_1.Loader(this.client, this.directory, "customId");
+        this.buttons = await loader.load();
+        //TODO: Refactor for new system
+        this.client.collections.buttons = this.buttons;
+        new helpers_1.ShewenyInformation(this.client, `- Buttons loaded : ${this.buttons.size}`);
+        return this.buttons;
     }
     /**
      * Unload all buttons

@@ -3,8 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.EventsManager = void 0;
 const events_1 = require("events");
 const _1 = require(".");
-const loadFiles_1 = require("../utils/loadFiles");
 const helpers_1 = require("../helpers");
+const Loader_1 = require("../utils/Loader");
 /**
  * Manager for Events
  */
@@ -12,8 +12,7 @@ class EventsManager extends _1.BaseManager {
     /**
      * Constructor to manage events
      * @param {ShewenyClient} client Client framework
-     * @param {string} directory Directory of the events folder
-     * @param {boolean} [loadAll] If the events are loaded during bot launch
+     * @param {EventsManagerOptions} [options] The options of the event manager
      */
     constructor(client, options) {
         super(client, options);
@@ -26,18 +25,15 @@ class EventsManager extends _1.BaseManager {
     }
     /**
      * Load all events in collection
-     * @returns {Promise<Collection<string, Event>>}
+     * @returns {Promise<Collection<string, Event>>} the events
      */
     async loadAll() {
-        const events = await (0, loadFiles_1.loadFiles)(this.client, {
-            directory: this.directory,
-            key: 'name',
-        });
-        if (events)
-            this.client.collections.events = events;
-        this.events = events;
-        new helpers_1.ShewenyInformation(this.client, `- Events loaded : ${this.client.collections.events.size}`);
-        return events;
+        const loader = new Loader_1.Loader(this.client, this.directory, "name");
+        this.events = await loader.load();
+        //TODO: Refactor for new system
+        this.client.collections.events = this.events;
+        new helpers_1.ShewenyInformation(this.client, `- Events loaded : ${this.events.size}`);
+        return this.events;
     }
     /**
      * Load all and Register events

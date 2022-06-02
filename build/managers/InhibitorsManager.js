@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.InhibitorsManager = void 0;
 const _1 = require(".");
-const loadFiles_1 = require("../utils/loadFiles");
+const Loader_1 = require("../utils/Loader");
 const helpers_1 = require("../helpers");
 /**
  * Manager for Inhibitors
@@ -11,8 +11,7 @@ class InhibitorsManager extends _1.BaseManager {
     /**
      * Constructor to manage inhibitors
      * @param {ShewenyClient} client Client framework
-     * @param {string} directory Directory of the inhibitors folder
-     * @param {boolean} [loadAll] If the inhibitors are loaded during bot launch
+     * @param {boolean} [options] The options of the manager
      */
     constructor(client, options) {
         super(client, options);
@@ -28,15 +27,12 @@ class InhibitorsManager extends _1.BaseManager {
      * @returns {Promise<Collection<string, Inhibitor>>}
      */
     async loadAll() {
-        const inhibitors = await (0, loadFiles_1.loadFiles)(this.client, {
-            directory: this.directory,
-            key: 'name',
-        });
-        if (inhibitors)
-            this.client.collections.inhibitors = inhibitors;
-        this.inhibitors = inhibitors;
-        new helpers_1.ShewenyInformation(this.client, `- Inhibitors loaded : ${this.client.collections.inhibitors.size}`);
-        return inhibitors;
+        const loader = new Loader_1.Loader(this.client, this.directory, "name");
+        this.inhibitors = await loader.load();
+        //TODO: Refactor for new system
+        this.client.collections.inhibitors = this.inhibitors;
+        new helpers_1.ShewenyInformation(this.client, `- Inhibitors loaded : ${this.inhibitors.size}`);
+        return this.inhibitors;
     }
     /**
      * Unload all inhibitors

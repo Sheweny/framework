@@ -1,18 +1,18 @@
-import { Collection } from 'discord.js';
+import {
+  Collection,
+  type ApplicationCommand,
+  type ApplicationCommandData,
+  type ApplicationCommandResolvable,
+  type GuildResolvable,
+  ApplicationCommandType,
+  type Snowflake,
+} from 'discord.js';
 import { BaseManager } from '.';
 import { COMMAND_TYPE } from '../constants/constants';
 import { ShewenyInformation } from '../helpers';
-import {
-  ApplicationCommand,
-  ApplicationCommandData,
-  ApplicationCommandResolvable,
-  GuildResolvable,
-  ApplicationCommandType,
-  Snowflake,
-} from 'discord.js';
+import { Loader } from '../utils/Loader';
 import type { ShewenyClient, Command } from '..';
 import type { CommandsManagerOptions, CommandsManagerDefaultOptions } from '../typescript/interfaces';
-import { Loader } from '../utils/Loader';
 
 /**
  * Manager for Commands
@@ -236,12 +236,6 @@ export class CommandsManager extends BaseManager {
    * @returns {Promise<Collection<string, Command>>}
    */
   public async loadAll(): Promise<Collection<string, Command> | undefined> {
-    /*const commands = await loadFiles<string, Command>(this.client, {
-      directory: this.directory,
-      key: 'name',
-    });
-    if (commands) this.client.collections.commands = commands;
-    this.commands = commands;*/
     const loader = new Loader<string, Command>(this.client, this.directory, "name");
     this.commands = await loader.load();
     // TODO: Refactor client.collection system
