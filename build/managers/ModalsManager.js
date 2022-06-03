@@ -2,12 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ModalsManager = void 0;
 const Loader_1 = require("../utils/Loader");
-const _1 = require(".");
-const helpers_1 = require("../helpers");
+const index_1 = require("../index");
 /**
  * Manager for Modals
  */
-class ModalsManager extends _1.BaseManager {
+class ModalsManager extends index_1.BaseManager {
     /**
      * Constructor to manage modals
      * @param {ShewenyClient} client Client framework
@@ -26,7 +25,7 @@ class ModalsManager extends _1.BaseManager {
     async loadAll() {
         const loader = new Loader_1.Loader(this.client, this.directory, "customId");
         this.modals = await loader.load();
-        new helpers_1.ShewenyInformation(this.client, `- Modals loaded : ${this.modals.size}`);
+        new index_1.ShewenyInformation(this.client, `- Modals loaded : ${this.modals.size}`);
         return this.modals;
     }
     /**

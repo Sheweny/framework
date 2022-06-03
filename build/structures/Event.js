@@ -2,13 +2,12 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Event = void 0;
 const discord_js_1 = require("discord.js");
-const _1 = require(".");
-const helpers_1 = require("../helpers");
+const index_1 = require("../index");
 /**
  * Represents an Event structure
  * @extends {BaseStructure}
  */
-class Event extends _1.BaseStructure {
+class Event extends index_1.BaseStructure {
     /**
      * Constructor for build a Event
      * @param {ShewenyClient} client Client framework
@@ -32,7 +31,7 @@ class Event extends _1.BaseStructure {
      */
     async register() {
         if (!this.path)
-            return new helpers_1.ShewenyError(this.client, 'PATH_NOT_DEFINE', 'Event', this.name);
+            return new index_1.ShewenyError(this.client, 'PATH_NOT_DEFINE', 'Event', this.name);
         const EventImported = (await Promise.resolve().then(() => require(this.path))).default;
         const evt = new EventImported(this.client);
         return this.client.collections.events

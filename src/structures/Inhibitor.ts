@@ -1,16 +1,7 @@
 import { Collection } from 'discord.js';
-import { BaseStructure } from '.';
-import { ShewenyError } from '../helpers';
-import type { InhibitorsManager } from '..';
-import type { ShewenyClient } from '../client/Client';
-import type { InhibitorType } from '../typescript/types';
+import { BaseStructure, ShewenyError, type ShewenyClient, type InhibitorsManager } from '../index';
 import type { Interaction, Message } from 'discord.js';
-import type { Awaitable } from '../typescript/utilityTypes';
-
-interface InhibitorOptions {
-  type?: InhibitorType[];
-  priority?: number;
-}
+import type { Awaitable, InhibitorType, InhibitorOptions } from '../typescript';
 
 /**
  * Represents an Command structure

@@ -1,9 +1,7 @@
 import { Collection } from 'discord.js';
-import { BaseManager } from '.';
+import { BaseManager, ShewenyInformation, type ShewenyClient, type Inhibitor  } from '../index';
 import { Loader } from '../utils/Loader';
-import { ShewenyInformation } from '../helpers';
-import type { ShewenyClient, Inhibitor } from '..';
-import type { InhibitorsManagerOptions, InhibitorsManagerDefaultOptions } from '../typescript/interfaces';
+import type { InhibitorsManagerOptions, InhibitorsManagerDefaultOptions } from '../typescript';
 
 /**
  * Manager for Inhibitors

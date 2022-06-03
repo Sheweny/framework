@@ -1,14 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.EventsManager = void 0;
-const events_1 = require("events");
-const _1 = require(".");
-const helpers_1 = require("../helpers");
+const node_events_1 = require("node:events");
+const index_1 = require("../index");
 const Loader_1 = require("../utils/Loader");
 /**
  * Manager for Events
  */
-class EventsManager extends _1.BaseManager {
+class EventsManager extends index_1.BaseManager {
     /**
      * Constructor to manage events
      * @param {ShewenyClient} client Client framework
@@ -28,7 +27,7 @@ class EventsManager extends _1.BaseManager {
     async loadAll() {
         const loader = new Loader_1.Loader(this.client, this.directory, "name");
         this.events = await loader.load();
-        new helpers_1.ShewenyInformation(this.client, `- Events loaded : ${this.events.size}`);
+        new index_1.ShewenyInformation(this.client, `- Events loaded : ${this.events.size}`);
         // Register
         await this.registerAll(this.events);
         return this.events;
@@ -42,7 +41,7 @@ class EventsManager extends _1.BaseManager {
         if (!events)
             throw new Error('No events found');
         for (const [name, evt] of events) {
-            if (!(evt.emitter instanceof events_1.EventEmitter))
+            if (!(evt.emitter instanceof node_events_1.EventEmitter))
                 throw new TypeError(`Event ${name} does not have a valid emitter.`);
             if (evt.once)
                 evt.emitter.once(name, (...args) => evt.execute(...args));

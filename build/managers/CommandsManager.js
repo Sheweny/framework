@@ -2,15 +2,14 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CommandsManager = void 0;
 const discord_js_1 = require("discord.js");
-const _1 = require(".");
+const index_1 = require("../index");
 const constants_1 = require("../constants/constants");
-const helpers_1 = require("../helpers");
 const Loader_1 = require("../utils/Loader");
 /**
  * Manager for Commands
  * @extends {EventEmitter}
  */
-class CommandsManager extends _1.BaseManager {
+class CommandsManager extends index_1.BaseManager {
     /**
      * Constructor to manage commands
      * @param {ShewenyClient} client Client framework
@@ -166,7 +165,7 @@ class CommandsManager extends _1.BaseManager {
     async loadAll() {
         const loader = new Loader_1.Loader(this.client, this.directory, "name");
         this.commands = await loader.load();
-        new helpers_1.ShewenyInformation(this.client, `- Commands loaded : ${this.commands.size}`);
+        new index_1.ShewenyInformation(this.client, `- Commands loaded : ${this.commands.size}`);
         // Register
         const commandsToRegister = this.commands?.filter((cmd) => cmd.type == constants_1.COMMAND_TYPE.cmdSlash ||
             cmd.type == constants_1.COMMAND_TYPE.ctxMsg ||

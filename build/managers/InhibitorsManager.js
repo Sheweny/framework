@@ -1,13 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.InhibitorsManager = void 0;
-const _1 = require(".");
+const index_1 = require("../index");
 const Loader_1 = require("../utils/Loader");
-const helpers_1 = require("../helpers");
 /**
  * Manager for Inhibitors
  */
-class InhibitorsManager extends _1.BaseManager {
+class InhibitorsManager extends index_1.BaseManager {
     /**
      * Constructor to manage inhibitors
      * @param {ShewenyClient} client Client framework
@@ -27,7 +26,7 @@ class InhibitorsManager extends _1.BaseManager {
     async loadAll() {
         const loader = new Loader_1.Loader(this.client, this.directory, "name");
         this.inhibitors = await loader.load();
-        new helpers_1.ShewenyInformation(this.client, `- Inhibitors loaded : ${this.inhibitors.size}`);
+        new index_1.ShewenyInformation(this.client, `- Inhibitors loaded : ${this.inhibitors.size}`);
         return this.inhibitors;
     }
     /**

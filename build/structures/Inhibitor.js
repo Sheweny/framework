@@ -2,13 +2,12 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Inhibitor = void 0;
 const discord_js_1 = require("discord.js");
-const _1 = require(".");
-const helpers_1 = require("../helpers");
+const index_1 = require("../index");
 /**
  * Represents an Command structure
  * @extends {BaseStructure}
  */
-class Inhibitor extends _1.BaseStructure {
+class Inhibitor extends index_1.BaseStructure {
     /**
      * Constructor for build a Inhibitor
      * @param {ShewenyClient} client Client framework
@@ -29,7 +28,7 @@ class Inhibitor extends _1.BaseStructure {
      */
     async register() {
         if (!this.path)
-            return new helpers_1.ShewenyError(this.client, 'PATH_NOT_DEFINE', 'Inhibitor', this.name);
+            return new index_1.ShewenyError(this.client, 'PATH_NOT_DEFINE', 'Inhibitor', this.name);
         const InhibitorImported = (await Promise.resolve().then(() => require(this.path))).default;
         const inhib = new InhibitorImported(this.client);
         return this.client.collections.inhibitors

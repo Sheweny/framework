@@ -2,13 +2,12 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SelectMenu = void 0;
 const discord_js_1 = require("discord.js");
-const _1 = require(".");
-const helpers_1 = require("../helpers");
+const index_1 = require("../index");
 /**
  * Represents an Select Menu structure
  * @extends {BaseStructure}
  */
-class SelectMenu extends _1.BaseStructure {
+class SelectMenu extends index_1.BaseStructure {
     /**
      * Constructor for build a Select Menu
      * @param {ShewenyClient} client Client framework
@@ -26,7 +25,7 @@ class SelectMenu extends _1.BaseStructure {
      */
     async register() {
         if (!this.path)
-            return new helpers_1.ShewenyError(this.client, 'PATH_NOT_DEFINE', 'SelectMenu', this.customId.toString());
+            return new index_1.ShewenyError(this.client, 'PATH_NOT_DEFINE', 'SelectMenu', this.customId.toString());
         const SelectMenuImported = (await Promise.resolve().then(() => require(this.path))).default;
         const sm = new SelectMenuImported(this.client);
         return this.client.collections.selectMenus

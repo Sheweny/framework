@@ -1,9 +1,7 @@
 import { Collection } from 'discord.js';
 import { Loader } from '../utils/Loader';
-import { BaseManager } from '.';
-import { ShewenyInformation } from '../helpers';
-import type { ShewenyClient, Modal } from '..';
-import type { ModalsManagerDefaultOptions, ModalsManagerOptions } from '../typescript/interfaces';
+import { BaseManager, ShewenyInformation, type ShewenyClient, type Modal } from '../index';
+import type { ModalsManagerDefaultOptions, ModalsManagerOptions } from '../typescript';
 /**
  * Manager for Modals
  */

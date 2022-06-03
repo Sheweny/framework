@@ -1,15 +1,21 @@
-import type { ApplicationCommandOptionData, PermissionsString, Collection } from 'discord.js';
-import type { EventEmitter } from 'events';
-import type { ClientOptions, Snowflake } from 'discord.js';
+import type { ApplicationCommandOptionData, PermissionsString, Collection, ClientOptions, Snowflake } from 'discord.js';
+import type { EventEmitter } from 'node:events';
 import type {
+  // Managers
   ButtonsManager,
   CommandsManager,
   EventsManager,
   InhibitorsManager,
   ModalsManager,
   SelectMenusManager,
-} from '../managers';
-import type { Button, Command, Event, Inhibitor, SelectMenu, Modal } from '../structures';
+  // Structures
+  Button,
+  Command,
+  Event,
+  Inhibitor,
+  SelectMenu,
+  Modal
+} from '../index';
 import type {
   CLIENT_MODE,
   COMMAND_CHANNEL,
@@ -17,7 +23,7 @@ import type {
   COMMAND_TYPE,
   INHIBITOR_TYPE,
 } from '../constants/constants';
-import type {CustomId} from "./types";
+import type {CustomId, InhibitorType} from "./types";
 
 /**
  * Interfaces of managers
@@ -193,7 +199,10 @@ export interface ModalOptions {
 export interface SelectMenuOptions {
   cooldown?: number;
 }
-
+export interface InhibitorOptions {
+  type?: InhibitorType[];
+  priority?: number;
+}
 /**
  * Client interfaces
  */

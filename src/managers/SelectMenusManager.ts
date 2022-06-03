@@ -1,9 +1,7 @@
 import { Collection } from 'discord.js';
-import { BaseManager } from '.';
-import { ShewenyInformation } from '../helpers';
+import { BaseManager, ShewenyInformation, type ShewenyClient, type SelectMenu } from '../index';
 import { Loader } from '../utils/Loader';
-import type { ShewenyClient, SelectMenu } from '..';
-import type { SelectMenusManagerDefaultOptions, SelectMenusManagerOptions } from '../typescript/interfaces';
+import type { SelectMenusManagerDefaultOptions, SelectMenusManagerOptions } from '../typescript';
 
 /**
  * Manager for Select Menus

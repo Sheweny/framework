@@ -1,13 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ButtonsManager = void 0;
-const _1 = require(".");
+const index_1 = require("../index");
 const Loader_1 = require("../utils/Loader");
-const helpers_1 = require("../helpers");
 /**
  * Manager for Buttons
  */
-class ButtonsManager extends _1.BaseManager {
+class ButtonsManager extends index_1.BaseManager {
     /**
      * Constructor to manage buttons
      * @param {ShewenyClient} client Client framework
@@ -26,7 +25,7 @@ class ButtonsManager extends _1.BaseManager {
     async loadAll() {
         const loader = new Loader_1.Loader(this.client, this.directory, "customId");
         this.buttons = await loader.load();
-        new helpers_1.ShewenyInformation(this.client, `- Buttons loaded : ${this.buttons.size}`);
+        new index_1.ShewenyInformation(this.client, `- Buttons loaded : ${this.buttons.size}`);
         return this.buttons;
     }
     /**

@@ -1,17 +1,21 @@
 import { Collection } from 'discord.js';
-import { BaseStructure } from '.';
-import { ShewenyError } from '../helpers';
+import { BaseStructure, ShewenyError } from '../index';
 import { COMMAND_CHANNEL, COMMAND_TYPE } from '../constants/constants';
-import type { ShewenyClient } from '../client/Client';
+import type { ShewenyClient, CommandsManager } from '../index';
 import type {
+  // Interfaces
   MessageCommandOptionData,
   CommandMessageArgsResolved,
   ContextMenuMessageData,
   ContextMenuUserData,
   SlashCommandData,
   MessageData,
-} from '../typescript/interfaces';
-import type { CommandData, CommandType } from '../typescript/types';
+  // Types
+  CommandData,
+  CommandType,
+  // utilityTypes
+  Awaitable
+} from '../typescript';
 import type {
   ApplicationCommandOptionData,
   CommandInteraction,
@@ -20,8 +24,6 @@ import type {
   PermissionsString,
   AutocompleteInteraction,
 } from 'discord.js';
-import type { CommandsManager } from '..';
-import type { Awaitable } from '../typescript/utilityTypes';
 
 /**
  * Represents an Command structure

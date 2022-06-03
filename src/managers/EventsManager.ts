@@ -1,10 +1,8 @@
-import { EventEmitter } from 'events';
+import { EventEmitter } from 'node:events';
 import { Collection } from 'discord.js';
-import { BaseManager } from '.';
-import { ShewenyInformation } from '../helpers';
+import { BaseManager, ShewenyInformation, type ShewenyClient, type Event } from '../index';
 import { Loader } from '../utils/Loader';
-import type { EventsManagerOptions, EventsManagerDefaultOptions } from '../typescript/interfaces';
-import type { ShewenyClient, Event } from '..';
+import type { EventsManagerOptions, EventsManagerDefaultOptions } from '../typescript';
 
 /**
  * Manager for Events

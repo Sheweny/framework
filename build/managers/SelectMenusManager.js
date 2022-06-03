@@ -1,13 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SelectMenusManager = void 0;
-const _1 = require(".");
-const helpers_1 = require("../helpers");
+const index_1 = require("../index");
 const Loader_1 = require("../utils/Loader");
 /**
  * Manager for Select Menus
  */
-class SelectMenusManager extends _1.BaseManager {
+class SelectMenusManager extends index_1.BaseManager {
     /**
      * Constructor to manage select menus
      * @param {ShewenyClient} client Client framework
@@ -26,7 +25,7 @@ class SelectMenusManager extends _1.BaseManager {
     async loadAll() {
         const loader = new Loader_1.Loader(this.client, this.directory, "customId");
         this.selectMenus = await loader.load();
-        new helpers_1.ShewenyInformation(this.client, `- Select-menus loaded : ${this.selectMenus.size}`);
+        new index_1.ShewenyInformation(this.client, `- Select-menus loaded : ${this.selectMenus.size}`);
         return this.selectMenus;
     }
     /**

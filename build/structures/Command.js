@@ -2,14 +2,13 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Command = void 0;
 const discord_js_1 = require("discord.js");
-const _1 = require(".");
-const helpers_1 = require("../helpers");
+const index_1 = require("../index");
 const constants_1 = require("../constants/constants");
 /**
  * Represents an Command structure
  * @extends {BaseStructure}
  */
-class Command extends _1.BaseStructure {
+class Command extends index_1.BaseStructure {
     /**
      * Constructor for build a Command
      * @param {ShewenyClient} client Client framework
@@ -55,7 +54,7 @@ class Command extends _1.BaseStructure {
      */
     async register() {
         if (!this.path)
-            return new helpers_1.ShewenyError(this.client, 'PATH_NOT_DEFINE', 'Command', this.name);
+            return new index_1.ShewenyError(this.client, 'PATH_NOT_DEFINE', 'Command', this.name);
         const CommandImported = (await Promise.resolve().then(() => require(this.path))).default;
         const AC = new CommandImported(this.client);
         return this.client.collections.commands
