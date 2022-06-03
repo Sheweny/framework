@@ -76,7 +76,6 @@ export class CommandsManager extends BaseManager {
     };
     this.guildId = options?.guildId;
     this.prefix = options?.prefix;
-
   }
 
   /**
@@ -233,15 +232,13 @@ export class CommandsManager extends BaseManager {
    * @returns {Promise<Collection<string, Command>>}
    */
   public async loadAll(): Promise<Collection<string, Command> | undefined> {
-    const loader = new Loader<string, Command>(this.client, this.directory, "name");
+    const loader = new Loader<string, Command>(this.client, this.directory, 'name');
     this.commands = await loader.load();
     new ShewenyInformation(this.client, `- Commands loaded : ${this.commands.size}`);
 
     // Register
-    const commandsToRegister = this.commands?.filter((cmd: Command) =>
-      cmd.type == COMMAND_TYPE.cmdSlash ||
-      cmd.type == COMMAND_TYPE.ctxMsg ||
-      cmd.type == COMMAND_TYPE.ctxUser
+    const commandsToRegister = this.commands?.filter(
+      (cmd: Command) => cmd.type == COMMAND_TYPE.cmdSlash || cmd.type == COMMAND_TYPE.ctxMsg || cmd.type == COMMAND_TYPE.ctxUser,
     );
     if (commandsToRegister && this.autoRegisterApplicationCommands) await this.registerApplicationCommands(commandsToRegister);
 
@@ -278,7 +275,6 @@ export class CommandsManager extends BaseManager {
     return undefined;
   }
 
- 
   /**
    * Rename command type to the type of Application command
    * @param {"SLASH_COMMAND" | "CONTEXT_MENU_USER" | "CONTEXT_MENU_MESSAGE"} type Type of command

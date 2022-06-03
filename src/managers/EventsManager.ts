@@ -38,13 +38,13 @@ export class EventsManager extends BaseManager {
    * @returns {Promise<Collection<string, Event>>} the events
    */
   public async loadAll(): Promise<Collection<string, Event> | undefined> {
-    const loader = new Loader<string, Event>(this.client, this.directory, "name");
+    const loader = new Loader<string, Event>(this.client, this.directory, 'name');
     this.events = await loader.load();
     new ShewenyInformation(this.client, `- Events loaded : ${this.events.size}`);
     // Register
-    await this.registerAll(this.events)
+    await this.registerAll(this.events);
     return this.events;
-   }
+  }
 
   /**
    * Emit all events in collection

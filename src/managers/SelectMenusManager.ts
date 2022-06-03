@@ -36,11 +36,10 @@ export class SelectMenusManager extends BaseManager {
    * @returns {Promise<Collection<string[], SelectMenu>>}
    */
   public async loadAll(): Promise<Collection<string[], SelectMenu> | undefined> {
-    const loader = new Loader<string[], SelectMenu>(this.client, this.directory, "customId");
+    const loader = new Loader<string[], SelectMenu>(this.client, this.directory, 'customId');
     this.selectMenus = await loader.load();
     new ShewenyInformation(this.client, `- Select-menus loaded : ${this.selectMenus.size}`);
     return this.selectMenus;
-
   }
 
   /**

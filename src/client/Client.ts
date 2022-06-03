@@ -96,82 +96,72 @@ export class ShewenyClient extends Client {
     this.connected = false;
     this.disableCooldownsForAdmins = options.disableCooldownsForAdmins || false;
     this.joinThreadsOnCreate = options.joinThreadsOnCreate || false;
-    
-    /****** MANAGERS ******/
-    // TODO: Remove loadAll option in managers 
+
+    /** **** MANAGERS ******/
+    // TODO: Remove loadAll option in managers
     this.managers = {};
-    
-    //BUTTONS
-    if(options.managers?.buttons){
+
+    // BUTTONS
+    if (options.managers?.buttons) {
       this.managers.buttons = new ButtonsManager(this, {
         directory: options.managers.buttons.directory,
-      })
-      this.managers.buttons.loadAll()
-        .then(buttons => { 
-          if(buttons) this.collections.buttons = buttons
-        });
+      });
+      this.managers.buttons.loadAll().then(buttons => {
+        if (buttons) this.collections.buttons = buttons;
+      });
     }
-    //COMMANDS
-    if(options.managers?.commands){
+    // COMMANDS
+    if (options.managers?.commands) {
       this.managers.commands = new CommandsManager(this, {
-            directory: options.managers.commands.directory,
-            guildId: options.managers.commands.guildId,
-            prefix: options.managers.commands.prefix,
-            applicationPermissions: options.managers.commands.applicationPermissions,
-            autoRegisterApplicationCommands: options.managers.commands.autoRegisterApplicationCommands ?? true,
-            default: options.managers.commands.default,
-          })
+        directory: options.managers.commands.directory,
+        guildId: options.managers.commands.guildId,
+        prefix: options.managers.commands.prefix,
+        applicationPermissions: options.managers.commands.applicationPermissions,
+        autoRegisterApplicationCommands: options.managers.commands.autoRegisterApplicationCommands ?? true,
+        default: options.managers.commands.default,
+      });
 
-      this.managers.commands.loadAll()
-         .then(commands => { 
-          if(commands) this.collections.commands = commands
-        });
+      this.managers.commands.loadAll().then(commands => {
+        if (commands) this.collections.commands = commands;
+      });
     }
     // EVENTS
-    if(options.managers?.events){
+    if (options.managers?.events) {
       this.managers.events = new EventsManager(this, {
-            directory: options.managers.events.directory,
-            default: options.managers.events.default,
-          })
-      this.managers.events.loadAll()
-         .then(events => { 
-          if(events) this.collections.events = events
-        });
-
+        directory: options.managers.events.directory,
+        default: options.managers.events.default,
+      });
+      this.managers.events.loadAll().then(events => {
+        if (events) this.collections.events = events;
+      });
     }
     // INHIBITORS
-    if(options.managers?.inhibitors){
+    if (options.managers?.inhibitors) {
       this.managers.inhibitors = new InhibitorsManager(this, {
-            directory: options.managers.inhibitors.directory,
-            default: options.managers.inhibitors.default,
-          })
-      this.managers.inhibitors.loadAll()
-         .then(inhibitors => { 
-          if(inhibitors) this.collections.inhibitors = inhibitors
-        });
-
+        directory: options.managers.inhibitors.directory,
+        default: options.managers.inhibitors.default,
+      });
+      this.managers.inhibitors.loadAll().then(inhibitors => {
+        if (inhibitors) this.collections.inhibitors = inhibitors;
+      });
     }
     // MODALS
-    if(options.managers?.modals){
+    if (options.managers?.modals) {
       this.managers.modals = new ModalsManager(this, {
-            directory: options.managers.modals.directory,
-          })
-      this.managers.modals.loadAll()
-         .then(modals => { 
-          if(modals) this.collections.modals = modals
-        });
-
+        directory: options.managers.modals.directory,
+      });
+      this.managers.modals.loadAll().then(modals => {
+        if (modals) this.collections.modals = modals;
+      });
     }
     // SELECT MENUS
-    if(options.managers?.selectMenus){
+    if (options.managers?.selectMenus) {
       this.managers.selectMenus = new SelectMenusManager(this, {
-            directory: options.managers.selectMenus.directory,
-          })
-      this.managers.selectMenus.loadAll()
-         .then(selectmenus => { 
-          if(selectmenus) this.collections.selectMenus = selectmenus
-        });
-
+        directory: options.managers.selectMenus.directory,
+      });
+      this.managers.selectMenus.loadAll().then(selectmenus => {
+        if (selectmenus) this.collections.selectMenus = selectmenus;
+      });
     }
 
     this.mode = options.mode || CLIENT_MODE.dev;

@@ -1,5 +1,5 @@
 import { Collection } from 'discord.js';
-import { BaseStructure,  ShewenyError} from '../index';
+import { BaseStructure, ShewenyError } from '../index';
 import type { EventEmitter } from 'events';
 import type { ShewenyClient, EventsManager } from '../index';
 import type { EventOptions, Awaitable } from '../typescript';

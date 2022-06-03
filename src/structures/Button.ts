@@ -68,7 +68,7 @@ export abstract class Button extends BaseStructure {
    * Reload a button
    * @returns {Promise<Collection<string[] | RegExp[], Button> | ShewenyError>}
    */
-  public async reload(): Promise<Collection<Array<string|RegExp>, Button> | ShewenyError> {
+  public async reload(): Promise<Collection<Array<string | RegExp>, Button> | ShewenyError> {
     this.unregister();
     return this.register();
   }

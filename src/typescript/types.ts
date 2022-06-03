@@ -1,8 +1,8 @@
 import type { SlashCommandData, ContextMenuMessageData, ContextMenuUserData, MessageData } from './interfaces';
 import type { COMMAND_TYPE, INHIBITOR_TYPE } from '../constants/constants';
 
-/****** UTIL ******/
-export type CustomId = Array<string|RegExp>;
+/** **** UTIL ******/
+export type CustomId = Array<string | RegExp>;
 
 /**
  * Commands types

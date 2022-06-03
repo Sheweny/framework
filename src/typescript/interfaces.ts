@@ -14,7 +14,7 @@ import type {
   Event,
   Inhibitor,
   SelectMenu,
-  Modal
+  Modal,
 } from '../index';
 import type {
   CLIENT_MODE,
@@ -23,7 +23,7 @@ import type {
   COMMAND_TYPE,
   INHIBITOR_TYPE,
 } from '../constants/constants';
-import type {CustomId, InhibitorType} from "./types";
+import type { CustomId, InhibitorType } from './types';
 
 /**
  * Interfaces of managers

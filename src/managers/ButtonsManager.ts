@@ -10,7 +10,7 @@ export class ButtonsManager extends BaseManager {
    * Collection of the buttons
    * @type {Collection<string[], Button> | undefined}
    */
-  public buttons?: Collection<Array<string|RegExp>, Button> | null;
+  public buttons?: Collection<Array<string | RegExp>, Button> | null;
 
   /**
    * Default data for the buttons
@@ -34,12 +34,11 @@ export class ButtonsManager extends BaseManager {
    * Load all buttons in collection
    * @returns {Promise<Collection<string[], Button>>}
    */
-  public async loadAll(): Promise<Collection<Array<string|RegExp>, Button> | undefined> {
-    const loader = new Loader<Array<string|RegExp>, Button>(this.client, this.directory, "customId");
+  public async loadAll(): Promise<Collection<Array<string | RegExp>, Button> | undefined> {
+    const loader = new Loader<Array<string | RegExp>, Button>(this.client, this.directory, 'customId');
     this.buttons = await loader.load();
     new ShewenyInformation(this.client, `- Buttons loaded : ${this.buttons.size}`);
     return this.buttons;
-
   }
 
   /**

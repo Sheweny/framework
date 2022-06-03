@@ -41,7 +41,9 @@ export default async function run(
 
     /* ---------------IN-GUILD--------------- */
     if (interaction.inGuild() && interaction.guild) {
-      if (command.channel === COMMAND_CHANNEL.dm) return client.managers.commands.emit(COMMAND_EVENTS.invalidChannel, command, interaction);
+      if (command.channel === COMMAND_CHANNEL.dm) {
+        return client.managers.commands.emit(COMMAND_EVENTS.invalidChannel, command, interaction);
+      }
       if (!client.managers.commands.applicationPermissions) {
         let member = interaction.guild.members.cache.get(interaction.user.id);
         if (!member) member = await interaction.guild.members.fetch(interaction.user.id);
@@ -62,7 +64,7 @@ export default async function run(
         }
       }
     } else if (command.channel === COMMAND_CHANNEL.guild) {
-       return client.managers.commands.emit(COMMAND_EVENTS.invalidChannel, command, interaction);
+      return client.managers.commands.emit(COMMAND_EVENTS.invalidChannel, command, interaction);
     }
 
     /* ---------------COOLDOWNS--------------- */

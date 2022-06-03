@@ -1,5 +1,5 @@
 import { Collection } from 'discord.js';
-import { BaseManager, ShewenyInformation, type ShewenyClient, type Inhibitor  } from '../index';
+import { BaseManager, ShewenyInformation, type ShewenyClient, type Inhibitor } from '../index';
 import { Loader } from '../utils/Loader';
 import type { InhibitorsManagerOptions, InhibitorsManagerDefaultOptions } from '../typescript';
 
@@ -37,7 +37,7 @@ export class InhibitorsManager extends BaseManager {
    * @returns {Promise<Collection<string, Inhibitor>>}
    */
   public async loadAll(): Promise<Collection<string, Inhibitor> | undefined> {
-    const loader = new Loader<string, Inhibitor>(this.client, this.directory, "name");
+    const loader = new Loader<string, Inhibitor>(this.client, this.directory, 'name');
     this.inhibitors = await loader.load();
     new ShewenyInformation(this.client, `- Inhibitors loaded : ${this.inhibitors.size}`);
     return this.inhibitors;

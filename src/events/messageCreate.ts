@@ -53,7 +53,9 @@ export default async function run(client: ShewenyClient, message: Message) {
 
     /* ---------------IN-GUILD--------------- */
     if (message.guild) {
-      if (command.channel === COMMAND_CHANNEL.dm) return client.managers.commands.emit(COMMAND_EVENTS.invalidChannel, command, message)
+      if (command.channel === COMMAND_CHANNEL.dm) {
+        return client.managers.commands.emit(COMMAND_EVENTS.invalidChannel, command, message);
+      }
 
       let member = message.guild.members.cache.get(message.author.id);
       if (!member) member = await message.guild.members.fetch(message.author.id);

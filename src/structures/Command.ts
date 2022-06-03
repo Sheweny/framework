@@ -14,7 +14,7 @@ import type {
   CommandData,
   CommandType,
   // utilityTypes
-  Awaitable
+  Awaitable,
 } from '../typescript';
 import type {
   ApplicationCommandOptionData,
