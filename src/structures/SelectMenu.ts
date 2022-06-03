@@ -6,6 +6,7 @@ import type { ShewenyClient } from '../client/Client';
 import type { SelectMenusManager } from '..';
 import type { Awaitable } from '../typescript/utilityTypes';
 import { SelectMenuOptions } from '../typescript/interfaces';
+import { CustomId } from '../typescript/types';
 
 /**
  * Represents an Select Menu structure
@@ -21,7 +22,7 @@ export abstract class SelectMenu extends BaseStructure {
    * Custom id for one or more select menus
    * @type {string[] | RegExp[]}
    */
-  public customId: string[] | RegExp[];
+  public customId: CustomId;
 
   /**
    * The
@@ -34,7 +35,7 @@ export abstract class SelectMenu extends BaseStructure {
    * @param {ShewenyClient} client Client framework
    * @param {string[] | RegExp[]} customId Custom id for one or more select menus
    */
-  constructor(client: ShewenyClient, customId: string[] | RegExp[], options?: SelectMenuOptions) {
+  constructor(client: ShewenyClient, customId: CustomId, options?: SelectMenuOptions) {
     super(client);
     this.cooldown = (options?.cooldown || client.managers.buttons?.default?.cooldown) ?? 0;
     this.customId = customId;
@@ -59,20 +60,20 @@ export abstract class SelectMenu extends BaseStructure {
    * Register a select menu in collections
    * @returns {Collection<string[]| RegExp[], SelectMenu | ShewenyError>} The select menus collection
    */
-  public async register(): Promise<Collection<string[] | RegExp[], SelectMenu> | ShewenyError> {
+  public async register(): Promise<Collection<CustomId, SelectMenu> | ShewenyError> {
     if (!this.path) return new ShewenyError(this.client, 'PATH_NOT_DEFINE', 'SelectMenu', this.customId.toString());
     const SelectMenuImported = (await import(this.path)).default;
     const sm: SelectMenu = new SelectMenuImported(this.client);
     return this.client.collections.selectMenus
       ? this.client.collections.selectMenus.set(sm.customId, sm)
-      : new Collection<string[] | RegExp[], SelectMenu>().set(sm.customId, sm);
+      : new Collection<CustomId, SelectMenu>().set(sm.customId, sm);
   }
 
   /**
    * Reload a select menu
    * @returns {Promise<Collection<string[]| RegExp[], SelectMenu> | ShewenyError>} The select menus collection
    */
-  public async reload(): Promise<Collection<string[] | RegExp[], SelectMenu> | ShewenyError> {
+  public async reload(): Promise<Collection<CustomId, SelectMenu> | ShewenyError> {
     this.unregister();
     return this.register();
   }

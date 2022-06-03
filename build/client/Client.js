@@ -37,57 +37,82 @@ class ShewenyClient extends discord_js_1.Client {
         this.connected = false;
         this.disableCooldownsForAdmins = options.disableCooldownsForAdmins || false;
         this.joinThreadsOnCreate = options.joinThreadsOnCreate || false;
-        this.managers = {
-            // BUTTONS
-            buttons: options.managers?.buttons
-                ? new managers_1.ButtonsManager(this, {
-                    directory: options.managers.buttons.directory,
-                    loadAll: options.managers.buttons.loadAll ?? true,
-                })
-                : undefined,
-            // COMMANDS
-            commands: options.managers?.commands
-                ? new managers_1.CommandsManager(this, {
-                    directory: options.managers.commands.directory,
-                    loadAll: true,
-                    guildId: options.managers.commands.guildId,
-                    prefix: options.managers.commands.prefix,
-                    applicationPermissions: options.managers.commands.applicationPermissions,
-                    autoRegisterApplicationCommands: options.managers.commands.autoRegisterApplicationCommands ?? true,
-                    default: options.managers.commands.default,
-                })
-                : undefined,
-            // EVENTS
-            events: options.managers?.events
-                ? new managers_1.EventsManager(this, {
-                    directory: options.managers.events.directory,
-                    loadAll: options.managers.events.loadAll ?? true,
-                    default: options.managers.events.default,
-                })
-                : undefined,
-            // INHIBITORS
-            inhibitors: options.managers?.inhibitors
-                ? new managers_1.InhibitorsManager(this, {
-                    directory: options.managers.inhibitors.directory,
-                    loadAll: options.managers.inhibitors.loadAll ?? true,
-                    default: options.managers.inhibitors.default,
-                })
-                : undefined,
-            // Modals
-            modals: options.managers?.modals
-                ? new managers_1.ModalsManager(this, {
-                    directory: options.managers.modals.directory,
-                    loadAll: options.managers.modals.loadAll ?? true,
-                })
-                : undefined,
-            // SELECT MENUS
-            selectMenus: options.managers?.selectMenus
-                ? new managers_1.SelectMenusManager(this, {
-                    directory: options.managers.selectMenus.directory,
-                    loadAll: options.managers.selectMenus.loadAll ?? true,
-                })
-                : undefined,
-        };
+        /****** MANAGERS ******/
+        // TODO: Remove loadAll option in managers 
+        this.managers = {};
+        //BUTTONS
+        if (options.managers?.buttons) {
+            this.managers.buttons = new managers_1.ButtonsManager(this, {
+                directory: options.managers.buttons.directory,
+            });
+            this.managers.buttons.loadAll()
+                .then(buttons => {
+                if (buttons)
+                    this.collections.buttons = buttons;
+            });
+        }
+        //COMMANDS
+        if (options.managers?.commands) {
+            this.managers.commands = new managers_1.CommandsManager(this, {
+                directory: options.managers.commands.directory,
+                guildId: options.managers.commands.guildId,
+                prefix: options.managers.commands.prefix,
+                applicationPermissions: options.managers.commands.applicationPermissions,
+                autoRegisterApplicationCommands: options.managers.commands.autoRegisterApplicationCommands ?? true,
+                default: options.managers.commands.default,
+            });
+            this.managers.commands.loadAll()
+                .then(commands => {
+                if (commands)
+                    this.collections.commands = commands;
+            });
+        }
+        // EVENTS
+        if (options.managers?.events) {
+            this.managers.events = new managers_1.EventsManager(this, {
+                directory: options.managers.events.directory,
+                default: options.managers.events.default,
+            });
+            this.managers.events.loadAll()
+                .then(events => {
+                if (events)
+                    this.collections.events = events;
+            });
+        }
+        // INHIBITORS
+        if (options.managers?.inhibitors) {
+            this.managers.inhibitors = new managers_1.InhibitorsManager(this, {
+                directory: options.managers.inhibitors.directory,
+                default: options.managers.inhibitors.default,
+            });
+            this.managers.inhibitors.loadAll()
+                .then(inhibitors => {
+                if (inhibitors)
+                    this.collections.inhibitors = inhibitors;
+            });
+        }
+        // MODALS
+        if (options.managers?.modals) {
+            this.managers.modals = new managers_1.ModalsManager(this, {
+                directory: options.managers.modals.directory,
+            });
+            this.managers.modals.loadAll()
+                .then(modals => {
+                if (modals)
+                    this.collections.modals = modals;
+            });
+        }
+        // SELECT MENUS
+        if (options.managers?.selectMenus) {
+            this.managers.selectMenus = new managers_1.SelectMenusManager(this, {
+                directory: options.managers.selectMenus.directory,
+            });
+            this.managers.selectMenus.loadAll()
+                .then(selectmenus => {
+                if (selectmenus)
+                    this.collections.selectMenus = selectmenus;
+            });
+        }
         this.mode = options.mode || constants_1.CLIENT_MODE.dev;
         this.util = new ClientUtil_1.ClientUtil(this);
         if (options.mode === constants_1.CLIENT_MODE.dev)

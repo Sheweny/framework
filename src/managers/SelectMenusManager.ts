@@ -31,7 +31,6 @@ export class SelectMenusManager extends BaseManager {
     this.default = {
       cooldown: options.default?.cooldown || 0,
     };
-    if (options?.loadAll) this.loadAll();
   }
 
   /**
@@ -41,8 +40,6 @@ export class SelectMenusManager extends BaseManager {
   public async loadAll(): Promise<Collection<string[], SelectMenu> | undefined> {
     const loader = new Loader<string[], SelectMenu>(this.client, this.directory, "customId");
     this.selectMenus = await loader.load();
-    //TODO: Refactor for new system
-    this.client.collections.selectMenus = this.selectMenus;
     new ShewenyInformation(this.client, `- Select-menus loaded : ${this.selectMenus.size}`);
     return this.selectMenus;
 

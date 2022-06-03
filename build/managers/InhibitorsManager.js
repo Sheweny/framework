@@ -19,8 +19,6 @@ class InhibitorsManager extends _1.BaseManager {
             priority: options.default?.priority,
             type: options.default?.type,
         };
-        if (options?.loadAll)
-            this.loadAll();
     }
     /**
      * Load all inhibitors in collection
@@ -29,8 +27,6 @@ class InhibitorsManager extends _1.BaseManager {
     async loadAll() {
         const loader = new Loader_1.Loader(this.client, this.directory, "name");
         this.inhibitors = await loader.load();
-        //TODO: Refactor for new system
-        this.client.collections.inhibitors = this.inhibitors;
         new helpers_1.ShewenyInformation(this.client, `- Inhibitors loaded : ${this.inhibitors.size}`);
         return this.inhibitors;
     }

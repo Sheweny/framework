@@ -6,6 +6,7 @@ import type { ModalsManager } from '..';
 import type { ShewenyClient } from '../client/Client';
 import type { Awaitable } from '../typescript/utilityTypes';
 import { ModalOptions } from '../typescript/interfaces';
+import { CustomId } from '../typescript/types';
 
 /**
  * Represents an Modal structure
@@ -19,9 +20,9 @@ export abstract class Modal extends BaseStructure {
   public cooldown: number;
   /**
    * Custom id for one or more modals
-   * @type {string[] | RegExp[]}
+   * @type {CustomId}
    */
-  public customId: string[] | RegExp[];
+  public customId: CustomId;
 
   /**
    * The
@@ -34,7 +35,7 @@ export abstract class Modal extends BaseStructure {
    * @param {ShewenyClient} client Client framework
    * @param {string[] | RegExp[]} customId Custom id for one or more modals
    */
-  constructor(client: ShewenyClient, customId: string[] | RegExp[], options?: ModalOptions) {
+  constructor(client: ShewenyClient, customId: CustomId, options?: ModalOptions) {
     super(client);
     this.cooldown = (options?.cooldown || client.managers.buttons?.default?.cooldown) ?? 0;
     this.customId = customId;
@@ -59,7 +60,7 @@ export abstract class Modal extends BaseStructure {
    * Register a modal in collections
    * @returns {Collection<string[] | RegExp[], Modal>}
    */
-  public async register(): Promise<Collection<string[] | RegExp[], Modal> | ShewenyError> {
+  public async register(): Promise<Collection<CustomId, Modal> | ShewenyError> {
     if (!this.path) return new ShewenyError(this.client, 'PATH_NOT_DEFINE', 'Modal', this.customId.toString());
     const ModalImported = (await import(this.path)).default;
     const mod = new ModalImported(this.client);
@@ -72,7 +73,7 @@ export abstract class Modal extends BaseStructure {
    * Reload a modal
    * @returns {Promise<Collection<string[] | RegExp[], Modal> | ShewenyError>}
    */
-  public async reload(): Promise<Collection<string[] | RegExp[], Modal> | ShewenyError> {
+  public async reload(): Promise<Collection<CustomId, Modal> | ShewenyError> {
     this.unregister();
     return this.register();
   }

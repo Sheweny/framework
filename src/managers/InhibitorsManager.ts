@@ -32,7 +32,6 @@ export class InhibitorsManager extends BaseManager {
       priority: options.default?.priority,
       type: options.default?.type,
     };
-    if (options?.loadAll) this.loadAll();
   }
 
   /**
@@ -42,8 +41,6 @@ export class InhibitorsManager extends BaseManager {
   public async loadAll(): Promise<Collection<string, Inhibitor> | undefined> {
     const loader = new Loader<string, Inhibitor>(this.client, this.directory, "name");
     this.inhibitors = await loader.load();
-    //TODO: Refactor for new system
-    this.client.collections.inhibitors = this.inhibitors;
     new ShewenyInformation(this.client, `- Inhibitors loaded : ${this.inhibitors.size}`);
     return this.inhibitors;
   }

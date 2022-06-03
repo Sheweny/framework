@@ -33,7 +33,6 @@ export class EventsManager extends BaseManager {
       emitter: options.default?.emitter,
       once: options.default?.once,
     };
-    if (options?.loadAll) this.loadAndRegisterAll();
   }
 
   /**
@@ -43,20 +42,11 @@ export class EventsManager extends BaseManager {
   public async loadAll(): Promise<Collection<string, Event> | undefined> {
     const loader = new Loader<string, Event>(this.client, this.directory, "name");
     this.events = await loader.load();
-    //TODO: Refactor for new system
-    this.client.collections.events = this.events;
     new ShewenyInformation(this.client, `- Events loaded : ${this.events.size}`);
+    // Register
+    await this.registerAll(this.events)
     return this.events;
    }
-
-  /**
-   * Load all and Register events
-   * @returns {Promise<void>}
-   */
-  public async loadAndRegisterAll(): Promise<void> {
-    const events = await this.loadAll();
-    await this.registerAll(events);
-  }
 
   /**
    * Emit all events in collection

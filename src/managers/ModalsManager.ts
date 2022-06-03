@@ -30,7 +30,6 @@ export class ModalsManager extends BaseManager {
     this.default = {
       cooldown: options.default?.cooldown || 0,
     };
-    if (options?.loadAll) this.loadAll();
   }
 
   /**
@@ -40,8 +39,6 @@ export class ModalsManager extends BaseManager {
   public async loadAll(): Promise<Collection<string[], Modal> | undefined> {
     const loader = new Loader<string[], Modal>(this.client, this.directory, "customId");
     this.modals = await loader.load();
-    //TODO: Refactor for new system
-    this.client.collections.modals = this.modals;
     new ShewenyInformation(this.client, `- Modals loaded : ${this.modals.size}`);
     return this.modals;
 

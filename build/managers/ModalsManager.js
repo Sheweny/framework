@@ -18,8 +18,6 @@ class ModalsManager extends _1.BaseManager {
         this.default = {
             cooldown: options.default?.cooldown || 0,
         };
-        if (options?.loadAll)
-            this.loadAll();
     }
     /**
      * Load all modals in collection
@@ -28,8 +26,6 @@ class ModalsManager extends _1.BaseManager {
     async loadAll() {
         const loader = new Loader_1.Loader(this.client, this.directory, "customId");
         this.modals = await loader.load();
-        //TODO: Refactor for new system
-        this.client.collections.modals = this.modals;
         new helpers_1.ShewenyInformation(this.client, `- Modals loaded : ${this.modals.size}`);
         return this.modals;
     }

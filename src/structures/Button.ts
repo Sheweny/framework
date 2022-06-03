@@ -6,6 +6,7 @@ import type { ButtonsManager } from '..';
 import type { ShewenyClient } from '../client/Client';
 import type { Awaitable } from '../typescript/utilityTypes';
 import { ButtonOptions } from '../typescript/interfaces';
+import type { CustomId } from '../typescript/types';
 
 /**
  * Represents an Button structure
@@ -21,7 +22,7 @@ export abstract class Button extends BaseStructure {
    * Custom id for one or more buttons
    * @type {string[] | RegExp[]}
    */
-  public customId: string[] | RegExp[];
+  public customId: CustomId;
 
   /**
    * The
@@ -34,7 +35,7 @@ export abstract class Button extends BaseStructure {
    * @param {ShewenyClient} client Client framework
    * @param {string[] | RegExp[]} customId Custom id for one or more buttons
    */
-  constructor(client: ShewenyClient, customId: string[] | RegExp[], options?: ButtonOptions) {
+  constructor(client: ShewenyClient, customId: CustomId, options?: ButtonOptions) {
     super(client);
     this.cooldown = (options?.cooldown || client.managers.buttons?.default?.cooldown) ?? 0;
     this.customId = customId;
@@ -59,7 +60,7 @@ export abstract class Button extends BaseStructure {
    * Register a button in collections
    * @returns {Collection<string[] | RegExp[], Button>}
    */
-  public async register(): Promise<Collection<string[] | RegExp[], Button> | ShewenyError> {
+  public async register(): Promise<Collection<CustomId, Button> | ShewenyError> {
     if (!this.path) return new ShewenyError(this.client, 'PATH_NOT_DEFINE', 'Button', this.customId.toString());
     const ButtonImported = (await import(this.path)).default;
     const btn = new ButtonImported(this.client);
@@ -72,7 +73,7 @@ export abstract class Button extends BaseStructure {
    * Reload a button
    * @returns {Promise<Collection<string[] | RegExp[], Button> | ShewenyError>}
    */
-  public async reload(): Promise<Collection<string[] | RegExp[], Button> | ShewenyError> {
+  public async reload(): Promise<Collection<Array<string|RegExp>, Button> | ShewenyError> {
     this.unregister();
     return this.register();
   }

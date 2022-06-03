@@ -17,12 +17,13 @@ import type {
   COMMAND_TYPE,
   INHIBITOR_TYPE,
 } from '../constants/constants';
+import type {CustomId} from "./types";
+
 /**
  * Interfaces of managers
  */
 export interface BaseManagerOptions {
   directory: string;
-  loadAll?: boolean;
 }
 export interface CommandsManagerOptions extends BaseManagerOptions {
   guildId?: Snowflake | Snowflake[];
@@ -208,9 +209,9 @@ export interface ShewenyClientOptions extends ClientOptions {
 
 export interface Cooldowns {
   commands: Collection<string, Collection<string, number>>;
-  buttons: Collection<string[] | RegExp[], Collection<string, number>>;
-  selectMenus: Collection<string[] | RegExp[], Collection<string, number>>;
-  modals: Collection<string[] | RegExp[], Collection<string, number>>;
+  buttons: Collection<CustomId, Collection<string, number>>;
+  selectMenus: Collection<CustomId, Collection<string, number>>;
+  modals: Collection<CustomId, Collection<string, number>>;
 }
 
 // Managers
@@ -225,12 +226,12 @@ export interface Managers {
 
 // Collections of managers
 export interface ManagersCollections {
-  buttons: Collection<string[] | RegExp[], Button>;
+  buttons: Collection<CustomId, Button>;
   commands: Collection<string, Command>;
   events: Collection<string, Event>;
   inhibitors: Collection<string, Inhibitor>;
-  modals: Collection<string[] | RegExp[], Modal>;
-  selectMenus: Collection<string[] | RegExp[], SelectMenu>;
+  modals: Collection<CustomId, Modal>;
+  selectMenus: Collection<CustomId, SelectMenu>;
 }
 
 // Client options for managers

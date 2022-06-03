@@ -96,62 +96,83 @@ export class ShewenyClient extends Client {
     this.connected = false;
     this.disableCooldownsForAdmins = options.disableCooldownsForAdmins || false;
     this.joinThreadsOnCreate = options.joinThreadsOnCreate || false;
-    this.managers = {
-      // BUTTONS
-      buttons: options.managers?.buttons
-        ? new ButtonsManager(this, {
-            directory: options.managers.buttons.directory,
-            loadAll: options.managers.buttons.loadAll ?? true,
-          })
-        : undefined,
-
-      // COMMANDS
-      commands: options.managers?.commands
-        ? new CommandsManager(this, {
+    
+    /****** MANAGERS ******/
+    // TODO: Remove loadAll option in managers 
+    this.managers = {};
+    
+    //BUTTONS
+    if(options.managers?.buttons){
+      this.managers.buttons = new ButtonsManager(this, {
+        directory: options.managers.buttons.directory,
+      })
+      this.managers.buttons.loadAll()
+        .then(buttons => { 
+          if(buttons) this.collections.buttons = buttons
+        });
+    }
+    //COMMANDS
+    if(options.managers?.commands){
+      this.managers.commands = new CommandsManager(this, {
             directory: options.managers.commands.directory,
-            loadAll: true,
             guildId: options.managers.commands.guildId,
             prefix: options.managers.commands.prefix,
             applicationPermissions: options.managers.commands.applicationPermissions,
             autoRegisterApplicationCommands: options.managers.commands.autoRegisterApplicationCommands ?? true,
             default: options.managers.commands.default,
           })
-        : undefined,
 
-      // EVENTS
-      events: options.managers?.events
-        ? new EventsManager(this, {
+      this.managers.commands.loadAll()
+         .then(commands => { 
+          if(commands) this.collections.commands = commands
+        });
+    }
+    // EVENTS
+    if(options.managers?.events){
+      this.managers.events = new EventsManager(this, {
             directory: options.managers.events.directory,
-            loadAll: options.managers.events.loadAll ?? true,
             default: options.managers.events.default,
           })
-        : undefined,
+      this.managers.events.loadAll()
+         .then(events => { 
+          if(events) this.collections.events = events
+        });
 
-      // INHIBITORS
-      inhibitors: options.managers?.inhibitors
-        ? new InhibitorsManager(this, {
+    }
+    // INHIBITORS
+    if(options.managers?.inhibitors){
+      this.managers.inhibitors = new InhibitorsManager(this, {
             directory: options.managers.inhibitors.directory,
-            loadAll: options.managers.inhibitors.loadAll ?? true,
             default: options.managers.inhibitors.default,
           })
-        : undefined,
+      this.managers.inhibitors.loadAll()
+         .then(inhibitors => { 
+          if(inhibitors) this.collections.inhibitors = inhibitors
+        });
 
-      // Modals
-      modals: options.managers?.modals
-        ? new ModalsManager(this, {
+    }
+    // MODALS
+    if(options.managers?.modals){
+      this.managers.modals = new ModalsManager(this, {
             directory: options.managers.modals.directory,
-            loadAll: options.managers.modals.loadAll ?? true,
           })
-        : undefined,
+      this.managers.modals.loadAll()
+         .then(modals => { 
+          if(modals) this.collections.modals = modals
+        });
 
-      // SELECT MENUS
-      selectMenus: options.managers?.selectMenus
-        ? new SelectMenusManager(this, {
+    }
+    // SELECT MENUS
+    if(options.managers?.selectMenus){
+      this.managers.selectMenus = new SelectMenusManager(this, {
             directory: options.managers.selectMenus.directory,
-            loadAll: options.managers.selectMenus.loadAll ?? true,
           })
-        : undefined,
-    };
+      this.managers.selectMenus.loadAll()
+         .then(selectmenus => { 
+          if(selectmenus) this.collections.selectMenus = selectmenus
+        });
+
+    }
 
     this.mode = options.mode || CLIENT_MODE.dev;
     this.util = new ClientUtil(this);

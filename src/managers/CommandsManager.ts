@@ -79,7 +79,6 @@ export class CommandsManager extends BaseManager {
     this.guildId = options?.guildId;
     this.prefix = options?.prefix;
 
-    if (options?.loadAll) this.loadAndRegisterAll();
   }
 
   /**
@@ -238,24 +237,17 @@ export class CommandsManager extends BaseManager {
   public async loadAll(): Promise<Collection<string, Command> | undefined> {
     const loader = new Loader<string, Command>(this.client, this.directory, "name");
     this.commands = await loader.load();
-    // TODO: Refactor client.collection system
-    this.client.collections.commands = this.commands;
     new ShewenyInformation(this.client, `- Commands loaded : ${this.commands.size}`);
-    return this.commands;
-  }
 
-  /**
-   * Load all and Register Application commands
-   * @returns {Promise<void>}
-   */
-  public async loadAndRegisterAll(): Promise<void> {
-    const commands = await this.loadAll();
-    const commandsToRegister = commands?.filter((cmd: Command) =>
-      // eslint-disable-next-line
-      // @ts-ignore
-      [COMMAND_TYPE.cmdSlash, COMMAND_TYPE.ctxMsg, COMMAND_TYPE.ctxUser].includes(cmd.type),
+    // Register
+    const commandsToRegister = this.commands?.filter((cmd: Command) =>
+      cmd.type == COMMAND_TYPE.cmdSlash ||
+      cmd.type == COMMAND_TYPE.ctxMsg ||
+      cmd.type == COMMAND_TYPE.ctxUser
     );
     if (commandsToRegister && this.autoRegisterApplicationCommands) await this.registerApplicationCommands(commandsToRegister);
+
+    return this.commands;
   }
 
   /**
