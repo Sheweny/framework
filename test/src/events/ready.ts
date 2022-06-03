@@ -1,5 +1,5 @@
-import { Event } from '../../../';
-import type { ShewenyClient } from '../../../';
+import { Event } from 'sheweny';
+import type { ShewenyClient } from 'sheweny';
 import type { Client } from 'discord.js';
 
 export default class Ready extends Event {

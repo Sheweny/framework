@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BlackListInhibitor = void 0;
-const __1 = require("../../../");
-class BlackListInhibitor extends __1.Inhibitor {
+const sheweny_1 = require("sheweny");
+class BlackListInhibitor extends sheweny_1.Inhibitor {
     constructor(client) {
         super(client, 'blacklist', {
             type: ['BUTTON'],

@@ -37,21 +37,20 @@ class ShewenyClient extends discord_js_1.Client {
         this.connected = false;
         this.disableCooldownsForAdmins = options.disableCooldownsForAdmins || false;
         this.joinThreadsOnCreate = options.joinThreadsOnCreate || false;
-        /****** MANAGERS ******/
-        // TODO: Remove loadAll option in managers 
+        /** **** MANAGERS ******/
+        // TODO: Remove loadAll option in managers
         this.managers = {};
-        //BUTTONS
+        // BUTTONS
         if (options.managers?.buttons) {
             this.managers.buttons = new managers_1.ButtonsManager(this, {
                 directory: options.managers.buttons.directory,
             });
-            this.managers.buttons.loadAll()
-                .then(buttons => {
+            this.managers.buttons.loadAll().then(buttons => {
                 if (buttons)
                     this.collections.buttons = buttons;
             });
         }
-        //COMMANDS
+        // COMMANDS
         if (options.managers?.commands) {
             this.managers.commands = new managers_1.CommandsManager(this, {
                 directory: options.managers.commands.directory,
@@ -61,8 +60,7 @@ class ShewenyClient extends discord_js_1.Client {
                 autoRegisterApplicationCommands: options.managers.commands.autoRegisterApplicationCommands ?? true,
                 default: options.managers.commands.default,
             });
-            this.managers.commands.loadAll()
-                .then(commands => {
+            this.managers.commands.loadAll().then(commands => {
                 if (commands)
                     this.collections.commands = commands;
             });
@@ -73,8 +71,7 @@ class ShewenyClient extends discord_js_1.Client {
                 directory: options.managers.events.directory,
                 default: options.managers.events.default,
             });
-            this.managers.events.loadAll()
-                .then(events => {
+            this.managers.events.loadAll().then(events => {
                 if (events)
                     this.collections.events = events;
             });
@@ -85,8 +82,7 @@ class ShewenyClient extends discord_js_1.Client {
                 directory: options.managers.inhibitors.directory,
                 default: options.managers.inhibitors.default,
             });
-            this.managers.inhibitors.loadAll()
-                .then(inhibitors => {
+            this.managers.inhibitors.loadAll().then(inhibitors => {
                 if (inhibitors)
                     this.collections.inhibitors = inhibitors;
             });
@@ -96,8 +92,7 @@ class ShewenyClient extends discord_js_1.Client {
             this.managers.modals = new managers_1.ModalsManager(this, {
                 directory: options.managers.modals.directory,
             });
-            this.managers.modals.loadAll()
-                .then(modals => {
+            this.managers.modals.loadAll().then(modals => {
                 if (modals)
                     this.collections.modals = modals;
             });
@@ -107,8 +102,7 @@ class ShewenyClient extends discord_js_1.Client {
             this.managers.selectMenus = new managers_1.SelectMenusManager(this, {
                 directory: options.managers.selectMenus.directory,
             });
-            this.managers.selectMenus.loadAll()
-                .then(selectmenus => {
+            this.managers.selectMenus.loadAll().then(selectmenus => {
                 if (selectmenus)
                     this.collections.selectMenus = selectmenus;
             });

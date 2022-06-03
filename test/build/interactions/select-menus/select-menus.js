@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Select = void 0;
-const __1 = require("../../../../");
-class Select extends __1.SelectMenu {
+const sheweny_1 = require("sheweny");
+class Select extends sheweny_1.SelectMenu {
     constructor(client) {
         super(client, ['select']);
     }

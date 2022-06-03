@@ -1,6 +1,6 @@
-import { ShewenyClient } from '../../';
+import { ShewenyClient } from 'sheweny';
 import { IntentsBitField, Partials } from 'discord.js';
-const config = require('../config-test.json');
+const config = require("../config-test.json")
 const client = new ShewenyClient({
   intents: [
     IntentsBitField.Flags.Guilds,

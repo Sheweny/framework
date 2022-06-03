@@ -1,4 +1,4 @@
-import { Command, ShewenyClient } from '../../../../';
+import { Command, ShewenyClient } from 'sheweny';
 import type { AutocompleteInteraction, CommandInteraction } from 'discord.js';
 
 export class PingCommand extends Command {

@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GetAvatar = void 0;
-const __1 = require("../../../../");
+const sheweny_1 = require("sheweny");
 const discord_js_1 = require("discord.js");
-class GetAvatar extends __1.Command {
+class GetAvatar extends sheweny_1.Command {
     constructor(client) {
         super(client, {
             name: 'send-embed',

@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const __1 = require("../../../");
-class InvalidChannel extends __1.Event {
+const sheweny_1 = require("sheweny");
+class InvalidChannel extends sheweny_1.Event {
     constructor(client) {
         super(client, 'invalidChannel', {
             description: 'Invalid command channel',
@@ -10,7 +10,7 @@ class InvalidChannel extends __1.Event {
         });
     }
     async execute(command, ctx) {
-        ctx.reply("Vous ne vouvez pas utiliser la commande " + command.name + " dans ce type de channel.");
+        ctx.reply('Vous ne vouvez pas utiliser la commande ' + command.name + ' dans ce type de channel.');
     }
 }
 exports.default = InvalidChannel;

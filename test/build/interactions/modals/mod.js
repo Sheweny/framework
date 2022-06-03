@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Mod = void 0;
-const __1 = require("../../../../");
-class Mod extends __1.Modal {
+const sheweny_1 = require("sheweny");
+class Mod extends sheweny_1.Modal {
     constructor(client) {
         super(client, ['AwesomeForm']);
     }

@@ -1,4 +1,4 @@
-import { Modal, ShewenyClient } from '../../../../';
+import { Modal, ShewenyClient } from 'sheweny';
 import type { ModalSubmitInteraction } from 'discord.js';
 
 export class Mod extends Modal {

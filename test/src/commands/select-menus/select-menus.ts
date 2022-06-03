@@ -1,4 +1,4 @@
-import { ShewenyClient, Command } from '../../../../';
+import { ShewenyClient, Command } from 'sheweny';
 import { CommandInteraction } from 'discord.js';
 import { SelectMenuBuilder, ActionRowBuilder, SelectMenuOptionBuilder } from 'discord.js';
 

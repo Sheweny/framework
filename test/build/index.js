@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const __1 = require("../../");
+const sheweny_1 = require("sheweny");
 const discord_js_1 = require("discord.js");
-const config = require('../config-test.json');
-const client = new __1.ShewenyClient({
+const config = require("../config-test.json");
+const client = new sheweny_1.ShewenyClient({
     intents: [
         discord_js_1.IntentsBitField.Flags.Guilds,
         discord_js_1.IntentsBitField.Flags.GuildMessages,

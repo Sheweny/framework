@@ -2,7 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Command = void 0;
 const discord_js_1 = require("discord.js");
-const index_1 = require("../index");
+const index_1 = require("./index");
+const helpers_1 = require("../helpers");
 const constants_1 = require("../constants/constants");
 /**
  * Represents an Command structure
@@ -54,7 +55,7 @@ class Command extends index_1.BaseStructure {
      */
     async register() {
         if (!this.path)
-            return new index_1.ShewenyError(this.client, 'PATH_NOT_DEFINE', 'Command', this.name);
+            return new helpers_1.ShewenyError(this.client, 'PATH_NOT_DEFINE', 'Command', this.name);
         const CommandImported = (await Promise.resolve().then(() => require(this.path))).default;
         const AC = new CommandImported(this.client);
         return this.client.collections.commands

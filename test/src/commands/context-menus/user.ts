@@ -1,5 +1,5 @@
-import { Command } from '../../../../';
-import type { ShewenyClient } from '../../../../';
+import { Command } from 'sheweny';
+import type { ShewenyClient } from 'sheweny';
 import type { ContextMenuCommandInteraction } from 'discord.js';
 
 export class GetAvatar extends Command {

@@ -4,7 +4,7 @@ exports.Loader = void 0;
 const path_1 = require("path");
 const discord_js_1 = require("discord.js");
 const helpers_1 = require("../helpers");
-//import type { Constructable } from '../typescript/utilityTypes';
+// import type { Constructable } from '../typescript/utilityTypes';
 const promises_1 = require("fs/promises");
 class Loader {
     constructor(client, path, mainKey) {
@@ -21,7 +21,7 @@ class Loader {
         else if (this.mainPath)
             await this.readDirectory(this.mainPath);
         else
-            new helpers_1.ShewenyError(this.client, "MISSING_PATH_LOADER");
+            new helpers_1.ShewenyError(this.client, 'MISSING_PATH_LOADER');
         if (!this.paths.length)
             return this.collection;
         for (const path of this.paths) {
@@ -30,7 +30,12 @@ class Loader {
         return this.collection;
     }
     absolutePath(dir) {
-        return (0, path_1.resolve)(require.main.path, dir);
+        let main = '';
+        if (!require.main)
+            main = process.cwd();
+        else
+            main = require.main.path;
+        return (0, path_1.resolve)(main, dir);
     }
     async readDirectory(dir) {
         const result = await (0, promises_1.readdir)(dir);
@@ -58,7 +63,7 @@ class Loader {
         }
         catch (err) {
             const error = err;
-            //TODO: Handle this error
+            // TODO: Handle this error
             new helpers_1.ShewenyError(this.client, error);
         }
     }
@@ -67,17 +72,18 @@ class Loader {
             const instance = new Structure(this.client);
             if (!instance)
                 return;
-            if (!Object.hasOwn(instance, this.mainKey))
-                return new helpers_1.ShewenyWarning(this.client, "MISSING_PROPERTY_CLASS", this.mainKey, path);
+            if (!Object.hasOwn(instance, this.mainKey)) {
+                return new helpers_1.ShewenyWarning(this.client, 'MISSING_PROPERTY_CLASS', this.mainKey, path);
+            }
             if (this.collection.get(instance[this.mainKey])) {
-                return new helpers_1.ShewenyWarning(this.client, "DUPLICATE_CLASS", path);
+                return new helpers_1.ShewenyWarning(this.client, 'DUPLICATE_CLASS', path);
             }
             this.collection.set(instance[this.mainKey], instance);
         }
         catch (err) {
             const error = err;
             // TODO: Implement this error
-            new helpers_1.ShewenyWarning(this.client, "INVALID_CLASS", Structure.toString(), path, error);
+            new helpers_1.ShewenyWarning(this.client, 'INVALID_CLASS', Structure.toString(), path, error);
         }
     }
 }

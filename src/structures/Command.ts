@@ -1,7 +1,9 @@
 import { Collection } from 'discord.js';
-import { BaseStructure, ShewenyError } from '../index';
+import { BaseStructure } from './index';
+import { ShewenyError } from '../helpers';
 import { COMMAND_CHANNEL, COMMAND_TYPE } from '../constants/constants';
-import type { ShewenyClient, CommandsManager } from '../index';
+import type { ShewenyClient } from '../client/Client';
+import type { CommandsManager } from '../managers';
 import type {
   // Interfaces
   MessageCommandOptionData,

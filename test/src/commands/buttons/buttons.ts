@@ -1,6 +1,6 @@
-import { Command } from '../../../..';
+import { Command } from 'sheweny';
 import { ButtonBuilder, ActionRowBuilder, ButtonStyle } from 'discord.js';
-import type { ShewenyClient } from '../../../..';
+import type { ShewenyClient } from 'sheweny';
 import type { CommandInteraction } from 'discord.js';
 
 export default class PingCommand extends Command {

@@ -2,8 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.EventsManager = void 0;
 const node_events_1 = require("node:events");
-const index_1 = require("../index");
 const Loader_1 = require("../utils/Loader");
+const helpers_1 = require("../helpers");
+const index_1 = require("./index");
 /**
  * Manager for Events
  */
@@ -25,9 +26,9 @@ class EventsManager extends index_1.BaseManager {
      * @returns {Promise<Collection<string, Event>>} the events
      */
     async loadAll() {
-        const loader = new Loader_1.Loader(this.client, this.directory, "name");
+        const loader = new Loader_1.Loader(this.client, this.directory, 'name');
         this.events = await loader.load();
-        new index_1.ShewenyInformation(this.client, `- Events loaded : ${this.events.size}`);
+        new helpers_1.ShewenyInformation(this.client, `- Events loaded : ${this.events.size}`);
         // Register
         await this.registerAll(this.events);
         return this.events;

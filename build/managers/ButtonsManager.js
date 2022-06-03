@@ -1,8 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ButtonsManager = void 0;
-const index_1 = require("../index");
 const Loader_1 = require("../utils/Loader");
+const helpers_1 = require("../helpers");
+const index_1 = require("./index");
 /**
  * Manager for Buttons
  */
@@ -23,9 +24,9 @@ class ButtonsManager extends index_1.BaseManager {
      * @returns {Promise<Collection<string[], Button>>}
      */
     async loadAll() {
-        const loader = new Loader_1.Loader(this.client, this.directory, "customId");
+        const loader = new Loader_1.Loader(this.client, this.directory, 'customId');
         this.buttons = await loader.load();
-        new index_1.ShewenyInformation(this.client, `- Buttons loaded : ${this.buttons.size}`);
+        new helpers_1.ShewenyInformation(this.client, `- Buttons loaded : ${this.buttons.size}`);
         return this.buttons;
     }
     /**

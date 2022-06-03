@@ -1,7 +1,10 @@
 import { Collection } from 'discord.js';
 import { Loader } from '../utils/Loader';
-import { BaseManager, ShewenyInformation, type ShewenyClient, type Modal } from '../index';
-import type { ModalsManagerDefaultOptions, ModalsManagerOptions } from '../typescript';
+import { ShewenyInformation } from '../helpers';
+import { BaseManager } from './index';
+import type { ShewenyClient } from '../client/Client';
+import type { Modal } from '../structures';
+import type { CustomId, ModalsManagerDefaultOptions, ModalsManagerOptions } from '../typescript';
 /**
  * Manager for Modals
  */
@@ -16,7 +19,7 @@ export class ModalsManager extends BaseManager {
    * Collection of modals
    * @type {Collection<string[], Modal> | undefined}
    */
-  public modals?: Collection<string[], Modal> | null;
+  public modals?: Collection<CustomId, Modal> | null;
 
   /**
    * Constructor to manage modals
@@ -34,8 +37,8 @@ export class ModalsManager extends BaseManager {
    * Load all modals in collection
    * @returns {Promise<Collection<string[], Modal>>}
    */
-  public async loadAll(): Promise<Collection<string[], Modal> | undefined> {
-    const loader = new Loader<string[], Modal>(this.client, this.directory, 'customId');
+  public async loadAll(): Promise<Collection<CustomId, Modal> | undefined> {
+    const loader = new Loader<'customId', CustomId, Modal>(this.client, this.directory, 'customId');
     this.modals = await loader.load();
     new ShewenyInformation(this.client, `- Modals loaded : ${this.modals.size}`);
     return this.modals;

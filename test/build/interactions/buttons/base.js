@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Btns = void 0;
-const __1 = require("../../../../");
-class Btns extends __1.Button {
+const sheweny_1 = require("sheweny");
+class Btns extends sheweny_1.Button {
     constructor(client) {
         super(client, ['primary', 'secondary', 'success', 'danger']);
     }

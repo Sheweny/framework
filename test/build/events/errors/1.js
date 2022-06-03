@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const __1 = require("../../../../");
-class Ready extends __1.Event {
+const sheweny_1 = require("sheweny");
+class Ready extends sheweny_1.Event {
     constructor(client) {
         super(client, 'uncaughtException', {
             emitter: process,

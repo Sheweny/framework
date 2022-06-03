@@ -1,4 +1,4 @@
-import { SelectMenu, ShewenyClient } from '../../../../';
+import { SelectMenu, ShewenyClient } from 'sheweny';
 import type { SelectMenuInteraction } from 'discord.js';
 
 export class Select extends SelectMenu {

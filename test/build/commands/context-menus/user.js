@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GetAvatar = void 0;
-const __1 = require("../../../../");
-class GetAvatar extends __1.Command {
+const sheweny_1 = require("sheweny");
+class GetAvatar extends sheweny_1.Command {
     constructor(client) {
         super(client, {
             name: 'display-avatar',

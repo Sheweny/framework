@@ -1,4 +1,4 @@
-import { Command, ShewenyClient } from '../../../../';
+import { Command, ShewenyClient } from 'sheweny';
 import { ActionRowBuilder, CommandInteraction, TextInputComponent } from 'discord.js';
 import { TextInputBuilder, TextInputStyle, ModalBuilder, ModalActionRowComponent } from 'discord.js';
 export class ModalCmd extends Command {

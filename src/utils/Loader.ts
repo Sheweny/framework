@@ -8,17 +8,26 @@ import type { ShewenyClient } from '../client/Client';
 import { readdir, stat } from 'fs/promises';
 
 // Version 2.0.0
+// type property = string; // | number | symbol;
+/* type WithProperty<K extends property, V = {}> = {
+  [P in K] : V
+}*/
+
+type WithMainProperty<K extends string, V> = {
+  [P in K]: V;
+};
 type StructureType<S> = new (client: ShewenyClient) => S;
-export class Loader<K, V> {
+
+export class Loader<MKN extends string, MKV, V extends WithMainProperty<MKN, MKV>> {
   public client: ShewenyClient;
-  public collection: Collection<K, V>;
-  public mainKey: string;
+  public collection: Collection<MKV, V>;
+  public mainKey: MKN;
   public mainPath: string;
   public paths: Array<string>;
 
-  constructor(client: ShewenyClient, path: string, mainKey: string) {
+  constructor(client: ShewenyClient, path: string, mainKey: MKN) {
     this.client = client;
-    this.collection = new Collection<K, V>();
+    this.collection = new Collection<MKV, V>();
     this.mainPath = this.absolutePath(path);
     this.paths = [];
     this.mainKey = mainKey;
@@ -37,7 +46,10 @@ export class Loader<K, V> {
   }
 
   private absolutePath(dir: string) {
-    return resolve(require.main!.path, dir);
+    let main = '';
+    if (!require.main) main = process.cwd();
+    else main = require.main.path;
+    return resolve(main, dir);
   }
 
   private async readDirectory(dir: string) {
@@ -69,7 +81,7 @@ export class Loader<K, V> {
   }
   private async loadStructure(Structure: StructureType<V>, path: string) {
     try {
-      const instance: any = new Structure(this.client);
+      const instance = new Structure(this.client);
       if (!instance) return;
       if (!Object.hasOwn(instance, this.mainKey)) {
         return new ShewenyWarning(this.client, 'MISSING_PROPERTY_CLASS', this.mainKey, path);

@@ -2,9 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CommandsManager = void 0;
 const discord_js_1 = require("discord.js");
-const index_1 = require("../index");
-const constants_1 = require("../constants/constants");
 const Loader_1 = require("../utils/Loader");
+const helpers_1 = require("../helpers");
+const index_1 = require("./index");
+const constants_1 = require("../constants/constants");
 /**
  * Manager for Commands
  * @extends {EventEmitter}
@@ -163,13 +164,11 @@ class CommandsManager extends index_1.BaseManager {
      * @returns {Promise<Collection<string, Command>>}
      */
     async loadAll() {
-        const loader = new Loader_1.Loader(this.client, this.directory, "name");
+        const loader = new Loader_1.Loader(this.client, this.directory, 'name');
         this.commands = await loader.load();
-        new index_1.ShewenyInformation(this.client, `- Commands loaded : ${this.commands.size}`);
+        new helpers_1.ShewenyInformation(this.client, `- Commands loaded : ${this.commands.size}`);
         // Register
-        const commandsToRegister = this.commands?.filter((cmd) => cmd.type == constants_1.COMMAND_TYPE.cmdSlash ||
-            cmd.type == constants_1.COMMAND_TYPE.ctxMsg ||
-            cmd.type == constants_1.COMMAND_TYPE.ctxUser);
+        const commandsToRegister = this.commands?.filter((cmd) => cmd.type == constants_1.COMMAND_TYPE.cmdSlash || cmd.type == constants_1.COMMAND_TYPE.ctxMsg || cmd.type == constants_1.COMMAND_TYPE.ctxUser);
         if (commandsToRegister && this.autoRegisterApplicationCommands)
             await this.registerApplicationCommands(commandsToRegister);
         return this.commands;

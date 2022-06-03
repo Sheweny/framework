@@ -1,5 +1,8 @@
 import { Collection } from 'discord.js';
-import { BaseStructure, ShewenyError, type ShewenyClient, type ModalsManager } from '../index';
+import { BaseStructure } from './BaseStructure';
+import { ShewenyError } from '../helpers';
+import type { ShewenyClient } from '../client/Client';
+import type { ModalsManager } from '../managers';
 import type { ModalSubmitInteraction } from 'discord.js';
 import type { Awaitable, ModalOptions, CustomId } from '../typescript';
 

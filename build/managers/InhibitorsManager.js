@@ -1,8 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.InhibitorsManager = void 0;
-const index_1 = require("../index");
 const Loader_1 = require("../utils/Loader");
+const helpers_1 = require("../helpers");
+const index_1 = require("./index");
 /**
  * Manager for Inhibitors
  */
@@ -24,9 +25,9 @@ class InhibitorsManager extends index_1.BaseManager {
      * @returns {Promise<Collection<string, Inhibitor>>}
      */
     async loadAll() {
-        const loader = new Loader_1.Loader(this.client, this.directory, "name");
+        const loader = new Loader_1.Loader(this.client, this.directory, 'name');
         this.inhibitors = await loader.load();
-        new index_1.ShewenyInformation(this.client, `- Inhibitors loaded : ${this.inhibitors.size}`);
+        new helpers_1.ShewenyInformation(this.client, `- Inhibitors loaded : ${this.inhibitors.size}`);
         return this.inhibitors;
     }
     /**

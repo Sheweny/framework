@@ -1,4 +1,4 @@
-import { Command, ShewenyClient } from '../../../';
+import { Command, ShewenyClient } from 'sheweny';
 import type { CommandInteraction } from 'discord.js';
 
 export class PingCommand extends Command {
@@ -7,7 +7,7 @@ export class PingCommand extends Command {
       name: 'ping',
       description: 'Ping !',
       type: 'SLASH_COMMAND',
-      channel: "DM"
+      channel: 'DM',
     });
   }
   execute(interaction: CommandInteraction) {

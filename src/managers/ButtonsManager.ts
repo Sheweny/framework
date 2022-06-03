@@ -1,7 +1,10 @@
 import { Collection } from 'discord.js';
-import { BaseManager, ShewenyInformation, type ShewenyClient, type Button } from '../index';
 import { Loader } from '../utils/Loader';
-import type { ButtonsManagerDefaultOptions, ButtonsManagerOptions } from '../typescript';
+import { ShewenyInformation } from '../helpers';
+import { BaseManager } from './index';
+import type { ShewenyClient } from '../client/Client';
+import type { Button } from '../structures';
+import type { ButtonsManagerDefaultOptions, ButtonsManagerOptions, CustomId } from '../typescript';
 /**
  * Manager for Buttons
  */
@@ -34,8 +37,8 @@ export class ButtonsManager extends BaseManager {
    * Load all buttons in collection
    * @returns {Promise<Collection<string[], Button>>}
    */
-  public async loadAll(): Promise<Collection<Array<string | RegExp>, Button> | undefined> {
-    const loader = new Loader<Array<string | RegExp>, Button>(this.client, this.directory, 'customId');
+  public async loadAll(): Promise<Collection<CustomId, Button> | undefined> {
+    const loader = new Loader<'customId', CustomId, Button>(this.client, this.directory, 'customId');
     this.buttons = await loader.load();
     new ShewenyInformation(this.client, `- Buttons loaded : ${this.buttons.size}`);
     return this.buttons;

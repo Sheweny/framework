@@ -2,12 +2,13 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Button = void 0;
 const discord_js_1 = require("discord.js");
-const index_1 = require("../index");
+const BaseStructure_1 = require("./BaseStructure");
+const helpers_1 = require("../helpers");
 /**
  * Represents an Button structure
  * @extends {BaseStructure}
  */
-class Button extends index_1.BaseStructure {
+class Button extends BaseStructure_1.BaseStructure {
     /**
      * Constructor for build a Button
      * @param {ShewenyClient} client Client framework
@@ -25,7 +26,7 @@ class Button extends index_1.BaseStructure {
      */
     async register() {
         if (!this.path)
-            return new index_1.ShewenyError(this.client, 'PATH_NOT_DEFINE', 'Button', this.customId.toString());
+            return new helpers_1.ShewenyError(this.client, 'PATH_NOT_DEFINE', 'Button', this.customId.toString());
         const ButtonImported = (await Promise.resolve().then(() => require(this.path))).default;
         const btn = new ButtonImported(this.client);
         return this.client.collections.buttons

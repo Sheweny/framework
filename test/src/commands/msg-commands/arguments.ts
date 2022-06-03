@@ -1,5 +1,5 @@
-import { Command } from '../../../..';
-import type { ShewenyClient } from '../../../..';
+import { Command } from 'sheweny';
+import type { ShewenyClient } from 'sheweny';
 import type { Message } from 'discord.js';
 
 export class PingCommand extends Command {

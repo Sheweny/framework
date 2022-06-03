@@ -1,7 +1,9 @@
 import { Collection } from 'discord.js';
-import { BaseStructure, ShewenyError } from '../index';
+import { BaseStructure } from './index';
+import { ShewenyError } from '../helpers';
 import type { EventEmitter } from 'events';
-import type { ShewenyClient, EventsManager } from '../index';
+import type { ShewenyClient } from '../client/Client';
+import type { EventsManager } from '../managers';
 import type { EventOptions, Awaitable } from '../typescript';
 
 /**
