@@ -46,10 +46,10 @@ export class Loader<MKN extends string, MKV, V extends WithMainProperty<MKN, MKV
   }
 
   private absolutePath(dir: string) {
-    /*let main = '';
+    let main = '';
     if (!require.main) main = process.cwd();
-    else main = require.main.path;*/
-    return resolve(require.main!.path, dir);
+    else main = require.main.path;
+    return resolve(main, dir);
   }
 
   private async readDirectory(dir: string) {
