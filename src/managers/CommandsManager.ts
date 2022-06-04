@@ -235,7 +235,7 @@ export class CommandsManager extends BaseManager {
    * @returns {Promise<Collection<string, Command>>}
    */
   public async loadAll(): Promise<Collection<string, Command> | undefined> {
-    const loader = new Loader<'name', string, Command>(this.client, this.directory, 'name');
+    const loader = new Loader<'name', string, Command>(this.client, this.directory, 'name', this);
     this.commands = await loader.load();
     new ShewenyInformation(this.client, `- Commands loaded : ${this.commands.size}`);
 

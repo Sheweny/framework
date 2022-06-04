@@ -38,7 +38,7 @@ export class ModalsManager extends BaseManager {
    * @returns {Promise<Collection<string[], Modal>>}
    */
   public async loadAll(): Promise<Collection<CustomId, Modal> | undefined> {
-    const loader = new Loader<'customId', CustomId, Modal>(this.client, this.directory, 'customId');
+    const loader = new Loader<'customId', CustomId, Modal>(this.client, this.directory, 'customId', this);
     this.modals = await loader.load();
     new ShewenyInformation(this.client, `- Modals loaded : ${this.modals.size}`);
     return this.modals;

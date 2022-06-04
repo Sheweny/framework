@@ -24,7 +24,7 @@ class SelectMenusManager extends index_1.BaseManager {
      * @returns {Promise<Collection<string[], SelectMenu>>}
      */
     async loadAll() {
-        const loader = new Loader_1.Loader(this.client, this.directory, 'customId');
+        const loader = new Loader_1.Loader(this.client, this.directory, 'customId', this);
         this.selectMenus = await loader.load();
         new helpers_1.ShewenyInformation(this.client, `- Select-menus loaded : ${this.selectMenus.size}`);
         return this.selectMenus;

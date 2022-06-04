@@ -40,7 +40,7 @@ export class InhibitorsManager extends BaseManager {
    * @returns {Promise<Collection<string, Inhibitor>>}
    */
   public async loadAll(): Promise<Collection<string, Inhibitor> | undefined> {
-    const loader = new Loader<'name', string, Inhibitor>(this.client, this.directory, 'name');
+    const loader = new Loader<'name', string, Inhibitor>(this.client, this.directory, 'name', this);
     this.inhibitors = await loader.load();
     new ShewenyInformation(this.client, `- Inhibitors loaded : ${this.inhibitors.size}`);
     return this.inhibitors;

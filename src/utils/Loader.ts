@@ -7,6 +7,7 @@ import type { ShewenyClient } from '../client/Client';
 
 import { readdir, stat } from 'fs/promises';
 import type { BaseStructure } from '../structures';
+import { Manager } from '../typescript';
 
 // Version 2.0.0
 // type property = string; // | number | symbol;
@@ -27,13 +28,15 @@ export class Loader<MKN extends string, MKV, V extends StructureType<MKN, MKV>> 
   public mainKey: MKN;
   public mainPath: string;
   public paths: Array<string>;
+  public manager: Manager;
 
-  constructor(client: ShewenyClient, path: string, mainKey: MKN) {
+  constructor(client: ShewenyClient, path: string, mainKey: MKN, manager:Manager) {
     this.client = client;
     this.collection = new Collection<MKV, V>();
     this.mainPath = this.absolutePath(path);
     this.paths = [];
     this.mainKey = mainKey;
+    this.manager = manager;
   }
 
   // Return the number of loaded paths
@@ -92,7 +95,10 @@ export class Loader<MKN extends string, MKV, V extends StructureType<MKN, MKV>> 
       if (this.collection.get(instance[this.mainKey])) {
         return new ShewenyWarning(this.client, 'DUPLICATE_CLASS', path);
       }
+      // Set data on structure
       instance.path = path;
+      instance.manager = this.manager;
+
       this.collection.set(instance[this.mainKey], instance);
     } catch (err) {
       const error = err as Error;

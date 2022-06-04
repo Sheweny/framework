@@ -26,7 +26,7 @@ class EventsManager extends index_1.BaseManager {
      * @returns {Promise<Collection<string, Event>>} the events
      */
     async loadAll() {
-        const loader = new Loader_1.Loader(this.client, this.directory, 'name');
+        const loader = new Loader_1.Loader(this.client, this.directory, 'name', this);
         this.events = await loader.load();
         new helpers_1.ShewenyInformation(this.client, `- Events loaded : ${this.events.size}`);
         // Register

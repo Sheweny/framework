@@ -24,7 +24,7 @@ class ModalsManager extends index_1.BaseManager {
      * @returns {Promise<Collection<string[], Modal>>}
      */
     async loadAll() {
-        const loader = new Loader_1.Loader(this.client, this.directory, 'customId');
+        const loader = new Loader_1.Loader(this.client, this.directory, 'customId', this);
         this.modals = await loader.load();
         new helpers_1.ShewenyInformation(this.client, `- Modals loaded : ${this.modals.size}`);
         return this.modals;

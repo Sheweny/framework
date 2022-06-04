@@ -38,7 +38,7 @@ export class ButtonsManager extends BaseManager {
    * @returns {Promise<Collection<string[], Button>>}
    */
   public async loadAll(): Promise<Collection<CustomId, Button> | undefined> {
-    const loader = new Loader<'customId', CustomId, Button>(this.client, this.directory, 'customId');
+    const loader = new Loader<'customId', CustomId, Button>(this.client, this.directory, 'customId', this);
     this.buttons = await loader.load();
     new ShewenyInformation(this.client, `- Buttons loaded : ${this.buttons.size}`);
     return this.buttons;

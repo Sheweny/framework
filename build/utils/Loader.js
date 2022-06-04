@@ -7,12 +7,13 @@ const helpers_1 = require("../helpers");
 // import type { Constructable } from '../typescript/utilityTypes';
 const promises_1 = require("fs/promises");
 class Loader {
-    constructor(client, path, mainKey) {
+    constructor(client, path, mainKey, manager) {
         this.client = client;
         this.collection = new discord_js_1.Collection();
         this.mainPath = this.absolutePath(path);
         this.paths = [];
         this.mainKey = mainKey;
+        this.manager = manager;
     }
     // Return the number of loaded paths
     async load(dir = this.mainPath) {
@@ -78,7 +79,9 @@ class Loader {
             if (this.collection.get(instance[this.mainKey])) {
                 return new helpers_1.ShewenyWarning(this.client, 'DUPLICATE_CLASS', path);
             }
+            // Set data on structure
             instance.path = path;
+            instance.manager = this.manager;
             this.collection.set(instance[this.mainKey], instance);
         }
         catch (err) {

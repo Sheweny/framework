@@ -25,7 +25,7 @@ class InhibitorsManager extends index_1.BaseManager {
      * @returns {Promise<Collection<string, Inhibitor>>}
      */
     async loadAll() {
-        const loader = new Loader_1.Loader(this.client, this.directory, 'name');
+        const loader = new Loader_1.Loader(this.client, this.directory, 'name', this);
         this.inhibitors = await loader.load();
         new helpers_1.ShewenyInformation(this.client, `- Inhibitors loaded : ${this.inhibitors.size}`);
         return this.inhibitors;
