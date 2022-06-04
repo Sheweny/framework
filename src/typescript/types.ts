@@ -1,8 +1,12 @@
 import type { SlashCommandData, ContextMenuMessageData, ContextMenuUserData, MessageData } from './interfaces';
 import type { COMMAND_TYPE, INHIBITOR_TYPE } from '../constants/constants';
+import type { ButtonsManager, CommandsManager, EventsManager, InhibitorsManager, ModalsManager, SelectMenusManager } from '../managers';
 
 /** **** UTIL ******/
 export type CustomId = Array<string | RegExp>;
+
+// Managers
+export type Manager = ButtonsManager | CommandsManager | EventsManager | InhibitorsManager | ModalsManager | SelectMenusManager;
 
 /**
  * Commands types
