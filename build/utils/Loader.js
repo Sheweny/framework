@@ -30,12 +30,10 @@ class Loader {
         return this.collection;
     }
     absolutePath(dir) {
-        let main = '';
-        if (!require.main)
-            main = process.cwd();
-        else
-            main = require.main.path;
-        return (0, path_1.resolve)(main, dir);
+        /*let main = '';
+        if (!require.main) main = process.cwd();
+        else main = require.main.path;*/
+        return (0, path_1.resolve)(require.main.path, dir);
     }
     async readDirectory(dir) {
         const result = await (0, promises_1.readdir)(dir);
