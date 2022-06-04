@@ -6,6 +6,7 @@ import type { ShewenyClient } from '../client/Client';
 // import type { Constructable } from '../typescript/utilityTypes';
 
 import { readdir, stat } from 'fs/promises';
+import type { BaseStructure } from '../structures';
 
 // Version 2.0.0
 // type property = string; // | number | symbol;
@@ -16,9 +17,11 @@ import { readdir, stat } from 'fs/promises';
 type WithMainProperty<K extends string, V> = {
   [P in K]: V;
 };
-type StructureType<S> = new (client: ShewenyClient) => S;
+type StructureConstructed<MKN extends string, MKV, V> = V &  WithMainProperty<MKN, MKV>;
+type StructureConstructable<MKN extends string, MKV, S> = new (client: ShewenyClient) => S & WithMainProperty<MKN, MKV>;
+type StructureType<MKN extends string, MKV> = BaseStructure & WithMainProperty<MKN, MKV>
 
-export class Loader<MKN extends string, MKV, V extends WithMainProperty<MKN, MKV>> {
+export class Loader<MKN extends string, MKV, V extends StructureType<MKN, MKV>> {
   public client: ShewenyClient;
   public collection: Collection<MKV, V>;
   public mainKey: MKN;
@@ -79,9 +82,9 @@ export class Loader<MKN extends string, MKV, V extends WithMainProperty<MKN, MKV
       new ShewenyError(this.client, error);
     }
   }
-  private async loadStructure(Structure: StructureType<V>, path: string) {
+  private async loadStructure(Structure: StructureConstructable<MKN, MKV, V>, path: string) {
     try {
-      const instance = new Structure(this.client);
+      const instance: StructureConstructed<MKN, MKV, V> = new Structure(this.client);
       if (!instance) return;
       if (!Object.hasOwn(instance, this.mainKey)) {
         return new ShewenyWarning(this.client, 'MISSING_PROPERTY_CLASS', this.mainKey, path);
@@ -89,6 +92,7 @@ export class Loader<MKN extends string, MKV, V extends WithMainProperty<MKN, MKV
       if (this.collection.get(instance[this.mainKey])) {
         return new ShewenyWarning(this.client, 'DUPLICATE_CLASS', path);
       }
+      instance.path = path;
       this.collection.set(instance[this.mainKey], instance);
     } catch (err) {
       const error = err as Error;

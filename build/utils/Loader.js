@@ -78,6 +78,7 @@ class Loader {
             if (this.collection.get(instance[this.mainKey])) {
                 return new helpers_1.ShewenyWarning(this.client, 'DUPLICATE_CLASS', path);
             }
+            instance.path = path;
             this.collection.set(instance[this.mainKey], instance);
         }
         catch (err) {
