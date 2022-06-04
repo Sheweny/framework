@@ -1,6 +1,9 @@
 import { ShewenyClient } from 'sheweny';
 import { IntentsBitField, Partials } from 'discord.js';
-const config = require("../config-test.json")
+import { readFileSync } from 'fs';
+
+const configFile = readFileSync("../config-test.json").toString();
+const config = JSON.parse(configFile);
 const client = new ShewenyClient({
   intents: [
     IntentsBitField.Flags.Guilds,

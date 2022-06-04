@@ -2,7 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const sheweny_1 = require("sheweny");
 const discord_js_1 = require("discord.js");
-const config = require("../config-test.json");
+const fs_1 = require("fs");
+const configFile = (0, fs_1.readFileSync)("../config-test.json").toString();
+const config = JSON.parse(configFile);
 const client = new sheweny_1.ShewenyClient({
     intents: [
         discord_js_1.IntentsBitField.Flags.Guilds,
