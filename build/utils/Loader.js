@@ -30,10 +30,12 @@ class Loader {
         return this.collection;
     }
     absolutePath(dir) {
-        /*let main = '';
-        if (!require.main) main = process.cwd();
-        else main = require.main.path;*/
-        return (0, path_1.resolve)(require.main.path, dir);
+        let main = '';
+        if (!require.main)
+            main = process.cwd();
+        else
+            main = require.main.path;
+        return (0, path_1.resolve)(main, dir);
     }
     async readDirectory(dir) {
         const result = await (0, promises_1.readdir)(dir);
@@ -50,7 +52,7 @@ class Loader {
         try {
             const imported = await Promise.resolve().then(() => require(path));
             const keys = Object.keys(imported);
-            if (keys) {
+            if (keys.length) {
                 for (const key of keys) {
                     await this.loadStructure(imported[key], path);
                 }

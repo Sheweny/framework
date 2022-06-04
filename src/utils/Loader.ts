@@ -66,7 +66,7 @@ export class Loader<MKN extends string, MKV, V extends WithMainProperty<MKN, MKV
     try {
       const imported = await import(path);
       const keys = Object.keys(imported);
-      if (keys) {
+      if (keys.length) {
         for (const key of keys) {
           await this.loadStructure(imported[key], path);
         }
