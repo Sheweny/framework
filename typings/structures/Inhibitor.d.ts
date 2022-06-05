@@ -1,8 +1,8 @@
 import { Collection } from 'discord.js';
 import { BaseStructure } from '.';
-import { ShewenyError } from '../helpers';
+import { ShewenyError } from '../helpers/index.js';
 import type { InhibitorsManager } from '..';
-import type { ShewenyClient } from '../client/Client';
+import type { ShewenyClient } from '../client/Client.js';
 import type { InhibitorType } from '../typescript/types';
 import type { Interaction, Message } from 'discord.js';
 import type { Awaitable } from '../typescript/utilityTypes';

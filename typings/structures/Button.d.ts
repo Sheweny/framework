@@ -1,9 +1,9 @@
 import { Collection } from 'discord.js';
 import { BaseStructure } from '.';
-import { ShewenyError } from '../helpers';
+import { ShewenyError } from '../helpers/index.js';
 import type { ButtonInteraction } from 'discord.js';
 import type { ButtonsManager } from '..';
-import type { ShewenyClient } from '../client/Client';
+import type { ShewenyClient } from '../client/Client.js';
 import type { Awaitable } from '../typescript/utilityTypes';
 import { ButtonOptions } from '../typescript/interfaces';
 /**

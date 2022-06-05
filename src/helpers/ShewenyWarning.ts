@@ -1,4 +1,4 @@
-import type { ShewenyClient } from '../client/Client';
+import type { ShewenyClient } from '../client/Client.js';
 import type { IMessages } from '../typescript/utilityTypes';
 
 const Messages: IMessages = {
@@ -19,11 +19,11 @@ export class ShewenyWarning {
 
     if (client.mode === 'development') {
       console.log('');
-      if (Messages[name]) console.warn(`\x1b[33m${Messages[name](...args)}\x1b[0m`);
+      if (Messages[name]) console.warn(`\x1b[33m${Messages[name]!(...args)}\x1b[0m`);
       else console.warn(`\x1b[33m${name}\x1b[0m`);
       console.log('');
     } else if (Messages[name]) {
-      client.emit('warn', Messages[name](...args));
+      client.emit('warn', Messages[name]!(...args));
     } else {
       client.emit('warn', name);
     }

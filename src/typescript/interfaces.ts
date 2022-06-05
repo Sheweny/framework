@@ -15,15 +15,15 @@ import type {
   Inhibitor,
   SelectMenu,
   Modal,
-} from '../index';
+} from '../index.js';
 import type {
   CLIENT_MODE,
   COMMAND_CHANNEL,
   COMMAND_MESSAGE_ARGS_TYPE,
   COMMAND_TYPE,
   INHIBITOR_TYPE,
-} from '../constants/constants';
-import type { CustomId, InhibitorType } from './types';
+} from '../constants/constants.js';
+import type { CustomId, InhibitorType } from './types.js';
 
 /**
  * Interfaces of managers

@@ -1,6 +1,13 @@
 import type { SlashCommandData, ContextMenuMessageData, ContextMenuUserData, MessageData } from './interfaces';
-import type { COMMAND_TYPE, INHIBITOR_TYPE } from '../constants/constants';
-import type { ButtonsManager, CommandsManager, EventsManager, InhibitorsManager, ModalsManager, SelectMenusManager } from '../managers';
+import type { COMMAND_TYPE, INHIBITOR_TYPE } from '../constants/constants.js';
+import type {
+  ButtonsManager,
+  CommandsManager,
+  EventsManager,
+  InhibitorsManager,
+  ModalsManager,
+  SelectMenusManager,
+} from '../managers/index.js';
 
 /** **** UTIL ******/
 export type CustomId = Array<string | RegExp>;

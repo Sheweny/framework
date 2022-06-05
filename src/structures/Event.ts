@@ -1,10 +1,9 @@
 import { Collection } from 'discord.js';
-import { BaseStructure } from './index';
-import { ShewenyError } from '../helpers';
+import { BaseStructure } from './index.js';
+import { ShewenyError } from '../helpers/index.js';
 import type { EventEmitter } from 'events';
-import type { ShewenyClient } from '../client/Client';
-import type { EventsManager } from '../managers';
-import type { EventOptions, Awaitable } from '../typescript';
+import type { ShewenyClient } from '../client/Client.js';
+import type { EventOptions, Awaitable } from '../typescript/index.js';
 
 /**
  * Represents an Event structure
@@ -22,12 +21,6 @@ export abstract class Event extends BaseStructure {
    * @type {Emitter}
    */
   public emitter: EventEmitter;
-
-  /**
-   * The
-   * @type {EventsManager}
-   */
-  public manager?: EventsManager;
 
   /**
    * Name of a event
@@ -53,7 +46,6 @@ export abstract class Event extends BaseStructure {
 
     this.description = options?.description || '';
     this.emitter = (options?.emitter || defaultData.emitter) ?? this.client;
-    this.manager = this.client.managers.events;
     this.name = name;
     this.once = (options?.once || defaultData.once) ?? false;
   }

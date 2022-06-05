@@ -1,12 +1,14 @@
 import { resolve } from 'path';
-import { readDirAndPush } from './readDirFiles';
+import { readDirAndPush } from './readDirFiles.js';
 import { Collection } from 'discord.js';
-import { ShewenyError, ShewenyWarning } from '../helpers';
+import { ShewenyError, ShewenyWarning } from '../helpers/index.js';
 
-import type { ShewenyClient } from '../client/Client';
-import type { LoadFilesOptions } from '../typescript/interfaces';
-import type { Constructable } from '../typescript/utilityTypes';
-export async function loadFiles<K, V>(client: ShewenyClient, options: LoadFilesOptions): Promise<Collection<K, V> | undefined> {
+import type { ShewenyClient } from '../client/Client.js';
+import type { LoadFilesOptions, Constructable } from '../typescript/index.js';
+export async function loadFiles<K, V>(
+  client: ShewenyClient,
+  options: LoadFilesOptions,
+): Promise<Collection<K, V> | undefined | ShewenyError> {
   try {
     const collection = new Collection<K, V>();
     //  eslint-disable-next-line
@@ -17,7 +19,8 @@ export async function loadFiles<K, V>(client: ShewenyClient, options: LoadFilesO
       const file = await import(filePath);
 
       //  Import the first element
-      if (Object.keys(file).length) Structure = file[Object.keys(file)[0]];
+      const keys = Object.keys(file);
+      if (keys[0]) Structure = file[keys[0]];
       else Structure = file;
       try {
         const instance = new Structure(client);
@@ -31,13 +34,11 @@ export async function loadFiles<K, V>(client: ShewenyClient, options: LoadFilesO
         collection.set(instance[options.key], instance);
       } catch (e) {
         new ShewenyWarning(client, 'INVALID_CLASS', Structure.toString(), filePath);
-        continue;
       }
     }
-
     return collection;
   } catch (err) {
     const e = err as Error;
-    new ShewenyError(client, e);
+    return new ShewenyError(client, e);
   }
 }

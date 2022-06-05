@@ -1,10 +1,9 @@
 import { Collection } from 'discord.js';
-import { BaseStructure } from './BaseStructure';
-import { ShewenyError } from '../helpers';
-import type { ShewenyClient } from '../client/Client';
-import type { ButtonsManager } from '../managers';
+import { BaseStructure } from './BaseStructure.js';
+import { ShewenyError } from '../helpers/index.js';
+import type { ShewenyClient } from '../client/Client.js';
 import type { ButtonInteraction } from 'discord.js';
-import type { Awaitable, ButtonOptions, CustomId } from '../typescript';
+import type { Awaitable, ButtonOptions, CustomId } from '../typescript/index.js';
 
 /**
  * Represents an Button structure
@@ -23,12 +22,6 @@ export abstract class Button extends BaseStructure {
   public customId: CustomId;
 
   /**
-   * The
-   * @type {ButtonsManager}
-   */
-  public manager?: ButtonsManager;
-
-  /**
    * Constructor for build a Button
    * @param {ShewenyClient} client Client framework
    * @param {string[] | RegExp[]} customId Custom id for one or more buttons
@@ -37,7 +30,6 @@ export abstract class Button extends BaseStructure {
     super(client);
     this.cooldown = (options?.cooldown || client.managers.buttons?.default?.cooldown) ?? 0;
     this.customId = customId;
-    this.manager = this.client.managers.buttons;
   }
 
   /**

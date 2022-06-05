@@ -1,8 +1,8 @@
-import { INHIBITOR_TYPE, SELECT_EVENTS } from '../constants/constants';
-import { ShewenyError } from '../helpers';
+import { INHIBITOR_TYPE, SELECT_EVENTS } from '../constants/constants.js';
+import { ShewenyError } from '../helpers/index.js';
 import { Collection, SelectMenuInteraction } from 'discord.js';
-import type { ShewenyClient } from '../client/Client';
-import type { Inhibitor } from '../structures/Inhibitor';
+import type { ShewenyClient } from '../client/Client.js';
+import type { Inhibitor } from '../structures/Inhibitor.js';
 export default async function run(client: ShewenyClient, interaction: SelectMenuInteraction) {
   try {
     if (!client.collections.selectMenus) return;
@@ -21,6 +21,7 @@ export default async function run(client: ShewenyClient, interaction: SelectMenu
               (element as RegExp).lastIndex = 0;
               return true;
             }
+            return false;
           });
         });
     }

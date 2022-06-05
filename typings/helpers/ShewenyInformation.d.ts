@@ -1,4 +1,4 @@
-import type { ShewenyClient } from '../client/Client';
+import type { ShewenyClient } from '../client/Client.js';
 /**
  * Information class for Sheweny.
  */

@@ -1,5 +1,5 @@
 import type { SlashCommandData, ContextMenuMessageData, ContextMenuUserData, MessageData } from './interfaces';
-import type { COMMAND_TYPE, INHIBITOR_TYPE } from '../constants/constants';
+import type { COMMAND_TYPE, INHIBITOR_TYPE } from '../constants/constants.js';
 /**
  * Commands types
  */

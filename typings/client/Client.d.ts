@@ -1,6 +1,6 @@
 import { Client } from 'discord.js';
 import { ClientUtil } from './ClientUtil';
-import { CLIENT_MODE } from '../constants/constants';
+import { CLIENT_MODE } from '../constants/constants.js';
 import type { Snowflake, ClientOptions } from 'discord.js';
 import type { ShewenyClientOptions, Managers, ManagersCollections, Cooldowns } from '../typescript/interfaces';
 /**

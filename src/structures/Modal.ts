@@ -1,10 +1,9 @@
 import { Collection } from 'discord.js';
-import { BaseStructure } from './BaseStructure';
-import { ShewenyError } from '../helpers';
-import type { ShewenyClient } from '../client/Client';
-import type { ModalsManager } from '../managers';
+import { BaseStructure } from './BaseStructure.js';
+import { ShewenyError } from '../helpers/index.js';
+import type { ShewenyClient } from '../client/Client.js';
 import type { ModalSubmitInteraction } from 'discord.js';
-import type { Awaitable, ModalOptions, CustomId } from '../typescript';
+import type { Awaitable, ModalOptions, CustomId } from '../typescript/index.js';
 
 /**
  * Represents an Modal structure
@@ -23,12 +22,6 @@ export abstract class Modal extends BaseStructure {
   public customId: CustomId;
 
   /**
-   * The
-   * @type {ModalsManager}
-   */
-  public manager?: ModalsManager;
-
-  /**
    * Constructor to build a Modal
    * @param {ShewenyClient} client Client framework
    * @param {string[] | RegExp[]} customId Custom id for one or more modals
@@ -37,7 +30,6 @@ export abstract class Modal extends BaseStructure {
     super(client);
     this.cooldown = (options?.cooldown || client.managers.buttons?.default?.cooldown) ?? 0;
     this.customId = customId;
-    this.manager = this.client.managers.modals;
   }
 
   /**

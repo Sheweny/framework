@@ -1,10 +1,10 @@
-import { Collection } from 'discord.js';
-import { Loader } from '../utils/Loader';
-import { ShewenyInformation } from '../helpers';
-import { BaseManager } from './index';
-import type { ShewenyClient } from '../client/Client';
-import type { Button } from '../structures';
-import type { ButtonsManagerDefaultOptions, ButtonsManagerOptions, CustomId } from '../typescript';
+import { Loader } from '../utils/Loader.js';
+import { ShewenyInformation } from '../helpers/index.js';
+import { BaseManager } from './index.js';
+import type { Collection } from 'discord.js';
+import type { ShewenyClient } from '../client/Client.js';
+import type { Button } from '../structures/index.js';
+import type { ButtonsManagerDefaultOptions, ButtonsManagerOptions, CustomId } from '../typescript/index.js';
 /**
  * Manager for Buttons
  */

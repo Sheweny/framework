@@ -1,10 +1,10 @@
-import { Collection } from 'discord.js';
-import { Loader } from '../utils/Loader';
-import { ShewenyInformation } from '../helpers';
-import { BaseManager } from './index';
-import type { ShewenyClient } from '../client/Client';
-import type { Modal } from '../structures';
-import type { CustomId, ModalsManagerDefaultOptions, ModalsManagerOptions } from '../typescript';
+import { Loader } from '../utils/Loader.js';
+import { ShewenyInformation } from '../helpers/index.js';
+import { BaseManager } from './index.js';
+import type { Collection } from 'discord.js';
+import type { ShewenyClient } from '../client/Client.js';
+import type { Modal } from '../structures/index.js';
+import type { CustomId, ModalsManagerDefaultOptions, ModalsManagerOptions } from '../typescript/index.js';
 /**
  * Manager for Modals
  */

@@ -1,5 +1,5 @@
-import { CLIENT_MODE } from '../constants/constants';
-import type { ShewenyClient } from '../client/Client';
+import { CLIENT_MODE } from '../constants/constants.js';
+import type { ShewenyClient } from '../client/Client.js';
 /**
  * Information class for Sheweny.
  */

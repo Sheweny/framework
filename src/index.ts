@@ -10,13 +10,13 @@
 /**
  * Client class
  */
-export { ShewenyClient } from './client/Client';
-export { ClientUtil } from './client/ClientUtil';
+export { ShewenyClient } from './client/Client.js';
+export { ClientUtil } from './client/ClientUtil.js';
 
 /**
  * Structures
  */
-export { BaseStructure, Button, Command, Event, Inhibitor, Modal, SelectMenu } from './structures';
+export { BaseStructure, Button, Command, Event, Inhibitor, Modal, SelectMenu } from './structures/index.js';
 
 /**
  * Managers
@@ -29,11 +29,11 @@ export {
   InhibitorsManager,
   ModalsManager,
   SelectMenusManager,
-} from './managers';
+} from './managers/index.js';
 
 /**
  * Helpers
  */
-export { ShewenyError, ShewenyInformation, ShewenyWarning } from './helpers';
+export { ShewenyError, ShewenyInformation, ShewenyWarning } from './helpers/index.js';
 
-export * as Constants from './constants/constants';
+export * as Constants from './constants/constants.js';

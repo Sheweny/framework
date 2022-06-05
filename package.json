@@ -3,6 +3,7 @@
   "version": "4.0.0-dev.2",
   "description": "The powerful framework for create discord bots",
   "main": "./build/index.js",
+  "type": "CommonJS",
   "types": "./typings/index.d.ts",
   "scripts": {
     "build": "tsc",
@@ -30,7 +31,8 @@
   },
   "homepage": "https://sheweny.js.org",
   "dependencies": {
-    "@sheweny/resolve": "^1.3.2"
+    "@sheweny/resolve": "^1.3.2",
+    "tslib": "^2.4.0"
   },
   "devDependencies": {
     "@types/node": "16.9.0",

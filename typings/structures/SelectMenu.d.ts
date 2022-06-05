@@ -1,8 +1,8 @@
 import { Collection } from 'discord.js';
 import { BaseStructure } from '.';
-import { ShewenyError } from '../helpers';
+import { ShewenyError } from '../helpers/index.js';
 import type { SelectMenuInteraction } from 'discord.js';
-import type { ShewenyClient } from '../client/Client';
+import type { ShewenyClient } from '../client/Client.js';
 import type { SelectMenusManager } from '..';
 import type { Awaitable } from '../typescript/utilityTypes';
 import { SelectMenuOptions } from '../typescript/interfaces';

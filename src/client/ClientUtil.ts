@@ -1,14 +1,13 @@
 import { DiscordResolve } from '@sheweny/resolve';
-import type { ShewenyClient } from '..';
+import type { Command } from '../structures/index.js';
+import type { ShewenyClient } from './Client.js';
 
 /**
  * Utility methods and properties for the client.
  */
 export class ClientUtil extends DiscordResolve {
-  client: ShewenyClient;
   constructor(client: ShewenyClient) {
     super(client);
-    this.client = client;
   }
   // BUTTONS
   getButtons() {
@@ -39,7 +38,8 @@ export class ClientUtil extends DiscordResolve {
       return cmd;
     } else {
       cmd = this.client.collections.commands.find(
-        c => c.name.startsWith(command) || (c.aliases != undefined && c.aliases.length != 0 && c.aliases.includes(command)),
+        (c: Command) =>
+          c.name.startsWith(command) || (c.aliases != undefined && c.aliases.length != 0 && c.aliases.includes(command)),
       );
     }
 

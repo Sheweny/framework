@@ -7,13 +7,13 @@ import {
   ApplicationCommandType,
   type Snowflake,
 } from 'discord.js';
-import { Loader } from '../utils/Loader';
-import { ShewenyInformation } from '../helpers';
-import { BaseManager } from './index';
-import { COMMAND_TYPE } from '../constants/constants';
-import type { ShewenyClient } from '../client/Client';
-import type { Command } from '../structures';
-import type { CommandsManagerOptions, CommandsManagerDefaultOptions } from '../typescript';
+import { Loader } from '../utils/Loader.js';
+import { ShewenyInformation } from '../helpers/index.js';
+import { BaseManager } from './index.js';
+import { COMMAND_TYPE } from '../constants/constants.js';
+import type { ShewenyClient } from '../client/Client.js';
+import type { Command } from '../structures/index.js';
+import type { CommandsManagerOptions, CommandsManagerDefaultOptions } from '../typescript/index.js';
 
 /**
  * Manager for Commands

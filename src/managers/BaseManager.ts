@@ -1,6 +1,6 @@
 import { EventEmitter } from 'events';
-import { ShewenyClient } from '..';
-import type { BaseManagerOptions } from '../typescript/interfaces';
+import type { ShewenyClient } from '../client/Client.js';
+import type { BaseManagerOptions } from '../typescript/index.js';
 
 export class BaseManager extends EventEmitter {
   /**

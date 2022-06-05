@@ -1,22 +1,15 @@
 import { Collection } from 'discord.js';
-import { BaseStructure } from './index';
-import { ShewenyError } from '../helpers';
-import type { ShewenyClient } from '../client/Client';
-import type { InhibitorsManager } from '../managers';
+import { BaseStructure } from './index.js';
+import { ShewenyError } from '../helpers/index.js';
+import type { ShewenyClient } from '../client/Client.js';
 import type { Interaction, Message } from 'discord.js';
-import type { Awaitable, InhibitorType, InhibitorOptions } from '../typescript';
+import type { Awaitable, InhibitorType, InhibitorOptions } from '../typescript/index.js';
 
 /**
  * Represents an Command structure
  * @extends {BaseStructure}
  */
 export abstract class Inhibitor extends BaseStructure {
-  /**
-   * The
-   * @type {InhibitorsManager}
-   */
-  public manager?: InhibitorsManager;
-
   /**
    * Name of a inhibitor
    * @type {string}
@@ -45,7 +38,6 @@ export abstract class Inhibitor extends BaseStructure {
     super(client);
     const defaultData = client.managers.inhibitors?.default || {};
 
-    this.manager = this.client.managers.inhibitors;
     this.name = name;
     this.priority = (options?.priority || defaultData.priority) ?? 0;
     this.type = (options?.type || defaultData.type) ?? [];

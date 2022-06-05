@@ -1,4 +1,4 @@
-import { ShewenyClient } from '../client/Client';
+import type { ShewenyClient } from '../client/Client.js';
 import type { IMessages } from '../typescript/utilityTypes';
 // interface ErrorMessages {
 //   INVALID_CLASS(name: string, path: string): string;
@@ -18,7 +18,7 @@ export class ShewenyError extends Error {
     let message = '';
     if (!err) message = '[SHEWENY_ERROR]: Unknown error';
     else if (err instanceof Error) err.message = `[SHEWENY_ERROR]: ${err.message}`;
-    else if (Messages[err]) message = `[SHEWENY_ERROR]: ${Messages[err](...args)}`;
+    else if (typeof Messages[err] === 'function') message = `[SHEWENY_ERROR]: ${Messages[err]!(...args)}`;
     else if (err) message = err;
 
     super(message);

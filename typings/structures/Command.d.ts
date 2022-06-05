@@ -1,8 +1,8 @@
 import { Collection } from 'discord.js';
 import { BaseStructure } from '.';
-import { ShewenyError } from '../helpers';
-import { COMMAND_CHANNEL } from '../constants/constants';
-import type { ShewenyClient } from '../client/Client';
+import { ShewenyError } from '../helpers/index.js';
+import { COMMAND_CHANNEL } from '../constants/constants.js';
+import type { ShewenyClient } from '../client/Client.js';
 import type { MessageCommandOptionData, CommandMessageArgsResolved } from '../typescript/interfaces';
 import type { CommandData, CommandType } from '../typescript/types';
 import type { ApplicationCommandOptionData, CommandInteraction, ContextMenuCommandInteraction, Message, PermissionsString, AutocompleteInteraction } from 'discord.js';

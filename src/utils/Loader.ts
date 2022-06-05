@@ -1,13 +1,13 @@
-import { resolve } from 'path';
 import { Collection } from 'discord.js';
-import { ShewenyError, ShewenyWarning } from '../helpers';
+import { ShewenyError, ShewenyWarning } from '../helpers/index.js';
 
-import type { ShewenyClient } from '../client/Client';
+import type { ShewenyClient } from '../client/Client.js';
 // import type { Constructable } from '../typescript/utilityTypes';
 
 import { readdir, stat } from 'fs/promises';
-import type { BaseStructure } from '../structures';
-import { Manager } from '../typescript';
+import { resolve } from 'node:path';
+import type { BaseStructure } from '../structures/index.js';
+import type { Manager } from '../typescript/index.js';
 
 // Version 2.0.0
 // type property = string; // | number | symbol;
@@ -18,9 +18,9 @@ import { Manager } from '../typescript';
 type WithMainProperty<K extends string, V> = {
   [P in K]: V;
 };
-type StructureConstructed<MKN extends string, MKV, V> = V &  WithMainProperty<MKN, MKV>;
+type StructureConstructed<MKN extends string, MKV, V> = V & WithMainProperty<MKN, MKV>;
 type StructureConstructable<MKN extends string, MKV, S> = new (client: ShewenyClient) => S & WithMainProperty<MKN, MKV>;
-type StructureType<MKN extends string, MKV> = BaseStructure & WithMainProperty<MKN, MKV>
+type StructureType<MKN extends string, MKV> = BaseStructure & WithMainProperty<MKN, MKV>;
 
 export class Loader<MKN extends string, MKV, V extends StructureType<MKN, MKV>> {
   public client: ShewenyClient;
@@ -30,7 +30,7 @@ export class Loader<MKN extends string, MKV, V extends StructureType<MKN, MKV>> 
   public paths: Array<string>;
   public manager: Manager;
 
-  constructor(client: ShewenyClient, path: string, mainKey: MKN, manager:Manager) {
+  constructor(client: ShewenyClient, path: string, mainKey: MKN, manager: Manager) {
     this.client = client;
     this.collection = new Collection<MKV, V>();
     this.mainPath = this.absolutePath(path);
@@ -51,11 +51,14 @@ export class Loader<MKN extends string, MKV, V extends StructureType<MKN, MKV>> 
     return this.collection;
   }
 
-  private absolutePath(dir: string) {
+  private absolutePath(...dir: string[]) {
     let main = '';
-    if (!require.main) main = process.cwd();
-    else main = require.main.path;
-    return resolve(main, dir);
+    if (require.main) main = require.main.path;
+    else if (!main) main = process.cwd();
+
+    if (dir) main = resolve(main, ...dir);
+    else main = resolve(main);
+    return main;
   }
 
   private async readDirectory(dir: string) {
@@ -99,11 +102,11 @@ export class Loader<MKN extends string, MKV, V extends StructureType<MKN, MKV>> 
       instance.path = path;
       instance.manager = this.manager;
 
-      this.collection.set(instance[this.mainKey], instance);
+      return this.collection.set(instance[this.mainKey], instance);
     } catch (err) {
       const error = err as Error;
       // TODO: Implement this error
-      new ShewenyWarning(this.client, 'INVALID_CLASS', Structure.toString(), path, error);
+      return new ShewenyWarning(this.client, 'INVALID_CLASS', Structure.toString(), path, error);
     }
   }
 }

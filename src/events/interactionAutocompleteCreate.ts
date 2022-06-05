@@ -1,8 +1,7 @@
-import { AutocompleteInteraction } from 'discord.js';
-import { COMMAND_TYPE } from '../constants/constants';
-import { ShewenyError } from '../helpers';
-import type { ShewenyClient } from '..';
-import type { CommandInteraction, ContextMenuCommandInteraction } from 'discord.js';
+import { COMMAND_TYPE } from '../constants/constants.js';
+import { ShewenyError } from '../helpers/index.js';
+import type { ShewenyClient } from '../client/Client.js';
+import type { CommandInteraction, ContextMenuCommandInteraction, AutocompleteInteraction } from 'discord.js';
 export default async function run(
   client: ShewenyClient,
   interaction: CommandInteraction | ContextMenuCommandInteraction | AutocompleteInteraction,

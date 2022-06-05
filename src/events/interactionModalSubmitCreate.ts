@@ -1,8 +1,8 @@
-import { ShewenyError } from '../helpers';
-import { INHIBITOR_TYPE, MODAL_EVENTS } from '../constants/constants';
+import { ShewenyError } from '../helpers/index.js';
+import { INHIBITOR_TYPE, MODAL_EVENTS } from '../constants/constants.js';
 import { Collection, ModalSubmitInteraction } from 'discord.js';
-import type { ShewenyClient } from '../client/Client';
-import type { Inhibitor } from '../structures/Inhibitor';
+import type { ShewenyClient } from '../client/Client.js';
+import type { Inhibitor } from '../structures/Inhibitor.js';
 export default async function run(client: ShewenyClient, interaction: ModalSubmitInteraction) {
   try {
     if (!client.collections.modals) return;
@@ -21,6 +21,7 @@ export default async function run(client: ShewenyClient, interaction: ModalSubmi
               (element as RegExp).lastIndex = 0;
               return true;
             }
+            return false;
           });
         });
     }

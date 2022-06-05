@@ -1,9 +1,8 @@
 import { Collection } from 'discord.js';
-import { BaseStructure } from './index';
-import { ShewenyError } from '../helpers';
-import { COMMAND_CHANNEL, COMMAND_TYPE } from '../constants/constants';
-import type { ShewenyClient } from '../client/Client';
-import type { CommandsManager } from '../managers';
+import { BaseStructure } from './index.js';
+import { ShewenyError } from '../helpers/index.js';
+import { COMMAND_CHANNEL, COMMAND_TYPE } from '../constants/constants.js';
+import type { ShewenyClient } from '../client/Client.js';
 import type {
   // Interfaces
   MessageCommandOptionData,
@@ -17,7 +16,7 @@ import type {
   CommandType,
   // utilityTypes
   Awaitable,
-} from '../typescript';
+} from '../typescript/index.js';
 import type {
   ApplicationCommandOptionData,
   CommandInteraction,
@@ -93,12 +92,6 @@ export abstract class Command extends BaseStructure {
   public examples?: string | string[];
 
   /**
-   * The
-   * @type {CommandsManager}
-   */
-  public manager?: CommandsManager;
-
-  /**
    * Name of a command
    * @type {string}
    */
@@ -150,7 +143,6 @@ export abstract class Command extends BaseStructure {
       : undefined;
     this.description = (data.description || defaultData.description) ?? '';
     this.examples = data.examples || defaultData.examples;
-    this.manager = this.client.managers.commands;
     this.name = data.name;
     this.options = this.isType(type, COMMAND_TYPE.cmdSlash) ? (data as SlashCommandData).options : undefined;
     this.type = type;

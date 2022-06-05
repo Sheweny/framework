@@ -1,7 +1,7 @@
-import { join } from 'path';
+import { resolve } from 'path';
 import { readdir } from 'fs/promises';
 import { Client, Collection } from 'discord.js';
-import { ClientUtil } from './ClientUtil';
+import { ClientUtil } from './ClientUtil.js';
 import {
   ButtonsManager,
   CommandsManager,
@@ -9,11 +9,12 @@ import {
   InhibitorsManager,
   ModalsManager,
   SelectMenusManager,
-} from '../managers';
-import { ShewenyWarning } from '../helpers';
-import { CLIENT_MODE } from '../constants/constants';
+} from '../managers/index.js';
+import { ShewenyWarning } from '../helpers/index.js';
+import { CLIENT_MODE } from '../constants/constants.js';
 import type { Snowflake, ClientOptions } from 'discord.js';
-import type { ShewenyClientOptions, Managers, ManagersCollections, Cooldowns } from '../typescript/interfaces';
+import type { ShewenyClientOptions, Managers, ManagersCollections, Cooldowns } from '../typescript/index.js';
+
 /**
  * Sheweny framework client
  */
@@ -170,13 +171,15 @@ export class ShewenyClient extends Client {
 
     // Load framework events
     (async () => {
-      const dir = join(__dirname, '../events');
+      // if(require)
+      const dir = resolve(__dirname, '../events');
       const files = await readdir(dir);
 
       for (const file of files) {
-        const event = await import(`${dir}/${file}`).then(e => e.default);
         const evtName = file.split('.')[0];
-        this.on(evtName, (...args) => event(this, ...args));
+        if (!evtName?.endsWith('.js')) continue;
+        const event = await import(`${dir}/${file}`).then(e => e.default);
+        if (evtName) this.on(evtName, (...args) => event(this, ...args));
       }
     })();
   }

@@ -1,3 +1,3 @@
-export { ShewenyError } from './ShewenyError';
-export { ShewenyWarning } from './ShewenyWarning';
-export { ShewenyInformation } from './ShewenyInformation';
+export { ShewenyError } from './ShewenyError.js';
+export { ShewenyWarning } from './ShewenyWarning.js';
+export { ShewenyInformation } from './ShewenyInformation.js';

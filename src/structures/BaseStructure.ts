@@ -1,5 +1,5 @@
 import type { ShewenyClient } from '../';
-import { Manager } from '../typescript';
+import type { Manager } from '../typescript/index.js';
 
 /**
  * The base class for all structures

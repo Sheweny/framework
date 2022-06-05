@@ -1,9 +1,9 @@
 import { Collection } from 'discord.js';
-import { ShewenyError } from '../helpers';
-import { INHIBITOR_TYPE, BUTTON_EVENTS } from '../constants/constants';
+import { ShewenyError } from '../helpers/index.js';
+import { INHIBITOR_TYPE, BUTTON_EVENTS } from '../constants/constants.js';
 import type { ButtonInteraction } from 'discord.js';
-import type { ShewenyClient } from '../client/Client';
-import type { Inhibitor } from '../structures/Inhibitor';
+import type { ShewenyClient } from '../client/Client.js';
+import type { Inhibitor } from '../structures/Inhibitor.js';
 export default async function run(client: ShewenyClient, interaction: ButtonInteraction) {
   try {
     if (!client.collections.buttons) return;
@@ -22,6 +22,7 @@ export default async function run(client: ShewenyClient, interaction: ButtonInte
               (element as RegExp).lastIndex = 0;
               return true;
             }
+            return false;
           });
         });
     }

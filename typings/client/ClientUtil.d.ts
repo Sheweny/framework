@@ -1,5 +1,5 @@
 import { DiscordResolve } from '@sheweny/resolve';
-import type { ShewenyClient } from '..';
+import type { ShewenyClient } from '../client/Client.js';
 /**
  * Utility methods and properties for the client.
  */

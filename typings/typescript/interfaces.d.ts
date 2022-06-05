@@ -2,9 +2,9 @@
 import type { ApplicationCommandOptionData, PermissionsString, Collection } from 'discord.js';
 import type { EventEmitter } from 'events';
 import type { ClientOptions, Snowflake } from 'discord.js';
-import type { ButtonsManager, CommandsManager, EventsManager, InhibitorsManager, ModalsManager, SelectMenusManager } from '../managers';
-import type { Button, Command, Event, Inhibitor, SelectMenu, Modal } from '../structures';
-import type { CLIENT_MODE, COMMAND_CHANNEL, COMMAND_MESSAGE_ARGS_TYPE, COMMAND_TYPE, INHIBITOR_TYPE } from '../constants/constants';
+import type { ButtonsManager, CommandsManager, EventsManager, InhibitorsManager, ModalsManager, SelectMenusManager } from '../managers/index.js';
+import type { Button, Command, Event, Inhibitor, SelectMenu, Modal } from '../structures/index.js';
+import type { CLIENT_MODE, COMMAND_CHANNEL, COMMAND_MESSAGE_ARGS_TYPE, COMMAND_TYPE, INHIBITOR_TYPE } from '../constants/constants.js';
 /**
  * Interfaces of managers
  */
