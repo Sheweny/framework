@@ -3,7 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const sheweny_1 = require("sheweny");
 const discord_js_1 = require("discord.js");
 const fs_1 = require("fs");
-const configFile = (0, fs_1.readFileSync)("../config-test.json").toString();
+const path_1 = require("path");
+const configFile = (0, fs_1.readFileSync)((0, path_1.resolve)(__dirname, "../config-test.json")).toString();
 const config = JSON.parse(configFile);
 const client = new sheweny_1.ShewenyClient({
     intents: [
