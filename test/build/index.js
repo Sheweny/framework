@@ -4,7 +4,7 @@ const sheweny_1 = require("sheweny");
 const discord_js_1 = require("discord.js");
 const fs_1 = require("fs");
 const path_1 = require("path");
-const configFile = (0, fs_1.readFileSync)((0, path_1.resolve)(__dirname, "../config-test.json")).toString();
+const configFile = (0, fs_1.readFileSync)((0, path_1.resolve)(__dirname, '../config-test.json')).toString();
 const config = JSON.parse(configFile);
 const client = new sheweny_1.ShewenyClient({
     intents: [
@@ -18,12 +18,11 @@ const client = new sheweny_1.ShewenyClient({
     mode: 'development',
     managers: {
         commands: {
-            directory: './commands',
+            directory: './modules',
             prefix: '?',
             guildId: ['877090306103840778', '809702809196560405'],
             autoRegisterApplicationCommands: true,
             applicationPermissions: false,
-            loadAll: true,
             default: {
                 adminOnly: false,
                 category: 'Default category',
@@ -37,27 +36,22 @@ const client = new sheweny_1.ShewenyClient({
             },
         },
         buttons: {
-            directory: './interactions/buttons',
-            loadAll: true,
+            directory: './modules',
         },
         selectMenus: {
-            directory: './interactions/select-menus',
-            loadAll: true,
+            directory: './modules',
         },
         events: {
-            directory: './events',
-            loadAll: true,
+            directory: './modules',
             default: {
                 once: false,
             },
         },
         modals: {
-            directory: './interactions/modals',
-            loadAll: true,
+            directory: './modules',
         },
         inhibitors: {
             directory: './inhibitors',
-            loadAll: true,
             default: {
                 type: ['MESSAGE_COMMAND'],
                 priority: 15,

@@ -7,20 +7,22 @@ import type { ShewenyClient } from '../client/Client.js';
 import { readdir, stat } from 'fs/promises';
 import { resolve } from 'node:path';
 import type { BaseStructure } from '../structures/index.js';
-import type { Manager } from '../typescript/index.js';
+import type { Class, Manager, Structure } from '../typescript/index.js';
 
 // Version 2.0.0
 // type property = string; // | number | symbol;
 /* type WithProperty<K extends property, V = {}> = {
   [P in K] : V
 }*/
-
-type WithMainProperty<K extends string, V> = {
-  [P in K]: V;
-};
+type WithMainProperty<K extends string, V> = { [P in K]: V };
 type StructureConstructed<MKN extends string, MKV, V> = V & WithMainProperty<MKN, MKV>;
 type StructureConstructable<MKN extends string, MKV, S> = new (client: ShewenyClient) => S & WithMainProperty<MKN, MKV>;
 type StructureType<MKN extends string, MKV> = BaseStructure & WithMainProperty<MKN, MKV>;
+
+interface LoaderOptions {
+  instance: Class<Structure>;
+  manager: Manager;
+}
 
 export class Loader<MKN extends string, MKV, V extends StructureType<MKN, MKV>> {
   public client: ShewenyClient;
@@ -29,14 +31,16 @@ export class Loader<MKN extends string, MKV, V extends StructureType<MKN, MKV>> 
   public mainPath: string;
   public paths: Array<string>;
   public manager: Manager;
+  public instance: Class<Structure>;
 
-  constructor(client: ShewenyClient, path: string, mainKey: MKN, manager: Manager) {
+  constructor(client: ShewenyClient, path: string, mainKey: MKN, options: LoaderOptions) {
     this.client = client;
     this.collection = new Collection<MKV, V>();
     this.mainPath = this.absolutePath(path);
     this.paths = [];
     this.mainKey = mainKey;
-    this.manager = manager;
+    this.manager = options.manager;
+    this.instance = options.instance;
   }
 
   // Return the number of loaded paths
@@ -88,16 +92,19 @@ export class Loader<MKN extends string, MKV, V extends StructureType<MKN, MKV>> 
       new ShewenyError(this.client, error);
     }
   }
-  private async loadStructure(Structure: StructureConstructable<MKN, MKV, V>, path: string) {
+  private async loadStructure(StructureToLoad: StructureConstructable<MKN, MKV, V>, path: string) {
     try {
-      const instance: StructureConstructed<MKN, MKV, V> = new Structure(this.client);
+      const instance: StructureConstructed<MKN, MKV, V> = new StructureToLoad(this.client);
       if (!instance) return;
+      // Bad instance
+      if (!(instance instanceof this.instance)) return;
       if (!Object.hasOwn(instance, this.mainKey)) {
         return new ShewenyWarning(this.client, 'MISSING_PROPERTY_CLASS', this.mainKey, path);
       }
       if (this.collection.get(instance[this.mainKey])) {
         return new ShewenyWarning(this.client, 'DUPLICATE_CLASS', path);
       }
+
       // Set data on structure
       instance.path = path;
       instance.manager = this.manager;
@@ -106,7 +113,7 @@ export class Loader<MKN extends string, MKV, V extends StructureType<MKN, MKV>> 
     } catch (err) {
       const error = err as Error;
       // TODO: Implement this error
-      return new ShewenyWarning(this.client, 'INVALID_CLASS', Structure.toString(), path, error);
+      return new ShewenyWarning(this.client, 'INVALID_CLASS', StructureToLoad.toString(), path, error);
     }
   }
 }

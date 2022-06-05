@@ -1,9 +1,9 @@
 import { Loader } from '../utils/Loader.js';
 import { ShewenyInformation } from '../helpers/index.js';
 import { BaseManager } from './index.js';
+import { Inhibitor } from '../structures/index.js';
 import type { Collection } from 'discord.js';
 import type { ShewenyClient } from '../client/Client.js';
-import type { Inhibitor } from '../structures/index.js';
 import type { InhibitorsManagerOptions, InhibitorsManagerDefaultOptions } from '../typescript/index.js';
 
 /**
@@ -40,7 +40,10 @@ export class InhibitorsManager extends BaseManager {
    * @returns {Promise<Collection<string, Inhibitor>>}
    */
   public async loadAll(): Promise<Collection<string, Inhibitor> | undefined> {
-    const loader = new Loader<'name', string, Inhibitor>(this.client, this.directory, 'name', this);
+    const loader = new Loader<'name', string, Inhibitor>(this.client, this.directory, 'name', {
+      manager: this,
+      instance: Inhibitor,
+    });
     this.inhibitors = await loader.load();
     new ShewenyInformation(this.client, `- Inhibitors loaded : ${this.inhibitors.size}`);
     return this.inhibitors;

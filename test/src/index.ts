@@ -3,7 +3,7 @@ import { IntentsBitField, Partials } from 'discord.js';
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
 
-const configFile = readFileSync(resolve(__dirname, "../config-test.json")).toString();
+const configFile = readFileSync(resolve(__dirname, '../config-test.json')).toString();
 const config = JSON.parse(configFile);
 const client = new ShewenyClient({
   intents: [
@@ -17,12 +17,11 @@ const client = new ShewenyClient({
   mode: 'development',
   managers: {
     commands: {
-      directory: './commands',
+      directory: './modules',
       prefix: '?',
       guildId: ['877090306103840778', '809702809196560405'],
       autoRegisterApplicationCommands: true,
       applicationPermissions: false,
-      loadAll: true,
       default: {
         adminOnly: false,
         category: 'Default category',
@@ -37,27 +36,22 @@ const client = new ShewenyClient({
     },
 
     buttons: {
-      directory: './interactions/buttons',
-      loadAll: true,
+      directory: './modules',
     },
     selectMenus: {
-      directory: './interactions/select-menus',
-      loadAll: true,
+      directory: './modules',
     },
     events: {
-      directory: './events',
-      loadAll: true,
+      directory: './modules',
       default: {
         once: false,
       },
     },
     modals: {
-      directory: './interactions/modals',
-      loadAll: true,
+      directory: './modules',
     },
     inhibitors: {
       directory: './inhibitors',
-      loadAll: true,
       default: {
         type: ['MESSAGE_COMMAND'],
         priority: 15,

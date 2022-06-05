@@ -8,13 +8,15 @@ import type {
   ModalsManager,
   SelectMenusManager,
 } from '../managers/index.js';
+import type { Button, Command, Event, Inhibitor, SelectMenu, Modal } from '../structures';
 
 /** **** UTIL ******/
 export type CustomId = Array<string | RegExp>;
 
 // Managers
 export type Manager = ButtonsManager | CommandsManager | EventsManager | InhibitorsManager | ModalsManager | SelectMenusManager;
-
+// Structures
+export type Structure = Button | Command | Event | Inhibitor | Modal | SelectMenu;
 /**
  * Commands types
  */

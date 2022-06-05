@@ -1,6 +1,6 @@
 {
   "name": "sheweny",
-  "version": "4.0.0-dev.4",
+  "version": "4.0.0-dev.5",
   "description": "The powerful framework for create discord bots",
   "main": "./build/index.js",
   "type": "commonjs",
@@ -9,7 +9,8 @@
     "build": "tsc && tsc --build tsconfig.typings.json",
     "build:typings": "tsc --build tsconfig.typings.json",
     "lint": "eslint src/**/*.ts",
-    "dev": "tsnd --respawn --transpile-only --cls ./test/ts/src/index.ts"
+    "dev": "tsnd --respawn --transpile-only --cls ./test/ts/src/index.ts",
+    "publish:dev": "npm publish --tag dev"
   },
   "author": "Smaug#6739",
   "license": "MIT",

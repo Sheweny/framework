@@ -1,9 +1,9 @@
 import { Loader } from '../utils/Loader.js';
 import { ShewenyInformation } from '../helpers/index.js';
 import { BaseManager } from './index.js';
+import { SelectMenu } from '../structures/index.js';
 import type { Collection } from 'discord.js';
 import type { ShewenyClient } from '../client/Client.js';
-import type { SelectMenu } from '../structures/index.js';
 import type { CustomId, SelectMenusManagerDefaultOptions, SelectMenusManagerOptions } from '../typescript/index.js';
 
 /**
@@ -39,7 +39,10 @@ export class SelectMenusManager extends BaseManager {
    * @returns {Promise<Collection<string[], SelectMenu>>}
    */
   public async loadAll(): Promise<Collection<CustomId, SelectMenu> | undefined> {
-    const loader = new Loader<'customId', CustomId, SelectMenu>(this.client, this.directory, 'customId', this);
+    const loader = new Loader<'customId', CustomId, SelectMenu>(this.client, this.directory, 'customId', {
+      manager: this,
+      instance: SelectMenu,
+    });
     this.selectMenus = await loader.load();
     new ShewenyInformation(this.client, `- Select-menus loaded : ${this.selectMenus.size}`);
     return this.selectMenus;

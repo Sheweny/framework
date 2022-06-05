@@ -174,10 +174,9 @@ export class ShewenyClient extends Client {
       // if(require)
       const dir = resolve(__dirname, '../events');
       const files = await readdir(dir);
-
       for (const file of files) {
+        if (!file?.endsWith('.js')) continue;
         const evtName = file.split('.')[0];
-        if (!evtName?.endsWith('.js')) continue;
         const event = await import(`${dir}/${file}`).then(e => e.default);
         if (evtName) this.on(evtName, (...args) => event(this, ...args));
       }

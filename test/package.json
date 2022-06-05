@@ -6,15 +6,11 @@
   "scripts": {
     "start": "node build/index.js"
   },
-  "type": "CommonJS",
+  "type": "commonjs",
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "moment": "^2.29.1",
     "sheweny": "file:.."
-  },
-  "devDependencies": {
-    "@types/moment": "^2.13.0"
   }
 }

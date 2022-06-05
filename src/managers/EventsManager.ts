@@ -2,9 +2,9 @@ import { EventEmitter } from 'node:events';
 import { Loader } from '../utils/Loader.js';
 import { ShewenyInformation } from '../helpers/index.js';
 import { BaseManager } from './index.js';
+import { Event } from '../structures/index.js';
 import type { Collection } from 'discord.js';
 import type { ShewenyClient } from '../client/Client.js';
-import type { Event } from '../structures/index.js';
 import type { EventsManagerOptions, EventsManagerDefaultOptions } from '../typescript/index.js';
 
 /**
@@ -41,7 +41,10 @@ export class EventsManager extends BaseManager {
    * @returns {Promise<Collection<string, Event>>} the events
    */
   public async loadAll(): Promise<Collection<string, Event> | undefined> {
-    const loader = new Loader<'name', string, Event>(this.client, this.directory, 'name', this);
+    const loader = new Loader<'name', string, Event>(this.client, this.directory, 'name', {
+      manager: this,
+      instance: Event,
+    });
     this.events = await loader.load();
     new ShewenyInformation(this.client, `- Events loaded : ${this.events.size}`);
     // Register
