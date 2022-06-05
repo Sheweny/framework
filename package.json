@@ -6,7 +6,7 @@
   "type": "CommonJS",
   "types": "./typings/index.d.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && tsc --build tsconfig.typings.json",
     "build:typings": "tsc --build tsconfig.typings.json",
     "lint": "eslint src/**/*.ts",
     "dev": "tsnd --respawn --transpile-only --cls ./test/ts/src/index.ts"
