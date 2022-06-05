@@ -1,9 +1,9 @@
 {
   "name": "sheweny",
-  "version": "4.0.0-dev.2",
+  "version": "4.0.0-dev.4",
   "description": "The powerful framework for create discord bots",
   "main": "./build/index.js",
-  "type": "CommonJS",
+  "type": "commonjs",
   "types": "./typings/index.d.ts",
   "scripts": {
     "build": "tsc && tsc --build tsconfig.typings.json",
