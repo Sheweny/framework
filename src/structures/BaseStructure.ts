@@ -12,6 +12,12 @@ export abstract class BaseStructure {
   public client: ShewenyClient;
 
   /**
+   * The structure is loadable by the Loader
+   * @internal
+   * @type {string} 
+   */
+  static readonly _id: string = "ShewenyLoadable";
+  /**
    * Path to file
    * @type {string}
    */

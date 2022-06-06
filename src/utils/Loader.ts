@@ -16,7 +16,7 @@ import type { Class, Manager, Structure } from '../typescript/index.js';
 }*/
 type WithMainProperty<K extends string, V> = { [P in K]: V };
 type StructureConstructed<MKN extends string, MKV, V> = V & WithMainProperty<MKN, MKV>;
-type StructureConstructable<MKN extends string, MKV, S> = new (client: ShewenyClient) => S & WithMainProperty<MKN, MKV>;
+type StructureConstructable<MKN extends string, MKV, S> = {_id:string} & (new (client: ShewenyClient) => S & WithMainProperty<MKN, MKV>);
 type StructureType<MKN extends string, MKV> = BaseStructure & WithMainProperty<MKN, MKV>;
 
 interface LoaderOptions {
@@ -94,6 +94,7 @@ export class Loader<MKN extends string, MKV, V extends StructureType<MKN, MKV>> 
   }
   private async loadStructure(StructureToLoad: StructureConstructable<MKN, MKV, V>, path: string) {
     try {
+      if(StructureToLoad["_id"] != "ShewenyLoadable") return;
       const instance: StructureConstructed<MKN, MKV, V> = new StructureToLoad(this.client);
       if (!instance) return;
       // Bad instance
@@ -102,7 +103,7 @@ export class Loader<MKN extends string, MKV, V extends StructureType<MKN, MKV>> 
         return new ShewenyWarning(this.client, 'MISSING_PROPERTY_CLASS', this.mainKey, path);
       }
       if (this.collection.get(instance[this.mainKey])) {
-        return new ShewenyWarning(this.client, 'DUPLICATE_CLASS', path);
+        return new ShewenyWarning(this.client, 'DUPLICATE_CLASS', `${instance[this.mainKey]}`, path);
       }
 
       // Set data on structure

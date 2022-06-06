@@ -18,7 +18,7 @@ const client = new sheweny_1.ShewenyClient({
     mode: 'development',
     managers: {
         commands: {
-            directory: './modules',
+            directory: './',
             prefix: '?',
             guildId: ['877090306103840778', '809702809196560405'],
             autoRegisterApplicationCommands: true,
@@ -51,7 +51,7 @@ const client = new sheweny_1.ShewenyClient({
             directory: './modules',
         },
         inhibitors: {
-            directory: './inhibitors',
+            directory: './modules',
             default: {
                 type: ['MESSAGE_COMMAND'],
                 priority: 15,
