@@ -1,4 +1,3 @@
-import { Collection } from 'discord.js';
 import { BaseStructure } from './BaseStructure.js';
 import { ShewenyError } from '../helpers/index.js';
 import type { ShewenyClient } from '../client/Client.js';
@@ -48,22 +47,20 @@ export abstract class Modal extends BaseStructure {
 
   /**
    * Register a modal in collections
-   * @returns {Collection<string[] | RegExp[], Modal>}
+   * @returns {Promise<Modal | ShewenyError>}
    */
-  public async register(): Promise<Collection<CustomId, Modal> | ShewenyError> {
+  public async register(): Promise<Modal | ShewenyError> {
     if (!this.path) return new ShewenyError(this.client, 'PATH_NOT_DEFINE', 'Modal', this.customId.toString());
     const ModalImported = (await import(this.path)).default;
     const mod = new ModalImported(this.client);
-    return this.client.collections.modals
-      ? this.client.collections.modals.set(mod.customId, mod)
-      : new Collection<string[] | RegExp[], Modal>().set(mod.customId, mod);
+    return mod;
   }
 
   /**
    * Reload a modal
-   * @returns {Promise<Collection<string[] | RegExp[], Modal> | ShewenyError>}
+   * @returns {Promise<Modal> | ShewenyError>}
    */
-  public async reload(): Promise<Collection<CustomId, Modal> | ShewenyError> {
+  public async reload(): Promise<Modal | ShewenyError> {
     this.unregister();
     return this.register();
   }

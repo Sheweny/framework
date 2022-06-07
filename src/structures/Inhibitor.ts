@@ -1,4 +1,3 @@
-import { Collection } from 'discord.js';
 import { BaseStructure } from './index.js';
 import { ShewenyError } from '../helpers/index.js';
 import type { ShewenyClient } from '../client/Client.js';
@@ -58,28 +57,26 @@ export abstract class Inhibitor extends BaseStructure {
   abstract onFailure(client: ShewenyClient, ctx: Interaction | Message): Awaitable<unknown>;
 
   /**
-   * Register a inhibitor in collections
-   * @returns {Collection<string[], Inhibitor>} The inhibitors collection
+   * Register an inhibitor
+   * @returns {Promise<Inhibitor | ShewenyError>} The loaded inhibitor
    */
-  public async register(): Promise<Collection<string, Inhibitor> | ShewenyError> {
+  public async register(): Promise<Inhibitor | ShewenyError> {
     if (!this.path) return new ShewenyError(this.client, 'PATH_NOT_DEFINE', 'Inhibitor', this.name);
     const InhibitorImported = (await import(this.path)).default;
     const inhib: Inhibitor = new InhibitorImported(this.client);
-    return this.client.collections.inhibitors
-      ? this.client.collections.inhibitors.set(inhib.name, inhib)
-      : new Collection<string, Inhibitor>().set(inhib.name, inhib);
+    return inhib;
   }
 
   /**
-   * Reload a inhibitor
-   * @returns {Promise<Collection<string[], Inhibitor> | ShewenyError>} The inhibitors collection
+   * Reload the inhibitor
+   * @returns {Promise<Inhibitor | ShewenyError>} The loaded inhibitor
    */
-  public async reload(): Promise<Collection<string, Inhibitor> | ShewenyError> {
+  public async reload(): Promise<Inhibitor | ShewenyError> {
     this.unregister();
     return this.register();
   }
   /**
-   * Unregister a inhibitor from collections
+   * Unregister the inhibitor from cache
    * @returns {boolean}
    */
   public unregister(): boolean {

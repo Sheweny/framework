@@ -1,4 +1,3 @@
-import { Collection } from 'discord.js';
 import { BaseStructure } from './index.js';
 import { ShewenyError } from '../helpers/index.js';
 import { COMMAND_CHANNEL, COMMAND_TYPE } from '../constants/constants.js';
@@ -190,19 +189,17 @@ export abstract class Command extends BaseStructure {
    * Register a command in collections
    * @returns {Collection<string, ApplicationCommand>} The Application Commands collection
    */
-  public async register(): Promise<Collection<string, Command> | ShewenyError> {
+  public async register(): Promise<Command | ShewenyError> {
     if (!this.path) return new ShewenyError(this.client, 'PATH_NOT_DEFINE', 'Command', this.name);
     const CommandImported = (await import(this.path)).default;
-    const AC: Command = new CommandImported(this.client);
-    return this.client.collections.commands
-      ? this.client.collections.commands.set(AC.name, AC)
-      : new Collection<string, Command>().set(AC.name, AC);
+    const cmd: Command = new CommandImported(this.client);
+    return cmd;
   }
   /**
    * Reload a command
    * @returns {Promise<Collection<string, Command> | ShewenyError>} The Application Commands collection
    */
-  public async reload(): Promise<Collection<string, Command> | ShewenyError> {
+  public async reload(): Promise<Command | ShewenyError> {
     this.unregister();
     return this.register();
   }

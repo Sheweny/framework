@@ -14,9 +14,9 @@ export abstract class BaseStructure {
   /**
    * The structure is loadable by the Loader
    * @internal
-   * @type {string} 
+   * @type {string}
    */
-  static readonly _id: string = "ShewenyLoadable";
+  static readonly _id: string = 'ShewenyLoadable';
   /**
    * Path to file
    * @type {string}

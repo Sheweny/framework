@@ -1,4 +1,3 @@
-import { Collection } from 'discord.js';
 import { BaseStructure } from './index.js';
 import { ShewenyError } from '../helpers/index.js';
 import type { EventEmitter } from 'events';
@@ -62,15 +61,13 @@ export abstract class Event extends BaseStructure {
    * Register an event
    * @public
    * @async
-   * @returns {Promise<Collection<string, Event>>} The events collection
+   * @returns {Promise<Event | ShewenyError>} The loaded event
    */
-  public async register(): Promise<Collection<string, Event> | ShewenyError> {
+  public async register(): Promise<Event | ShewenyError> {
     if (!this.path) return new ShewenyError(this.client, 'PATH_NOT_DEFINE', 'Event', this.name);
     const EventImported = (await import(this.path)).default;
     const evt: Event = new EventImported(this.client);
-    return this.client.collections.events
-      ? this.client.collections.events.set(evt.name, evt)
-      : new Collection<string, Event>().set(evt.name, evt);
+    return evt;
   }
 
   /**
@@ -79,7 +76,7 @@ export abstract class Event extends BaseStructure {
    * @async
    * @returns {Promise<Collection<string, Event> | ShewenyError>} The events collection
    */
-  public async reload(): Promise<Collection<string, Event> | ShewenyError> {
+  public async reload(): Promise<Event | ShewenyError> {
     this.unregister();
     return this.register();
   }

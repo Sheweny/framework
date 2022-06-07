@@ -1,4 +1,3 @@
-import { Collection } from 'discord.js';
 import { BaseStructure } from './BaseStructure.js';
 import { ShewenyError } from '../helpers/index.js';
 import type { ShewenyClient } from '../client/Client.js';
@@ -50,20 +49,18 @@ export abstract class Button extends BaseStructure {
    * Register a button in collections
    * @returns {Collection<string[] | RegExp[], Button>}
    */
-  public async register(): Promise<Collection<CustomId, Button> | ShewenyError> {
+  public async register(): Promise<Button | ShewenyError> {
     if (!this.path) return new ShewenyError(this.client, 'PATH_NOT_DEFINE', 'Button', this.customId.toString());
     const ButtonImported = (await import(this.path)).default;
     const btn = new ButtonImported(this.client);
-    return this.client.collections.buttons
-      ? this.client.collections.buttons.set(btn.customId, btn)
-      : new Collection<string[] | RegExp[], Button>().set(btn.customId, btn);
+    return btn;
   }
 
   /**
    * Reload a button
    * @returns {Promise<Collection<string[] | RegExp[], Button> | ShewenyError>}
    */
-  public async reload(): Promise<Collection<Array<string | RegExp>, Button> | ShewenyError> {
+  public async reload(): Promise<Button | ShewenyError> {
     this.unregister();
     return this.register();
   }

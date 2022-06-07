@@ -1,4 +1,3 @@
-import { Collection } from 'discord.js';
 import { BaseStructure } from './index.js';
 import { ShewenyError } from '../helpers/index.js';
 import type { ShewenyClient } from '../client/Client.js';
@@ -50,20 +49,18 @@ export abstract class SelectMenu extends BaseStructure {
    * Register a select menu in collections
    * @returns {Collection<string[]| RegExp[], SelectMenu | ShewenyError>} The select menus collection
    */
-  public async register(): Promise<Collection<CustomId, SelectMenu> | ShewenyError> {
+  public async register(): Promise<SelectMenu | ShewenyError> {
     if (!this.path) return new ShewenyError(this.client, 'PATH_NOT_DEFINE', 'SelectMenu', this.customId.toString());
     const SelectMenuImported = (await import(this.path)).default;
     const sm: SelectMenu = new SelectMenuImported(this.client);
-    return this.client.collections.selectMenus
-      ? this.client.collections.selectMenus.set(sm.customId, sm)
-      : new Collection<CustomId, SelectMenu>().set(sm.customId, sm);
+    return sm;
   }
 
   /**
    * Reload a select menu
    * @returns {Promise<Collection<string[]| RegExp[], SelectMenu> | ShewenyError>} The select menus collection
    */
-  public async reload(): Promise<Collection<CustomId, SelectMenu> | ShewenyError> {
+  public async reload(): Promise<SelectMenu | ShewenyError> {
     this.unregister();
     return this.register();
   }
