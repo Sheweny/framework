@@ -156,77 +156,46 @@ export class CommandsManager extends BaseManager {
 
   /**
    * Get data of Application Command
-   * @param {Collection<string, Command> | Command | undefined} [commands] The command(s) to obtain their data
-   * @returns {ApplicationCommandData[] | ApplicationCommandData | undefined}
+   * @param {Command} [command] The command to obtain data
+   * @returns {ApplicationCommandData | null}
    */
-  public getApplicationCommandData(
-    commands: Collection<string, Command> | Command | undefined | null = this.commands,
-  ): ApplicationCommandData[] | ApplicationCommandData | null {
-    if (!commands) throw new Error('Commands not found');
+  public getApplicationCommandData(command: Command): ApplicationCommandData | null {
+    if (!command) return null;
+    if (command.type === COMMAND_TYPE.cmdMsg) return null;
 
-    if (commands instanceof Collection) {
-      const data: ApplicationCommandData[] = [];
-      for (const [, cmd] of commands) {
-        if (cmd.type === COMMAND_TYPE.cmdMsg) continue;
+    const newType = this.renameCommandType(command.type);
+    if (!newType) return null;
 
-        const newType = this.renameCommandType(cmd.type);
-        if (!newType) continue;
-
-        if (cmd.type === COMMAND_TYPE.cmdSlash) {
-          data.push({
-            type: newType,
-            name: cmd.name,
-            description: cmd.description,
-            options: cmd.options,
-            defaultPermission:
-              this.applicationPermissions && this.guildId && (cmd.userPermissions?.length > 0 || cmd.adminsOnly)
-                ? false
-                : cmd.defaultPermission,
-          });
-        } else if (cmd.type === COMMAND_TYPE.ctxMsg || cmd.type === COMMAND_TYPE.ctxUser) {
-          // eslint-disable-next-line
-          // @ts-ignore
-          data.push({
-            type: newType,
-            name: cmd.name,
-            // description : A context menu command doesn't have a description
-            defaultPermission:
-              this.applicationPermissions && this.guildId && (cmd.userPermissions?.length > 0 || cmd.adminsOnly)
-                ? false
-                : cmd.defaultPermission,
-          });
-        }
-      }
-
-      return data as ApplicationCommandData[];
-    } else {
-      if (commands.type === COMMAND_TYPE.cmdMsg) return null;
-
-      const newType = this.renameCommandType(commands.type);
-      if (!newType) return null;
-
-      if (commands.type === COMMAND_TYPE.cmdSlash) {
-        return {
-          type: newType,
-          name: commands.name,
-          description: commands.description,
-          options: commands.options,
-          defaultPermission:
-            this.applicationPermissions && this.guildId && commands.userPermissions.length > 0
-              ? false
-              : commands.defaultPermission,
-        } as ApplicationCommandData;
-      } else if (commands.type === COMMAND_TYPE.ctxMsg || commands.type === COMMAND_TYPE.ctxUser) {
-        return {
-          type: newType,
-          name: commands.name,
-          defaultPermission:
-            this.applicationPermissions && this.guildId && commands.userPermissions.length > 0
-              ? false
-              : commands.defaultPermission,
-        } as ApplicationCommandData;
-      }
+    if (command.type === COMMAND_TYPE.cmdSlash) {
+      return {
+        type: newType,
+        name: command.name,
+        description: command.description,
+        options: command.options,
+      };
     }
+    if (command.type === COMMAND_TYPE.ctxMsg || command.type === COMMAND_TYPE.ctxUser) {
+      return {
+        type: newType,
+        name: command.name,
+      } as ApplicationCommandData;
+    }
+    return null;
+  }
+
+  /**
+   * Get an array of ApplicationCommandData from a collection of commands;
+   * @param {Collection<string, Command>} [commands] The commandsToRegister
+   * @returns {ApplicationCommandData[] | null}
+   */
+  public getAllApplicationCommandData(commands: Collection<string, Command>): ApplicationCommandData[] | null {
+    if (!commands || (commands && !commands.size)) return null;
+    const data: ApplicationCommandData[] = [];
+    for (const [, command] of commands) {
+      const commandData = this.getApplicationCommandData(command);
+      if (commandData) data.push(commandData);
+    }
+    if (data.length) return data;
     return null;
   }
 
@@ -267,8 +236,8 @@ export class CommandsManager extends BaseManager {
   > {
     if (guildId && guildId instanceof Array) return guildId.every(id => this.registerApplicationCommands(commands, id));
     if (!commands) throw new Error('Commands not found');
-    const data = this.getApplicationCommandData();
-
+    const data = this.getAllApplicationCommandData(commands);
+    if (!data) return;
     await this.client.awaitReady();
 
     if (data instanceof Array && data.length > 0) {
