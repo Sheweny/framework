@@ -12,15 +12,15 @@ export class PingCommand extends Command {
     });
   }
   execute(interaction: CommandInteraction) {
-    const row = new ActionRowBuilder<SelectMenuBuilder>().addComponents([
+    const row = new ActionRowBuilder<SelectMenuBuilder>().addComponents(
       new SelectMenuBuilder()
         .setCustomId('select')
         .setPlaceholder('Nothing selected')
         .addOptions([
-          new SelectMenuOptionBuilder().setLabel('First option').setDescription('The first option').setValue('first'),
-          new SelectMenuOptionBuilder().setLabel('Second option').setDescription('The second option').setValue('second'),
+          { label: 'Option 1', description: 'The first option', value: 'option-1' },
+          { label: 'Option 2', description: 'The second option', value: 'option-2' },
         ]),
-    ]);
+    );
     interaction.reply({ content: 'Test the select-menus', components: [row] });
   }
 }

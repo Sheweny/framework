@@ -7,11 +7,11 @@ export class Select extends SelectMenu {
   }
   execute(selectMenu: SelectMenuInteraction) {
     switch (selectMenu.values[0]) {
-      case 'first_option':
-        selectMenu.reply('You have choose first option selectMenu !');
+      case 'option-1':
+        selectMenu.reply('The first option');
         break;
-      case 'second_option':
-        selectMenu.reply('You have choose on second option !');
+      case 'option-2':
+        selectMenu.reply('The second option');
         break;
     }
   }

@@ -39,7 +39,7 @@
     "@types/node": "16.9.0",
     "@typescript-eslint/eslint-plugin": "^5.12.1",
     "@typescript-eslint/parser": "^5.12.1",
-    "discord.js": "^14.0.0-dev.1653480262-68d5169",
+    "discord.js": "^14.0.0-dev.1654689812-1afae90",
     "eslint": "^8.9.0",
     "eslint-config-prettier": "^8.4.0",
     "eslint-plugin-prettier": "^4.0.0",
