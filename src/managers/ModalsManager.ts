@@ -19,7 +19,7 @@ export class ModalsManager extends BaseManager {
    * Collection of modals
    * @type {Collection<string[], Modal> | undefined}
    */
-  public modals?: Collection<CustomId, Modal> | null;
+  public modals?: Collection<CustomId, Modal[]> | null;
 
   /**
    * Constructor to manage modals
@@ -37,7 +37,7 @@ export class ModalsManager extends BaseManager {
    * Load all modals in collection
    * @returns {Promise<Collection<string[], Modal>>}
    */
-  public async loadAll(): Promise<Collection<CustomId, Modal> | undefined> {
+  public async loadAll(): Promise<Collection<CustomId, Modal[]> | undefined> {
     const loader = new Loader<'customId', CustomId, Modal>(this.client, this.directory, 'customId', {
       manager: this,
       instance: Modal,

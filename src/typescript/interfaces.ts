@@ -235,12 +235,12 @@ export interface Managers {
 
 // Collections of managers
 export interface ManagersCollections {
-  buttons: Collection<CustomId, Button>;
-  commands: Collection<string, Command>;
-  events: Collection<string, Event>;
-  inhibitors: Collection<string, Inhibitor>;
-  modals: Collection<CustomId, Modal>;
-  selectMenus: Collection<CustomId, SelectMenu>;
+  buttons: Collection<CustomId, Button[]>;
+  commands: Collection<string, Command[]>;
+  events: Collection<string, Event[]>;
+  inhibitors: Collection<string, Inhibitor[]>;
+  modals: Collection<CustomId, Modal[]>;
+  selectMenus: Collection<CustomId, SelectMenu[]>;
 }
 
 // Client options for managers

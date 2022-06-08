@@ -13,7 +13,7 @@ export class ButtonsManager extends BaseManager {
    * Collection of the buttons
    * @type {Collection<string[], Button> | undefined}
    */
-  public buttons?: Collection<Array<string | RegExp>, Button> | null;
+  public buttons?: Collection<CustomId, Button[]> | null;
 
   /**
    * Default data for the buttons
@@ -37,7 +37,7 @@ export class ButtonsManager extends BaseManager {
    * Load all buttons in collection
    * @returns {Promise<Collection<string[], Button>>}
    */
-  public async loadAll(): Promise<Collection<CustomId, Button> | undefined> {
+  public async loadAll(): Promise<Collection<CustomId, Button[]> | undefined> {
     const loader = new Loader<'customId', CustomId, Button>(this.client, this.directory, 'customId', {
       manager: this,
       instance: Button,

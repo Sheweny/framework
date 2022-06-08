@@ -27,7 +27,7 @@ interface LoaderOptions {
 
 export class Loader<MKN extends string, MKV, V extends StructureType<MKN, MKV>> {
   public client: ShewenyClient;
-  public collection: Collection<MKV, V>;
+  public collection: Collection<MKV, V[]>;
   public mainKey: MKN;
   public mainPath: string;
   public paths: Array<string>;
@@ -36,7 +36,7 @@ export class Loader<MKN extends string, MKV, V extends StructureType<MKN, MKV>> 
 
   constructor(client: ShewenyClient, path: string, mainKey: MKN, options: LoaderOptions) {
     this.client = client;
-    this.collection = new Collection<MKV, V>();
+    this.collection = new Collection<MKV, V[]>();
     this.mainPath = this.absolutePath(path);
     this.paths = [];
     this.mainKey = mainKey;
@@ -110,8 +110,8 @@ export class Loader<MKN extends string, MKV, V extends StructureType<MKN, MKV>> 
       // Set data on structure
       instance.path = path;
       instance.manager = this.manager;
-
-      return this.collection.set(instance[this.mainKey], instance);
+      // TODO: Handle arrays
+      return this.collection.set(instance[this.mainKey], [instance]);
     } catch (err) {
       const error = err as Error;
       // TODO: Implement this error

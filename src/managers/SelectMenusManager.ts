@@ -20,7 +20,7 @@ export class SelectMenusManager extends BaseManager {
    * Collection of the select menus
    * @type {Collection<string[], SelectMenu> | undefined}
    */
-  public selectMenus?: Collection<CustomId, SelectMenu> | null;
+  public selectMenus?: Collection<CustomId, SelectMenu[]> | null;
 
   /**
    * Constructor to manage select menus
@@ -38,7 +38,7 @@ export class SelectMenusManager extends BaseManager {
    * Load all select menus in collection
    * @returns {Promise<Collection<string[], SelectMenu>>}
    */
-  public async loadAll(): Promise<Collection<CustomId, SelectMenu> | undefined> {
+  public async loadAll(): Promise<Collection<CustomId, SelectMenu[]> | undefined> {
     const loader = new Loader<'customId', CustomId, SelectMenu>(this.client, this.directory, 'customId', {
       manager: this,
       instance: SelectMenu,

@@ -10,13 +10,16 @@ export default async function run(
     if (!client.managers.commands) return;
 
     /* -----------------COMMAND----------------- */
-    const command = client.collections.commands?.get(interaction.commandName);
-    // eslint-disable-next-line
-    // @ts-ignore
-    if (!command || (command && ![COMMAND_TYPE.cmdSlash, COMMAND_TYPE.ctxUser, COMMAND_TYPE.ctxMsg].includes(command.type))) {
-      return;
+    const commands = client.collections.commands?.get(interaction.commandName);
+    if (!commands || (commands && !commands.length)) return;
+    for (const command of commands) {
+      // eslint-disable-next-line
+       // @ts-ignore
+      if (!command || (command && ![COMMAND_TYPE.cmdSlash, COMMAND_TYPE.ctxUser, COMMAND_TYPE.ctxMsg].includes(command.type))) {
+        return;
+      }
+      if (interaction.isAutocomplete() && command.onAutocomplete) await command.onAutocomplete(interaction);
     }
-    if (interaction.isAutocomplete() && command.onAutocomplete) return await command.onAutocomplete(interaction);
   } catch (err) {
     const e = err as Error;
     new ShewenyError(client, e);

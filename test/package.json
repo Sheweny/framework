@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "discord.js": "^14.0.0-dev.1654689812-1afae90",
     "sheweny": "file:.."
   }
 }

@@ -20,7 +20,7 @@ export class InhibitorsManager extends BaseManager {
    * Collection of the inhibitors
    * @type {Collection<string, Inhibitor> | undefined}
    */
-  public inhibitors?: Collection<string, Inhibitor> | null;
+  public inhibitors?: Collection<string, Inhibitor[]> | null;
 
   /**
    * Constructor to manage inhibitors
@@ -37,9 +37,9 @@ export class InhibitorsManager extends BaseManager {
 
   /**
    * Load all inhibitors in collection
-   * @returns {Promise<Collection<string, Inhibitor>>}
+   * @returns {Promise<Collection<string, Inhibitor[]>>}
    */
-  public async loadAll(): Promise<Collection<string, Inhibitor> | undefined> {
+  public async loadAll(): Promise<Collection<string, Inhibitor[]> | undefined> {
     const loader = new Loader<'name', string, Inhibitor>(this.client, this.directory, 'name', {
       manager: this,
       instance: Inhibitor,

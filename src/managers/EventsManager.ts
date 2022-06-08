@@ -20,7 +20,7 @@ export class EventsManager extends BaseManager {
    * Collection of the events
    * @type {Collection<string, Event> | null}
    */
-  public events?: Collection<string, Event> | null;
+  public events?: Collection<string, Event[]> | null;
 
   /**
    * Constructor to manage events
@@ -40,7 +40,7 @@ export class EventsManager extends BaseManager {
    * Load all events in collection
    * @returns {Promise<Collection<string, Event>>} the events
    */
-  public async loadAll(): Promise<Collection<string, Event> | undefined> {
+  public async loadAll(): Promise<Collection<string, Event[]> | undefined> {
     const loader = new Loader<'name', string, Event>(this.client, this.directory, 'name', {
       manager: this,
       instance: Event,
@@ -57,13 +57,17 @@ export class EventsManager extends BaseManager {
    * @param {Collection<string, Event> | undefined} [events] Events collection that will be emit
    * @returns {Promise<void>}
    */
-  public async registerAll(events: Collection<string, Event> | undefined | null = this.events): Promise<void> {
+  public async registerAll(events: Collection<string, Event[]> | undefined | null = this.events): Promise<void> {
     if (!events) throw new Error('No events found');
 
-    for (const [name, evt] of events) {
-      if (!(evt.emitter instanceof EventEmitter)) throw new TypeError(`Event ${name} does not have a valid emitter.`);
-      if (evt.once) evt.emitter.once(name, (...args: unknown[]) => evt.execute(...args));
-      else evt.emitter.on(name, (...args: unknown[]) => evt.execute(...args));
+    for (const [name, evts] of events) {
+      if (evts && evts.length) {
+        for (const evt of evts) {
+          if (!(evt.emitter instanceof EventEmitter)) throw new TypeError(`Event ${name} does not have a valid emitter.`);
+          if (evt.once) evt.emitter.once(name, (...args: unknown[]) => evt.execute(...args));
+          else evt.emitter.on(name, (...args: unknown[]) => evt.execute(...args));
+        }
+      }
     }
   }
 

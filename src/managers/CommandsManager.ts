@@ -36,7 +36,7 @@ export class CommandsManager extends BaseManager {
    * Collection of the commands
    * @type {Collection<string, Command> | undefined}
    */
-  public commands?: Collection<string, Command> | null;
+  public commands?: Collection<string, Command[]> | null;
 
   /**
    * Default data for the commands
@@ -188,12 +188,15 @@ export class CommandsManager extends BaseManager {
    * @param {Collection<string, Command>} [commands] The commandsToRegister
    * @returns {ApplicationCommandData[] | null}
    */
-  public getAllApplicationCommandData(commands: Collection<string, Command>): ApplicationCommandData[] | null {
+  public getAllApplicationCommandData(commands: Collection<string, Command[]>): ApplicationCommandData[] | null {
     if (!commands || (commands && !commands.size)) return null;
     const data: ApplicationCommandData[] = [];
-    for (const [, command] of commands) {
-      const commandData = this.getApplicationCommandData(command);
-      if (commandData) data.push(commandData);
+    for (const [, structures] of commands) {
+      if (!structures || !structures.length) continue;
+      for (const command of structures) {
+        const commandData = this.getApplicationCommandData(command);
+        if (commandData) data.push(commandData);
+      }
     }
     if (data.length) return data;
     return null;
@@ -203,7 +206,7 @@ export class CommandsManager extends BaseManager {
    * Load all commands in collection
    * @returns {Promise<Collection<string, Command>>}
    */
-  public async loadAll(): Promise<Collection<string, Command> | undefined> {
+  public async loadAll(): Promise<Collection<string, Command[]> | undefined> {
     const loader = new Loader<'name', string, Command>(this.client, this.directory, 'name', {
       manager: this,
       instance: Command,
@@ -211,11 +214,7 @@ export class CommandsManager extends BaseManager {
     this.commands = await loader.load();
     new ShewenyInformation(this.client, `- Commands loaded : ${this.commands.size}`);
 
-    // Register
-    const commandsToRegister = this.commands?.filter(
-      (cmd: Command) => cmd.type == COMMAND_TYPE.cmdSlash || cmd.type == COMMAND_TYPE.ctxMsg || cmd.type == COMMAND_TYPE.ctxUser,
-    );
-    if (commandsToRegister && this.autoRegisterApplicationCommands) await this.registerApplicationCommands(commandsToRegister);
+    if (this.commands?.size && this.autoRegisterApplicationCommands) await this.registerApplicationCommands(this.commands);
 
     return this.commands;
   }
@@ -226,7 +225,7 @@ export class CommandsManager extends BaseManager {
    * @returns {Promise<Collection<Snowflake, ApplicationCommand<{}>> | Collection<Snowflake, ApplicationCommand<{ guild: GuildResolvable }>> | undefined>}
    */
   public async registerApplicationCommands(
-    commands: Collection<string, Command> | undefined | null = this.commands,
+    commands: Collection<string, Command[]> | undefined | null = this.commands,
     guildId: Snowflake | Snowflake[] | undefined = this.guildId,
   ): Promise<
     | Collection<Snowflake, ApplicationCommand<Record<string, unknown>>>
