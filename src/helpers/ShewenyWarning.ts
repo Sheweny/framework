@@ -9,8 +9,6 @@ const Messages: IMessages = {
     `The class ${name} is malformed. Unable to load it.\nPath: ${path}\nError: ${error.message}\n${error.stack}`,
   MISSING_CLASS: (path: string) => `Cannot find a class to load at path :\n${path}`,
   MISSING_PROPERTY_CLASS: (property: string, path: string) => `The property ${property} is missing on class.\nPath : ${path}`,
-  DUPLICATE_CLASS: (property: string, path: string) =>
-    `The structure with id "${property}" is already loaded, only the last one will take effect.\nPath : ${path}`,
 };
 
 export class ShewenyWarning {

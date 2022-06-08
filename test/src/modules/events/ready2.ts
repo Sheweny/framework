@@ -1,6 +1,5 @@
 import { Event } from 'sheweny';
 import type { ShewenyClient } from 'sheweny';
-import type { Client } from 'discord.js';
 
 export default class Ready extends Event {
   constructor(client: ShewenyClient) {
@@ -10,8 +9,7 @@ export default class Ready extends Event {
       emitter: client,
     });
   }
-  async execute(client: Client): Promise<void> {
-    console.log('Ready 1 : The client is logged in.');
-    client.user?.setActivity('with Sheweny V4-dev !');
+  async execute(): Promise<void> {
+    console.log('Ready 2 : The client is logged in.');
   }
 }

@@ -103,15 +103,19 @@ export class Loader<MKN extends string, MKV, V extends StructureType<MKN, MKV>> 
       if (!Object.hasOwn(instance, this.mainKey)) {
         return new ShewenyWarning(this.client, 'MISSING_PROPERTY_CLASS', this.mainKey, path);
       }
-      if (this.collection.get(instance[this.mainKey])) {
-        return new ShewenyWarning(this.client, 'DUPLICATE_CLASS', `${instance[this.mainKey]}`, path);
+
+      let set = [instance];
+      const get = this.collection.get(instance[this.mainKey]);
+      if (get) {
+        get.push(instance);
+        set = get;
       }
 
       // Set data on structure
       instance.path = path;
       instance.manager = this.manager;
       // TODO: Handle arrays
-      return this.collection.set(instance[this.mainKey], [instance]);
+      return this.collection.set(instance[this.mainKey], set);
     } catch (err) {
       const error = err as Error;
       // TODO: Implement this error
