@@ -3,7 +3,7 @@ import { Loader } from '../utils/Loader.js';
 import { ShewenyInformation } from '../helpers/index.js';
 import { BaseManager } from './index.js';
 import { Event } from '../structures/index.js';
-import type { Collection } from 'discord.js';
+import { Collection } from 'discord.js';
 import type { ShewenyClient } from '../client/Client.js';
 import type { EventsManagerOptions, EventsManagerDefaultOptions } from '../typescript/index.js';
 
@@ -20,7 +20,7 @@ export class EventsManager extends BaseManager {
    * Collection of the events
    * @type {Collection<string, Event> | null}
    */
-  public events?: Collection<string, Event[]> | null;
+  public events?: Collection<string, Event[]>;
 
   /**
    * Constructor to manage events
@@ -76,7 +76,7 @@ export class EventsManager extends BaseManager {
    * @returns {void}
    */
   public unloadAll(): void {
-    this.events = null;
+    this.events = new Collection;
     this.client.collections.events.clear();
   }
 }

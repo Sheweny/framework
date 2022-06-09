@@ -2,7 +2,7 @@ import { Loader } from '../utils/Loader.js';
 import { ShewenyInformation } from '../helpers/index.js';
 import { BaseManager } from './index.js';
 import { Inhibitor } from '../structures/index.js';
-import type { Collection } from 'discord.js';
+import { Collection } from 'discord.js';
 import type { ShewenyClient } from '../client/Client.js';
 import type { InhibitorsManagerOptions, InhibitorsManagerDefaultOptions } from '../typescript/index.js';
 
@@ -20,7 +20,7 @@ export class InhibitorsManager extends BaseManager {
    * Collection of the inhibitors
    * @type {Collection<string, Inhibitor> | undefined}
    */
-  public inhibitors?: Collection<string, Inhibitor[]> | null;
+  public inhibitors?: Collection<string, Inhibitor[]>;
 
   /**
    * Constructor to manage inhibitors
@@ -54,7 +54,7 @@ export class InhibitorsManager extends BaseManager {
    * @returns {void}
    */
   public unloadAll(): void {
-    this.inhibitors = null;
+    this.inhibitors = new Collection();
     this.client.collections.inhibitors.clear();
   }
 }

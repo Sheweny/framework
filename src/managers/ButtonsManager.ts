@@ -2,7 +2,7 @@ import { Loader } from '../utils/Loader.js';
 import { ShewenyInformation } from '../helpers/index.js';
 import { BaseManager } from './index.js';
 import { Button } from '../structures/index.js';
-import type { Collection } from 'discord.js';
+import { Collection } from 'discord.js';
 import type { ShewenyClient } from '../client/Client.js';
 import type { ButtonsManagerDefaultOptions, ButtonsManagerOptions, CustomId } from '../typescript/index.js';
 /**
@@ -13,7 +13,7 @@ export class ButtonsManager extends BaseManager {
    * Collection of the buttons
    * @type {Collection<string[], Button> | undefined}
    */
-  public buttons?: Collection<CustomId, Button[]> | null;
+  public buttons?: Collection<CustomId, Button[]>;
 
   /**
    * Default data for the buttons
@@ -52,7 +52,7 @@ export class ButtonsManager extends BaseManager {
    * @returns {void}
    */
   public unloadAll(): void {
-    this.buttons = null;
+    this.buttons = new Collection();
     this.client.collections.buttons.clear();
   }
 }

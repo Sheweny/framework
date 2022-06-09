@@ -2,7 +2,7 @@ import { Loader } from '../utils/Loader.js';
 import { ShewenyInformation } from '../helpers/index.js';
 import { BaseManager } from './index.js';
 import { SelectMenu } from '../structures/index.js';
-import type { Collection } from 'discord.js';
+import { Collection } from 'discord.js';
 import type { ShewenyClient } from '../client/Client.js';
 import type { CustomId, SelectMenusManagerDefaultOptions, SelectMenusManagerOptions } from '../typescript/index.js';
 
@@ -20,7 +20,7 @@ export class SelectMenusManager extends BaseManager {
    * Collection of the select menus
    * @type {Collection<string[], SelectMenu> | undefined}
    */
-  public selectMenus?: Collection<CustomId, SelectMenu[]> | null;
+  public selectMenus?: Collection<CustomId, SelectMenu[]>;
 
   /**
    * Constructor to manage select menus
@@ -53,7 +53,7 @@ export class SelectMenusManager extends BaseManager {
    * @returns {void}
    */
   public unloadAll(): void {
-    this.selectMenus = null;
+    this.selectMenus = new Collection();
     this.client.collections.selectMenus.clear();
   }
 }

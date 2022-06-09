@@ -2,7 +2,7 @@ import { Loader } from '../utils/Loader.js';
 import { ShewenyInformation } from '../helpers/index.js';
 import { BaseManager } from './index.js';
 import { Modal } from '../structures/index.js';
-import type { Collection } from 'discord.js';
+import { Collection } from 'discord.js';
 import type { ShewenyClient } from '../client/Client.js';
 import type { CustomId, ModalsManagerDefaultOptions, ModalsManagerOptions } from '../typescript/index.js';
 /**
@@ -19,7 +19,7 @@ export class ModalsManager extends BaseManager {
    * Collection of modals
    * @type {Collection<string[], Modal> | undefined}
    */
-  public modals?: Collection<CustomId, Modal[]> | null;
+  public modals?: Collection<CustomId, Modal[]>;
 
   /**
    * Constructor to manage modals
@@ -52,7 +52,7 @@ export class ModalsManager extends BaseManager {
    * @returns {void}
    */
   public unloadAll(): void {
-    this.modals = null;
+    this.modals = new Collection();
     this.client.collections.modals.clear();
   }
 }

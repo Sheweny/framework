@@ -36,7 +36,7 @@ export class CommandsManager extends BaseManager {
    * Collection of the commands
    * @type {Collection<string, Command> | undefined}
    */
-  public commands?: Collection<string, Command[]> | null;
+  public commands?: Collection<string, Command[]>;
 
   /**
    * Default data for the commands
@@ -268,7 +268,7 @@ export class CommandsManager extends BaseManager {
    * @returns {void}
    */
   public unloadAll(): void {
-    this.commands = null;
+    this.commands = new Collection();
     this.client.collections.commands.clear();
   }
 }
