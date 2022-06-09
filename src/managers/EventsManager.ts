@@ -76,7 +76,7 @@ export class EventsManager extends BaseManager {
    * @returns {void}
    */
   public unloadAll(): void {
-    this.events = new Collection;
+    this.events = new Collection();
     this.client.collections.events.clear();
   }
 }
