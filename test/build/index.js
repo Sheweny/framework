@@ -9,6 +9,7 @@ const config = JSON.parse(configFile);
 const client = new sheweny_1.ShewenyClient({
     intents: [
         discord_js_1.IntentsBitField.Flags.Guilds,
+        discord_js_1.GatewayIntentBits.MessageContent,
         discord_js_1.IntentsBitField.Flags.GuildMessages,
         discord_js_1.IntentsBitField.Flags.DirectMessages,
         discord_js_1.IntentsBitField.Flags.DirectMessageReactions,

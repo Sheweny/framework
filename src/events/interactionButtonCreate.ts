@@ -24,58 +24,60 @@ export default async function run(client: ShewenyClient, interaction: ButtonInte
     }
     if (!buttons || (buttons && !buttons.length)) return;
     for (const button of buttons) {
-      if(!button.enabled) return;
-      if (button.before) await button.before(interaction);
+      await (async () => {
+        if (!button.enabled) return;
+        if (button.before) await button.before(interaction);
 
-      /**
-       * Handle inhibitors
-       */
-      const inhibitorsCollection = client.collections.inhibitors?.filter((is: Inhibitor[]) => {
-        for (const i of is) {
-          return i.type.includes(INHIBITOR_TYPE.button) || i.type.includes(INHIBITOR_TYPE.all);
-        }
-        return false;
-      });
-      const inhibitorsArray: Inhibitor[] = [];
-      for (const [, inhibitors] of inhibitorsCollection) {
-        if (inhibitors && inhibitors.length) {
-          for (const inhibitor of inhibitors) {
-            inhibitorsArray.push(inhibitor);
+        /**
+         * Handle inhibitors
+         */
+        const inhibitorsCollection = client.collections.inhibitors?.filter((is: Inhibitor[]) => {
+          for (const i of is) {
+            return i.type.includes(INHIBITOR_TYPE.button) || i.type.includes(INHIBITOR_TYPE.all);
           }
-        }
-      }
-      if (inhibitorsArray && inhibitorsArray.length) {
-        const sorted = inhibitorsArray.sort((a, b) => b.priority - a.priority);
-        for (const i of sorted) {
-          if (!(await i.execute(client, interaction))) return await i.onFailure(client, interaction);
-        }
-      }
-
-      /* ---------------COOLDOWNS--------------- */
-      if (!client.admins?.includes(interaction.user.id)) {
-        if (!client.cooldowns.buttons.has(button.customId)) {
-          client.cooldowns.buttons.set(button.customId, new Collection<string, number>());
-        }
-
-        const timeNow = Date.now();
-        const tStamps = client.cooldowns.buttons.get(button.customId);
-        const cdAmount = (button.cooldown || 0) * 1000;
-
-        if (tStamps) {
-          if (tStamps.has(interaction.user.id)) {
-            const cdExpirationTime = (tStamps.get(interaction.user.id) || 0) + cdAmount;
-            if (timeNow < cdExpirationTime) {
-              // const timeLeft = (cdExpirationTime - timeNow) / 1000;
-              return client.managers.buttons?.emit(BUTTON_EVENTS.cooldownLimit, interaction, cdExpirationTime - timeNow);
+          return false;
+        });
+        const inhibitorsArray: Inhibitor[] = [];
+        for (const [, inhibitors] of inhibitorsCollection) {
+          if (inhibitors && inhibitors.length) {
+            for (const inhibitor of inhibitors) {
+              inhibitorsArray.push(inhibitor);
             }
           }
-
-          tStamps.set(interaction.user.id, timeNow);
-          setTimeout(() => tStamps.delete(interaction.user.id), cdAmount);
         }
-      }
+        if (inhibitorsArray && inhibitorsArray.length) {
+          const sorted = inhibitorsArray.sort((a, b) => b.priority - a.priority);
+          for (const i of sorted) {
+            if (!(await i.execute(client, interaction))) return await i.onFailure(client, interaction);
+          }
+        }
 
-      await button.execute(interaction);
+        /* ---------------COOLDOWNS--------------- */
+        if (!client.admins?.includes(interaction.user.id)) {
+          if (!client.cooldowns.buttons.has(button.customId)) {
+            client.cooldowns.buttons.set(button.customId, new Collection<string, number>());
+          }
+
+          const timeNow = Date.now();
+          const tStamps = client.cooldowns.buttons.get(button.customId);
+          const cdAmount = (button.cooldown || 0) * 1000;
+
+          if (tStamps) {
+            if (tStamps.has(interaction.user.id)) {
+              const cdExpirationTime = (tStamps.get(interaction.user.id) || 0) + cdAmount;
+              if (timeNow < cdExpirationTime) {
+                // const timeLeft = (cdExpirationTime - timeNow) / 1000;
+                return client.managers.buttons?.emit(BUTTON_EVENTS.cooldownLimit, interaction, cdExpirationTime - timeNow);
+              }
+            }
+
+            tStamps.set(interaction.user.id, timeNow);
+            setTimeout(() => tStamps.delete(interaction.user.id), cdAmount);
+          }
+        }
+
+        await button.execute(interaction);
+      })();
     }
   } catch (err) {
     const e = err as Error;

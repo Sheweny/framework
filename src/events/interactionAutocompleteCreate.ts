@@ -13,12 +13,14 @@ export default async function run(
     const commands = client.collections.commands?.get(interaction.commandName);
     if (!commands || (commands && !commands.length)) return;
     for (const command of commands) {
-      // eslint-disable-next-line
-       // @ts-ignore
-      if (!command || (command && ![COMMAND_TYPE.cmdSlash, COMMAND_TYPE.ctxUser, COMMAND_TYPE.ctxMsg].includes(command.type))) {
-        return;
-      }
-      if (interaction.isAutocomplete() && command.onAutocomplete) await command.onAutocomplete(interaction);
+      await (async () => {
+        // eslint-disable-next-line
+        // @ts-ignore
+        if (!command || (command && ![COMMAND_TYPE.cmdSlash, COMMAND_TYPE.ctxUser, COMMAND_TYPE.ctxMsg].includes(command.type))) {
+          return;
+        }
+        if (interaction.isAutocomplete() && command.onAutocomplete) await command.onAutocomplete(interaction);
+      })();
     }
   } catch (err) {
     const e = err as Error;

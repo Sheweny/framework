@@ -1,5 +1,5 @@
 import { ShewenyClient } from 'sheweny';
-import { IntentsBitField, Partials } from 'discord.js';
+import { GatewayIntentBits, IntentsBitField, Partials } from 'discord.js';
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
 
@@ -8,6 +8,7 @@ const config = JSON.parse(configFile);
 const client = new ShewenyClient({
   intents: [
     IntentsBitField.Flags.Guilds,
+    GatewayIntentBits.MessageContent,
     IntentsBitField.Flags.GuildMessages,
     IntentsBitField.Flags.DirectMessages,
     IntentsBitField.Flags.DirectMessageReactions,
