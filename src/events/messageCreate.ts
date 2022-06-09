@@ -37,6 +37,7 @@ export default async function run(client: ShewenyClient, message: Message) {
     if (!commands || (commands && !commands.length)) return;
     for (const command of commands) {
       if (!command || (command && command.type !== COMMAND_TYPE.cmdMsg)) return;
+      if(!command.enabled) return;
       if (command.before) await command.before(message);
       /**
        * Handle inhibitors

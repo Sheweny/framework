@@ -20,6 +20,7 @@ export default async function run(
       if (!command || (command && ![COMMAND_TYPE.cmdSlash, COMMAND_TYPE.ctxUser, COMMAND_TYPE.ctxMsg].includes(command.type))) {
         return;
       }
+      if(!command.enabled) return;
       if (command.before) await command.before(interaction as CommandInteraction | ContextMenuCommandInteraction);
       /**
        * Handle inhibitors

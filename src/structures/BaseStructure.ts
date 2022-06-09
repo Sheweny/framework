@@ -12,6 +12,11 @@ export abstract class BaseStructure {
   public client: ShewenyClient;
 
   /**
+   * If the structure is enabled or not
+   * @type {boolean} 
+   */
+  public enabled: boolean;
+  /**
    * The structure is loadable by the Loader
    * @internal
    * @type {string}
@@ -32,7 +37,20 @@ export abstract class BaseStructure {
    * Constructor for build base of any structures
    * @param {ShewenyClient} client Client framework
    */
-  constructor(client: ShewenyClient) {
+  constructor(client: ShewenyClient, enabled:boolean = true) {
     this.client = client as ShewenyClient;
+    this.enabled = enabled;
+  }
+  /**
+   * Enable this structure
+   */
+  public enable(){
+    this.enabled = true;
+  }
+  /**
+   * Disable this structure
+   */
+  public disable(){
+    this.enabled = false;
   }
 }

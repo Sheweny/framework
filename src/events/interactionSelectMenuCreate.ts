@@ -24,6 +24,7 @@ export default async function run(client: ShewenyClient, interaction: SelectMenu
 
     if (!selects || (selects && !selects.length)) return;
     for (const selectMenu of selects) {
+      if(!selectMenu) return;
       if (selectMenu.before) await selectMenu.before(interaction);
 
       /**

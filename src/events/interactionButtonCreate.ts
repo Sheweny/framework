@@ -24,6 +24,7 @@ export default async function run(client: ShewenyClient, interaction: ButtonInte
     }
     if (!buttons || (buttons && !buttons.length)) return;
     for (const button of buttons) {
+      if(!button.enabled) return;
       if (button.before) await button.before(interaction);
 
       /**

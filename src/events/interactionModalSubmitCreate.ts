@@ -25,6 +25,7 @@ export default async function run(client: ShewenyClient, interaction: ModalSubmi
 
     if (!modals || (modals && !modals.length)) return;
     for (const modal of modals) {
+      if(!modal.enabled) return;
       if (modal.before) await modal.before(interaction);
 
       /**
