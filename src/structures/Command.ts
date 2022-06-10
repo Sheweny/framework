@@ -6,12 +6,12 @@ import type {
   // Interfaces
   MessageCommandOptionData,
   CommandMessageArgsResolved,
-  ContextMenuMessageData,
-  ContextMenuUserData,
   SlashCommandData,
   MessageData,
   // Types
   CommandData,
+  ContextMenuMessageData,
+  ContextMenuUserData,
   CommandType,
   // utilityTypes
   Awaitable,
@@ -21,8 +21,9 @@ import type {
   CommandInteraction,
   ContextMenuCommandInteraction,
   Message,
-  PermissionsString,
   AutocompleteInteraction,
+  PermissionResolvable,
+  LocalizationMap,
 } from 'discord.js';
 
 /**
@@ -62,9 +63,9 @@ export abstract class Command extends BaseStructure {
 
   /**
    * The permissions required for the client
-   * @type {PermissionsString[]}
+   * @type {PermissionResolvable[]}
    */
-  public clientPermissions: PermissionsString[];
+  public clientPermissions: PermissionResolvable[];
 
   /**
    * Cooldown of a command in seconds
@@ -73,16 +74,16 @@ export abstract class Command extends BaseStructure {
   public cooldown: number;
 
   /**
-   * Default permission of a Application command
-   * @type {boolean | undefined}
+   * Description of a command
+   * @type {string | undefined}
    */
-  public defaultPermission?: boolean;
+  public description: string;
 
   /**
    * Description of a command
    * @type {string | undefined}
    */
-  public description: string;
+  public descriptionLocalizations?: LocalizationMap;
 
   /**
    * Examples of a command
@@ -95,6 +96,12 @@ export abstract class Command extends BaseStructure {
    * @type {string}
    */
   public name: string;
+
+  /**
+   * Name of a command
+   * @type {string}
+   */
+  public nameLocalizations?: LocalizationMap;
 
   /**
    * Options of a Application command
@@ -116,9 +123,9 @@ export abstract class Command extends BaseStructure {
 
   /**
    * The permissions required to be executed by the user
-   * @type {PermissionsString[]}
+   * @type {PermissionResolvable[]}
    */
-  public userPermissions: PermissionsString[];
+  public userPermissions: PermissionResolvable[];
 
   /**
    * Constructor for build a Command
@@ -137,13 +144,13 @@ export abstract class Command extends BaseStructure {
     this.channel = data.channel || defaultData.channel;
     this.clientPermissions = (data.clientPermissions || defaultData.clientPermissions) ?? [];
     this.cooldown = (data.cooldown || defaultData.cooldown) ?? 0;
-    this.defaultPermission = this.isType(type, COMMAND_TYPE.cmdSlash, COMMAND_TYPE.ctxUser, COMMAND_TYPE.ctxMsg)
-      ? (data as SlashCommandData | ContextMenuUserData | ContextMenuMessageData).defaultPermission
-      : undefined;
     this.description = (data.description || defaultData.description) ?? '';
     this.examples = data.examples || defaultData.examples;
     this.name = data.name;
-    this.options = this.isType(type, COMMAND_TYPE.cmdSlash) ? (data as SlashCommandData).options : undefined;
+    (this.nameLocalizations = !this.isType(type, COMMAND_TYPE.cmdMsg)
+      ? (data as SlashCommandData | ContextMenuUserData | ContextMenuMessageData).nameLocalizations || undefined
+      : undefined),
+      (this.options = this.isType(type, COMMAND_TYPE.cmdSlash) ? (data as SlashCommandData).options : undefined);
     this.type = type;
     this.usage = data.usage || defaultData.usage;
     this.userPermissions = (data.userPermissions || defaultData.userPermissions) ?? [];

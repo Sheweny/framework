@@ -23,7 +23,7 @@ const client = new sheweny_1.ShewenyClient({
             prefix: '?',
             guildId: ['877090306103840778', '809702809196560405'],
             autoRegisterApplicationCommands: true,
-            applicationPermissions: false,
+            applicationPermissions: true,
             default: {
                 adminOnly: false,
                 category: 'Default category',

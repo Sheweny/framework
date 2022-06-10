@@ -6,6 +6,7 @@ import {
   type GuildResolvable,
   ApplicationCommandType,
   type Snowflake,
+  PermissionsBitField,
 } from 'discord.js';
 import { Loader } from '../utils/Loader.js';
 import { ShewenyInformation } from '../helpers/index.js';
@@ -14,7 +15,6 @@ import { COMMAND_TYPE } from '../constants/constants.js';
 import { Command } from '../structures/index.js';
 import type { ShewenyClient } from '../client/Client.js';
 import type { CommandsManagerOptions, CommandsManagerDefaultOptions } from '../typescript/index.js';
-
 /**
  * Manager for Commands
  * @extends {EventEmitter}
@@ -165,21 +165,34 @@ export class CommandsManager extends BaseManager {
 
     const newType = this.renameCommandType(command.type);
     if (!newType) return null;
+    const base = {
+      type: newType,
+      name: command.name as string,
+      nameLocalizations: command.nameLocalizations,
+      description: '' as string,
+      default_member_permissions: null as null | PermissionsBitField,
+      dm_permissions: null as null | PermissionsBitField,
+    };
+    if (this.applicationPermissions) {
+      base.default_member_permissions = new PermissionsBitField(command.userPermissions);
+      base.dm_permissions = new PermissionsBitField(command.userPermissions);
+    }
 
     if (command.type === COMMAND_TYPE.cmdSlash) {
       return {
-        type: newType,
-        name: command.name,
+        ...base,
         description: command.description,
+        descriptionLocalizations: command.descriptionLocalizations,
         options: command.options,
       };
     }
+
     if (command.type === COMMAND_TYPE.ctxMsg || command.type === COMMAND_TYPE.ctxUser) {
       return {
-        type: newType,
-        name: command.name,
+        ...base,
       } as ApplicationCommandData;
     }
+
     return null;
   }
 
@@ -214,7 +227,9 @@ export class CommandsManager extends BaseManager {
     this.commands = await loader.load();
     new ShewenyInformation(this.client, `- Commands loaded : ${this.commands.size}`);
 
-    if (this.commands?.size && this.autoRegisterApplicationCommands) await this.registerApplicationCommands(this.commands);
+    if (this.commands?.size && this.autoRegisterApplicationCommands) {
+      await this.registerApplicationCommands(this.commands, this.guildId);
+    }
 
     return this.commands;
   }
@@ -225,28 +240,19 @@ export class CommandsManager extends BaseManager {
    * @returns {Promise<Collection<Snowflake, ApplicationCommand<{}>> | Collection<Snowflake, ApplicationCommand<{ guild: GuildResolvable }>> | undefined>}
    */
   public async registerApplicationCommands(
-    commands: Collection<string, Command[]> | undefined | null = this.commands,
-    guildId: Snowflake | Snowflake[] | undefined = this.guildId,
-  ): Promise<
-    | Collection<Snowflake, ApplicationCommand<Record<string, unknown>>>
-    | Collection<Snowflake, ApplicationCommand<{ guild: GuildResolvable }>>
-    | boolean
-    | undefined
-  > {
+    commands: Collection<string, Command[]>,
+    guildId?: Snowflake | Snowflake[],
+  ): Promise<boolean | undefined> {
     if (guildId && guildId instanceof Array) return guildId.every(id => this.registerApplicationCommands(commands, id));
     if (!commands) throw new Error('Commands not found');
     const data = this.getAllApplicationCommandData(commands);
-    if (!data) return;
+    if (!data || (data && !data.length)) return;
     await this.client.awaitReady();
 
-    if (data instanceof Array && data.length > 0) {
-      const cmds =
-        guildId && typeof guildId === 'string'
-          ? await this.client.application?.commands.set(data, guildId)
-          : await this.client.application?.commands.set(data);
-      return cmds;
-    }
-    return undefined;
+    if (guildId) await this.client.application?.commands.set(data, guildId);
+    else await this.client.application?.commands.set(data);
+
+    return true;
   }
 
   /**

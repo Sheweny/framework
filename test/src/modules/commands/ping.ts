@@ -5,7 +5,15 @@ export class PingCommand extends Command {
   constructor(client: ShewenyClient) {
     super(client, {
       name: 'ping',
+      nameLocalizations: {
+       "fr": "ping-fr",
+       "en-US": "ping-en-us"
+      },
       description: 'Ping !',
+      descriptionLocalizations: {
+        "fr": "ping le bot",
+        "en-US": "ping the bot"
+      },
       type: 'SLASH_COMMAND',
     });
   }

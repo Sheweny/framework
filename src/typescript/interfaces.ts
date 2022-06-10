@@ -1,4 +1,11 @@
-import type { ApplicationCommandOptionData, PermissionsString, Collection, ClientOptions, Snowflake } from 'discord.js';
+import type {
+  ApplicationCommandOptionData,
+  PermissionResolvable,
+  Collection,
+  ClientOptions,
+  Snowflake,
+  LocalizationMap,
+} from 'discord.js';
 import type { EventEmitter } from 'node:events';
 import type {
   // Managers
@@ -42,13 +49,14 @@ export interface CommandsManagerDefaultOptions {
   adminOnly?: boolean;
   category?: string;
   channel?: typeof COMMAND_CHANNEL.dm | typeof COMMAND_CHANNEL.global | typeof COMMAND_CHANNEL.guild;
-  clientPermissions?: PermissionsString[];
+  clientPermissions?: PermissionResolvable[];
   cooldown?: number;
   description?: string;
+  descriptionLocalizations?: LocalizationMap;
   examples?: string | string[];
   type?: typeof COMMAND_TYPE.cmdSlash | typeof COMMAND_TYPE.cmdMsg | typeof COMMAND_TYPE.ctxMsg | typeof COMMAND_TYPE.ctxUser;
   usage?: string | string[];
-  userPermissions?: PermissionsString[];
+  userPermissions?: PermissionResolvable[];
 }
 export interface EventsManagerOptions extends BaseManagerOptions {
   default?: EventsManagerDefaultOptions;
@@ -95,50 +103,51 @@ export interface ModalsManagerDefaultOptions {
 // Data option for `SLASH_COMMAND` type
 export interface SlashCommandData {
   name: string;
+  nameLocalizations?: LocalizationMap;
   type?: typeof COMMAND_TYPE.cmdSlash;
   description: string;
+  descriptionLocalizations?: LocalizationMap;
   options?: ApplicationCommandOptionData[];
-  defaultPermission?: boolean;
   category?: string;
   usage?: string | string[];
   examples?: string | string[];
   channel?: typeof COMMAND_CHANNEL.dm | typeof COMMAND_CHANNEL.guild;
   cooldown?: number;
   adminsOnly?: boolean;
-  userPermissions?: PermissionsString[];
-  clientPermissions?: PermissionsString[];
+  userPermissions?: PermissionResolvable[];
+  clientPermissions?: PermissionResolvable[];
 }
 
 // Data option for `CONTEXT_MENU_USER` type
 export interface ContextMenuUserData {
   name: string;
+  nameLocalizations?: LocalizationMap;
   type?: typeof COMMAND_TYPE.ctxUser;
   description?: string;
-  defaultPermission?: boolean;
   category?: string;
   usage?: string | string[];
   examples?: string | string[];
   channel?: typeof COMMAND_CHANNEL.dm | typeof COMMAND_CHANNEL.guild;
   cooldown?: number;
   adminsOnly?: boolean;
-  userPermissions?: PermissionsString[];
-  clientPermissions?: PermissionsString[];
+  userPermissions?: PermissionResolvable[];
+  clientPermissions?: PermissionResolvable[];
 }
 
 // Data option for `CONTEXT_MENU_MESSAGE` type
 export interface ContextMenuMessageData {
   name: string;
+  nameLocalizations?: LocalizationMap;
   type?: typeof COMMAND_TYPE.ctxMsg;
   description?: string;
-  defaultPermission?: boolean;
   category?: string;
   usage?: string | string[];
   examples?: string | string[];
   channel?: typeof COMMAND_CHANNEL.dm | typeof COMMAND_CHANNEL.guild;
   cooldown?: number;
   adminsOnly?: boolean;
-  userPermissions?: PermissionsString[];
-  clientPermissions?: PermissionsString[];
+  userPermissions?: PermissionResolvable[];
+  clientPermissions?: PermissionResolvable[];
 }
 
 //  Data option for `MESSAGE_COMMAND` type
@@ -153,8 +162,8 @@ export interface MessageData {
   channel?: typeof COMMAND_CHANNEL.dm | typeof COMMAND_CHANNEL.guild;
   cooldown?: number;
   adminsOnly?: boolean;
-  userPermissions?: PermissionsString[];
-  clientPermissions?: PermissionsString[];
+  userPermissions?: PermissionResolvable[];
+  clientPermissions?: PermissionResolvable[];
   aliases?: string[];
 }
 

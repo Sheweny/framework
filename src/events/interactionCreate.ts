@@ -1,18 +1,21 @@
-import type { Interaction } from 'discord.js';
+import { ComponentType, Interaction, InteractionType, MessageComponentInteraction } from 'discord.js';
 import type { ShewenyClient } from '../client/Client.js';
 
-export default function run(client: ShewenyClient, interaction: Interaction) {
-  if (interaction.isButton()) client.emit('interactionButtonCreate', interaction);
+export default function run(client: ShewenyClient, i: Interaction) {
+  if (i.type === InteractionType.MessageComponent && (i as MessageComponentInteraction).componentType === ComponentType.Button) {
+    client.emit('interactionButtonCreate', i);
+  }
 
-  if (interaction.isCommand() || interaction.isContextMenuCommand()) client.emit('interactionCommandCreate', interaction);
+  if (i.type === InteractionType.ApplicationCommand) client.emit('interactionCommandCreate', i);
 
-  if (interaction.isAutocomplete()) client.emit('interactionAutocompleteCreate', interaction);
+  if (i.type === InteractionType.ApplicationCommandAutocomplete) client.emit('interactionAutocompleteCreate', i);
 
-  if (interaction.isContextMenuCommand()) client.emit('interactionContextMenuCreate', interaction);
+  if (
+    i.type === InteractionType.MessageComponent &&
+    (i as MessageComponentInteraction).componentType === ComponentType.SelectMenu
+  ) {
+    client.emit('interactionSelectMenuCreate', i);
+  }
 
-  if (interaction.isSelectMenu()) client.emit('interactionSelectMenuCreate', interaction);
-
-  if (interaction.isMessageComponent()) client.emit('interactionMessageComponentCreate', interaction);
-
-  if (interaction.isModalSubmit()) client.emit('interactionModalSubmitCreate', interaction);
+  if (i.type === InteractionType.ModalSubmit) client.emit('interactionModalSubmitCreate', i);
 }
