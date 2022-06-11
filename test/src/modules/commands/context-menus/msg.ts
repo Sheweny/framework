@@ -7,6 +7,9 @@ export class GetAvatar extends Command {
   constructor(client: ShewenyClient) {
     super(client, {
       name: 'send-embed',
+      nameLocalizations: {
+        fr: 'envoyer-embed',
+      },
       type: 'CONTEXT_MENU_MESSAGE',
       category: 'Misc',
       description: 'Get avatar of user',

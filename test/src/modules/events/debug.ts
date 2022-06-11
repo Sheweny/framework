@@ -9,7 +9,7 @@ export default class Ready extends Event {
       emitter: client,
     });
   }
-  async execute(...debug:string[]): Promise<void> {
-    console.log(...debug)
+  async execute(...debug: string[]): Promise<void> {
+    console.log(...debug);
   }
 }

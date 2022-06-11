@@ -12,7 +12,7 @@ export class PingCommand extends Command {
     });
   }
   execute(interaction: CommandInteraction) {
-   const row = new ActionRowBuilder<SelectMenuBuilder>().addComponents([
+    const row = new ActionRowBuilder<SelectMenuBuilder>().addComponents([
       new SelectMenuBuilder()
         .setCustomId('select-10')
         .setPlaceholder('Nothing selected')
@@ -22,7 +22,7 @@ export class PingCommand extends Command {
           new SelectMenuOptionBuilder().setLabel('Second option').setDescription('The second option').setValue('second'),
         ]),
     ]);
-    console.log(row)
+    console.log(row);
     //interaction.reply({ content: 'Test the select-menus', components: [row] });
   }
 }

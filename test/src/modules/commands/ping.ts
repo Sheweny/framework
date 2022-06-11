@@ -6,13 +6,13 @@ export class PingCommand extends Command {
     super(client, {
       name: 'ping',
       nameLocalizations: {
-       "fr": "ping-fr",
-       "en-US": "ping-en-us"
+        fr: 'ping-fr',
+        'en-US': 'ping-en-us',
       },
       description: 'Ping !',
       descriptionLocalizations: {
-        "fr": "ping le bot",
-        "en-US": "ping the bot"
+        fr: 'ping le bot',
+        'en-US': 'ping the bot',
       },
       type: 'SLASH_COMMAND',
     });

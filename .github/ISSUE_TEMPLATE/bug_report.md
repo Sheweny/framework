@@ -4,7 +4,6 @@ about: Create a report to help us improve
 title: ''
 labels: bug
 assignees: ''
-
 ---
 
 ---
@@ -12,7 +11,9 @@ assignees: ''
 name: Bug report
 about: Report incorrect or unexpected behavior of sheweny
 title: ''
+
 ---
+
 <!-- Use Discord for questions: https://discord.gg/https://discord.gg/qgd85nEf5a-->
 
 **Please describe the problem you are having in as much detail as possible:**

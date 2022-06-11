@@ -8,6 +8,7 @@
   "scripts": {
     "build": "tsc && tsc --build tsconfig.typings.json",
     "build:typings": "tsc --build tsconfig.typings.json",
+    "format": "prettier --write . && eslint src --fix",
     "lint": "eslint src/**/*.ts",
     "dev": "tsnd --respawn --transpile-only --cls ./test/ts/src/index.ts",
     "publish:dev": "npm publish --tag dev"
