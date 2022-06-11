@@ -4,17 +4,16 @@ import type { CommandInteraction, Message } from 'discord.js';
 export class PingCommand extends Command {
   constructor(client: ShewenyClient) {
     super(client, {
-      name: 'ping',
+      name: 'ping-locale',
       nameLocalizations: {
-        fr: 'ping-fr',
-        'en-US': 'ping-en-us',
+        'en-US': 'en-us-ping',
       },
-      description: 'Ping !',
+      description: 'd',
       descriptionLocalizations: {
-        fr: 'ping le bot',
         'en-US': 'ping the bot',
       },
       type: 'SLASH_COMMAND',
+      channel: 'GLOBAL',
     });
   }
   execute(interaction: CommandInteraction) {

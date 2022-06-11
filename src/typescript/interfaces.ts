@@ -111,7 +111,7 @@ export interface SlashCommandData {
   category?: string;
   usage?: string | string[];
   examples?: string | string[];
-  channel?: typeof COMMAND_CHANNEL.dm | typeof COMMAND_CHANNEL.guild;
+  channel?: typeof COMMAND_CHANNEL.dm | typeof COMMAND_CHANNEL.guild | typeof COMMAND_CHANNEL.global;
   cooldown?: number;
   adminsOnly?: boolean;
   userPermissions?: PermissionResolvable[];
@@ -127,7 +127,7 @@ export interface ContextMenuUserData {
   category?: string;
   usage?: string | string[];
   examples?: string | string[];
-  channel?: typeof COMMAND_CHANNEL.dm | typeof COMMAND_CHANNEL.guild;
+  channel?: typeof COMMAND_CHANNEL.dm | typeof COMMAND_CHANNEL.guild | typeof COMMAND_CHANNEL.global;
   cooldown?: number;
   adminsOnly?: boolean;
   userPermissions?: PermissionResolvable[];
@@ -143,7 +143,7 @@ export interface ContextMenuMessageData {
   category?: string;
   usage?: string | string[];
   examples?: string | string[];
-  channel?: typeof COMMAND_CHANNEL.dm | typeof COMMAND_CHANNEL.guild;
+  channel?: typeof COMMAND_CHANNEL.dm | typeof COMMAND_CHANNEL.guild | typeof COMMAND_CHANNEL.global;
   cooldown?: number;
   adminsOnly?: boolean;
   userPermissions?: PermissionResolvable[];

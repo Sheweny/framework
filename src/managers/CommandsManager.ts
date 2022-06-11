@@ -6,12 +6,11 @@ import {
   type GuildResolvable,
   ApplicationCommandType,
   type Snowflake,
-  PermissionsBitField,
 } from 'discord.js';
 import { Loader } from '../utils/Loader.js';
 import { ShewenyInformation } from '../helpers/index.js';
 import { BaseManager } from './index.js';
-import { COMMAND_TYPE } from '../constants/constants.js';
+import { COMMAND_CHANNEL, COMMAND_TYPE } from '../constants/constants.js';
 import { Command } from '../structures/index.js';
 import type { ShewenyClient } from '../client/Client.js';
 import type { CommandsManagerOptions, CommandsManagerDefaultOptions } from '../typescript/index.js';
@@ -165,26 +164,25 @@ export class CommandsManager extends BaseManager {
 
     const newType = this.renameCommandType(command.type);
     if (!newType) return null;
-    const base = {
+    const base: ApplicationCommandData = {
       type: newType,
-      name: command.name as string,
+      name: command.name,
       nameLocalizations: command.nameLocalizations,
-      description: '' as string,
-      default_member_permissions: null as null | PermissionsBitField,
-      dm_permissions: null as null | PermissionsBitField,
+      description: '',
+      defaultMemberPermissions: undefined,
+      dmPermission: undefined,
     };
     if (this.applicationPermissions) {
-      base.default_member_permissions = new PermissionsBitField(command.userPermissions);
-      base.dm_permissions = new PermissionsBitField(command.userPermissions);
+      base.defaultMemberPermissions = command.userPermissions;
+      base.dmPermission = command.channel === COMMAND_CHANNEL.dm || command.channel === COMMAND_CHANNEL.global ? true : false;
     }
-
     if (command.type === COMMAND_TYPE.cmdSlash) {
       return {
         ...base,
         description: command.description,
         descriptionLocalizations: command.descriptionLocalizations,
         options: command.options,
-      };
+      } as ApplicationCommandData;
     }
 
     if (command.type === COMMAND_TYPE.ctxMsg || command.type === COMMAND_TYPE.ctxUser) {
@@ -248,7 +246,7 @@ export class CommandsManager extends BaseManager {
     const data = this.getAllApplicationCommandData(commands);
     if (!data || (data && !data.length)) return;
     await this.client.awaitReady();
-
+    console.log(data);
     if (guildId) await this.client.application?.commands.set(data, guildId);
     else await this.client.application?.commands.set(data);
 
