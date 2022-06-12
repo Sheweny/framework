@@ -246,7 +246,6 @@ export class CommandsManager extends BaseManager {
     const data = this.getAllApplicationCommandData(commands);
     if (!data || (data && !data.length)) return;
     await this.client.awaitReady();
-    console.log(data);
     if (guildId) await this.client.application?.commands.set(data, guildId);
     else await this.client.application?.commands.set(data);
 

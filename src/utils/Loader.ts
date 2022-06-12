@@ -26,13 +26,13 @@ interface LoaderOptions {
 }
 
 export class Loader<MKN extends string, MKV, V extends StructureType<MKN, MKV>> {
-  public client: ShewenyClient;
-  public collection: Collection<MKV, V[]>;
-  public mainKey: MKN;
-  public mainPath: string;
-  public paths: Array<string>;
-  public manager: Manager;
-  public instance: Class<Structure>;
+  public readonly client: ShewenyClient;
+  public readonly collection: Collection<MKV, V[]>;
+  public readonly mainKey: MKN;
+  public readonly mainPath: string;
+  public readonly paths: Array<string>;
+  public readonly manager: Manager;
+  public readonly instance: Class<Structure>;
 
   constructor(client: ShewenyClient, path: string, mainKey: MKN, options: LoaderOptions) {
     this.client = client;

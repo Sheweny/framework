@@ -29,13 +29,13 @@ export class ShewenyClient extends Client {
    * The collections of handlers
    * @type {ManagersCollections}
    */
-  public collections: ManagersCollections;
+  public readonly collections: ManagersCollections;
 
   /**
    * If the client is ready
    * @type {boolean}
    */
-  public cooldowns: Cooldowns;
+  public readonly cooldowns: Cooldowns;
 
   /**
    * If the client is ready
@@ -64,13 +64,13 @@ export class ShewenyClient extends Client {
    * The manager of handlers
    * @type {Managers}
    */
-  public managers: Managers;
+  public readonly managers: Managers;
 
   /**
    * A util tool to resolve channel, user, get data etc
    * @type {ClientUtil}
    */
-  public util: ClientUtil;
+  public readonly util: ClientUtil;
 
   /**
    * Set options and your client is ready

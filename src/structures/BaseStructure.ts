@@ -6,22 +6,24 @@ import type { Manager } from '../typescript/index.js';
  */
 export abstract class BaseStructure {
   /**
+   * The structure is loadable by the Loader
+   * @internal
+   * @type {string}
+   */
+  static readonly _id: string = 'ShewenyLoadable';
+
+  /**
    * Client framework
    * @type {ShewenyClient}
    */
-  public client: ShewenyClient;
+  public readonly client: ShewenyClient;
 
   /**
    * If the structure is enabled or not
    * @type {boolean}
    */
   public enabled: boolean;
-  /**
-   * The structure is loadable by the Loader
-   * @internal
-   * @type {string}
-   */
-  static readonly _id: string = 'ShewenyLoadable';
+
   /**
    * Path to file
    * @type {string}
@@ -33,6 +35,7 @@ export abstract class BaseStructure {
    * @type {Manager}
    */
   public manager?: Manager;
+
   /**
    * Constructor for build base of any structures
    * @param {ShewenyClient} client Client framework

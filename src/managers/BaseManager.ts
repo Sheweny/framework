@@ -7,13 +7,13 @@ export class BaseManager extends EventEmitter {
    * Client framework
    * @type {ShewenyClient}
    */
-  public client: ShewenyClient;
+  public readonly client: ShewenyClient;
 
   /**
    * Directory to load
    * @type {string}
    */
-  public directory: string;
+  public readonly directory: string;
 
   /**
    * Constructor of BaseManager class (extends EventEmitter)
