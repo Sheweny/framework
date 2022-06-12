@@ -48,7 +48,7 @@ export default async function run(client: ShewenyClient, interaction: ButtonInte
         if (inhibitorsArray && inhibitorsArray.length) {
           const sorted = inhibitorsArray.sort((a, b) => b.priority - a.priority);
           for (const i of sorted) {
-            if (!(await i.execute(client, interaction))) return await i.onFailure(client, interaction);
+            if (!(await i.execute(button, interaction))) return await i.onFailure(button, interaction);
           }
         }
 

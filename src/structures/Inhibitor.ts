@@ -47,17 +47,17 @@ export abstract class Inhibitor extends BaseStructure {
    * @param {any[]} args Button interaction
    * @returns: Awaitable<unknown>}
    */
-  abstract execute(client: ShewenyClient, ctx: Interaction | Message): Awaitable<unknown>;
+  abstract execute(structure: BaseStructure, ctx: Interaction | Message): Awaitable<unknown>;
 
   /**
    * This function is executed when the main `execute` function has failed
    * @param {any[]} args Arguments
    * @returns: Awaitable<unknown>}
    */
-  abstract onFailure(client: ShewenyClient, ctx: Interaction | Message): Awaitable<unknown>;
+  abstract onFailure(structure: BaseStructure, ctx: Interaction | Message): Awaitable<unknown>;
 
   /**
-   * Register an inhibitor
+   * Register an inhibitor in collections
    * @returns {Promise<Inhibitor | ShewenyError>} The loaded inhibitor
    */
   public async register(): Promise<Inhibitor | ShewenyError> {

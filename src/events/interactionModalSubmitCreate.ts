@@ -49,7 +49,7 @@ export default async function run(client: ShewenyClient, interaction: ModalSubmi
         if (inhibitorsArray && inhibitorsArray.length) {
           const sorted = inhibitorsArray.sort((a, b) => b.priority - a.priority);
           for (const i of sorted) {
-            if (!(await i.execute(client, interaction))) return await i.onFailure(client, interaction);
+            if (!(await i.execute(modal, interaction))) return await i.onFailure(modal, interaction);
           }
         }
 

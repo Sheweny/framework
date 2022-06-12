@@ -58,7 +58,7 @@ export default async function run(client: ShewenyClient, message: Message) {
         if (inhibitorsArray && inhibitorsArray.length) {
           const sorted = inhibitorsArray.sort((a, b) => b.priority - a.priority);
           for (const i of sorted) {
-            if (!(await i.execute(client, message))) return await i.onFailure(client, message);
+            if (!(await i.execute(command, message))) return await i.onFailure(command, message);
           }
         }
 
