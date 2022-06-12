@@ -16,15 +16,16 @@ export class EventsManager extends BaseManager {
    * @type {EventsManagerDefaultOptions}
    */
   public default: EventsManagerDefaultOptions;
+
   /**
    * Collection of the events
-   * @type {Collection<string, Event> | null}
+   * @type {Collection<string, Event[]> | undefined}
    */
   public events?: Collection<string, Event[]>;
 
   /**
    * Constructor to manage events
-   * @param {ShewenyClient} client Client framework
+   * @param {ShewenyClient} [client] Client framework
    * @param {EventsManagerOptions} [options] The options of the event manager
    */
   constructor(client: ShewenyClient, options: EventsManagerOptions) {
@@ -38,7 +39,7 @@ export class EventsManager extends BaseManager {
 
   /**
    * Load all events in collection
-   * @returns {Promise<Collection<string, Event>>} the events
+   * @returns {Promise<Collection<string, Event[]> | undefined>} The events to load
    */
   public async loadAll(): Promise<Collection<string, Event[]> | undefined> {
     const loader = new Loader<'name', string, Event>(this.client, this.directory, 'name', {
@@ -54,10 +55,10 @@ export class EventsManager extends BaseManager {
 
   /**
    * Emit all events in collection
-   * @param {Collection<string, Event> | undefined} [events] Events collection that will be emit
+   * @param {Collection<string, Event[]> | undefined} [events] Events collection that will be emit
    * @returns {Promise<void>}
    */
-  public async registerAll(events: Collection<string, Event[]> | undefined | null = this.events): Promise<void> {
+  public async registerAll(events: Collection<string, Event[]>): Promise<void> {
     if (!events) throw new Error('No events found');
 
     for (const [name, evts] of events) {

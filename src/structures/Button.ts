@@ -14,16 +14,18 @@ export abstract class Button extends BaseStructure {
    * @type {number}
    */
   public cooldown: number;
+
   /**
    * Custom id for one or more buttons
-   * @type {string[] | RegExp[]}
+   * @type {CustomId}
    */
   public customId: CustomId;
 
   /**
    * Constructor for build a Button
-   * @param {ShewenyClient} client Client framework
-   * @param {string[] | RegExp[]} customId Custom id for one or more buttons
+   * @param {ShewenyClient} [client] Client framework
+   * @param {CustomId} [customId] Custom id for one or more buttons
+   * @param {ButtonData | undefined} [options] The options of the button
    */
   constructor(client: ShewenyClient, customId: CustomId, options?: ButtonData) {
     super(client);
@@ -47,7 +49,7 @@ export abstract class Button extends BaseStructure {
 
   /**
    * Register a button in collections
-   * @returns {Collection<string[] | RegExp[], Button>}
+   * @returns {Collection<CustomId, Button>}
    */
   public async register(): Promise<Button | ShewenyError> {
     if (!this.path) return new ShewenyError(this.client, 'PATH_NOT_DEFINE', 'Button', this.customId.toString());
@@ -58,7 +60,7 @@ export abstract class Button extends BaseStructure {
 
   /**
    * Reload a button
-   * @returns {Promise<Collection<string[] | RegExp[], Button> | ShewenyError>}
+   * @returns {Promise<Collection<CustomId, Button> | ShewenyError>}
    */
   public async reload(): Promise<Button | ShewenyError> {
     this.unregister();

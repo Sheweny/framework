@@ -17,8 +17,8 @@ export class BaseManager extends EventEmitter {
 
   /**
    * Constructor of BaseManager class (extends EventEmitter)
-   * @param {ShewenyClient} client
-   * @param {BaseManagerOptions} options
+   * @param {ShewenyClient} [client]
+   * @param {BaseManagerOptions} [options]
    */
   constructor(client: ShewenyClient, options: BaseManagerOptions) {
     super();

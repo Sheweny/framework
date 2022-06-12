@@ -12,19 +12,19 @@ import type { CustomId, SelectMenusManagerDefaultOptions, SelectMenusManagerOpti
 export class SelectMenusManager extends BaseManager {
   /**
    * Default data for the buttons
-   * @type {Collection<string[], Button> | undefined}
+   * @type {SelectMenusManagerDefaultOptions}
    */
   public default?: SelectMenusManagerDefaultOptions;
 
   /**
    * Collection of the select menus
-   * @type {Collection<string[], SelectMenu> | undefined}
+   * @type {Collection<CustomId, SelectMenu[]> | undefined}
    */
   public selectMenus?: Collection<CustomId, SelectMenu[]>;
 
   /**
    * Constructor to manage select menus
-   * @param {ShewenyClient} client Client framework
+   * @param {ShewenyClient} [client] Client framework
    * @param {SelectMenusManagerOptions} [options] The options of the manager
    */
   constructor(client: ShewenyClient, options: SelectMenusManagerOptions) {
@@ -36,7 +36,7 @@ export class SelectMenusManager extends BaseManager {
 
   /**
    * Load all select menus in collection
-   * @returns {Promise<Collection<string[], SelectMenu>>}
+   * @returns {Promise<Collection<string[], SelectMenu[]> | undefined>}
    */
   public async loadAll(): Promise<Collection<CustomId, SelectMenu[]> | undefined> {
     const loader = new Loader<'customId', CustomId, SelectMenu>(this.client, this.directory, 'customId', {

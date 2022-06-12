@@ -17,7 +17,7 @@ export abstract class Event extends BaseStructure {
 
   /**
    * Set the emitter of the event
-   * @type {Emitter}
+   * @type {EventEmitter}
    */
   public emitter: EventEmitter;
 
@@ -35,9 +35,9 @@ export abstract class Event extends BaseStructure {
 
   /**
    * Constructor for build a Event
-   * @param {ShewenyClient} client Client framework
-   * @param {string} name Name of the event
-   * @param {string[]} customId Custom id for one or more buttons
+   * @param {ShewenyClient} [client] Client framework
+   * @param {string} [name] Name of the event
+   * @param {EventData | undefined} [options] Custom id for one or more buttons
    */
   constructor(client: ShewenyClient, name: string, options?: EventData) {
     super(client);

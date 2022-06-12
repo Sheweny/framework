@@ -11,18 +11,18 @@ import type { ButtonsManagerDefaultOptions, ButtonsManagerOptions, CustomId } fr
 export class ButtonsManager extends BaseManager {
   /**
    * Collection of the buttons
-   * @type {Collection<string[], Button> | undefined}
+   * @type {Collection<CustomId, Button[]> | undefined}
    */
   public buttons?: Collection<CustomId, Button[]>;
 
   /**
    * Default data for the buttons
-   * @type {Collection<string[], Button> | undefined}
+   * @type {ButtonsManagerDefaultOptions}
    */
   public default?: ButtonsManagerDefaultOptions;
 
   /**
-   * Constructor to manage buttons
+   * Constructor of buttons manager
    * @param {ShewenyClient} client Client framework
    * @param {ButtonsManagerOptions} options The options of the manager
    */
@@ -35,7 +35,7 @@ export class ButtonsManager extends BaseManager {
 
   /**
    * Load all buttons in collection
-   * @returns {Promise<Collection<string[], Button>>}
+   * @returns {Promise<Collection<CustomId, Button[]> | undefined> }
    */
   public async loadAll(): Promise<Collection<CustomId, Button[]> | undefined> {
     const loader = new Loader<'customId', CustomId, Button>(this.client, this.directory, 'customId', {

@@ -16,14 +16,15 @@ export abstract class SelectMenu extends BaseStructure {
   public cooldown: number;
   /**
    * Custom id for one or more select menus
-   * @type {string[] | RegExp[]}
+   * @type {CustomId}
    */
   public customId: CustomId;
 
   /**
    * Constructor for build a Select Menu
-   * @param {ShewenyClient} client Client framework
-   * @param {string[] | RegExp[]} customId Custom id for one or more select menus
+   * @param {ShewenyClient} [client] Client framework
+   * @param {CustomId} [customId] Custom id for one or more select menus
+   * @param {SelectMenuData | undefined} [options] The options of the select menu
    */
   constructor(client: ShewenyClient, customId: CustomId, options?: SelectMenuData) {
     super(client);

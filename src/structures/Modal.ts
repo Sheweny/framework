@@ -22,8 +22,9 @@ export abstract class Modal extends BaseStructure {
 
   /**
    * Constructor to build a Modal
-   * @param {ShewenyClient} client Client framework
-   * @param {string[] | RegExp[]} customId Custom id for one or more modals
+   * @param {ShewenyClient} [client] Client framework
+   * @param {CustomId} [customId] Custom id for one or more modals
+   * @param {ModalData | undefined} [options] The options of the modal
    */
   constructor(client: ShewenyClient, customId: CustomId, options?: ModalData) {
     super(client);

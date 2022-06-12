@@ -80,8 +80,8 @@ export abstract class Command extends BaseStructure {
   public description: string;
 
   /**
-   * Description of a command
-   * @type {string | undefined}
+   * Localized descriptions of the command
+   * @type {LocalizationMap}
    */
   public descriptionLocalizations?: LocalizationMap;
 
@@ -98,8 +98,8 @@ export abstract class Command extends BaseStructure {
   public name: string;
 
   /**
-   * Name of a command
-   * @type {string}
+   * Localized names of the command
+   * @type {LocalizationMap}
    */
   public nameLocalizations?: LocalizationMap;
 
@@ -117,7 +117,7 @@ export abstract class Command extends BaseStructure {
 
   /**
    * Usage of a command
-   * @type {string}
+   * @type {string | string[] | undefined}
    */
   public usage?: string | string[];
 

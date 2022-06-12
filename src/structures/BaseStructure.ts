@@ -26,19 +26,20 @@ export abstract class BaseStructure {
 
   /**
    * Path to file
-   * @type {string}
+   * @type {string | undefined}
    */
   public path?: string;
 
   /**
    * Manager of the structure
-   * @type {Manager}
+   * @type {Manager | undefined}
    */
   public manager?: Manager;
 
   /**
    * Constructor for build base of any structures
-   * @param {ShewenyClient} client Client framework
+   * @param {ShewenyClient} [client] Client framework
+   * @param {boolean} [enabled] If the structure is enabled or not
    */
   constructor(client: ShewenyClient, enabled = true) {
     this.client = client as ShewenyClient;

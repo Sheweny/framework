@@ -18,13 +18,13 @@ export class InhibitorsManager extends BaseManager {
 
   /**
    * Collection of the inhibitors
-   * @type {Collection<string, Inhibitor> | undefined}
+   * @type {Collection<string, Inhibitor[]> | undefined}
    */
   public inhibitors?: Collection<string, Inhibitor[]>;
 
   /**
    * Constructor to manage inhibitors
-   * @param {ShewenyClient} client Client framework
+   * @param {ShewenyClient} [client] Client framework
    * @param {boolean} [options] The options of the manager
    */
   constructor(client: ShewenyClient, options: InhibitorsManagerOptions) {
@@ -37,7 +37,7 @@ export class InhibitorsManager extends BaseManager {
 
   /**
    * Load all inhibitors in collection
-   * @returns {Promise<Collection<string, Inhibitor[]>>}
+   * @returns {Promise<Collection<string, Inhibitor[]> | undefined>}
    */
   public async loadAll(): Promise<Collection<string, Inhibitor[]> | undefined> {
     const loader = new Loader<'name', string, Inhibitor>(this.client, this.directory, 'name', {

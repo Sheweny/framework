@@ -4,7 +4,7 @@
  * NPM: https://www.npmjs.com/package/sheweny
  * Author : Smaug6739 https://github.com/Smaug6739
  * License: MIT
- * Version: 3
+ * Version: 4
  */
 
 /**

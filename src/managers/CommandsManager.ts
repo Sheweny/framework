@@ -33,7 +33,7 @@ export class CommandsManager extends BaseManager {
 
   /**
    * Collection of the commands
-   * @type {Collection<string, Command> | undefined}
+   * @type {Collection<string, Command[]> | undefined}
    */
   public commands?: Collection<string, Command[]>;
 
@@ -45,7 +45,7 @@ export class CommandsManager extends BaseManager {
 
   /**
    * ID of the guild where are set Applications Commands
-   * @type {string | undefined}
+   * @type {Snowflake | Snowflake[] | undefined}
    */
   public guildId?: Snowflake | Snowflake[];
 
@@ -56,7 +56,7 @@ export class CommandsManager extends BaseManager {
   public prefix?: string;
 
   /**
-   * Constructor to manage commands
+   * Constructor of commands manager
    * @param {ShewenyClient} client Client framework
    * @param {CommandsManagerOptions} [options] Options of the commands manager
    */
@@ -82,9 +82,9 @@ export class CommandsManager extends BaseManager {
 
   /**
    * Create a command in the client's application commands
-   * @param {Command} command Command to create
+   * @param {Command} [command] Command to create
    * @param {Snowflake | undefined} [guildId] Guild ID where the order will be created
-   * @returns {Promise<ApplicationCommand<{}> | ApplicationCommand<{ guild: GuildResolvable }> | undefined>}
+   * @returns {Promise<ApplicationCommand<Record<string, unknown>> | ApplicationCommand<{ guild: GuildResolvable }> | undefined>}
    */
   public async createCommand(
     command: Command,
@@ -154,7 +154,7 @@ export class CommandsManager extends BaseManager {
   }
 
   /**
-   * Get data of Application Command
+   * Get data of application command
    * @param {Command} [command] The command to obtain data
    * @returns {ApplicationCommandData | null}
    */
@@ -215,7 +215,7 @@ export class CommandsManager extends BaseManager {
 
   /**
    * Load all commands in collection
-   * @returns {Promise<Collection<string, Command>>}
+   * @returns {Promise<Collection<string, Command[] | undefined>}
    */
   public async loadAll(): Promise<Collection<string, Command[]> | undefined> {
     const loader = new Loader<'name', string, Command>(this.client, this.directory, 'name', {

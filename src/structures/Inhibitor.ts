@@ -29,9 +29,9 @@ export abstract class Inhibitor extends BaseStructure {
 
   /**
    * Constructor for build a Inhibitor
-   * @param {ShewenyClient} client Client framework
-   * @param {string} name Name of the event
-   * @param {} [options] Options for the inhibitor
+   * @param {ShewenyClient} [client] Client framework
+   * @param {string} [name] Name of the event
+   * @param {InhibitorData | undefined} [options] Options of the inhibitor
    */
   constructor(client: ShewenyClient, name: string, options?: InhibitorData) {
     super(client);

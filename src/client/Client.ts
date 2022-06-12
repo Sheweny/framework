@@ -32,8 +32,8 @@ export class ShewenyClient extends Client {
   public readonly collections: ManagersCollections;
 
   /**
-   * If the client is ready
-   * @type {boolean}
+   * The cooldowns of the client
+   * @type {Cooldowns}
    */
   public readonly cooldowns: Cooldowns;
 
@@ -50,7 +50,7 @@ export class ShewenyClient extends Client {
   public disableCooldownsForAdmins: boolean;
 
   /**
-   * If the client joins a Thread when created
+   * If the client joins threads when created
    * @type {boolean}
    */
   public joinThreadsOnCreate: boolean;
@@ -61,20 +61,20 @@ export class ShewenyClient extends Client {
   public mode?: typeof CLIENT_MODE.prod | typeof CLIENT_MODE.dev;
 
   /**
-   * The manager of handlers
+   * The manager of client
    * @type {Managers}
    */
   public readonly managers: Managers;
 
   /**
-   * A util tool to resolve channel, user, get data etc
+   * A util tool to resolve and get informations
    * @type {ClientUtil}
    */
   public readonly util: ClientUtil;
 
   /**
    * Set options and your client is ready
-   * @param {ShewenyClientOptions} options Client framework options
+   * @param {ShewenyClientOptions} [options] Client framework options
    * @param {ClientOptions} [clientOptions] Client discord.js options
    */
   constructor(options: ShewenyClientOptions, clientOptions?: ClientOptions) {
@@ -99,7 +99,6 @@ export class ShewenyClient extends Client {
     this.joinThreadsOnCreate = options.joinThreadsOnCreate || false;
 
     /** **** MANAGERS ******/
-    // TODO: Remove loadAll option in managers
     this.managers = {};
 
     // BUTTONS

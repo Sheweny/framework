@@ -11,19 +11,19 @@ import type { CustomId, ModalsManagerDefaultOptions, ModalsManagerOptions } from
 export class ModalsManager extends BaseManager {
   /**
    * Default data for the buttons
-   * @type {Collection<string[], Button> | undefined}
+   * @type {ModalsManagerDefaultOptions}
    */
   public default?: ModalsManagerDefaultOptions;
 
   /**
    * Collection of modals
-   * @type {Collection<string[], Modal> | undefined}
+   * @type {Collection<CustomId, Modal> | undefined}
    */
   public modals?: Collection<CustomId, Modal[]>;
 
   /**
    * Constructor to manage modals
-   * @param {ShewenyClient} client Client framework
+   * @param {ShewenyClient} [client] Client framework
    * @param {boolean} [options] The options of the manager
    */
   constructor(client: ShewenyClient, options: ModalsManagerOptions) {
@@ -35,7 +35,7 @@ export class ModalsManager extends BaseManager {
 
   /**
    * Load all modals in collection
-   * @returns {Promise<Collection<string[], Modal>>}
+   * @returns {Promise<Collection<CustomId, Modal> | undefined>}
    */
   public async loadAll(): Promise<Collection<CustomId, Modal[]> | undefined> {
     const loader = new Loader<'customId', CustomId, Modal>(this.client, this.directory, 'customId', {
