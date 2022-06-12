@@ -2,7 +2,7 @@ import { BaseStructure } from './index.js';
 import { ShewenyError } from '../helpers/index.js';
 import type { ShewenyClient } from '../client/Client.js';
 import type { Interaction, Message } from 'discord.js';
-import type { Awaitable, InhibitorType, InhibitorOptions } from '../typescript/index.js';
+import type { Awaitable, InhibitorType, InhibitorData } from '../typescript/index.js';
 
 /**
  * Represents an Command structure
@@ -31,9 +31,9 @@ export abstract class Inhibitor extends BaseStructure {
    * Constructor for build a Inhibitor
    * @param {ShewenyClient} client Client framework
    * @param {string} name Name of the event
-   * @param {InhibitorOptions} [options] Options for the inhibitor
+   * @param {} [options] Options for the inhibitor
    */
-  constructor(client: ShewenyClient, name: string, options?: InhibitorOptions) {
+  constructor(client: ShewenyClient, name: string, options?: InhibitorData) {
     super(client);
     const defaultData = client.managers.inhibitors?.default || {};
 

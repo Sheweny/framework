@@ -2,7 +2,7 @@ import { BaseStructure } from './index.js';
 import { ShewenyError } from '../helpers/index.js';
 import type { EventEmitter } from 'events';
 import type { ShewenyClient } from '../client/Client.js';
-import type { EventOptions, Awaitable } from '../typescript/index.js';
+import type { EventData, Awaitable } from '../typescript/index.js';
 
 /**
  * Represents an Event structure
@@ -39,7 +39,7 @@ export abstract class Event extends BaseStructure {
    * @param {string} name Name of the event
    * @param {string[]} customId Custom id for one or more buttons
    */
-  constructor(client: ShewenyClient, name: string, options?: EventOptions) {
+  constructor(client: ShewenyClient, name: string, options?: EventData) {
     super(client);
     const defaultData = client.managers.events?.default || {};
 

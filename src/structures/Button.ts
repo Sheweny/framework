@@ -2,7 +2,7 @@ import { BaseStructure } from './BaseStructure.js';
 import { ShewenyError } from '../helpers/index.js';
 import type { ShewenyClient } from '../client/Client.js';
 import type { ButtonInteraction } from 'discord.js';
-import type { Awaitable, ButtonOptions, CustomId } from '../typescript/index.js';
+import type { Awaitable, ButtonData, CustomId } from '../typescript/index.js';
 
 /**
  * Represents an Button structure
@@ -25,7 +25,7 @@ export abstract class Button extends BaseStructure {
    * @param {ShewenyClient} client Client framework
    * @param {string[] | RegExp[]} customId Custom id for one or more buttons
    */
-  constructor(client: ShewenyClient, customId: CustomId, options?: ButtonOptions) {
+  constructor(client: ShewenyClient, customId: CustomId, options?: ButtonData) {
     super(client);
     this.cooldown = (options?.cooldown || client.managers.buttons?.default?.cooldown) ?? 0;
     this.customId = customId;

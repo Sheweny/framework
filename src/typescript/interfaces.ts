@@ -96,18 +96,12 @@ export interface ModalsManagerOptions extends BaseManagerOptions {
 export interface ModalsManagerDefaultOptions {
   cooldown?: number;
 }
-/**
- * Intrefaces of Commands
- */
+// ---------------STRUCTURES-DATA--------------- \\
 
-// Data option for `SLASH_COMMAND` type
-export interface SlashCommandData {
+// COMMAND STRUCTURE
+interface BaseCommand {
   name: string;
-  nameLocalizations?: LocalizationMap;
-  type?: typeof COMMAND_TYPE.cmdSlash;
-  description: string;
-  descriptionLocalizations?: LocalizationMap;
-  options?: ApplicationCommandOptionData[];
+  description?: string;
   category?: string;
   usage?: string | string[];
   examples?: string | string[];
@@ -116,54 +110,32 @@ export interface SlashCommandData {
   adminsOnly?: boolean;
   userPermissions?: PermissionResolvable[];
   clientPermissions?: PermissionResolvable[];
+}
+interface BaseApplicationCommand extends BaseCommand {
+  nameLocalizations?: LocalizationMap;
+  descriptionLocalizations?: LocalizationMap;
+}
+// Data option for `SLASH_COMMAND` type
+export interface SlashCommandData extends BaseApplicationCommand {
+  descriptionLocalizations?: LocalizationMap;
+  type?: typeof COMMAND_TYPE.cmdSlash;
+  options?: ApplicationCommandOptionData[];
 }
 
 // Data option for `CONTEXT_MENU_USER` type
-export interface ContextMenuUserData {
-  name: string;
-  nameLocalizations?: LocalizationMap;
+export interface ContextMenuUserData extends BaseApplicationCommand {
   type?: typeof COMMAND_TYPE.ctxUser;
-  description?: string;
-  category?: string;
-  usage?: string | string[];
-  examples?: string | string[];
-  channel?: typeof COMMAND_CHANNEL.dm | typeof COMMAND_CHANNEL.guild | typeof COMMAND_CHANNEL.global;
-  cooldown?: number;
-  adminsOnly?: boolean;
-  userPermissions?: PermissionResolvable[];
-  clientPermissions?: PermissionResolvable[];
 }
 
 // Data option for `CONTEXT_MENU_MESSAGE` type
-export interface ContextMenuMessageData {
-  name: string;
-  nameLocalizations?: LocalizationMap;
+export interface ContextMenuMessageData extends BaseApplicationCommand {
   type?: typeof COMMAND_TYPE.ctxMsg;
-  description?: string;
-  category?: string;
-  usage?: string | string[];
-  examples?: string | string[];
-  channel?: typeof COMMAND_CHANNEL.dm | typeof COMMAND_CHANNEL.guild | typeof COMMAND_CHANNEL.global;
-  cooldown?: number;
-  adminsOnly?: boolean;
-  userPermissions?: PermissionResolvable[];
-  clientPermissions?: PermissionResolvable[];
 }
 
 //  Data option for `MESSAGE_COMMAND` type
-export interface MessageData {
-  name: string;
+export interface MessageData extends BaseCommand {
   type?: typeof COMMAND_TYPE.cmdMsg;
   args?: MessageCommandOptionData[];
-  description?: string;
-  category?: string;
-  usage?: string | string[];
-  examples?: string | string[];
-  channel?: typeof COMMAND_CHANNEL.dm | typeof COMMAND_CHANNEL.guild;
-  cooldown?: number;
-  adminsOnly?: boolean;
-  userPermissions?: PermissionResolvable[];
-  clientPermissions?: PermissionResolvable[];
   aliases?: string[];
 }
 
@@ -189,34 +161,32 @@ export interface MessageCommandOptionData {
 export interface CommandMessageArgsResolved {
   [index: string]: unknown;
 }
-
-/**
- * Interfaces of events
- */
-
-export interface EventOptions {
+// EVENT STRUCTURE
+export interface EventData {
   description?: string;
   emitter?: EventEmitter;
   once?: boolean;
 }
-export interface ButtonOptions {
+// BUTTON STRUCTURE
+export interface ButtonData {
   cooldown?: number;
 }
-export interface ModalOptions {
+// MODAL STRUCTURE
+export interface ModalData {
   cooldown?: number;
 }
-export interface SelectMenuOptions {
+// SELECTMENU STRUCTURE
+export interface SelectMenuData {
   cooldown?: number;
 }
-export interface InhibitorOptions {
+// INHIBITOR STRUCTURE
+export interface InhibitorData {
   type?: InhibitorType[];
   priority?: number;
 }
-/**
- * Client interfaces
- */
 
-// Options for Sheweny client framework
+// ---------------CLIENT--------------- \\
+
 export interface ShewenyClientOptions extends ClientOptions {
   admins?: Snowflake[];
   disableCooldownsForAdmins?: boolean;
@@ -260,14 +230,6 @@ interface ManagersOptions {
   selectMenus?: BaseManagerOptions;
   modals?: BaseManagerOptions;
   inhibitors?: InhibitorsManagerOptions;
-}
-
-/**
- * loadFiles function
- */
-export interface LoadFilesOptions {
-  directory: string;
-  key: string;
 }
 
 // #endregion Interfaces

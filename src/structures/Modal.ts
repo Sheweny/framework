@@ -2,7 +2,7 @@ import { BaseStructure } from './BaseStructure.js';
 import { ShewenyError } from '../helpers/index.js';
 import type { ShewenyClient } from '../client/Client.js';
 import type { ModalSubmitInteraction } from 'discord.js';
-import type { Awaitable, ModalOptions, CustomId } from '../typescript/index.js';
+import type { Awaitable, ModalData, CustomId } from '../typescript/index.js';
 
 /**
  * Represents an Modal structure
@@ -25,7 +25,7 @@ export abstract class Modal extends BaseStructure {
    * @param {ShewenyClient} client Client framework
    * @param {string[] | RegExp[]} customId Custom id for one or more modals
    */
-  constructor(client: ShewenyClient, customId: CustomId, options?: ModalOptions) {
+  constructor(client: ShewenyClient, customId: CustomId, options?: ModalData) {
     super(client);
     this.cooldown = (options?.cooldown || client.managers.buttons?.default?.cooldown) ?? 0;
     this.customId = customId;
