@@ -89,8 +89,7 @@ export class Loader<MKN extends string, MKV, V extends StructureType<MKN, MKV>> 
       }
     } catch (err) {
       const error = err as Error;
-      // TODO: Handle this error
-      new ShewenyError(this.client, error);
+      new ShewenyError(this.client, 'LOAD_ERROR', path, error.message);
     }
   }
   private async loadStructure(StructureToLoad: StructureConstructable<MKN, MKV, V>, path: string) {
@@ -114,11 +113,9 @@ export class Loader<MKN extends string, MKV, V extends StructureType<MKN, MKV>> 
       // Set data on structure
       instance.path = path;
       instance.manager = this.manager;
-      // TODO: Handle arrays
       return this.collection.set(instance[this.mainKey], set);
     } catch (err) {
       const error = err as Error;
-      // TODO: Implement this error
       return new ShewenyWarning(this.client, 'INVALID_CLASS', StructureToLoad.toString(), path, error);
     }
   }

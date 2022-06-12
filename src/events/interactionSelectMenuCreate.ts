@@ -79,6 +79,6 @@ export default async function run(client: ShewenyClient, interaction: SelectMenu
     }
   } catch (err) {
     const e = err as Error;
-    new ShewenyError(client, e);
+    new ShewenyError(client, 'EVAL_ERROR', `select-menu with id ${interaction.customId}`, e.message);
   }
 }

@@ -81,6 +81,6 @@ export default async function run(client: ShewenyClient, interaction: ModalSubmi
     }
   } catch (err) {
     const e = err as Error;
-    new ShewenyError(client, e);
+    new ShewenyError(client, 'EVAL_ERROR', `modal with id ${interaction.customId}`, e.message);
   }
 }

@@ -21,6 +21,6 @@ export default async function run(client: ShewenyClient, interaction: Autocomple
     }
   } catch (err) {
     const e = err as Error;
-    new ShewenyError(client, e);
+    new ShewenyError(client, 'EVAL_ERROR', `autocomplete with command name ${interaction.commandName}`, e.message);
   }
 }

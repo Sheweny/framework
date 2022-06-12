@@ -4,7 +4,7 @@
 export type Awaitable<T> = PromiseLike<T> | T;
 export type Constructable<V> = new (...args: unknown[]) => V;
 
-type CallbackFunctionVariadic = (...args: any[]) => string;
+export type CallbackFunctionVariadic = (...args: any[]) => string;
 
 export interface IMessages {
   [key: string]: CallbackFunctionVariadic;

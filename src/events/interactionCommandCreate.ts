@@ -111,6 +111,6 @@ export default async function run(
     }
   } catch (err) {
     const e = err as Error;
-    new ShewenyError(client, e);
+    new ShewenyError(client, 'EVAL_ERROR', `command with name ${interaction.commandName}`, e.message);
   }
 }
