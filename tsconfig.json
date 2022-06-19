@@ -13,12 +13,10 @@
     "strict": true,
     "useUnknownInCatchVariables": true,
     "noUncheckedIndexedAccess": true,
-
     // Modules
     "module": "CommonJS",
     "moduleResolution": "node",
     "resolveJsonModule": true,
-
     // Emit
     "importHelpers": true,
     "importsNotUsedAsValues": "error",
@@ -32,7 +30,6 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
-
     // Language and Environment
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
