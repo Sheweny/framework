@@ -1,5 +1,5 @@
 import { Command, ShewenyClient } from 'sheweny';
-import type { CommandInteraction } from 'discord.js';
+import type { CommandInteraction, Message } from 'discord.js';
 
 export class PingCommand extends Command {
   constructor(client: ShewenyClient) {
@@ -13,5 +13,19 @@ export class PingCommand extends Command {
   }
   execute(interaction: CommandInteraction) {
     interaction.reply('You have MANAGE_MESSAGES permission.');
+  }
+}
+export class PingCommandMessage extends Command {
+  constructor(client: ShewenyClient) {
+    super(client, {
+      name: 'permissions',
+      description: 'Ping the bot',
+      type: 'MESSAGE_COMMAND',
+      category: 'Misc',
+      userPermissions: ['ManageMessages'],
+    });
+  }
+  execute(msg: Message) {
+    msg.reply('You have MANAGE_MESSAGES permission.');
   }
 }
