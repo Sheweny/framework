@@ -1,5 +1,5 @@
 import type { SlashCommandData, ContextMenuMessageData, ContextMenuUserData, MessageData } from './interfaces';
-import type { COMMAND_TYPE, INHIBITOR_TYPE } from '../constants/constants.js';
+import type { COMMANDS_MANAGER_STRATEGY, COMMAND_TYPE, INHIBITOR_TYPE } from '../constants/constants.js';
 import type {
   ButtonsManager,
   CommandsManager,
@@ -17,6 +17,7 @@ export type CustomId = Array<string | RegExp>;
 
 // Managers
 export type Manager = ButtonsManager | CommandsManager | EventsManager | InhibitorsManager | ModalsManager | SelectMenusManager;
+export type CommandManagerRegisterStrategy = typeof COMMANDS_MANAGER_STRATEGY.set | typeof COMMANDS_MANAGER_STRATEGY.create;
 // Structures
 export type Structure = Button | Command | Event | Inhibitor | Modal | SelectMenu;
 /**

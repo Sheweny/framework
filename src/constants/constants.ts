@@ -5,7 +5,11 @@ export const CLIENT_MODE = {
   dev: 'development' as const,
   prod: 'production' as const,
 };
-
+// CommandsManager
+export const COMMANDS_MANAGER_STRATEGY = {
+  set: 'set' as const,
+  create: 'create' as const,
+};
 /**
  * Command constants
  */

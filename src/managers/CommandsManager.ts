@@ -10,10 +10,15 @@ import {
 import { Loader } from '../utils/Loader.js';
 import { ShewenyInformation } from '../helpers/index.js';
 import { BaseManager } from './index.js';
-import { COMMAND_CHANNEL, COMMAND_TYPE } from '../constants/constants.js';
+import { COMMANDS_MANAGER_STRATEGY, COMMAND_CHANNEL, COMMAND_TYPE } from '../constants/constants.js';
 import { Command } from '../structures/index.js';
 import type { ShewenyClient } from '../client/Client.js';
-import type { CommandsManagerOptions, CommandsManagerDefaultOptions, MessageCommandPrefix } from '../typescript/index.js';
+import type {
+  CommandsManagerOptions,
+  CommandsManagerDefaultOptions,
+  MessageCommandPrefix,
+  CommandManagerRegisterStrategy,
+} from '../typescript/index.js';
 /**
  * Manager for Commands
  * @extends {EventEmitter}
@@ -56,6 +61,12 @@ export class CommandsManager extends BaseManager {
   public prefix?: MessageCommandPrefix;
 
   /**
+   * The strategy for register application commands
+   * @type {CommandManagerRegisterStrategy}
+   */
+  public registerStrategy?: CommandManagerRegisterStrategy;
+
+  /**
    * Constructor of commands manager
    * @param {ShewenyClient} client Client framework
    * @param {CommandsManagerOptions} [options] Options of the commands manager
@@ -78,6 +89,7 @@ export class CommandsManager extends BaseManager {
     };
     this.guildId = options?.guildId;
     this.prefix = options?.prefix;
+    this.registerStrategy = options.registerStrategy || COMMANDS_MANAGER_STRATEGY.set;
   }
 
   /**
@@ -246,9 +258,16 @@ export class CommandsManager extends BaseManager {
     const data = this.getAllApplicationCommandData(commands);
     if (!data || (data && !data.length)) return;
     await this.client.awaitReady();
-    if (guildId) await this.client.application?.commands.set(data, guildId);
-    else await this.client.application?.commands.set(data);
-
+    if (this.registerStrategy === COMMANDS_MANAGER_STRATEGY.set) {
+      if (guildId) await this.client.application?.commands.set(data, guildId);
+      else await this.client.application?.commands.set(data);
+    }
+    if (this.registerStrategy === COMMANDS_MANAGER_STRATEGY.create) {
+      for (const command of data) {
+        if (guildId) await this.client.application?.commands.create(command, guildId);
+        else await this.client.application?.commands.create(command);
+      }
+    }
     return true;
   }
 

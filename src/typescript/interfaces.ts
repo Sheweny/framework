@@ -30,7 +30,7 @@ import type {
   COMMAND_TYPE,
   INHIBITOR_TYPE,
 } from '../constants/constants.js';
-import type { CustomId, InhibitorType, MessageCommandPrefix } from './types.js';
+import type { CommandManagerRegisterStrategy, CustomId, InhibitorType, MessageCommandPrefix } from './types.js';
 
 /**
  * Interfaces of managers
@@ -44,6 +44,7 @@ export interface CommandsManagerOptions extends BaseManagerOptions {
   applicationPermissions?: boolean;
   autoRegisterApplicationCommands?: boolean;
   default?: CommandsManagerDefaultOptions;
+  registerStrategy?: CommandManagerRegisterStrategy;
 }
 export interface CommandsManagerDefaultOptions {
   adminOnly?: boolean;
