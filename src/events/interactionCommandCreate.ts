@@ -111,12 +111,11 @@ export default async function run(
         }
 
         /* ---------------COMMAND--------------- */
-
         await command.execute(interaction as CommandInteraction | ContextMenuCommandInteraction);
       })();
     }
   } catch (err) {
     const e = err as Error;
-    new ShewenyError(client, 'EVAL_ERROR', `command with name ${interaction.commandName}`, e.message);
+    new ShewenyError(client, e);
   }
 }

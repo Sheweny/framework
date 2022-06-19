@@ -216,6 +216,6 @@ export default async function run(client: ShewenyClient, message: Message) {
     }
   } catch (err) {
     const e = err as Error;
-    new ShewenyError(client, 'EVAL_ERROR', 'command message', e.message);
+    new ShewenyError(client, e);
   }
 }

@@ -81,6 +81,6 @@ export default async function run(client: ShewenyClient, interaction: ButtonInte
     }
   } catch (err) {
     const e = err as Error;
-    new ShewenyError(client, 'EVAL_ERROR', `button with id ${interaction.customId}`, e.message);
+    new ShewenyError(client, e);
   }
 }

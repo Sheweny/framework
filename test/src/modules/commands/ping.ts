@@ -17,6 +17,9 @@ export class PingCommand extends Command {
     });
   }
   execute(interaction: CommandInteraction) {
+    /* eslint-disable-next-line */
+    //@ts-ignore
+    interaction.a.b;
     interaction.reply('Pong !');
   }
 }
