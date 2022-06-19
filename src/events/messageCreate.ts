@@ -16,7 +16,9 @@ export default async function run(client: ShewenyClient, message: Message) {
   try {
     // message.content can be empty with the new message_content intent
     if (!message.content || message.author.bot) return;
-    const prefix = client.managers.commands?.prefix || '';
+    let prefix = '';
+    if (typeof client.managers.commands?.prefix === 'string') prefix = client.managers.commands.prefix;
+    if (typeof client.managers.commands?.prefix === 'function') prefix = await client.managers.commands.prefix(message);
     const args = message.content.trim().slice(prefix.length).split(/ +/g);
     if (!args[0]) return;
     if (!message.content?.startsWith(prefix)) return;

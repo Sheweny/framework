@@ -13,7 +13,7 @@ import { BaseManager } from './index.js';
 import { COMMAND_CHANNEL, COMMAND_TYPE } from '../constants/constants.js';
 import { Command } from '../structures/index.js';
 import type { ShewenyClient } from '../client/Client.js';
-import type { CommandsManagerOptions, CommandsManagerDefaultOptions } from '../typescript/index.js';
+import type { CommandsManagerOptions, CommandsManagerDefaultOptions, MessageCommandPrefix } from '../typescript/index.js';
 /**
  * Manager for Commands
  * @extends {EventEmitter}
@@ -53,7 +53,7 @@ export class CommandsManager extends BaseManager {
    * Prefix for the Message Commands
    * @type {string | undefined}
    */
-  public prefix?: string;
+  public prefix?: MessageCommandPrefix;
 
   /**
    * Constructor of commands manager

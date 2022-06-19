@@ -30,7 +30,7 @@ import type {
   COMMAND_TYPE,
   INHIBITOR_TYPE,
 } from '../constants/constants.js';
-import type { CustomId, InhibitorType } from './types.js';
+import type { CustomId, InhibitorType, MessageCommandPrefix } from './types.js';
 
 /**
  * Interfaces of managers
@@ -40,7 +40,7 @@ export interface BaseManagerOptions {
 }
 export interface CommandsManagerOptions extends BaseManagerOptions {
   guildId?: Snowflake | Snowflake[];
-  prefix?: string;
+  prefix?: MessageCommandPrefix;
   applicationPermissions?: boolean;
   autoRegisterApplicationCommands?: boolean;
   default?: CommandsManagerDefaultOptions;

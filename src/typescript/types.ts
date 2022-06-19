@@ -9,6 +9,8 @@ import type {
   SelectMenusManager,
 } from '../managers/index.js';
 import type { Button, Command, Event, Inhibitor, SelectMenu, Modal } from '../structures';
+import type { Message } from 'discord.js';
+import type { Awaitable } from './utilityTypes';
 
 /** **** UTIL ******/
 export type CustomId = Array<string | RegExp>;
@@ -22,6 +24,7 @@ export type Structure = Button | Command | Event | Inhibitor | Modal | SelectMen
  */
 // Type of data option in constructor
 export type CommandData = SlashCommandData | ContextMenuUserData | ContextMenuMessageData | MessageData;
+export type MessageCommandPrefix = string | ((msg: Message) => Awaitable<string>)
 
 // Type of th command structure
 export type CommandType =
