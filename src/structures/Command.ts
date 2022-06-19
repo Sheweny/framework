@@ -145,12 +145,15 @@ export abstract class Command extends BaseStructure {
     this.clientPermissions = (data.clientPermissions || defaultData.clientPermissions) ?? [];
     this.cooldown = (data.cooldown || defaultData.cooldown) ?? 0;
     this.description = (data.description || defaultData.description) ?? '';
+    this.descriptionLocalizations = !this.isType(type, COMMAND_TYPE.cmdMsg)
+      ? (data as SlashCommandData | ContextMenuUserData | ContextMenuMessageData).descriptionLocalizations || undefined
+      : undefined;
     this.examples = data.examples || defaultData.examples;
     this.name = data.name;
-    (this.nameLocalizations = !this.isType(type, COMMAND_TYPE.cmdMsg)
+    this.nameLocalizations = !this.isType(type, COMMAND_TYPE.cmdMsg)
       ? (data as SlashCommandData | ContextMenuUserData | ContextMenuMessageData).nameLocalizations || undefined
-      : undefined),
-      (this.options = this.isType(type, COMMAND_TYPE.cmdSlash) ? (data as SlashCommandData).options : undefined);
+      : undefined;
+    this.options = this.isType(type, COMMAND_TYPE.cmdSlash) ? (data as SlashCommandData).options : undefined;
     this.type = type;
     this.usage = data.usage || defaultData.usage;
     this.userPermissions = (data.userPermissions || defaultData.userPermissions) ?? [];

@@ -24,7 +24,7 @@ export type Structure = Button | Command | Event | Inhibitor | Modal | SelectMen
  */
 // Type of data option in constructor
 export type CommandData = SlashCommandData | ContextMenuUserData | ContextMenuMessageData | MessageData;
-export type MessageCommandPrefix = string | ((msg: Message) => Awaitable<string>)
+export type MessageCommandPrefix = string | ((msg: Message) => Awaitable<string>);
 
 // Type of th command structure
 export type CommandType =
