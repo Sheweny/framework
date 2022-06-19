@@ -46,34 +46,40 @@ export default async function run(
             if (!(await i.execute(command, interaction))) return await i.onFailure(command, interaction);
           }
         }
-
         /* ---------------PERMISSIONS--------------- */
+        const userMissingPerms: string[] = [];
+        const clientMissingPerms: string[] = [];
         if (command.adminsOnly && !client.admins?.includes(interaction.user.id)) {
-          return client.managers.commands?.emit(COMMAND_EVENTS.userMissingPerm, interaction, COMMAND_PERMISSIONS.admin);
+          userMissingPerms.push(COMMAND_PERMISSIONS.admin);
         }
 
         /* ---------------IN-GUILD--------------- */
-        if (interaction.inGuild() && interaction.guild) {
+        if (interaction.guild) {
           if (command.channel === COMMAND_CHANNEL.dm) {
             return client.managers.commands?.emit(COMMAND_EVENTS.invalidChannel, command, interaction);
           }
-          if (!client.managers.commands?.applicationPermissions) {
-            let member = interaction.guild.members.cache.get(interaction.user.id);
-            if (!member) member = await interaction.guild.members.fetch(interaction.user.id);
-            if (command.userPermissions.length) {
-              for (const permission of command.userPermissions) {
-                if (!member.permissions.has(permission)) {
-                  return client.managers.commands?.emit(COMMAND_EVENTS.userMissingPerm, interaction, permission);
-                }
+
+          let member = interaction.guild.members.cache.get(interaction.user.id);
+          if (!member) member = await interaction.guild.members.fetch(interaction.user.id);
+          if (command.userPermissions.length > 0) {
+            for (const permission of command.userPermissions) {
+              if (!member.permissions.has(permission)) {
+                userMissingPerms.push(permission.toString());
               }
+            }
+            if (userMissingPerms.length) {
+              return client.managers.commands?.emit(COMMAND_EVENTS.userMissingPerm, interaction, userMissingPerms, command);
             }
           }
 
-          if (command.clientPermissions.length) {
+          if (command.clientPermissions.length > 0) {
             for (const permission of command.clientPermissions) {
               if (!interaction.guild.members.me?.permissions.has(permission)) {
-                return client.managers.commands?.emit(COMMAND_EVENTS.clientMissingPerm, interaction, permission);
+                clientMissingPerms.push(permission.toString());
               }
+            }
+            if (clientMissingPerms.length) {
+              return client.managers.commands?.emit(COMMAND_EVENTS.clientMissingPerm, interaction, clientMissingPerms, command);
             }
           }
         } else if (command.channel === COMMAND_CHANNEL.guild) {

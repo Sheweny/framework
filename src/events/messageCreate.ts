@@ -65,8 +65,10 @@ export default async function run(client: ShewenyClient, message: Message) {
         }
 
         /* ---------------PERMISSIONS--------------- */
+        const userMissingPerms: string[] = [];
+        const clientMissingPerms: string[] = [];
         if (command.adminsOnly && !client.admins?.includes(message.author.id)) {
-          return client.managers.commands?.emit(COMMAND_EVENTS.userMissingPerm, message, COMMAND_PERMISSIONS.admin);
+          userMissingPerms.push(COMMAND_PERMISSIONS.admin);
         }
 
         /* ---------------IN-GUILD--------------- */
@@ -80,16 +82,22 @@ export default async function run(client: ShewenyClient, message: Message) {
           if (command.userPermissions.length > 0) {
             for (const permission of command.userPermissions) {
               if (!member.permissions.has(permission)) {
-                return client.managers.commands?.emit(COMMAND_EVENTS.userMissingPerm, message, permission);
+                userMissingPerms.push(permission.toString());
               }
+            }
+            if (userMissingPerms.length) {
+              return client.managers.commands?.emit(COMMAND_EVENTS.userMissingPerm, message, userMissingPerms, command);
             }
           }
 
           if (command.clientPermissions.length > 0) {
             for (const permission of command.clientPermissions) {
               if (!message.guild.members.me?.permissions.has(permission)) {
-                return client.managers.commands?.emit(COMMAND_EVENTS.clientMissingPerm, message, permission);
+                clientMissingPerms.push(permission.toString());
               }
+            }
+            if (clientMissingPerms.length) {
+              return client.managers.commands?.emit(COMMAND_EVENTS.clientMissingPerm, message, clientMissingPerms, command);
             }
           }
         } else if (command.channel === COMMAND_CHANNEL.guild) {
