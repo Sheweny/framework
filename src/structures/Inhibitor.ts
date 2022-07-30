@@ -1,7 +1,7 @@
 import { BaseStructure } from './index.js';
 import { ShewenyError } from '../helpers/index.js';
 import type { ShewenyClient } from '../client/Client.js';
-import type { Interaction, Message } from 'discord.js';
+import type { Interaction, Message, ContextMenuCommandInteraction, CommandInteraction } from 'discord.js';
 import type { Awaitable, InhibitorType, InhibitorData } from '../typescript/index.js';
 
 /**
@@ -47,14 +47,20 @@ export abstract class Inhibitor extends BaseStructure {
    * @param {any[]} args Button interaction
    * @returns: Awaitable<unknown>}
    */
-  abstract execute(structure: BaseStructure, ctx: Interaction | Message): Awaitable<unknown>;
+  abstract execute(
+    structure: BaseStructure,
+    ctx: Interaction | ContextMenuCommandInteraction | CommandInteraction | Message,
+  ): Awaitable<unknown>;
 
   /**
    * This function is executed when the main `execute` function has failed
    * @param {any[]} args Arguments
    * @returns: Awaitable<unknown>}
    */
-  abstract onFailure(structure: BaseStructure, ctx: Interaction | Message): Awaitable<unknown>;
+  abstract onFailure(
+    structure: BaseStructure,
+    ctx: Interaction | ContextMenuCommandInteraction | CommandInteraction | Message,
+  ): Awaitable<unknown>;
 
   /**
    * Register an inhibitor in collections

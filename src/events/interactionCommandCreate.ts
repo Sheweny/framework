@@ -1,13 +1,10 @@
-import { AutocompleteInteraction, Collection } from 'discord.js';
+import { Collection } from 'discord.js';
 import { COMMAND_TYPE, INHIBITOR_TYPE, COMMAND_CHANNEL, COMMAND_PERMISSIONS, COMMAND_EVENTS } from '../constants/constants.js';
 import { ShewenyError } from '../helpers/index.js';
 import type { ShewenyClient } from '../client/Client.js';
 import type { Inhibitor } from '../structures/index.js';
 import type { CommandInteraction, ContextMenuCommandInteraction } from 'discord.js';
-export default async function run(
-  client: ShewenyClient,
-  interaction: CommandInteraction | ContextMenuCommandInteraction | AutocompleteInteraction,
-) {
+export default async function run(client: ShewenyClient, interaction: CommandInteraction | ContextMenuCommandInteraction) {
   try {
     if (!client.managers.commands) return;
 
