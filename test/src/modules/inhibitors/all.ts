@@ -12,7 +12,7 @@ export class BlackListInhibitor extends Inhibitor {
     console.log('Inhibitor called');
     return !['809702809196560405'].includes(ctx.guildId!);
   }
-  onFailure(structure: BaseStructure, interaction: CommandInteraction | MessageComponentInteraction) {
+  onFailure(structure: BaseStructure, interaction: Interaction) {
     if (interaction.type === InteractionType.ApplicationCommand || interaction.type === InteractionType.MessageComponent) {
       interaction.reply('Your guild is blacklisted.');
     }
