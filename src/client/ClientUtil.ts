@@ -11,23 +11,23 @@ export class ClientUtil extends DiscordResolve {
   }
   // BUTTONS
   public getButtons() {
-    return Array.from(this.client.collections.buttons.values());
+    return this.client.collections.buttons.toJSON();
   }
   // COMMANDS
   public getCommands() {
-    return Array.from(this.client.collections.commands.values());
+    return this.client.collections.commands.toJSON();
   }
   // EVENTS
   public getEvents() {
-    return Array.from(this.client.collections.events.values());
+    return this.client.collections.events.toJSON();
   }
   // INHIBITORS
   public getInhibitors() {
-    return Array.from(this.client.collections.inhibitors.values());
+    return this.client.collections.inhibitors.toJSON();
   }
   // SELECT MENUS
   public getSelectMenus() {
-    return Array.from(this.client.collections.selectMenus.values());
+    return this.client.collections.selectMenus.toJSON();
   }
 
   /* Resolve */
