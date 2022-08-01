@@ -2,6 +2,12 @@
 
 **All notable changes to this project will be documented in this file.**
 
+# [[4.0.2]](https://github.com/Sheweny/framework/compare/4.0.1...4.0.2) - August 1, 2022
+
+### typings
+
+- Fix typings: Add typings
+
 # [[4.0.1]](https://github.com/Sheweny/framework/compare/4.0.0...4.0.1) - August 1, 2022
 
 ### Fixes
