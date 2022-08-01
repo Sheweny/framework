@@ -7,6 +7,7 @@
 ### Fixes
 
 - Fix adminsOnly permission on commands (slash-commands AND message-commands) ([cff7c76](https://github.com/Sheweny/framework/commit/cff7c764c2d2973bfddba2b16d7d09022a2ab4b6))
+- Fix `ClientUtil#getX` return an array of structures instedof an array of arrays ([05aaacb](https://github.com/Sheweny/framework/commit/05aaacba82c6a6e12989571cd5410d6235581996))
 
 # [[4.0.0]](https://github.com/Sheweny/framework/compare/3.3.5...4.0.0) - July 30, 2022
 
