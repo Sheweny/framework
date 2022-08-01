@@ -85,20 +85,19 @@ export default async function run(client: ShewenyClient, message: Message) {
                 userMissingPerms.push(permission.toString());
               }
             }
-            if (userMissingPerms.length) {
-              return client.managers.commands?.emit(COMMAND_EVENTS.userMissingPerm, message, userMissingPerms, command);
-            }
           }
-
+          if (userMissingPerms.length) {
+            return client.managers.commands?.emit(COMMAND_EVENTS.userMissingPerm, message, userMissingPerms, command);
+          }
           if (command.clientPermissions.length > 0) {
             for (const permission of command.clientPermissions) {
               if (!message.guild.members.me?.permissions.has(permission)) {
                 clientMissingPerms.push(permission.toString());
               }
             }
-            if (clientMissingPerms.length) {
-              return client.managers.commands?.emit(COMMAND_EVENTS.clientMissingPerm, message, clientMissingPerms, command);
-            }
+          }
+          if (clientMissingPerms.length) {
+            return client.managers.commands?.emit(COMMAND_EVENTS.clientMissingPerm, message, clientMissingPerms, command);
           }
         } else if (command.channel === COMMAND_CHANNEL.guild) {
           return client.managers.commands?.emit(COMMAND_EVENTS.invalidChannel, command, message);
