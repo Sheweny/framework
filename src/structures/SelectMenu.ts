@@ -27,7 +27,7 @@ export abstract class SelectMenu extends BaseStructure {
    * @param {SelectMenuData | undefined} [options] The options of the select menu
    */
   constructor(client: ShewenyClient, customId: CustomId, options?: SelectMenuData) {
-    super(client);
+    super(client, options?.enabled);
     this.cooldown = (options?.cooldown || client.managers.buttons?.default?.cooldown) ?? 0;
     this.customId = customId;
   }

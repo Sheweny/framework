@@ -14,12 +14,12 @@ export class PingCommand extends Command {
       },
       type: 'SLASH_COMMAND',
       channel: 'GLOBAL',
+      enabled: true,
     });
   }
   execute(interaction: CommandInteraction) {
-    /* eslint-disable-next-line */
-    //@ts-ignore
-    interaction.a.b;
+    console.log('Ping command executed !');
+
     interaction.reply('Pong !');
   }
 }

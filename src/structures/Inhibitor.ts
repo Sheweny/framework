@@ -34,7 +34,7 @@ export abstract class Inhibitor extends BaseStructure {
    * @param {InhibitorData | undefined} [options] Options of the inhibitor
    */
   constructor(client: ShewenyClient, name: string, options?: InhibitorData) {
-    super(client);
+    super(client, options?.enabled);
     const defaultData = client.managers.inhibitors?.default || {};
 
     this.name = name;

@@ -133,7 +133,7 @@ export abstract class Command extends BaseStructure {
    * @param {CommandData} data Data for build a Command
    */
   constructor(client: ShewenyClient, data: CommandData) {
-    super(client);
+    super(client, data.enabled);
     const defaultData = client.managers.commands?.default || {};
     const type = data.type || defaultData.type || COMMAND_TYPE.cmdMsg;
 

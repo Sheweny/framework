@@ -13,7 +13,5 @@ export default class Ready extends Event {
   async execute(client: Client): Promise<void> {
     console.log('Ready 1 : The client is logged in.');
     client.user?.setActivity('with Sheweny V4-dev !');
-    // this.client.application?.commands.set([]);
-    // this.client.application?.commands.set([], '877090306103840778');
   }
 }

@@ -28,7 +28,7 @@ export abstract class Button extends BaseStructure {
    * @param {ButtonData | undefined} [options] The options of the button
    */
   constructor(client: ShewenyClient, customId: CustomId, options?: ButtonData) {
-    super(client);
+    super(client, options?.enabled);
     this.cooldown = (options?.cooldown || client.managers.buttons?.default?.cooldown) ?? 0;
     this.customId = customId;
   }

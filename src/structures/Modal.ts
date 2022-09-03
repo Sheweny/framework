@@ -27,7 +27,7 @@ export abstract class Modal extends BaseStructure {
    * @param {ModalData | undefined} [options] The options of the modal
    */
   constructor(client: ShewenyClient, customId: CustomId, options?: ModalData) {
-    super(client);
+    super(client, options?.enabled);
     this.cooldown = (options?.cooldown || client.managers.buttons?.default?.cooldown) ?? 0;
     this.customId = customId;
   }

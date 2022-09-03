@@ -105,6 +105,7 @@ interface BaseCommand {
   description?: string;
   category?: string;
   usage?: string | string[];
+  enabled?: boolean;
   examples?: string | string[];
   channel?: typeof COMMAND_CHANNEL.dm | typeof COMMAND_CHANNEL.guild | typeof COMMAND_CHANNEL.global;
   cooldown?: number;
@@ -170,18 +171,22 @@ export interface EventData {
 }
 // BUTTON STRUCTURE
 export interface ButtonData {
+  enabled?: boolean;
   cooldown?: number;
 }
 // MODAL STRUCTURE
 export interface ModalData {
+  enabled?: boolean;
   cooldown?: number;
 }
 // SELECTMENU STRUCTURE
 export interface SelectMenuData {
+  enabled?: boolean;
   cooldown?: number;
 }
 // INHIBITOR STRUCTURE
 export interface InhibitorData {
+  enabled?: boolean;
   type?: InhibitorType[];
   priority?: number;
 }
