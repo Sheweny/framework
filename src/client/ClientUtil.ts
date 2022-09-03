@@ -17,10 +17,6 @@ export class ClientUtil extends DiscordResolve {
   }
   // COMMANDS
   public getCommands(): Command[] {
-    console.log(
-      '------------------------------getCommands() is deprecated, use getCommand() instead.---------------------------------',
-    );
-
     return this.client.collections.commands
       .toJSON()
       .map((c: Command[]) => c.flat(1))
