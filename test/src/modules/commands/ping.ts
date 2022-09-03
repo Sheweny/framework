@@ -18,8 +18,7 @@ export class PingCommand extends Command {
     });
   }
   execute(interaction: CommandInteraction) {
-    console.log('Ping command executed !');
-
+    console.log(this.client.util.getButtons());
     interaction.reply('Pong !');
   }
 }
