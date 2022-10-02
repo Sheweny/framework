@@ -1,8 +1,9 @@
 import { EventEmitter } from 'events';
+import type { Collection } from 'discord.js';
 import type { ShewenyClient } from '../client/Client.js';
 import type { BaseManagerOptions } from '../typescript/index.js';
 
-export class BaseManager extends EventEmitter {
+export abstract class BaseManager extends EventEmitter {
   /**
    * Client framework
    * @type {ShewenyClient}
@@ -14,6 +15,12 @@ export class BaseManager extends EventEmitter {
    * @type {string}
    */
   public readonly directory: string;
+
+  /**
+   * Load all structures in collection
+   * @returns {Promise<Collection<K, V[]> | undefined>}
+   */
+  public abstract loadAll(): Promise<Collection<unknown, unknown[]> | undefined>;
 
   /**
    * Constructor of BaseManager class (extends EventEmitter)
