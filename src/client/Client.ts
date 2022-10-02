@@ -78,7 +78,7 @@ export class ShewenyClient extends Client {
    * @param {ClientOptions} [clientOptions] Client discord.js options
    */
   constructor(options: ShewenyClientOptions, clientOptions?: ClientOptions) {
-    super(options || clientOptions);
+    super(clientOptions || options);
     this.admins = options.admins || [];
     this.collections = {
       commands: new Collection(),
