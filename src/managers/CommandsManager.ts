@@ -233,6 +233,7 @@ export class CommandsManager extends BaseManager {
     const loader = new Loader<'name', string, Command>(this.client, this.directory, 'name', {
       manager: this,
       instance: Command,
+      asyncRead: this.asyncRead,
     });
     this.commands = await loader.load();
     new ShewenyInformation(this.client, `- Commands loaded : ${this.commands.size}`);

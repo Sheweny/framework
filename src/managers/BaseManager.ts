@@ -5,6 +5,11 @@ import type { BaseManagerOptions } from '../typescript/index.js';
 
 export abstract class BaseManager extends EventEmitter {
   /**
+   * Directory to load
+   * @type {boolean}
+   */
+  public readonly asyncRead: boolean;
+  /**
    * Client framework
    * @type {ShewenyClient}
    */
@@ -32,6 +37,7 @@ export abstract class BaseManager extends EventEmitter {
     if (!client) throw new TypeError('Client must be provided.');
     if (!options || (options && !options?.directory)) throw new TypeError('Directory must be provided.');
 
+    this.asyncRead = options.asyncRead ?? false;
     this.client = client;
     this.directory = options.directory;
   }

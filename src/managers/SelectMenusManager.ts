@@ -42,6 +42,7 @@ export class SelectMenusManager extends BaseManager {
     const loader = new Loader<'customId', CustomId, SelectMenu>(this.client, this.directory, 'customId', {
       manager: this,
       instance: SelectMenu,
+      asyncRead: this.asyncRead,
     });
     this.selectMenus = await loader.load();
     new ShewenyInformation(this.client, `- Select-menus loaded : ${this.selectMenus.size}`);

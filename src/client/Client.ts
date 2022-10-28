@@ -104,7 +104,7 @@ export class ShewenyClient extends Client {
     // BUTTONS
     if (options.managers?.buttons) {
       this.managers.buttons = new ButtonsManager(this, {
-        directory: options.managers.buttons.directory,
+        ...options.managers.buttons,
       });
       this.managers.buttons.loadAll().then(buttons => {
         if (buttons) this.collections.buttons = buttons;
@@ -113,12 +113,8 @@ export class ShewenyClient extends Client {
     // COMMANDS
     if (options.managers?.commands) {
       this.managers.commands = new CommandsManager(this, {
-        directory: options.managers.commands.directory,
-        guildId: options.managers.commands.guildId,
-        prefix: options.managers.commands.prefix,
-        applicationPermissions: options.managers.commands.applicationPermissions,
+        ...options.managers.commands,
         autoRegisterApplicationCommands: options.managers.commands.autoRegisterApplicationCommands ?? true,
-        default: options.managers.commands.default,
       });
 
       this.managers.commands.loadAll().then(commands => {
@@ -128,8 +124,7 @@ export class ShewenyClient extends Client {
     // EVENTS
     if (options.managers?.events) {
       this.managers.events = new EventsManager(this, {
-        directory: options.managers.events.directory,
-        default: options.managers.events.default,
+        ...options.managers.events,
       });
       this.managers.events.loadAll().then(events => {
         if (events) this.collections.events = events;
@@ -138,8 +133,7 @@ export class ShewenyClient extends Client {
     // INHIBITORS
     if (options.managers?.inhibitors) {
       this.managers.inhibitors = new InhibitorsManager(this, {
-        directory: options.managers.inhibitors.directory,
-        default: options.managers.inhibitors.default,
+        ...options.managers.inhibitors,
       });
       this.managers.inhibitors.loadAll().then(inhibitors => {
         if (inhibitors) this.collections.inhibitors = inhibitors;
@@ -148,7 +142,7 @@ export class ShewenyClient extends Client {
     // MODALS
     if (options.managers?.modals) {
       this.managers.modals = new ModalsManager(this, {
-        directory: options.managers.modals.directory,
+        ...options.managers.modals,
       });
       this.managers.modals.loadAll().then(modals => {
         if (modals) this.collections.modals = modals;
@@ -157,7 +151,7 @@ export class ShewenyClient extends Client {
     // SELECT MENUS
     if (options.managers?.selectMenus) {
       this.managers.selectMenus = new SelectMenusManager(this, {
-        directory: options.managers.selectMenus.directory,
+        ...options.managers.selectMenus,
       });
       this.managers.selectMenus.loadAll().then(selectmenus => {
         if (selectmenus) this.collections.selectMenus = selectmenus;

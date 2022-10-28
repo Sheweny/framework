@@ -45,6 +45,7 @@ export class EventsManager extends BaseManager {
     const loader = new Loader<'name', string, Event>(this.client, this.directory, 'name', {
       manager: this,
       instance: Event,
+      asyncRead: this.asyncRead,
     });
     this.events = await loader.load();
     new ShewenyInformation(this.client, `- Events loaded : ${this.events.size}`);

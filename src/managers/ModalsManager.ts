@@ -41,6 +41,7 @@ export class ModalsManager extends BaseManager {
     const loader = new Loader<'customId', CustomId, Modal>(this.client, this.directory, 'customId', {
       manager: this,
       instance: Modal,
+      asyncRead: this.asyncRead,
     });
     this.modals = await loader.load();
     new ShewenyInformation(this.client, `- Modals loaded : ${this.modals.size}`);

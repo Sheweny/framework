@@ -39,6 +39,7 @@ export class ButtonsManager extends BaseManager {
    */
   public async loadAll(): Promise<Collection<CustomId, Button[]> | undefined> {
     const loader = new Loader<'customId', CustomId, Button>(this.client, this.directory, 'customId', {
+      asyncRead: this.asyncRead,
       manager: this,
       instance: Button,
     });

@@ -37,6 +37,7 @@ import type { CommandManagerRegisterStrategy, CustomId, InhibitorType, MessageCo
  */
 export interface BaseManagerOptions {
   directory: string;
+  asyncRead?: boolean;
 }
 export interface CommandsManagerOptions extends BaseManagerOptions {
   guildId?: Snowflake | Snowflake[];

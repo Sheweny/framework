@@ -2,7 +2,6 @@ import { Collection } from 'discord.js';
 import { ShewenyError, ShewenyWarning } from '../helpers/index.js';
 
 import type { ShewenyClient } from '../client/Client.js';
-// import type { Constructable } from '../typescript/utilityTypes';
 
 import { readdir, stat } from 'fs/promises';
 import { resolve } from 'node:path';
@@ -10,10 +9,6 @@ import type { BaseStructure } from '../structures/index.js';
 import type { Class, Manager, Structure } from '../typescript/index.js';
 
 // Version 2.0.0
-// type property = string; // | number | symbol;
-/* type WithProperty<K extends property, V = {}> = {
-  [P in K] : V
-}*/
 type WithMainProperty<K extends string, V> = { [P in K]: V };
 type StructureConstructed<MKN extends string, MKV, V> = V & WithMainProperty<MKN, MKV>;
 type StructureConstructable<MKN extends string, MKV, S> = { _id: string } & (new (client: ShewenyClient) => S &
@@ -23,6 +18,7 @@ type StructureType<MKN extends string, MKV> = BaseStructure & WithMainProperty<M
 interface LoaderOptions {
   instance: Class<Structure>;
   manager: Manager;
+  asyncRead?: boolean;
 }
 
 export class Loader<MKN extends string, MKV, V extends StructureType<MKN, MKV>> {
@@ -32,6 +28,7 @@ export class Loader<MKN extends string, MKV, V extends StructureType<MKN, MKV>> 
   public readonly mainPath: string;
   public readonly paths: Array<string>;
   public readonly manager: Manager;
+  public readonly asyncRead: boolean;
   public readonly instance: Class<Structure>;
 
   constructor(client: ShewenyClient, path: string, mainKey: MKN, options: LoaderOptions) {
@@ -42,17 +39,25 @@ export class Loader<MKN extends string, MKV, V extends StructureType<MKN, MKV>> 
     this.mainKey = mainKey;
     this.manager = options.manager;
     this.instance = options.instance;
+    this.asyncRead = options.asyncRead ?? false;
   }
 
-  // Return the number of loaded paths
+  // Load all structures
   public async load(dir: string = this.mainPath) {
     if (dir) await this.readDirectory(this.absolutePath(dir));
     else if (this.mainPath) await this.readDirectory(this.mainPath);
     else new ShewenyError(this.client, 'MISSING_PATH_LOADER');
     if (!this.paths.length) return this.collection;
-    for (const path of this.paths) {
-      await this.loadFileStructures(path);
+
+    if (this.asyncRead) {
+      await Promise.all(this.paths.map(async path => await this.loadFileStructures(path)));
+    } else {
+      for (const path of this.paths) {
+        await this.loadFileStructures(path);
+      }
     }
+
+    // Return the collection
     return this.collection;
   }
 
@@ -68,11 +73,22 @@ export class Loader<MKN extends string, MKV, V extends StructureType<MKN, MKV>> 
 
   private async readDirectory(dir: string) {
     const result = await readdir(dir);
-    for (const item of result) {
-      const resolvedPath: string = resolve(dir, item);
-      const infos = await stat(resolvedPath);
-      if (infos.isDirectory()) await this.readDirectory(resolvedPath);
-      else this.paths.push(resolvedPath);
+    if (this.asyncRead) {
+      await Promise.all(
+        result.map(async file => {
+          const path = resolve(dir, file);
+          const stats = await stat(path);
+          if (stats.isDirectory()) return this.readDirectory(path);
+          else if (stats.isFile()) this.paths.push(path);
+        }),
+      );
+    } else {
+      for (const file of result) {
+        const path = resolve(dir, file);
+        const stats = await stat(path);
+        if (stats.isDirectory()) await this.readDirectory(path);
+        else if (stats.isFile()) this.paths.push(path);
+      }
     }
   }
 
