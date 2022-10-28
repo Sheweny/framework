@@ -14,11 +14,9 @@ export class PingCommand extends Command {
       },
       type: 'SLASH_COMMAND',
       channel: 'GLOBAL',
-      enabled: true,
     });
   }
   execute(interaction: CommandInteraction) {
-    console.log(this.client.util.getButtons());
     interaction.reply('Pong !');
   }
 }

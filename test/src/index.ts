@@ -1,4 +1,4 @@
-import { ShewenyClient } from 'sheweny';
+import { ShewenyClient, ButtonsManager, SelectMenusManager } from 'sheweny';
 import { GatewayIntentBits, IntentsBitField, Partials } from 'discord.js';
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
@@ -36,12 +36,6 @@ const client = new ShewenyClient({
       },
     },
 
-    buttons: {
-      directory: './modules',
-    },
-    selectMenus: {
-      directory: './modules',
-    },
     events: {
       directory: './modules',
       default: {

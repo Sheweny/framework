@@ -36,12 +36,6 @@ const client = new sheweny_1.ShewenyClient({
                 userPermissions: [],
             },
         },
-        buttons: {
-            directory: './modules',
-        },
-        selectMenus: {
-            directory: './modules',
-        },
         events: {
             directory: './modules',
             default: {
