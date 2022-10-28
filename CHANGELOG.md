@@ -2,6 +2,18 @@
 
 **All notable changes to this project will be documented in this file.**
 
+## [[4.1.0]](https://github.com/Sheweny/framework/compare/4.0.3...4.1.0) - Octobeer 28, 2022
+
+### Added
+
+- [Loader]: Add `asyncRead` option to read files asynchronously (improve loading time ~20%-40%) ([552dc9e](https://github.com/Sheweny/framework/commit/552dc9e3876534702b926d81da085f1e70cf3384)).
+- [ButtonsManager]: Add `asyncRead` option to load files asynchronously (use the new loader option). Default: `false` ([552dc9e](https://github.com/Sheweny/framework/commit/552dc9e3876534702b926d81da085f1e70cf3384)).
+- [CommandsManager]: Add `asyncRead` option to load files asynchronously (use the new loader option). Default: `false` ([552dc9e](https://github.com/Sheweny/framework/commit/552dc9e3876534702b926d81da085f1e70cf3384)).
+- [EventsManager]: Add `asyncRead` option to load files asynchronously (use the new loader option). Default: `false` ([552dc9e](https://github.com/Sheweny/framework/commit/552dc9e3876534702b926d81da085f1e70cf3384)).
+- [InhibitorsManager]: Add `asyncRead` option to load files asynchronously (use the new loader option). Default: `false` ([552dc9e](https://github.com/Sheweny/framework/commit/552dc9e3876534702b926d81da085f1e70cf3384)).
+- [ModalManager]: Add `asyncRead` option to load files asynchronously (use the new loader option). Default: `false` ([552dc9e](https://github.com/Sheweny/framework/commit/552dc9e3876534702b926d81da085f1e70cf3384)).
+- [SelectMenusManager]: Add `asyncRead` option to load files asynchronously (use the new loader option). Default: `false` ([552dc9e](https://github.com/Sheweny/framework/commit/552dc9e3876534702b926d81da085f1e70cf3384)).
+
 ## [[4.0.3]](https://github.com/Sheweny/framework/compare/4.0.2...4.0.3) - September 3, 2022
 
 ### Fixes
