@@ -87,7 +87,7 @@ export class Loader<MKN extends string, MKV, V extends StructureType<MKN, MKV>> 
         const path = resolve(dir, file);
         const stats = await stat(path);
         if (stats.isDirectory()) await this.readDirectory(path);
-        else if (stats.isFile()) this.paths.push(path);
+        else if ((stats.isFile() && file.endsWith('.js')) || file.endsWith('.ts')) this.paths.push(path);
       }
     }
   }
