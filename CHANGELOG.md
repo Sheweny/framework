@@ -2,7 +2,13 @@
 
 **All notable changes to this project will be documented in this file.**
 
-## [[4.1.0]](https://github.com/Sheweny/framework/compare/4.0.3...4.1.0) - Octobeer 28, 2022
+## [[4.1.1]](https://github.com/Sheweny/framework/compare/4.1.0...4.1.1) - October 29, 2022
+
+### Fixed
+
+- [Loader] Fix filter of files only accept .js and .ts files ([37dec6f](https://github.com/Sheweny/framework/commit/37dec6f2094be18012a8c4e308c12af3afda90ca))
+
+## [[4.1.0]](https://github.com/Sheweny/framework/compare/4.0.3...4.1.0) - October 28, 2022
 
 ### Added
 
