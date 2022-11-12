@@ -83,7 +83,7 @@ const config = require('./config.json');
 
 const client = new ShewenyClient({
   admins: ['611468402263064577'],
-  intents: ['GUILDS', 'GUILD_MEMBERS'],
+  intents: ['Guilds', 'GuildMembers'],
   partials: ['GUILD_MEMBER'],
   mode: 'development',
   managers: {
