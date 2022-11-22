@@ -31,6 +31,12 @@ export class CommandsManager extends BaseManager {
   public applicationPermissions?: boolean;
 
   /**
+   * Register application commands
+   * @type {boolean}
+   */
+  public autoRegisterApplicationCommands: boolean;
+
+  /**
    * Collection of the commands
    * @type {Collection<string, Command[]> | undefined}
    */
@@ -69,6 +75,7 @@ export class CommandsManager extends BaseManager {
     super(client, options);
 
     this.applicationPermissions = options?.applicationPermissions || false;
+    this.autoRegisterApplicationCommands = options?.autoRegisterApplicationCommands || false;
     this.default = {
       adminOnly: options.default?.adminOnly,
       registerApplicationCommands: options.default?.registerApplicationCommands,
@@ -232,7 +239,7 @@ export class CommandsManager extends BaseManager {
     this.commands = await loader.load();
     new ShewenyInformation(this.client, `- Commands loaded : ${this.commands.size}`);
 
-    if (this.commands?.size /* && this.autoRegisterApplicationCommands*/) {
+    if (this.commands?.size && this.autoRegisterApplicationCommands) {
       await this.registerApplicationCommands(this.commands, this.guildId);
     }
 

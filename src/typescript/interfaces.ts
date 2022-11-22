@@ -43,6 +43,7 @@ export interface CommandsManagerOptions extends BaseManagerOptions {
   guildId?: Snowflake | Snowflake[];
   prefix?: MessageCommandPrefix;
   applicationPermissions?: boolean;
+  autoRegisterApplicationCommands?: boolean;
   default?: CommandsManagerDefaultOptions;
   registerStrategy?: CommandManagerRegisterStrategy;
 }
