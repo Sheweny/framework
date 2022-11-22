@@ -14,6 +14,7 @@ export class PingCommand extends Command {
       },
       type: 'SLASH_COMMAND',
       channel: 'GLOBAL',
+      registerApplicationCommands: true,
     });
   }
   execute(interaction: CommandInteraction) {

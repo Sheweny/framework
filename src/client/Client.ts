@@ -114,7 +114,6 @@ export class ShewenyClient extends Client {
     if (options.managers?.commands) {
       this.managers.commands = new CommandsManager(this, {
         ...options.managers.commands,
-        autoRegisterApplicationCommands: options.managers.commands.autoRegisterApplicationCommands ?? true,
       });
 
       this.managers.commands.loadAll().then(commands => {

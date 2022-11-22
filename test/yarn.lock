@@ -4,7 +4,7 @@
 
 "sheweny@file:..":
   "resolved" "file:.."
-  "version" "4.0.3"
+  "version" "4.1.1"
   dependencies:
     "@sheweny/resolve" "^1.3.2"
     "tslib" "^2.4.0"
