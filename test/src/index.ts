@@ -25,7 +25,7 @@ const client = new ShewenyClient({
       applicationPermissions: true,
       default: {
         adminOnly: false,
-        registerApplicationCommands: true,
+        registerApplicationCommand: true,
         category: 'Default category',
         channel: 'GUILD',
         clientPermissions: [],
