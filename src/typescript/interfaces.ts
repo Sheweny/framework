@@ -49,7 +49,7 @@ export interface CommandsManagerOptions extends BaseManagerOptions {
 }
 export interface CommandsManagerDefaultOptions {
   adminOnly?: boolean;
-  registerApplicationCommands?: boolean;
+  registerApplicationCommand?: boolean;
   category?: string;
   channel?: typeof COMMAND_CHANNEL.dm | typeof COMMAND_CHANNEL.global | typeof COMMAND_CHANNEL.guild;
   clientPermissions?: PermissionResolvable[];
@@ -112,7 +112,7 @@ interface BaseCommand {
   channel?: typeof COMMAND_CHANNEL.dm | typeof COMMAND_CHANNEL.guild | typeof COMMAND_CHANNEL.global;
   cooldown?: number;
   adminsOnly?: boolean;
-  registerApplicationCommands?: boolean;
+  registerApplicationCommand?: boolean;
   userPermissions?: PermissionResolvable[];
   clientPermissions?: PermissionResolvable[];
 }
