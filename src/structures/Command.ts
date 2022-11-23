@@ -38,6 +38,12 @@ export abstract class Command extends BaseStructure {
   public adminsOnly: boolean;
 
   /**
+   * Register Slash Command or not
+   * @type {boolean}
+   */
+  public registerApplicationCommand: boolean;
+
+  /**
    * Aliases of the Message command
    * @type {string[] | undefined}
    */
@@ -138,6 +144,7 @@ export abstract class Command extends BaseStructure {
     const type = data.type || defaultData.type || COMMAND_TYPE.cmdMsg;
 
     this.adminsOnly = (data.adminsOnly || defaultData.adminOnly) ?? false;
+    this.registerApplicationCommand = (data.registerApplicationCommand || defaultData.registerApplicationCommand) ?? true;
     this.aliases = this.isType(type, COMMAND_TYPE.cmdMsg) ? (data as MessageData).aliases : [];
     this.args = this.isType(type, COMMAND_TYPE.cmdMsg) ? (data as MessageData).args : undefined;
     this.category = (data.category || defaultData.category) ?? '';

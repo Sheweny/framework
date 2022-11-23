@@ -78,6 +78,7 @@ export class CommandsManager extends BaseManager {
     this.autoRegisterApplicationCommands = options?.autoRegisterApplicationCommands || false;
     this.default = {
       adminOnly: options.default?.adminOnly,
+      registerApplicationCommand: options.default?.registerApplicationCommand,
       category: options.default?.category,
       channel: options.default?.channel,
       clientPermissions: options.default?.clientPermissions,
@@ -218,7 +219,7 @@ export class CommandsManager extends BaseManager {
       if (!structures || !structures.length) continue;
       for (const command of structures) {
         const commandData = this.getApplicationCommandData(command);
-        if (commandData) data.push(commandData);
+        if (commandData && command.registerApplicationCommand) data.push(commandData);
       }
     }
     if (data.length) return data;
