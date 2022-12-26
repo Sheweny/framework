@@ -10,6 +10,7 @@
     "build:typings": "tsc --build tsconfig.typings.json",
     "format": "prettier --write . && eslint src --fix",
     "lint": "eslint src/**/*.ts",
+    "lint:fix": "eslint src/**/*.ts --fix",
     "dev": "tsnd --respawn --transpile-only --cls ./test/ts/src/index.ts",
     "publish:dev": "npm publish --tag dev"
   },
@@ -40,7 +41,7 @@
     "@types/node": "16.9.0",
     "@typescript-eslint/eslint-plugin": "^5.12.1",
     "@typescript-eslint/parser": "^5.12.1",
-    "discord.js": "^14.1.1",
+    "discord.js": "^14.7.1",
     "eslint": "^8.9.0",
     "eslint-config-prettier": "^8.4.0",
     "eslint-plugin-prettier": "^4.0.0",
