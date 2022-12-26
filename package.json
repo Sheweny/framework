@@ -1,6 +1,6 @@
 {
   "name": "sheweny",
-  "version": "4.1.1",
+  "version": "4.2.0",
   "description": "The powerful framework for create discord bots",
   "main": "./build/index.js",
   "type": "commonjs",
