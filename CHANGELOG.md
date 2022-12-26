@@ -4,6 +4,12 @@
 
 ## [[4.1.1]](https://github.com/Sheweny/framework/compare/4.1.0...4.1.1) - October 29, 2022
 
+### Refactor
+
+- [Internal events]: Refactor internat events loader & support new select-menus ([eb6ec5d](https://github.com/Sheweny/framework/commit/eb6ec5df482f7ffbfc60d043cb7f5488a5b756b0))
+
+## [[4.1.1]](https://github.com/Sheweny/framework/compare/4.1.0...4.1.1) - October 29, 2022
+
 ### Fixed
 
 - [Loader] Fix filter of files only accept .js and .ts files ([37dec6f](https://github.com/Sheweny/framework/commit/37dec6f2094be18012a8c4e308c12af3afda90ca))
