@@ -2,6 +2,12 @@
 
 **All notable changes to this project will be documented in this file.**
 
+## [[4.2.1]](https://github.com/Sheweny/framework/compare/4.2.0...4.2.1) - December 27, 2022
+
+### Fixed
+
+- [Types]: Add typings for all structures & managers
+
 ## [[4.2.0]](https://github.com/Sheweny/framework/compare/4.1.1...4.2.0) - December 26, 2022
 
 ### Refactor
