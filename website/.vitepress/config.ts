@@ -1,12 +1,16 @@
 import { defineConfig } from 'vitepress';
 import './style/vars.css';
+import replace from './replace';
 
 export default defineConfig({
   title: 'Sheweny.js',
   description: 'Powerful framework for Discord.js',
-
   lastUpdated: true,
-
+  markdown: {
+    config(md) {
+      md.use(replace);
+    },
+  },
   themeConfig: {
     nav: [
       { text: 'Home', link: '/' },
@@ -18,7 +22,6 @@ export default defineConfig({
       { icon: 'discord', link: 'https://discord.com/users/611468402263064577' },
       { icon: 'github', link: 'https://github.com/Smaug6739/square' },
     ],
-
     sidebar: {
       '/docs/': [
         {
