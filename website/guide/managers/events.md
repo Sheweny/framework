@@ -6,17 +6,30 @@ Set up an events manager to load and register events.
 
 When setting up the client, it is possible to set the manager as a parameter :
 
-:::: code-group
-::: code-group-item JS CommonJS
+::: code-group
 
-```js
-const { ShewenyClient } = require("sheweny");
+```js [Javascript CJS]
+const { ShewenyClient } = require('sheweny');
 
 const client = new ShewenyClient({
-  intents: ["Guilds"],
+  intents: ['Guilds'],
   managers: {
     events: {
-      directory: "./events",
+      directory: './events',
+      loadAll: true, // Load all events (default: true)
+    },
+  },
+});
+```
+
+```ts [Typescript ESM]
+import { ShewenyClient } from 'sheweny';
+
+const client = new ShewenyClient({
+  intents: ['Guilds'],
+  managers: {
+    events: {
+      directory: './events',
       loadAll: true, // Load all events (default: true)
     },
   },
@@ -24,51 +37,27 @@ const client = new ShewenyClient({
 ```
 
 :::
-::: code-group-item TS ES Modules
-
-```ts
-import { ShewenyClient } from "sheweny";
-
-const client = new ShewenyClient({
-  intents: ["Guilds"],
-  managers: {
-    events: {
-      directory: "./events",
-      loadAll: true, // Load all events (default: true)
-    },
-  },
-});
-```
-
-:::
-::::
 
 ## Setup with class
 
 You can also use the class to set up the manager somewhere else :
 
-:::: code-group
-::: code-group-item JS CommonJS
+```js [Javascript CJS]
+const { ShewenyClient, EventsManager } = require('sheweny');
 
-```js
-const { ShewenyClient, EventsManager } = require("sheweny");
-
-const client = new ShewenyClient({ intents: ["GUILDS"] });
+const client = new ShewenyClient({ intents: ['GUILDS'] });
 
 const EvtsManager = new EventsManager(client, {
-  directory: "./events", // Directory where events are stored
+  directory: './events', // Directory where events are stored
   loadAll: true, // Load all events (default: true)
 });
 
 EvtsManager.loadAndRegisterAll().then(() => {
-  console.log("All events loaded and registered");
+  console.log('All events loaded and registered');
 });
 ```
 
-:::
-::: code-group-item TS ES Modules
-
-```ts
+```ts [Typescript ESM]
 import { ShewenyClient, EventsManager } = from "sheweny";
 
 const client = new ShewenyClient({ intents: ["GUILDS"] });
@@ -84,4 +73,3 @@ EvtsManager.loadAndRegisterAll().then(() => {
 ```
 
 :::
-::::

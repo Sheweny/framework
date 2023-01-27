@@ -4,7 +4,7 @@ Create an handler for bot modals. The modals can be in as many subfolders as des
 
 ## Constructor
 
-```js
+```js [Javascript CJS]
 new ModalsManager(client, options);
 ```
 
@@ -52,7 +52,7 @@ Return : [ShewenyClient](../client/ShewenyClient.md)
 
 The directory of modals.
 
-Return : [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)
+Return : [String]
 
 ## Methods
 
@@ -60,7 +60,7 @@ Return : [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refere
 
 Load all modals in directory of modals.
 
-Return : [Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<Collection\<[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)\<[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>, [Modal](../structures/Modal.md)>>
+Return : [Promise]\<Collection\<[Array]\<[String]>, [Modal](../structures/Modal.md)>>
 
 ### unloadAll()
 
@@ -76,7 +76,7 @@ Emitted when user hit the cooldown limit.
 
 Parameters :
 
-| Name        | Type                                                                                        | Description               |
-| ----------- | ------------------------------------------------------------------------------------------- | ------------------------- |
-| interaction | [CommandInteraction](https://discord.js.org/#/docs/main/stable/class/CommandInteraction)    | The interaction           |
-| time        | [Number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number) | The time before run again |
+| Name        | Type                                                                                     | Description               |
+| ----------- | ---------------------------------------------------------------------------------------- | ------------------------- |
+| interaction | [CommandInteraction](https://discord.js.org/#/docs/main/stable/class/CommandInteraction) | The interaction           |
+| time        | [Number]                                                                                 | The time before run again |

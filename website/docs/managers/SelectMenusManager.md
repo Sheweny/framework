@@ -4,7 +4,7 @@ Create an handler for bot select-menus. The select-menus can be in as many subfo
 
 ## Constructor
 
-```js
+```js [Javascript CJS]
 new SelectMenusManager(client, options);
 ```
 
@@ -46,7 +46,7 @@ Return : [ShewenyClient](../client/ShewenyClient.md)
 
 The directory of selectMenus.
 
-Return : [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)
+Return : [String]
 
 ### selectMenus
 
@@ -60,7 +60,7 @@ Return : Collection<[Button](../structures/Button.md)>
 
 Load all select-menus in directory of select-menus.
 
-Return : [Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<Collection\<[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)\<[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>, [SelectMenu](../structures/SelectMenu.md)>>
+Return : [Promise]\<Collection\<[Array]\<[String]>, [SelectMenu](../structures/SelectMenu.md)>>
 
 ### unloadAll()
 
@@ -76,7 +76,7 @@ Emitted when user hit the cooldown limit.
 
 Parameters :
 
-| Name        | Type                                                                                        | Description               |
-| ----------- | ------------------------------------------------------------------------------------------- | ------------------------- |
-| interaction | [CommandInteraction](https://discord.js.org/#/docs/main/stable/class/CommandInteraction)    | The interaction           |
-| time        | [Number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number) | The time before run again |
+| Name        | Type                                                                                     | Description               |
+| ----------- | ---------------------------------------------------------------------------------------- | ------------------------- |
+| interaction | [CommandInteraction](https://discord.js.org/#/docs/main/stable/class/CommandInteraction) | The interaction           |
+| time        | [Number]                                                                                 | The time before run again |

@@ -13,31 +13,25 @@ Please see [inhibitors manager](../managers/inhibitors) for setup the manager.
 
 Import the [Inhibitor](../../doc/structures/Inhibitor) class :
 
-:::: code-group
-::: code-group-item CommonJS
+::: code-group
 
-```js
-const { Inhibitor } = require("sheweny");
+```js [Javascript CJS]
+const { Inhibitor } = require('sheweny');
+```
+
+```ts [Typescript ESM]
+import { Inhibitor } from 'sheweny';
 ```
 
 :::
-::: code-group-item ESM
-
-```js
-import { Inhibitor } from "sheweny";
-```
-
-:::
-::::
 
 ## Inhibitor class
 
 In your `inhibitors` directory create file with your inhibitor :
 
-:::: code-group
-::: code-group-item JS CommonJS
+::: code-group
 
-```js
+```js [Javascript CJS]
 const { Inhibitor } = require("sheweny");
 
 module.exports =  class BlackListInhibitor extends Inhibitor {
@@ -57,42 +51,37 @@ module.exports =  class BlackListInhibitor extends Inhibitor {
 }
 ```
 
-:::
-::: code-group-item TS ES Modules
-
-```ts
-import { Inhibitor } from "sheweny";
-import type { ShewenyClient } from "sheweny";
-import type { CommandInteraction } from "discord.js";
+```ts [Typescript ESM]
+import { Inhibitor } from 'sheweny';
+import type { ShewenyClient } from 'sheweny';
+import type { CommandInteraction } from 'discord.js';
 
 export class BlackListInhibitor extends Inhibitor {
   constructor(client: ShewenyClient) {
-    super(client, "blacklist", {
-      type: ["APPLICATION_COMMAND"],
+    super(client, 'blacklist', {
+      type: ['APPLICATION_COMMAND'],
     });
   }
 
   execute(client: ShewenyClient, interaction: CommandInteraction) {
-    return !["877090306103840778"].includes(interaction.guildId!);
+    return !['877090306103840778'].includes(interaction.guildId!);
   }
 
   onFailure(client: ShewenyClient, interaction: CommandInteraction) {
-    interaction.reply("Your guild is blacklisted.");
+    interaction.reply('Your guild is blacklisted.');
   }
 }
 ```
 
 :::
-::::
 
 ## Inhibitors priority
 
 You can defined a priority to run some checks first.
 
-:::: code-group
-::: code-group-item JS CommonJS
+::: code-group
 
-```js
+```js [Javascript CJS]
 const { Inhibitor } = require("sheweny");
 
 module.exports = class InDatabaseInhibitor extends Inhibitor {
@@ -113,18 +102,15 @@ module.exports = class InDatabaseInhibitor extends Inhibitor {
 };
 ```
 
-:::
-::: code-group-item TS ES Modules
-
-```ts
-import { Inhibitor } from "sheweny";
-import type { ShewenyClient } from "sheweny";
-import type { CommandInteraction } from "discord.js";
+```ts [Typescript ESM]
+import { Inhibitor } from 'sheweny';
+import type { ShewenyClient } from 'sheweny';
+import type { CommandInteraction } from 'discord.js';
 
 export class InDatabaseInhibitor extends Inhibitor {
   constructor(client: ShewenyClient) {
-    super(client, "blacklist", {
-      type: "APPLICATION_COMMAND",
+    super(client, 'blacklist', {
+      type: 'APPLICATION_COMMAND',
       priority: 1, // Executed before other inhibitors with lower priority
     });
   }
@@ -134,13 +120,12 @@ export class InDatabaseInhibitor extends Inhibitor {
   }
 
   onFailure(client: ShewenyClient, interaction: CommandInteraction) {
-    interaction.reply("Your guild not have premium version of bot.");
+    interaction.reply('Your guild not have premium version of bot.');
   }
 }
 ```
 
 :::
-::::
 
 ## Inhibitors types
 

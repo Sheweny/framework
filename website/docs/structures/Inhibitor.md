@@ -4,15 +4,15 @@ Represents an inhibitor.
 
 ## Constructor
 
-```js
+```js [Javascript CJS]
 new Inhibitor(client, options);
 ```
 
-| Name    | Type                                                                                        | Description                  | Default | Optional |
-| ------- | ------------------------------------------------------------------------------------------- | ---------------------------- | ------- | -------- |
-| client  | [ShewenyClient](../classes/ShewenyClient.md)                                                | The client.                  | None    |          |
-| name    | [String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) | The name of the inhibitor.   | None    |          |
-| options | [InhibitorOptions](../typedef/InhibitorOptions.md)                                          | The options of the inhibitor | None    |          |
+| Name    | Type                                               | Description                  | Default | Optional |
+| ------- | -------------------------------------------------- | ---------------------------- | ------- | -------- |
+| client  | [ShewenyClient](../classes/ShewenyClient.md)       | The client.                  | None    |          |
+| name    | [String]                                           | The name of the inhibitor.   | None    |          |
+| options | [InhibitorOptions](../typedef/InhibitorOptions.md) | The options of the inhibitor | None    |          |
 
 :::details Properties
 
@@ -64,19 +64,19 @@ Return : [InhibitorsManager](../managers/InhibitorsManager.md)
 
 The name of the inhibitor.
 
-Return : [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)
+Return : [String]
 
 ### path
 
 The path of the file.
 
-Return : [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)
+Return : [String]
 
 ### priority
 
 The priority of the inhibitor.
 
-Return : [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)
+Return : [Number]
 
 ### type
 
@@ -92,12 +92,12 @@ The execution of inhibitor.
 
 Parameters :
 
-| Name      | Type                                                                                                                                                                                                                          | Description |
-| --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| Name      | Type                                                                                                                                                                                                                         | Description |
+| --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
 | structure | [Button](../structures/Button.md), [Command](../structures/Command.md), [Event](../structures/Event.md), [Inhibitor](../structures/Inhibitor.md), [Modal](../structures/Modal.md), [SelectMenu](../structures/SelectMenu.md) | The context |
-| ctx       | [Interaction](https://discord.js.org/#/docs/main/stable/class/Interaction) or [Message](https://discord.js.org/#/docs/main/stable/class/Message)                                                                              | The context |
+| ctx       | [Interaction](https://discord.js.org/#/docs/main/stable/class/Interaction) or [Message](https://discord.js.org/#/docs/main/stable/class/Message)                                                                             | The context |
 
-Return : [Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<any> | any
+Return : [Promise]\<any> | any
 
 ### [abstract] onFailure()
 
@@ -105,27 +105,27 @@ The execution if inhibitor has failed.
 
 Parameters :
 
-| Name      | Type                                                                                                                                                                                                                          | Description |
-| --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| Name      | Type                                                                                                                                                                                                                         | Description |
+| --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
 | structure | [Button](../structures/Button.md), [Command](../structures/Command.md), [Event](../structures/Event.md), [Inhibitor](../structures/Inhibitor.md), [Modal](../structures/Modal.md), [SelectMenu](../structures/SelectMenu.md) | The context |
-| ctx       | [Interaction](https://discord.js.org/#/docs/main/stable/class/Interaction) or [Message](https://discord.js.org/#/docs/main/stable/class/Message)                                                                              | The context |
+| ctx       | [Interaction](https://discord.js.org/#/docs/main/stable/class/Interaction) or [Message](https://discord.js.org/#/docs/main/stable/class/Message)                                                                             | The context |
 
-Return : [Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<any> | any
+Return : [Promise]\<any> | any
 
 ### [async] register()
 
 Register the inhibotor.
 
-Return : [Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[Inhibitor](./Inhibitor.md)> | [null](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Null)
+Return : [Promise]\<[Inhibitor](./Inhibitor.md)> | [Null]
 
 ### [async] reload()
 
 Reload a inhibotor.
 
-Return : [Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[Inhibitor](./Inhibitor.md)> | [null](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Null)
+Return : [Promise]\<[Inhibitor](./Inhibitor.md)> | [Null]
 
 ### unregister()
 
 Unregister a inhibitor from the bot.
 
-Return : [Boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)
+Return : [Boolean]

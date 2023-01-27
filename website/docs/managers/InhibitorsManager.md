@@ -4,7 +4,7 @@ Create an handler for bot inhibitors. The inhibitors can be in as many subfolder
 
 ## Constructor
 
-```js
+```js [Javascript CJS]
 new InhibitorsManager(client, options);
 ```
 
@@ -47,7 +47,7 @@ Return : [InhibitorsManagerDefaultOption](../typedef/ManagersDefaultOptions.md#i
 
 The directory of inhibitors.
 
-Return : [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)
+Return : [String]
 
 ### inhibitors
 
@@ -61,7 +61,7 @@ Return : Collection<[Inhibitor](../structures/Inhibitor.md)>
 
 Load all inhibitors in directory of inhibitors.
 
-Return : [Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<Collection\<[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)\<[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>, [Inhibitor](../structures/Inhibitor.md)>>
+Return : [Promise]\<Collection\<[Array]\<[String]>, [Inhibitor](../structures/Inhibitor.md)>>
 
 ### unloadAll()
 

@@ -4,15 +4,15 @@ Represents an event.
 
 ## Constructor
 
-```js
-new Event(client, "ready", options);
+```js [Javascript CJS]
+new Event(client, 'ready', options);
 ```
 
-| Name    | Type                                                                                              | Description              | Default | Optional |
-| ------- | ------------------------------------------------------------------------------------------------- | ------------------------ | ------- | -------- |
-| client  | [ShewenyClient](../classes/ShewenyClient.md)                                                      | The client.              | None    | No       |
-| name    | [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) | The name of the event    | None    | No       |
-| options | [EventOptions](../typedef/EventOptions.md)                                                        | The options of the event | None    | No       |
+| Name    | Type                                         | Description              | Default | Optional |
+| ------- | -------------------------------------------- | ------------------------ | ------- | -------- |
+| client  | [ShewenyClient](../classes/ShewenyClient.md) | The client.              | None    | No       |
+| name    | [String]                                     | The name of the event    | None    | No       |
+| options | [EventOptions](../typedef/EventOptions.md)   | The options of the event | None    | No       |
 
 :::details Properties
 
@@ -49,7 +49,7 @@ Return : [ShewenyClient](../client/ShewenyClient.md)
 
 The description of the event.
 
-Return : [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)
+Return : [String]
 
 ### emitter
 
@@ -67,19 +67,19 @@ Return : [EventsManager](../managers/EventsManager.md)
 
 The name of the event.
 
-Return : [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)
+Return : [String]
 
 ### once
 
 If the event is emitted juste once or not.
 
-Return : [Boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)
+Return : [Boolean]
 
 ### path
 
 The path of the file.
 
-Return : [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)
+Return : [String]
 
 ## Methods
 
@@ -93,7 +93,7 @@ Return : [ShewenyClient](../client/ShewenyClient.md)
 
 The description of the event.
 
-Return : [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)
+Return : [String]
 
 ### emitter
 
@@ -111,19 +111,19 @@ Return : [EventsManager](../managers/EventsManager.md)
 
 The name of the event.
 
-Return : [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)
+Return : [String]
 
 ### once
 
 If the event is emitted juste once or not.
 
-Return : [Boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)
+Return : [Boolean]
 
 ### path
 
 The path of the file.
 
-Return : [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)
+Return : [String]
 PS D:\Development\Projects\Sheweny\website> node .\sort-content.js
 
 ### before()
@@ -136,7 +136,7 @@ Parameters :
 | ------- | --------------------------------------------------------------------------------------------------------- | --------------- |
 | ...args | [args Events](https://discord.js.org/#/docs/main/stable/class/Client?scrollTo=e-applicationCommandCreate) | Args for events |
 
-Return : [Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<any> | any
+Return : [Promise]\<any> | any
 
 ### [abstract] execute()
 
@@ -148,22 +148,22 @@ Parameters :
 | ------- | --------------------------------------------------------------------------------------------------------- | --------------- |
 | ...args | [args Events](https://discord.js.org/#/docs/main/stable/class/Client?scrollTo=e-applicationCommandCreate) | Args for events |
 
-Return : [Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<any> | any
+Return : [Promise]\<any> | any
 
 ### [async] register()
 
 Register the event.
 
-Return : [Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[Event](./Event.md)> | [null](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Null)
+Return : [Promise]\<[Event](./Event.md)> | [Null]
 
 ### [async] reload()
 
 Reload a event of bot.
 
-Return : [Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[Event](./Event.md)> | [null](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Null)
+Return : [Promise]\<[Event](./Event.md)> | [Null]
 
 ### unregister()
 
 Unregister a event from the bot.
 
-Return : [Boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)
+Return : [Boolean]

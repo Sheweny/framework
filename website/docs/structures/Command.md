@@ -4,7 +4,7 @@ Represents an application command.
 
 ## Constructor
 
-```js
+```js [Javascript CJS]
 new Command(client, options);
 ```
 
@@ -57,25 +57,25 @@ new Command(client, options);
 
 If the command is only for admins or not.
 
-Return : [Boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)
+Return : [Boolean]
 
 ### aliases
 
 The args of the command.
 
-Return : [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)\<[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)>
+Return : [Array]\<[String]>
 
 ### args
 
 The args of the command.
 
-Return : [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)\<[CommandOptions](../typedef/CommandOptions.md#commandmessageargument)>
+Return : [Array]\<[CommandOptions](../typedef/CommandOptions.md#commandmessageargument)>
 
 ### category
 
 The category of the command.
 
-Return : [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)
+Return : [String]
 
 ### channel
 
@@ -93,37 +93,37 @@ Return : [ShewenyClient](../client/ShewenyClient.md)
 
 The name of the command.
 
-Return : [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)\<[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)>
+Return : [Array]\<[String]>
 
 ### cooldown
 
 The cooldown of the command.
 
-Return : [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)
+Return : [Number]
 
 ### cooldowns
 
 Actives cooldowns for the command.
 
-Return : Collection<[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String), Collection<[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String), [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)>>;
+Return : Collection<[String], Collection<[String], [Number]>>;
 
 ### defaultPermission
 
 If the command can be used by default or not.
 
-Return : [Boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)
+Return : [Boolean]
 
 ### description
 
 The description of the command.
 
-Return : [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)
+Return : [String]
 
 ### descriptionLocalizations
 
 The description of the command in other languages.
 
-Return : [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)\<[Locale](https://discord.js.org/#/docs/discord.js/stable/typedef/Locale), [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)>
+Return : [Object]\<[Locale](https://discord.js.org/#/docs/discord.js/stable/typedef/Locale), [String]>
 
 ### enabled
 
@@ -133,7 +133,7 @@ If this structure is enabled or not.
 
 The examples of the command.
 
-Return : [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) or [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)\<[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)>
+Return : [String] or [Array]\<[String]>
 
 ### manager
 
@@ -145,43 +145,43 @@ Return : [CommandsManager](../managers/CommandsManager.md)
 
 The name of the command.
 
-Return : [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)
+Return : [String]
 
 ### nameLocalizations
 
 The name of the command in other languages.
 
-Return : [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)\<[Locale](https://discord.js.org/#/docs/discord.js/stable/typedef/Locale), [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)>
+Return : [Object]\<[Locale](https://discord.js.org/#/docs/discord.js/stable/typedef/Locale), [String]>
 
 ### options
 
 The options of the command.
 
-Return : [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)\<[ApplicationCommandOptionData](https://discord.js.org/#/docs/main/stable/typedef/ApplicationCommandOptionData)>
+Return : [Array]\<[ApplicationCommandOptionData](https://discord.js.org/#/docs/main/stable/typedef/ApplicationCommandOptionData)>
 
 ### path
 
 The path of the file.
 
-Return : [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)
+Return : [String]
 
 ### type
 
 The type of the command.
 
-Return : [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)
+Return : [String]
 
 ### usage
 
 The usage of the command.
 
-Return : [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) or [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)\<[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)>
+Return : [String] or [Array]\<[String]>
 
 ### userPermissions
 
 The userPermissions of the command.
 
-Return : [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)\<[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)>
+Return : [Array]\<[String]>
 
 ## Methods
 
@@ -195,7 +195,7 @@ Parameters :
 | ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------- |
 | interaction | [CommandInteraction](https://discord.js.org/#/docs/main/stable/class/CommandInteraction) or [ContextMenuInteraction](https://discord.js.org/#/docs/main/stable/class/CommandInteraction) | The interaction |
 
-Return : [Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<any> | any
+Return : [Promise]\<any> | any
 
 ### [abstract] execute()
 
@@ -206,9 +206,9 @@ Parameters :
 | Name        | Type                                                                                                                                                                                                                                                           | Description                           |
 | ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------- |
 | interaction | [CommandInteraction](https://discord.js.org/#/docs/main/stable/class/CommandInteraction) or [ContextMenuInteraction](https://discord.js.org/#/docs/main/stable/class/CommandInteraction) or [Message](https://discord.js.org/#/docs/main/stable/class/Message) | The interaction                       |
-| arguments   | [Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)                                                                                                                                                                    | The arguments (only message-commands) |
+| arguments   | [Object]                                                                                                                                                                                                                                                       | The arguments (only message-commands) |
 
-Return : [Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<any> | any
+Return : [Promise]\<any> | any
 
 ### onAutocomplete()
 
@@ -220,22 +220,22 @@ Parameters :
 | ----------- | --------------------------------------------------------------------------------------------- | ----------------------------- |
 | interaction | [CommandInteraction](https://discord.js.org/#/docs/main/stable/class/AutocompleteInteraction) | The auto-complete interaction |
 
-Return : [Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<any> | any
+Return : [Promise]\<any> | any
 
 ### [async] register()
 
 Register the command.
 
-Return : [Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[ApplicationCommand](./Command.md)> | [null](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Null)
+Return : [Promise]\<[ApplicationCommand](./Command.md)> | [Null]
 
 ### [async] reload()
 
 Reload a command of bot.
 
-Return : [Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[ApplicationCommand](./Command.md)> | [null](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Null)
+Return : [Promise]\<[ApplicationCommand](./Command.md)> | [Null]
 
 ### unregister()
 
 Unregister a command from the bot.
 
-Return : [Boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)
+Return : [Boolean]

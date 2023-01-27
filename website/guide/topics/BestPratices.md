@@ -52,37 +52,37 @@ Normally sheweny's mode of production should handle most of the errors, however 
 For example, you can configure your bot to send console errors to a discord channel so that you can better correct them.  
 Here is an example code :
 
-````js
+````ts [Typescript ESM]
 import { WebhookClient } from 'discord.js';
 
-const webhook = new WebhookClient({url:'https://discord.com/api/webhooks/{webhookId}/{webhookToken}'})
+const webhook = new WebhookClient({ url: 'https://discord.com/api/webhooks/{webhookId}/{webhookToken}' });
 
-process.on('uncaughtException', (error) => {
+process.on('uncaughtException', error => {
   console.warn(error);
   if (!this.client) return;
-  webhook.send({ content: "```js\n" + error.toString() + "```" });
+  webhook.send({ content: '```js [Javascript CJS]\n' + error.toString() + '```' });
 });
-process.on('unhandledRejection', (listener) => {
+process.on('unhandledRejection', listener => {
   console.warn(listener);
   if (!this.client) return;
-  webhook.send({ content: "```js\n" + listener!.toString() + "```" });
+  webhook.send({ content: '```js [Javascript CJS]\n' + listener!.toString() + '```' });
 });
-process.on('rejectionHandled', (listener) => {
+process.on('rejectionHandled', listener => {
   console.warn(listener);
   if (!this.client) return;
-  webhook.send({ content: "```js" + listener.toString() + "```" });
+  webhook.send({ content: '```js [Javascript CJS]' + listener.toString() + '```' });
 });
-process.on('warning', (warning) => {
+process.on('warning', warning => {
   console.warn(warning);
   if (!this.client) return;
-  webhook.send({ content: "```js" + warning.toString() + "```" });
+  webhook.send({ content: '```js [Javascript CJS]' + warning.toString() + '```' });
 });
 
-client.on('warn', (err) => {
-  webhook.send({ content: "```js" + err.toString() + "```" });
-})
+client.on('warn', err => {
+  webhook.send({ content: '```js [Javascript CJS]' + err.toString() + '```' });
+});
 
-client.on('error', (err) => {
-  webhook.send({ content: "```js" + err.toString() + "```" });
-})
+client.on('error', err => {
+  webhook.send({ content: '```js [Javascript CJS]' + err.toString() + '```' });
+});
 ````

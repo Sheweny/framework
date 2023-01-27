@@ -4,7 +4,7 @@ The main hub for interacting with the Discord API, and the starting point for an
 
 ## Constructor
 
-```js
+```js [Javascript CJS]
 new ShewenyClient(options);
 ```
 
@@ -47,7 +47,7 @@ new ShewenyClient(options);
 
 The admins of the bot (no affected by cooldown and have adminOnly permission).
 
-Return : [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)<[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>
+Return : [Array]<[String]>
 
 ### cooldowns
 
@@ -65,13 +65,13 @@ Return : [ShewenyClientCollections](../typedef/ShewenyClientCollections.md)
 
 Indicate when the client is connected to the Discord API.
 
-Return : [Boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)
+Return : [Boolean]
 
 ### joinThreadsOnCreate
 
 If the bot should join threads on create.
 
-Return : [Boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)
+Return : [Boolean]
 
 ### managers
 
@@ -83,7 +83,7 @@ Return : [ShewenyClientManagers](../typedef/ShewenyClientManagers.md).
 
 The mode for run application (development or production).
 
-Return : [String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)
+Return : [String]
 
 ### util
 
@@ -97,7 +97,7 @@ Return : [ClientUtil](../client/ClientUtil.md).
 
 Wait for the client to be ready.
 
-Return [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<true>
+Return [Promise]
 
 ## Events
 

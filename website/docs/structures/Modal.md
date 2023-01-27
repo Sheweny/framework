@@ -4,15 +4,15 @@ Represents a Modal.
 
 ## Constructor
 
-```js
+```js [Javascript CJS]
 new Modal(client, options);
 ```
 
-| Name     | Type                                                                                                                                                                                                                                                                                   | Description            | Default | Optional |
-| -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- | ------- | -------- |
-| client   | [ShewenyClient](./ShewenyClient.md)                                                                                                                                                                                                                                                    | The client.            | None    | No       |
-| customId | [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)\<[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Regexp](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Regexp)> | The list of modals ids | None    | ✓        |
-| options  | [ModalOptions](../typedef/SelectMenuOptions.md)                                                                                                                                                                                                                                        | The options.           | None    | ✓        |
+| Name     | Type                                            | Description            | Default | Optional |
+| -------- | ----------------------------------------------- | ---------------------- | ------- | -------- |
+| client   | [ShewenyClient](./ShewenyClient.md)             | The client.            | None    | No       |
+| customId | [Array]\<[String] \| [RegExp]>                  | The list of modals ids | None    | ✓        |
+| options  | [ModalOptions](../typedef/SelectMenuOptions.md) | The options.           | None    | ✓        |
 
 :::details Properties
 
@@ -51,7 +51,7 @@ The cooldown of the modal (in seconds).
 
 The custom id(s) of the modal.
 
-Return : [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)\<[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) | [Regexp](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Regexp)>
+Return : [Array]\<[String] | [RegExp]>
 
 ### enabled
 
@@ -67,7 +67,7 @@ Return : [ModalsManager](../managers/ModalsManager.md)
 
 The path of the file.
 
-Return : [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)
+Return : [String]
 
 ## Methods
 
@@ -81,7 +81,7 @@ Parameters :
 | ----------- | ------------------------------------------------------------------------------------ | --------------- |
 | interaction | [ModalInteraction](https://discord.js.org/#/docs/main/stable/class/ModalInteraction) | The interaction |
 
-Return : [Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<any> | any
+Return : [Promise]\<any> | any
 
 ### [abstract] execute()
 
@@ -93,22 +93,22 @@ Parameters :
 | ----------- | ------------------------------------------------------------------------------------ | --------------- |
 | interaction | [ModalInteraction](https://discord.js.org/#/docs/main/stable/class/ModalInteraction) | The interaction |
 
-Return : [Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<any> | any
+Return : [Promise]\<any> | any
 
 ### [async] register()
 
 Register the modal.
 
-Return : [Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[Modal](./Modal.md)> | [null](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Null)
+Return : [Promise]\<[Modal](./Modal.md)> | [Null]
 
 ### [async] reload()
 
 Reload a modal of bot.
 
-Return : [Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[Modal](./Modal.md)> | [null](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Null)
+Return : [Promise]\<[Modal](./Modal.md)> | [Null]
 
 ### unregister()
 
 Unregister a modal from the bot.
 
-Return : [Boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)
+Return : [Boolean]

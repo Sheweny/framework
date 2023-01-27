@@ -7,34 +7,28 @@ Please see [modals manager](../managers/Modals) for setup the manager.
 
 Import the [Modal](../../doc/structures/Modal.md) class :
 
-:::: code-group
-::: code-group-item CommonJS
+::: code-group
 
-```js
-const { Modal } = require("sheweny");
+```js [Javascript CJS]
+const { Modal } = require('sheweny');
+```
+
+```ts [Typescript ESM]
+import { Modal } from 'sheweny';
 ```
 
 :::
-::: code-group-item ESM
-
-```js
-import { Modal } from "sheweny";
-```
-
-:::
-::::
 
 ## Create the Modal listner
 
-:::: code-group
-::: code-group-item JS CommonJS
+::: code-group
 
-```js
-const { Modal } = require("sheweny");
+```js [Javascript CJS]
+const { Modal } = require('sheweny');
 
 module.exports = class ModalTest extends Modal {
   constructor(client) {
-    super(client, ["mod-1", "mod-2"]);
+    super(client, ['mod-1', 'mod-2']);
   }
 
   execute(modal) {
@@ -43,17 +37,14 @@ module.exports = class ModalTest extends Modal {
 };
 ```
 
-:::
-::: code-group-item TS ES Modules
-
-```ts
-import { Modal } from "sheweny";
-import type { ShewenyClient } from "sheweny";
-import type { ModalInteraction } from "discord.js";
+```ts [Typescript ESM]
+import { Modal } from 'sheweny';
+import type { ShewenyClient } from 'sheweny';
+import type { ModalInteraction } from 'discord.js';
 
 export class ModalTest extends Modal {
   constructor(client: ShewenyClient) {
-    super(client, ["mod-1", "mod-2"]);
+    super(client, ['mod-1', 'mod-2']);
   }
 
   execute(Modal: ModalInteraction) {
@@ -63,17 +54,15 @@ export class ModalTest extends Modal {
 ```
 
 :::
-::::
 
 ## Use regular expressions with modals
 
 You can put regular expressions in the Modal id's to match the Modal id's.
 
-:::: code-group
-::: code-group-item JS CommonJS
+::: code-group
 
-```js
-const { Modal } = require("sheweny");
+```js [Javascript CJS]
+const { Modal } = require('sheweny');
 
 module.exports = class RegexModal extends Modal {
   constructor(client) {
@@ -86,13 +75,10 @@ module.exports = class RegexModal extends Modal {
 };
 ```
 
-:::
-::: code-group-item TS ES Modules
-
-```ts
-import { Modal } from "sheweny";
-import type { ShewenyClient } from "sheweny";
-import type { ModalInteraction } from "discord.js";
+```ts [Typescript ESM]
+import { Modal } from 'sheweny';
+import type { ShewenyClient } from 'sheweny';
+import type { ModalInteraction } from 'discord.js';
 
 export class RegexModal extends Modal {
   constructor(client: ShewenyClient) {
@@ -106,25 +92,23 @@ export class RegexModal extends Modal {
 ```
 
 :::
-::::
 
 ## Use "before" method on modals
 
 It is possible to add a `before` function to execute code before checks like inhibitors etc.
 
-:::: code-group
-::: code-group-item JS CommonJS
+::: code-group
 
-```js
-const { Modal } = require("sheweny");
+```js [Javascript CJS]
+const { Modal } = require('sheweny');
 
 module.exports = class ModalTest extends Modal {
   constructor(client) {
-    super(client, ["mod-1", "mod-2"]);
+    super(client, ['mod-1', 'mod-2']);
   }
 
   before(Modal) {
-    console.log("Before function");
+    console.log('Before function');
   }
 
   execute(modal) {
@@ -133,21 +117,18 @@ module.exports = class ModalTest extends Modal {
 };
 ```
 
-:::
-::: code-group-item TS ES Modules
-
-```ts
-import { Modal } from "sheweny";
-import type { ShewenyClient } from "sheweny";
-import type { ModalInteraction } from "discord.js";
+```ts [Typescript ESM]
+import { Modal } from 'sheweny';
+import type { ShewenyClient } from 'sheweny';
+import type { ModalInteraction } from 'discord.js';
 
 export class ModalTest extends Modal {
   constructor(client: ShewenyClient) {
-    super(client, ["mod-1", "mod-2"]);
+    super(client, ['mod-1', 'mod-2']);
   }
 
   before(Modal: ModalInteraction) {
-    console.log("Before function");
+    console.log('Before function');
   }
 
   execute(Modal: ModalInteraction) {
@@ -157,4 +138,3 @@ export class ModalTest extends Modal {
 ```
 
 :::
-::::

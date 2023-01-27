@@ -4,15 +4,15 @@ Represents a button.
 
 ## Constructor
 
-```js
+```js [Javascript CJS]
 new Button(client, options);
 ```
 
-| Name     | Type                                                                                                                                                                                                                                                                                   | Description            | Default | Optional |
-| -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- | ------- | -------- |
-| client   | [ShewenyClient](./ShewenyClient.md)                                                                                                                                                                                                                                                    | The client.            | None    | No       |
-| customId | [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)\<[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Regexp](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Regexp)> | The list of butons ids | None    | ✓        |
-| options  | [ButtonOptions](../typedef/SelectMenuOptions.md)                                                                                                                                                                                                                                       | The options.           | None    | ✓        |
+| Name     | Type                                             | Description            | Default | Optional |
+| -------- | ------------------------------------------------ | ---------------------- | ------- | -------- |
+| client   | [ShewenyClient](./ShewenyClient.md)              | The client.            | None    | No       |
+| customId | [Array]\<[String] \| [RegExp]>                   | The list of butons ids | None    | ✓        |
+| options  | [ButtonOptions](../typedef/SelectMenuOptions.md) | The options.           | None    | ✓        |
 
 :::details Properties
 
@@ -51,7 +51,7 @@ The cooldown of the button (in seconds).
 
 The custom id(s) of the button.
 
-Return : [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)\<[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) | [Regexp](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Regexp)>
+Return : [Array]\<[String] | [RegExp]>
 
 ### enabled
 
@@ -67,7 +67,7 @@ Return : [ButtonsManager](../managers/ButtonsManager.md)
 
 The path of the file.
 
-Return : [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)
+Return : [String]
 
 ## Methods
 
@@ -81,7 +81,7 @@ Parameters :
 | ----------- | -------------------------------------------------------------------------------------- | --------------- |
 | interaction | [ButtonInteraction](https://discord.js.org/#/docs/main/stable/class/ButtonInteraction) | The interaction |
 
-Return : [Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<any> | any
+Return : [Promise]\<any> | any
 
 ### [abstract] execute()
 
@@ -93,22 +93,22 @@ Parameters :
 | ----------- | -------------------------------------------------------------------------------------- | --------------- |
 | interaction | [ButtonInteraction](https://discord.js.org/#/docs/main/stable/class/ButtonInteraction) | The interaction |
 
-Return : [Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<any> | any
+Return : [Promise]\<any> | any
 
 ### [async] register()
 
 Register the button.
 
-Return : [Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[Button](./Button.md)> | [null](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Null)
+Return : [Promise]\<[Button](./Button.md)> | [Null]
 
 ### [async] reload()
 
 Reload a button of bot.
 
-Return : [Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<[Button](./Button.md)> | [null](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Null)
+Return : [Promise]\<[Button](./Button.md)> | [Null]
 
 ### unregister()
 
 Unregister a button from the bot.
 
-Return : [Boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)
+Return : [Boolean]

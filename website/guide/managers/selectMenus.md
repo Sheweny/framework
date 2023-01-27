@@ -6,17 +6,30 @@ Set up an select-menus manager to load select-menus interactions events.
 
 When setting up the client, it is possible to set the manager as a parameter :
 
-:::: code-group
-::: code-group-item JS CommonJS
+::: code-group
 
-```js
-const { ShewenyClient } = require("sheweny");
+```js [Javascript CJS]
+const { ShewenyClient } = require('sheweny');
 
 const client = new ShewenyClient({
-  intents: ["Guilds"],
+  intents: ['Guilds'],
   managers: {
     selectMenus: {
-      directory: "./interactions/select-menus", // Directory where the select-menus are stored
+      directory: './interactions/select-menus', // Directory where the select-menus are stored
+      loadAll: true, // Load all select-menus (default: true)
+    },
+  },
+});
+```
+
+```ts [Typescript ESM]
+import { ShewenyClient } from 'sheweny';
+
+const client = new ShewenyClient({
+  intents: ['Guilds'],
+  managers: {
+    selectMenus: {
+      directory: './interactions/select-menus', // Directory where the select-menus are stored
       loadAll: true, // Load all select-menus (default: true)
     },
   },
@@ -24,49 +37,27 @@ const client = new ShewenyClient({
 ```
 
 :::
-::: code-group-item TS ES Modules
-
-```ts
-import { ShewenyClient } from "sheweny";
-
-const client = new ShewenyClient({
-  intents: ["Guilds"],
-  managers: {
-    selectMenus: {
-      directory: "./interactions/select-menus", // Directory where the select-menus are stored
-      loadAll: true, // Load all select-menus (default: true)
-    },
-  },
-});
-```
-
-:::
-::::
 
 ## Setup with class
 
 You can also use the class to set up the manager somewhere else :
 
-:::: code-group
-::: code-group-item JS CommonJS
+::: code-group
 
-```js
-const { ShewenyClient, SelectMenusManager } = require("sheweny");
+```js [Javascript CJS]
+const { ShewenyClient, SelectMenusManager } = require('sheweny');
 
-const client = new ShewenyClient({ intents: ["GUILDS"] });
+const client = new ShewenyClient({ intents: ['GUILDS'] });
 
 const selectManager = new SelectMenusManager(client, {
-  directory: "./interactions/select-menus", // Directory where the select-menus are stored
+  directory: './interactions/select-menus', // Directory where the select-menus are stored
   loadAll: true, // Load all select-menus (default: true)
 });
 
 selectManager.loadAll();
 ```
 
-:::
-::: code-group-item TS ES Modules
-
-```ts
+```ts [Typescript ESM]
 import { ShewenyClient, SelectMenusManager } = from "sheweny";
 
 const client = new ShewenyClient({ intents: ["GUILDS"] });
@@ -80,4 +71,3 @@ selectManager.loadAll()
 ```
 
 :::
-::::

@@ -7,87 +7,76 @@ Please see [commands manager](../managers/commands) for setup the manager.
 
 Import the [Command](../../doc/structures/Command.md)
 
-:::: code-group
-::: code-group-item CommonJS
+::: code-group
 
-```js
-const { Command } = require("sheweny");
+```js [Javascript CJS]
+const { Command } = require('sheweny');
+```
+
+```ts [Typescript ESM]
+import { Command } from 'sheweny';
 ```
 
 :::
-::: code-group-item ESM
-
-```js
-import { Command } from "sheweny";
-```
-
-:::
-::::
 
 ## Slash-command
 
-:::: code-group
-::: code-group-item JS CommonJS
+::: code-group
 
-```js
-const { Command } = require("sheweny");
+```js [Javascript CJS]
+const { Command } = require('sheweny');
 
 module.exports = class PingCommand extends Command {
   constructor(client) {
     super(client, {
-      name: "ping",
-      type: "SLASH_COMMAND",
-      description: "Ping the bot",
-      category: "Misc",
+      name: 'ping',
+      type: 'SLASH_COMMAND',
+      description: 'Ping the bot',
+      category: 'Misc',
     });
   }
   execute(interaction) {
-    interaction.reply({ content: "Pong !" });
+    interaction.reply({ content: 'Pong !' });
   }
 };
 ```
 
-:::
-::: code-group-item TS ES Modules
-
-```ts
-import { Command } from "sheweny";
-import type { ShewenyClient } from "sheweny";
-import type { CommandInteraction } from "discord.js";
+```ts [Typescript ESM]
+import { Command } from 'sheweny';
+import type { ShewenyClient } from 'sheweny';
+import type { CommandInteraction } from 'discord.js';
 
 export class PingCommand extends Command {
   constructor(client: ShewenyClient) {
     super(client, {
-      name: "ping",
-      description: "Ping the bot",
-      type: "SLASH_COMMAND",
-      category: "Misc",
+      name: 'ping',
+      description: 'Ping the bot',
+      type: 'SLASH_COMMAND',
+      category: 'Misc',
     });
   }
   execute(interaction: CommandInteraction) {
-    interaction.reply({ content: "Pong !" });
+    interaction.reply({ content: 'Pong !' });
   }
 }
 ```
 
 :::
-::::
 
 ### Context-menu
 
-:::: code-group
-::: code-group-item JS CommonJS
+::: code-group
 
-```js
-const { Command } = require("sheweny");
+```js [Javascript CJS]
+const { Command } = require('sheweny');
 
 module.exports = class PingUserCommand extends Command {
   constructor(client) {
     super(client, {
-      name: "ping-user",
-      description: "Send ping to a user",
-      type: "CONTEXT_MENU_USER",
-      category: "Misc",
+      name: 'ping-user',
+      description: 'Send ping to a user',
+      type: 'CONTEXT_MENU_USER',
+      category: 'Misc',
     });
   }
 
@@ -97,21 +86,18 @@ module.exports = class PingUserCommand extends Command {
 };
 ```
 
-:::
-::: code-group-item TS ES Modules
-
-```ts
-import { Command } from "sheweny";
-import type { ShewenyClient } from "sheweny";
-import type { ContextMenuInteraction } from "discord.js";
+```ts [Typescript ESM]
+import { Command } from 'sheweny';
+import type { ShewenyClient } from 'sheweny';
+import type { ContextMenuInteraction } from 'discord.js';
 
 export class PingUserCommand extends Command {
   constructor(client: ShewenyClient) {
     super(client, {
-      name: "ping-user",
-      description: "Send ping to a user",
-      type: "CONTEXT_MENU_USER",
-      category: "Misc",
+      name: 'ping-user',
+      description: 'Send ping to a user',
+      type: 'CONTEXT_MENU_USER',
+      category: 'Misc',
     });
   }
 
@@ -122,26 +108,24 @@ export class PingUserCommand extends Command {
 ```
 
 :::
-::::
 
 ## Message command
 
-:::: code-group
-::: code-group-item JS CommonJS
+::: code-group
 
-```js
-const { Command } = require("sheweny");
+```js [Javascript CJS]
+const { Command } = require('sheweny');
 
 module.exports = class PingUserCommand extends Command {
   constructor(client) {
     super(client, {
-      name: "ping",
-      description: "Ping a user",
-      category: "Misc",
+      name: 'ping',
+      description: 'Ping a user',
+      category: 'Misc',
       args: [
         {
-          name: "userToPing",
-          type: "USER",
+          name: 'userToPing',
+          type: 'USER',
           default: null,
         },
       ],
@@ -150,16 +134,13 @@ module.exports = class PingUserCommand extends Command {
 
   execute(message, args) {
     message.channel.send({
-      content: `Pong ! ${args.userToPing ? args.userToPing : ""}`,
+      content: `Pong ! ${args.userToPing ? args.userToPing : ''}`,
     });
   }
 };
 ```
 
-:::
-::: code-group-item TS ES Modules
-
-```ts
+```ts [Typescript ESM]
 import { Command } from "sheweny";
 import type { ShewenyClient  } from "sheweny";
 import type { Message } from "discord.js";
@@ -187,7 +168,6 @@ export class PingUserCommand extends Command {
 ```
 
 :::
-::::
 
 ## Command cooldown
 
@@ -199,63 +179,57 @@ The cooldown value is in seconds and it type is `number`
 
 ### Slash-command
 
-:::: code-group
-::: code-group-item JS CommonJS
+::: code-group
 
-```js
-const { Command } = require("sheweny");
+```js [Javascript CJS]
+const { Command } = require('sheweny');
 
 module.exports = class PingCommand extends Command {
   constructor(client) {
     super(client, {
-      name: "ping",
-      description: "Ping the bot",
-      type: "SLASH_COMMAND",
-      category: "Misc",
+      name: 'ping',
+      description: 'Ping the bot',
+      type: 'SLASH_COMMAND',
+      category: 'Misc',
       cooldown: 5, // cooldown 5 seconds
     });
   }
 
   execute(interaction) {
-    interaction.reply({ content: "Pong !" });
+    interaction.reply({ content: 'Pong !' });
   }
 };
 ```
 
-:::
-::: code-group-item TS ES Modules
-
-```ts
-import { Command } from "sheweny";
-import type { ShewenyClient } from "sheweny";
-import type { CommandInteraction } from "discord.js";
+```ts [Typescript ESM]
+import { Command } from 'sheweny';
+import type { ShewenyClient } from 'sheweny';
+import type { CommandInteraction } from 'discord.js';
 
 export class PingCommand extends Command {
   constructor(client: ShewenyClient) {
     super(client, {
-      name: "ping",
-      description: "Ping the bot",
-      type: "SLASH_COMMAND",
-      category: "Misc",
+      name: 'ping',
+      description: 'Ping the bot',
+      type: 'SLASH_COMMAND',
+      category: 'Misc',
       cooldown: 5, // cooldown 5 seconds
     });
   }
 
   execute(interaction: CommandInteraction) {
-    interaction.reply({ content: "Pong !" });
+    interaction.reply({ content: 'Pong !' });
   }
 }
 ```
 
 :::
-::::
 
 ### Message command
 
-:::: code-group
-::: code-group-item JS CommonJS
+::: code-group
 
-```js
+```js [Javascript CJS]
 const { Command } = require("sheweny");
 
 module.exports = class PingCommand extends Command {
@@ -275,10 +249,7 @@ module.exports = class PingCommand extends Command {
 };
 ```
 
-:::
-::: code-group-item TS ES Modules
-
-```ts
+```ts [Typescript ESM]
 import { Command } from "sheweny";
 import type { ShewenyClient } from "sheweny";
 import type { Message } from "discord.js";
@@ -301,7 +272,6 @@ export class PingCommand extends Command {
 ```
 
 :::
-::::
 
 ::: warning
 After a restart of the bot the cooldowns are not kept
@@ -317,109 +287,99 @@ If bot missing permissions the command, the `clientMissingPermissions` will be e
 
 ### Slash-command
 
-:::: code-group
-::: code-group-item JS CommonJS
+::: code-group
 
-```js
-const { Command } = require("sheweny");
+```js [Javascript CJS]
+const { Command } = require('sheweny');
 
 module.exports = class PingCommand extends Command {
   constructor(client) {
     super(client, {
-      name: "ping",
-      description: "Ping the bot",
-      type: "SLASH_COMMAND",
-      category: "Misc",
-      userPermissions: ["BanMembers", "ManageMessages"],
+      name: 'ping',
+      description: 'Ping the bot',
+      type: 'SLASH_COMMAND',
+      category: 'Misc',
+      userPermissions: ['BanMembers', 'ManageMessages'],
     });
   }
 
   execute(interaction) {
-    interaction.reply({ content: "Pong !" });
+    interaction.reply({ content: 'Pong !' });
   }
 };
 ```
 
-:::
-::: code-group-item TS ES Modules
-
-```ts
-import { Command } from "sheweny";
-import type { ShewenyClient } from "sheweny";
-import type { CommandInteraction } from "discord.js";
+```ts [Typescript ESM]
+import { Command } from 'sheweny';
+import type { ShewenyClient } from 'sheweny';
+import type { CommandInteraction } from 'discord.js';
 
 export class PingCommand extends Command {
   constructor(client: ShewenyClient) {
     super(client, {
-      name: "ping",
-      description: "Ping the bot",
-      type: "SLASH_COMMAND",
-      category: "Misc",
-      userPermissions: ["BanMembers", "ManageMessages"],
+      name: 'ping',
+      description: 'Ping the bot',
+      type: 'SLASH_COMMAND',
+      category: 'Misc',
+      userPermissions: ['BanMembers', 'ManageMessages'],
     });
   }
 
   execute(interaction: CommandInteraction) {
-    interaction.reply({ content: "Pong !" });
+    interaction.reply({ content: 'Pong !' });
   }
 }
 ```
 
 :::
-::::
 
 ### Message command
 
-:::: code-group
-::: code-group-item JS CommonJS
+::: code-group
 
-```js
-const { Command } = require("sheweny");
+```js [Javascript CJS]
+const { Command } = require('sheweny');
 
 module.exports = class PingCommand extends Command {
   constructor(client) {
     super(client, {
-      name: "ping",
-      description: "Ping the bot",
-      type: "MESSAGE_COMMAND",
-      category: "Misc",
-      userPermissions: ["BanMembers", "ManageMessages"],
+      name: 'ping',
+      description: 'Ping the bot',
+      type: 'MESSAGE_COMMAND',
+      category: 'Misc',
+      userPermissions: ['BanMembers', 'ManageMessages'],
     });
   }
 
   execute(message) {
-    message.channel.send({ content: "Pong !" });
+    message.channel.send({ content: 'Pong !' });
   }
 };
 ```
 
-:::
-::: code-group-item TS ES Modules
-
-```ts
-import { Command } from "sheweny";
-import type { ShewenyClient } from "sheweny";
-import type { Message } from "discord.js";
+```ts [Typescript ESM]
+import { Command } from 'sheweny';
+import type { ShewenyClient } from 'sheweny';
+import type { Message } from 'discord.js';
 
 export class PingCommand extends Command {
   constructor(client: ShewenyClient) {
     super(client, {
-      name: "ping",
-      description: "Ping the bot",
-      type: "MESSAGE_COMMAND",
-      category: "Misc",
-      userPermissions: ["BanMembers", "ManageMessages"],
+      name: 'ping',
+      description: 'Ping the bot',
+      type: 'MESSAGE_COMMAND',
+      category: 'Misc',
+      userPermissions: ['BanMembers', 'ManageMessages'],
     });
   }
 
   execute(message: Message) {
-    message.channel.send({ content: "Pong !" });
+    message.channel.send({ content: 'Pong !' });
   }
 }
 ```
 
 :::
-::::
 
 ## Command restrictions
 
@@ -427,10 +387,9 @@ You can add restrictions to prevent a command from being executed on a guild or 
 
 ### Guild channel with slash-commands
 
-:::: code-group
-::: code-group-item JS CommonJS
+::: code-group
 
-```js
+```js [Javascript CJS]
 const { Command } = require("sheweny");
 
 module.exports = class PingCommand extends Command {
@@ -450,10 +409,7 @@ module.exports = class PingCommand extends Command {
 };
 ```
 
-:::
-::: code-group-item TS ES Modules
-
-```ts
+```ts [Typescript ESM]
 import { Command } from "sheweny";
 import type { ShewenyClient } from "sheweny";
 import type { CommandInteraction } from "discord.js";
@@ -476,14 +432,12 @@ export class PingCommand extends Command {
 ```
 
 :::
-::::
 
 ### DMs channel with message-commands
 
-:::: code-group
-::: code-group-item JS CommonJS
+::: code-group
 
-```js
+```js [Javascript CJS]
 const { Command } = require("sheweny");
 
 module.exports = class PingCommand extends Command {
@@ -502,10 +456,7 @@ module.exports = class PingCommand extends Command {
 };
 ```
 
-:::
-::: code-group-item TS ES Modules
-
-```ts
+```ts [Typescript ESM]
 import { Command } from "sheweny";
 import type { ShewenyClient } from "sheweny";
 import type { Message } from "discord.js";
@@ -527,7 +478,6 @@ export class PingCommand extends Command {
 ```
 
 :::
-::::
 
 ## Auto-complete commands
 
@@ -537,30 +487,29 @@ The auto-complete commands are used to provide auto-complete suggestions for the
 For use auto-complete you must have discord.js V13.3.0 or higher and sheweny V3.0.0 or higher.
 :::
 
-:::: code-group
-::: code-group-item JS CommonJS
+::: code-group
 
-```js
-const { Command } = require("sheweny");
-const { ApplicationCommandOptionType } = require("discord.js");
+```js [Javascript CJS]
+const { Command } = require('sheweny');
+const { ApplicationCommandOptionType } = require('discord.js');
 
 module.exports = class PingCommand extends Command {
   constructor(client) {
     super(client, {
-      name: "ping",
-      type: "SLASH_COMMAND",
-      description: "Ping the bot",
-      category: "Misc",
+      name: 'ping',
+      type: 'SLASH_COMMAND',
+      description: 'Ping the bot',
+      category: 'Misc',
       options: [
         {
-          name: "name",
-          description: "description",
+          name: 'name',
+          description: 'description',
           type: ApplicationCommandOptionType.String,
           autocomplete: true,
         },
         {
-          name: "theme",
-          description: "description",
+          name: 'theme',
+          description: 'description',
           type: ApplicationCommandOptionType.String,
           autocomplete: true,
         },
@@ -568,7 +517,7 @@ module.exports = class PingCommand extends Command {
     });
   }
   execute(interaction) {
-    interaction.reply({ content: "Pong !" });
+    interaction.reply({ content: 'Pong !' });
   }
 
   onAutocomplete(interaction) {
@@ -576,52 +525,42 @@ module.exports = class PingCommand extends Command {
 
     let choices;
 
-    if (focusedOption.name === "name") {
-      choices = ["faq", "install", "collection", "promise", "debug"];
+    if (focusedOption.name === 'name') {
+      choices = ['faq', 'install', 'collection', 'promise', 'debug'];
     }
 
-    if (focusedOption.name === "theme") {
-      choices = ["halloween", "christmas", "summer"];
+    if (focusedOption.name === 'theme') {
+      choices = ['halloween', 'christmas', 'summer'];
     }
 
-    const filtered = choices.filter((choice) =>
-      choice.startsWith(focusedOption.value)
-    );
-    interaction.respond(
-      filtered.map((choice) => ({ name: choice, value: choice }))
-    );
+    const filtered = choices.filter(choice => choice.startsWith(focusedOption.value));
+    interaction.respond(filtered.map(choice => ({ name: choice, value: choice })));
   }
 };
 ```
 
-:::
-::: code-group-item TS ES Modules
-
-```ts
-import { Command } from "sheweny";
-import type { ShewenyClient } from "sheweny";
-import type {
-  CommandInteraction,
-  ApplicationCommandOptionType,
-} from "discord.js";
+```ts [Typescript ESM]
+import { Command } from 'sheweny';
+import type { ShewenyClient } from 'sheweny';
+import type { CommandInteraction, ApplicationCommandOptionType } from 'discord.js';
 
 export class PingCommand extends Command {
   constructor(client: ShewenyClient) {
     super(client, {
-      name: "ping",
-      description: "Ping the bot",
-      type: "SLASH_COMMAND",
-      category: "Misc",
+      name: 'ping',
+      description: 'Ping the bot',
+      type: 'SLASH_COMMAND',
+      category: 'Misc',
       options: [
         {
-          name: "name",
-          description: "description",
+          name: 'name',
+          description: 'description',
           type: ApplicationCommandOptionType.String,
           autocomplete: true,
         },
         {
-          name: "theme",
-          description: "description",
+          name: 'theme',
+          description: 'description',
           type: ApplicationCommandOptionType.String,
           autocomplete: true,
         },
@@ -629,30 +568,25 @@ export class PingCommand extends Command {
     });
   }
   execute(interaction: CommandInteraction) {
-    interaction.reply({ content: "Pong !" });
+    interaction.reply({ content: 'Pong !' });
   }
   onAutocomplete(interaction: AutocompleteInteraction) {
     const focusedOption = interaction.options.getFocused(true);
 
     let choices: any;
 
-    if (focusedOption.name === "name") {
-      choices = ["faq", "install", "collection", "promise", "debug"];
+    if (focusedOption.name === 'name') {
+      choices = ['faq', 'install', 'collection', 'promise', 'debug'];
     }
 
-    if (focusedOption.name === "theme") {
-      choices = ["halloween", "christmas", "summer"];
+    if (focusedOption.name === 'theme') {
+      choices = ['halloween', 'christmas', 'summer'];
     }
 
-    const filtered = choices!.filter((choice: any) =>
-      choice.startsWith(focusedOption.value)
-    );
-    interaction.respond(
-      filtered.map((choice: any) => ({ name: choice, value: choice }))
-    );
+    const filtered = choices!.filter((choice: any) => choice.startsWith(focusedOption.value));
+    interaction.respond(filtered.map((choice: any) => ({ name: choice, value: choice })));
   }
 }
 ```
 
 :::
-::::

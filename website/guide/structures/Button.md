@@ -7,34 +7,28 @@ Please see [buttons manager](../managers/buttons) for setup the manager.
 
 Import the [Button](../../doc/structures/Button.md) class :
 
-:::: code-group
-::: code-group-item CommonJS
+::: code-group
 
-```js
-const { Button } = require("sheweny");
+```js [Javascript CJS]
+const { Button } = require('sheweny');
+```
+
+```ts [Typescript ESM]
+import { Button } from 'sheweny';
 ```
 
 :::
-::: code-group-item ESM
-
-```js
-import { Button } from "sheweny";
-```
-
-:::
-::::
 
 ## Create the button listner
 
-:::: code-group
-::: code-group-item JS CommonJS
+::: code-group
 
-```js
-const { Button } = require("sheweny");
+```js [Javascript CJS]
+const { Button } = require('sheweny');
 
 module.exports = class Btns extends Button {
   constructor(client) {
-    super(client, ["btnId1", "btnId2"]);
+    super(client, ['btnId1', 'btnId2']);
   }
 
   execute(button) {
@@ -43,17 +37,14 @@ module.exports = class Btns extends Button {
 };
 ```
 
-:::
-::: code-group-item TS ES Modules
-
-```ts
-import { Button } from "sheweny";
-import type { ShewenyClient } from "sheweny";
-import type { ButtonInteraction } from "discord.js";
+```ts [Typescript ESM]
+import { Button } from 'sheweny';
+import type { ShewenyClient } from 'sheweny';
+import type { ButtonInteraction } from 'discord.js';
 
 export class Btns extends Button {
   constructor(client: ShewenyClient) {
-    super(client, ["btnId1", "btnId2"]);
+    super(client, ['btnId1', 'btnId2']);
   }
 
   execute(button: ButtonInteraction) {
@@ -63,17 +54,15 @@ export class Btns extends Button {
 ```
 
 :::
-::::
 
 ## Use regular expressions with buttons
 
 You can put regular expressions in the button id's to match the button id's.
 
-:::: code-group
-::: code-group-item JS CommonJS
+::: code-group
 
-```js
-const { Button } = require("sheweny");
+```js [Javascript CJS]
+const { Button } = require('sheweny');
 
 module.exports = class RegexButton extends Button {
   constructor(client) {
@@ -86,13 +75,10 @@ module.exports = class RegexButton extends Button {
 };
 ```
 
-:::
-::: code-group-item TS ES Modules
-
-```ts
-import { Button } from "sheweny";
-import type { ShewenyClient } from "sheweny";
-import type { ButtonInteraction } from "discord.js";
+```ts [Typescript ESM]
+import { Button } from 'sheweny';
+import type { ShewenyClient } from 'sheweny';
+import type { ButtonInteraction } from 'discord.js';
 
 export class RegexButton extends Button {
   constructor(client: ShewenyClient) {
@@ -106,25 +92,23 @@ export class RegexButton extends Button {
 ```
 
 :::
-::::
 
 ## Use "before" method on buttons
 
 It is possible to add a `before` function to execute code before checks like inhibitors etc.
 
-:::: code-group
-::: code-group-item JS CommonJS
+::: code-group
 
-```js
-const { Button } = require("sheweny");
+```js [Javascript CJS]
+const { Button } = require('sheweny');
 
 module.exports = class Btns extends Button {
   constructor(client) {
-    super(client, ["btnId1", "btnId2"]);
+    super(client, ['btnId1', 'btnId2']);
   }
 
   before(button) {
-    console.log("Before function");
+    console.log('Before function');
   }
 
   execute(button) {
@@ -133,21 +117,18 @@ module.exports = class Btns extends Button {
 };
 ```
 
-:::
-::: code-group-item TS ES Modules
-
-```ts
-import { Button } from "sheweny";
-import type { ShewenyClient } from "sheweny";
-import type { ButtonInteraction } from "discord.js";
+```ts [Typescript ESM]
+import { Button } from 'sheweny';
+import type { ShewenyClient } from 'sheweny';
+import type { ButtonInteraction } from 'discord.js';
 
 export class Btns extends Button {
   constructor(client: ShewenyClient) {
-    super(client, ["btnId1", "btnId2"]);
+    super(client, ['btnId1', 'btnId2']);
   }
 
   before(button: ButtonInteraction) {
-    console.log("Before function");
+    console.log('Before function');
   }
 
   execute(button: ButtonInteraction) {
@@ -157,4 +138,3 @@ export class Btns extends Button {
 ```
 
 :::
-::::
