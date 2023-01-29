@@ -15,14 +15,14 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-          cache: yarn
+          cache: npm
       - name: Install
         working-directory: website
         run: npm ci
 
       - name: Build
         working-directory: website
-        run: yarn docs:build
+        run: npm run build
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
