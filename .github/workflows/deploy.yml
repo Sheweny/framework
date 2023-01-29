@@ -18,7 +18,7 @@ jobs:
           cache: yarn
       - name: Install
         working-directory: website
-        run: yarn install --frozen-lockfile
+        run: npm ci
 
       - name: Build
         working-directory: website
