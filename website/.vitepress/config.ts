@@ -16,11 +16,11 @@ export default defineConfig({
       { text: 'Home', link: '/' },
       { text: 'Guide', link: '/guide/' },
       { text: 'Documentation', link: '/docs/' },
-      { text: 'GitHub', link: '' },
+      { text: 'GitHub', link: 'https://github.com/Sheweny/framework' },
     ],
     socialLinks: [
-      { icon: 'discord', link: 'https://discord.com/users/611468402263064577' },
-      { icon: 'github', link: 'https://github.com/Smaug6739/square' },
+      { icon: 'discord', link: 'https://discord.gg/qgd85nEf5a' },
+      { icon: 'github', link: 'https://github.com/Sheweny/framework' },
     ],
     sidebar: {
       '/docs/': [
