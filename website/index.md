@@ -18,13 +18,13 @@ hero:
       link: /guide/
     - theme: alt
       text: Features
-      link: /guide/features
+      link: /guide/
     - theme: alt
       text: Why Sheweny?
-      link: /guide/why
+      link: /guide/
     - theme: alt
       text: View on GitHub
-      link: https://github.com/Smaug6739/Sheweny
+      link: https://github.com/Sheweny/framework
 
 features:
   - title: Modular

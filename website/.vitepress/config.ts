@@ -127,7 +127,11 @@ export default defineConfig({
         },
         {
           text: 'Topics',
-          items: [{ text: 'Best pratices', link: '/guide/topics/BestPratices.md' }],
+          items: [
+            { text: 'Best pratices', link: '/guide/topics/BestPratices.md' },
+            { text: 'Updating from V1 to V2', link: '/guide/topics/V1-V2.md' },
+            { text: 'Updating from V2 to V3', link: '/guide/topics/V2-V3.md' },
+          ],
         },
         {
           text: 'Changelogs',
