@@ -11,7 +11,7 @@ Please see [inhibitors manager](../managers/inhibitors) for setup the manager.
 
 ## Import Inhibitor
 
-Import the [Inhibitor](../../doc/structures/Inhibitor) class :
+Import the [Inhibitor](../../docs/structures/Inhibitor) class :
 
 ::: code-group
 

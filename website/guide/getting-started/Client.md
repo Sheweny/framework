@@ -2,7 +2,7 @@
 
 ## Import ShewenyClient
 
-Import the [ShewenyClient](../../doc/client/ShewenyClient.md) class from library.
+Import the [ShewenyClient](../../docs/client/ShewenyClient.md) class from library.
 
 ### Using CommonJS syntax
 
@@ -18,7 +18,7 @@ import { ShewenyClient } from 'sheweny';
 
 ## Create new instance of client
 
-Create a new instance of [ShewenyClient](../../doc/client/ShewenyClient.md) with [ShewenyClientOptions](../../doc/typedef/ShewenyClientOptions.md)
+Create a new instance of [ShewenyClient](../../docs/client/ShewenyClient.md) with [ShewenyClientOptions](../../docs/typedef/ShewenyClientOptions.md)
 
 ```js [Javascript CJS]
 const client = new ShewenyClient({

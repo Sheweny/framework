@@ -1,11 +1,11 @@
 # Modal listener
 
-With sheweny each Modal must be a class which extends from the [Modal](../../doc/structures/Modal.md) class.
+With sheweny each Modal must be a class which extends from the [Modal](../../docs/structures/Modal.md) class.
 Please see [modals manager](../managers/Modals) for setup the manager.
 
 ## Import Modal
 
-Import the [Modal](../../doc/structures/Modal.md) class :
+Import the [Modal](../../docs/structures/Modal.md) class :
 
 ::: code-group
 

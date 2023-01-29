@@ -1,11 +1,11 @@
 # Button listener
 
-With sheweny each button must be a class which extends from the [Button](../../doc/structures/Button.md) class.
+With sheweny each button must be a class which extends from the [Button](../../docs/structures/Button.md) class.
 Please see [buttons manager](../managers/buttons) for setup the manager.
 
 ## Import Button
 
-Import the [Button](../../doc/structures/Button.md) class :
+Import the [Button](../../docs/structures/Button.md) class :
 
 ::: code-group
 

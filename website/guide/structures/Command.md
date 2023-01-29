@@ -1,11 +1,11 @@
 # Basic command
 
-With sheweny each command must be a class which extends from the [Command](../../doc/structures/Command.md) for commands ans context-menus.
+With sheweny each command must be a class which extends from the [Command](../../docs/structures/Command.md) for commands ans context-menus.
 Please see [commands manager](../managers/commands) for setup the manager.
 
 ## Import Command
 
-Import the [Command](../../doc/structures/Command.md)
+Import the [Command](../../docs/structures/Command.md)
 
 ::: code-group
 
@@ -281,9 +281,9 @@ After a restart of the bot the cooldowns are not kept
 
 With sheweny you can defined permissions of bot and user.
 
-If user missing permissions for the command, the `userMissingPermissions` will be emitted by [CommandManager](../../doc/managers/CommandsManager.md#usermissingpermissions) :
+If user missing permissions for the command, the `userMissingPermissions` will be emitted by [CommandManager](../../docs/managers/CommandsManager.md#usermissingpermissions) :
 
-If bot missing permissions the command, the `clientMissingPermissions` will be emitted by [CommandManager](../../doc/managers/CommandsManager.md#clientmissingpermissions) :
+If bot missing permissions the command, the `clientMissingPermissions` will be emitted by [CommandManager](../../docs/managers/CommandsManager.md#clientmissingpermissions) :
 
 ### Slash-command
 

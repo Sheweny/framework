@@ -1,11 +1,11 @@
 # Event listener
 
-With sheweny each Event must be a class which extends from the [Event](../../doc/structures/Event.md) class.
+With sheweny each Event must be a class which extends from the [Event](../../docs/structures/Event.md) class.
 Please see [events manager](../managers/events) for setup the manager.
 
 ## Import Event
 
-Import the [Event](../../doc/structures/Event.md) class :
+Import the [Event](../../docs/structures/Event.md) class :
 
 ::: code-group
 

@@ -1,11 +1,11 @@
 # Select-menu listener
 
-With sheweny each selectMenu must be a class which extends from the [SelectMenu](../../doc/structures/SelectMenu.md) class.
+With sheweny each selectMenu must be a class which extends from the [SelectMenu](../../docs/structures/SelectMenu.md) class.
 Please see [selectMenus manager](../managers/selectMenus) for setup the manager.
 
 ## Import SelectMenu
 
-Import the [SelectMenu](../../doc/structures/SelectMenu.md) class :
+Import the [SelectMenu](../../docs/structures/SelectMenu.md) class :
 
 ::: code-group
 
