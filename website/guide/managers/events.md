@@ -16,7 +16,6 @@ const client = new ShewenyClient({
   managers: {
     events: {
       directory: './events',
-      loadAll: true, // Load all events (default: true)
     },
   },
 });
@@ -30,7 +29,6 @@ const client = new ShewenyClient({
   managers: {
     events: {
       directory: './events',
-      loadAll: true, // Load all events (default: true)
     },
   },
 });
@@ -49,7 +47,6 @@ const client = new ShewenyClient({ intents: ['GUILDS'] });
 
 const EvtsManager = new EventsManager(client, {
   directory: './events', // Directory where events are stored
-  loadAll: true, // Load all events (default: true)
 });
 
 EvtsManager.loadAndRegisterAll().then(() => {
@@ -64,7 +61,6 @@ const client = new ShewenyClient({ intents: ["GUILDS"] });
 
 const EvtsManager = new EventsManager(client, {
   directory: "./events", // Directory where events are stored
-  loadAll: true, // Load all events (default: true)
   });
 
 EvtsManager.loadAndRegisterAll().then(() => {

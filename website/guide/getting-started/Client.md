@@ -28,12 +28,10 @@ const client = new ShewenyClient({
     commands: {
       directory: './commands', // Directory where commands are stored
       prefix: '!', // Prefix for commands-message
-      loadAll: true, // Load all commands
       autoRegisterApplicationCommands: true, // Register application commands
     },
     events: {
       directory: './events',
-      loadAll: true,
     },
   },
 });

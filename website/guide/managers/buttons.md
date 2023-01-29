@@ -16,7 +16,6 @@ const client = new ShewenyClient({
   managers: {
     buttons: {
       directory: './interactions/buttons', // Directory where buttons interactions are stored
-      loadAll: true, // Load all events (default: true)
     },
   },
 });
@@ -30,7 +29,6 @@ const client = new ShewenyClient({
   managers: {
     buttons: {
       directory: './interactions/buttons', // Directory where buttons interactions are stored
-      loadAll: true, // Load all events (default: true)
     },
   },
 });
@@ -51,7 +49,6 @@ const client = new ShewenyClient({ intents: ['GUILDS'] });
 
 const BtnsManager = new ButtonsManager(client, {
   directory: './interactions/buttons', // Directory where the buttons are stored
-  loadAll: true, // Load all buttons (default: true)
 });
 
 BtnsManager.loadAll();
@@ -64,7 +61,6 @@ const client = new ShewenyClient({ intents: ['GUILDS'] });
 
 const BtnsManager = new ButtonsManager(client, {
   directory: './interactions/buttons', // Directory where the buttons are stored
-  loadAll: true, // Load all buttons (default: true)
 });
 
 BtnsManager.loadAll();

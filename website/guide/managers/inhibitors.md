@@ -16,7 +16,6 @@ const client = new ShewenyClient({
   managers: {
     inhibitors: {
       directory: './inhibitors', // Directory where the inhibitors are stored
-      loadAll: true, // Load all inhibitors (default: true)
     },
   },
 });
@@ -30,7 +29,6 @@ const client = new ShewenyClient({
   managers: {
     inhibitors: {
       directory: './inhibitors', // Directory where the inhibitors are stored
-      loadAll: true, // Load all inhibitors (default: true)
     },
   },
 });
@@ -51,7 +49,6 @@ const client = new ShewenyClient({ intents: ['GUILDS'] });
 
 const InhibsManager = new InhibitorsManager(client, {
   directory: './inhibitors',
-  loadAll: true, // Load all inhibitors (default: true)
 });
 
 InhibsManager.loadAll();
@@ -64,7 +61,6 @@ const client = new ShewenyClient({ intents: ["GUILDS"] });
 
 const InhibsManager = new InhibitorsManager(client, {
   directory: "./inhibitors",
-  loadAll: true, // Load all inhibitors (default: true)
 });
 
 InhibsManager.loadAll()

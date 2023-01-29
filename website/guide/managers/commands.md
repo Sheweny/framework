@@ -19,7 +19,6 @@ const client = new ShewenyClient({
       guildId: ['877090306103840778'], // Register commands and context-menus in this guild
       prefix: '!', // Prefix for commands-message
       applicationPermissions: false,
-      loadAll: true, // Load all commands (default: true)
     },
   },
 });
@@ -36,7 +35,6 @@ const client = new ShewenyClient({
       guildId: '877090306103840778', // Register commands and context-menus in this guild
       prefix: '!', // Prefix for commands-message
       applicationPermissions: false,
-      loadAll: true, // Load all commands (default: true)
     },
   },
 });
@@ -60,7 +58,6 @@ const commandsHandler = new CommandsManager(client, {
   guildId: '877090306103840778', // Register commands and context-menus in this guild
   prefix: '!', // Prefix for commands-message
   applicationPermissions: false,
-  loadAll: true, // Load all commands (default: true)
 });
 
 commandsHandler.loadAndRegisterAll().then(() => {
@@ -78,7 +75,6 @@ const commandsHandler = new CommandsManager(client, {
   guildId: "877090306103840778", // Register commands and context-menus in this guild
   prefix: "!", // Prefix for commands-message
   applicationPermissions: false,
-  loadAll: true, // Load all commands (default: true)
 });
 
 commandsHandler.loadAndRegisterAll().then(() => {
