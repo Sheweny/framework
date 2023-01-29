@@ -10,7 +10,7 @@ new Inhibitor(client, options);
 
 | Name    | Type                                               | Description                  | Default | Optional |
 | ------- | -------------------------------------------------- | ---------------------------- | ------- | -------- |
-| client  | [ShewenyClient](../classes/ShewenyClient.md)       | The client.                  | None    |          |
+| client  | [ShewenyClient](../client/ShewenyClient.md)        | The client.                  | None    |          |
 | name    | [String]                                           | The name of the inhibitor.   | None    |          |
 | options | [InhibitorOptions](../typedef/InhibitorOptions.md) | The options of the inhibitor | None    |          |
 

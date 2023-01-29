@@ -8,11 +8,11 @@ Represents an event.
 new Event(client, 'ready', options);
 ```
 
-| Name    | Type                                         | Description              | Default | Optional |
-| ------- | -------------------------------------------- | ------------------------ | ------- | -------- |
-| client  | [ShewenyClient](../classes/ShewenyClient.md) | The client.              | None    | No       |
-| name    | [String]                                     | The name of the event    | None    | No       |
-| options | [EventOptions](../typedef/EventOptions.md)   | The options of the event | None    | No       |
+| Name    | Type                                        | Description              | Default | Optional |
+| ------- | ------------------------------------------- | ------------------------ | ------- | -------- |
+| client  | [ShewenyClient](../client/ShewenyClient.md) | The client.              | None    | No       |
+| name    | [String]                                    | The name of the event    | None    | No       |
+| options | [EventOptions](../typedef/EventOptions.md)  | The options of the event | None    | No       |
 
 :::details Properties
 

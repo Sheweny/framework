@@ -83,7 +83,7 @@ Return : [CommandsManagerDefaultOption](../typedef/ManagersDefaultOptions.md#com
 
 ### directory
 
-The directory of buttons.
+The directory of commands.
 
 Return : [String]
 

@@ -76,7 +76,7 @@ Emitted when user hit the cooldown limit.
 
 Parameters :
 
-| Name        | Type                                                                                     | Description               |
-| ----------- | ---------------------------------------------------------------------------------------- | ------------------------- |
-| interaction | [CommandInteraction](https://discord.js.org/#/docs/main/stable/class/CommandInteraction) | The interaction           |
-| time        | [Number]                                                                                 | The time before run again |
+| Name        | Type                                                                                   | Description               |
+| ----------- | -------------------------------------------------------------------------------------- | ------------------------- |
+| interaction | [ButtonInteraction](https://discord.js.org/#/docs/main/stable/class/ButtonInteraction) | The interaction           |
+| time        | [Number]                                                                               | The time before run again |

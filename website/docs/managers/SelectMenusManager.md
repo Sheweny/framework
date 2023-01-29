@@ -52,7 +52,7 @@ Return : [String]
 
 The collection of loaded selectMenus.
 
-Return : Collection<[Button](../structures/Button.md)>
+Return : Collection<[SelectMenu](../structures/SelectMenu.md)>
 
 ## Methods
 

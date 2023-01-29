@@ -63,7 +63,7 @@ Return : Collection<[Event](../structures/Event.md)>
 
 Load all inhibitors in directory of events.
 
-Return : [Promise]\<Collection\<[String], [Event](./Event.md)>>
+Return : [Promise]\<Collection\<[String], [Event](../structures/Event.md)>>
 
 ### registerAll(events)
 

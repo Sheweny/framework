@@ -1,7 +1,7 @@
 # Introduction
 
 hello  
-Welcome to the sheweny guide, this part of the site gives explanations and examples of uses of certain points of the framework. If you wish to consult the documentation click [here](../doc)
+Welcome to the sheweny guide, this part of the site gives explanations and examples of uses of certain points of the framework. If you wish to consult the documentation click [here](../docs/index.md)
 
 In this guide you will find :
 

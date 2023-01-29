@@ -10,7 +10,7 @@ new Modal(client, options);
 
 | Name     | Type                                            | Description            | Default | Optional |
 | -------- | ----------------------------------------------- | ---------------------- | ------- | -------- |
-| client   | [ShewenyClient](./ShewenyClient.md)             | The client.            | None    | No       |
+| client   | [ShewenyClient](../client/ShewenyClient.md)     | The client.            | None    | No       |
 | customId | [Array]\<[String] \| [RegExp]>                  | The list of modals ids | None    | ✓        |
 | options  | [ModalOptions](../typedef/SelectMenuOptions.md) | The options.           | None    | ✓        |
 

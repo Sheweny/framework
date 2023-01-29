@@ -10,7 +10,7 @@ new Button(client, options);
 
 | Name     | Type                                             | Description            | Default | Optional |
 | -------- | ------------------------------------------------ | ---------------------- | ------- | -------- |
-| client   | [ShewenyClient](./ShewenyClient.md)              | The client.            | None    | No       |
+| client   | [ShewenyClient](../client/ShewenyClient.md)      | The client.            | None    | No       |
 | customId | [Array]\<[String] \| [RegExp]>                   | The list of butons ids | None    | ✓        |
 | options  | [ButtonOptions](../typedef/SelectMenuOptions.md) | The options.           | None    | ✓        |
 

@@ -10,7 +10,7 @@ new SelectMenu(client, options);
 
 | Name     | Type                                             | Description                  | Default | Optional |
 | -------- | ------------------------------------------------ | ---------------------------- | ------- | -------- |
-| client   | [ShewenyClient](./ShewenyClient.md)              | The client.                  | None    | ✓        |
+| client   | [ShewenyClient](../client/ShewenyClient.md)      | The client.                  | None    | ✓        |
 | customId | [Array]\<[String] \| [RegExp]>                   | The list of select-menus ids | None    | ✓        |
 | options  | [ButtonOptions](../typedef/SelectMenuOptions.md) | The options.                 | None    | ✓        |
 

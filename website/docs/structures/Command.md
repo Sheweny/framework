@@ -10,7 +10,7 @@ new Command(client, options);
 
 | Name    | Type                                           | Description                | Default | Optional |
 | ------- | ---------------------------------------------- | -------------------------- | ------- | -------- |
-| client  | [ShewenyClient](../classes/ShewenyClient.md)   | The client.                | None    |          |
+| client  | [ShewenyClient](../client/ShewenyClient.md)    | The client.                | None    |          |
 | options | [CommandOptions](../typedef/CommandOptions.md) | The options of the command | None    |          |
 
 :::details Properties
