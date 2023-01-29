@@ -4,7 +4,7 @@ Welcome to the official documentation of sheweny framework.
 
 :::warning
 NOTE: Your are on the V4 documentation, so you need to use discord.js v14 and node.js v16.9 or higher.
-Here you will find all of the framework documentation. To access the guide [click here](../guide/README.md)
+Here you will find all of the framework documentation. To access the guide [click here](../guide/index.md)
 :::
 
 ## About
