@@ -11,6 +11,7 @@ export default defineConfig({
       md.use(replace);
     },
   },
+  base: '/framework/',
   themeConfig: {
     nav: [
       { text: 'Home', link: '/' },
