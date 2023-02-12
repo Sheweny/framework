@@ -1,6 +1,15 @@
-import { defineConfig } from 'vitepress';
+import { defineConfig, type DefaultTheme } from 'vitepress';
 import './style/vars.css';
 import replace from './replace';
+
+let algolia: DefaultTheme.AlgoliaSearchOptions | undefined = undefined;
+
+if (process.env.ALGOLIA_APP_ID && process.env.ALGOLIA_API_KEY)
+  algolia = {
+    appId: process.env.ALGOLIA_APP_ID || '',
+    apiKey: process.env.ALGOLIA_API_KEY || '',
+    indexName: 'framework',
+  };
 
 export default defineConfig({
   title: 'Sheweny.js',
@@ -11,8 +20,10 @@ export default defineConfig({
       md.use(replace);
     },
   },
+
   base: '/framework/',
   themeConfig: {
+    algolia: algolia,
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Guide', link: '/guide/' },

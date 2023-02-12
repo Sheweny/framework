@@ -28,6 +28,6 @@
   "homepage": "https://github.com/Smaug6739/square#readme",
   "devDependencies": {
     "vitepress": "^1.0.0-alpha.27",
-    "vue": "^3.2.41"
+    "vue": "^3.2.47"
   }
 }
