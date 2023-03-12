@@ -21,7 +21,7 @@ export default defineConfig({
     },
   },
 
-  base: '/framework/',
+  // base: '/framework/',
   themeConfig: {
     algolia: algolia,
     nav: [
