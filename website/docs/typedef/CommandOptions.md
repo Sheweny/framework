@@ -14,7 +14,6 @@
 | examples                 | [String] or[Array]<[String]>                                                                   | The examples of the command                                                | None    | ✓        |
 | name                     | [String]                                                                                       | The name of the command                                                    | None    |          |
 | nameLocalizations        | [[Object]\<[Locale](https://discord.js.org/#/docs/discord.js/stable/typedef/Locale), [String]> | The name of the command in an other languages                              | None    | ✓        |
-
 | options | [Array]<[ApplicationCommandOptionData](https://discord.js.org/#/docs/main/stable/typedef/ApplicationCommandOptionData)> | The options for command (slash-commands only) | None | ✓ |
 | type | MESSAGE_COMMAND or SLASH_COMMAND or CONTEXT_MENU_USER or CONTEXT_MENU_MESSAGE | The type of the command | None | ✓ |
 | usage | [String] or[Array]<[String]> | The usage of the command | None | ✓ |
