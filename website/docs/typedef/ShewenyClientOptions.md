@@ -7,9 +7,8 @@ Extends ClientOptions (discord.js type)
 | admins                   | [Array]<[String]> | Ids of bot admins                                 | None    | ✓        |
 | joinThreadsOnCreate      | [Boolean]         | If bot should join threads on create              | false   | ✓        |
 | disableCooldownForAdmins | [Boolean]         | If bot should disable the cooldown for bot admins | true    | ✓        |
-
 | managers | [ClientManagersOptions](#clientmanagersoptions) | The options for the managers | | ✓ |
-| mode | development or production | The mode for run application | development | ✓ |
+| mode | "development" or "production" | The mode for run application | development | ✓ |
 
 ## ClientManagersOptions
 
