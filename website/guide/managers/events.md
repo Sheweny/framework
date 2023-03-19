@@ -67,5 +67,3 @@ EvtsManager.loadAndRegisterAll().then(() => {
   console.log('All events loaded and registered')
 })
 ```
-
-:::
