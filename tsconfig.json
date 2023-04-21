@@ -19,7 +19,6 @@
     "resolveJsonModule": true,
     // Emit
     "importHelpers": true,
-    "importsNotUsedAsValues": "error",
     "inlineSources": true,
     "newLine": "lf",
     "noEmitHelpers": true,

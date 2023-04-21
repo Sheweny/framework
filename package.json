@@ -1,55 +1,27 @@
 {
   "name": "sheweny",
-  "version": "4.2.1",
-  "description": "The powerful framework for create discord bots",
-  "main": "./build/index.js",
-  "type": "commonjs",
-  "types": "./typings/index.d.ts",
+  "version": "0.0.0",
+  "description": "Sheweny is a powerful framework for Discord.js with a lot of features and a modular structure.",
+  "main": "/",
   "scripts": {
-    "build": "tsc && tsc --build tsconfig.typings.json",
-    "build:typings": "tsc --build tsconfig.typings.json",
-    "format": "prettier --write . && eslint src --fix",
-    "lint": "eslint src/**/*.ts",
-    "lint:fix": "eslint src/**/*.ts --fix",
-    "dev": "tsnd --respawn --transpile-only --cls ./test/ts/src/index.ts",
-    "publish:dev": "npm publish --tag dev"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Smaug#6739",
-  "license": "MIT",
-  "keywords": [
-    "discord",
-    "discord.js",
-    "framework",
-    "discord-bots",
-    "bots",
-    "cli",
-    "discordapp",
-    "api",
-    "bot",
-    "client"
-  ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/Sheweny/framework.git"
+    "url": "git+https://github.com/Sheweny/framework.git"
   },
-  "homepage": "https://sheweny.js.org",
-  "dependencies": {
-    "@sheweny/resolve": "^1.3.2",
-    "tslib": "^2.4.0"
+  "keywords": [
+    "sheweny",
+    "discord-bot",
+    "discord.js",
+    "discord",
+    "bot",
+    "api"
+  ],
+  "author": "Smaug#6739",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Sheweny/framework/issues"
   },
-  "devDependencies": {
-    "@types/node": "16.9.0",
-    "@typescript-eslint/eslint-plugin": "^5.12.1",
-    "@typescript-eslint/parser": "^5.12.1",
-    "discord.js": "^14.7.1",
-    "eslint": "^8.9.0",
-    "eslint-config-prettier": "^8.4.0",
-    "eslint-plugin-prettier": "^4.0.0",
-    "prettier": "^2.5.1",
-    "ts-node-dev": "^1.1.8",
-    "typescript": "^4.5.5"
-  },
-  "engines": {
-    "node": ">=16.9.0"
-  }
+  "homepage": "https://github.com/Sheweny/framework#readme"
 }
