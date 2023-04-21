@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "lib": ["Esnext"],
+    "target": "Esnext",
+    "module": "CommonJS",
+    "noEmitOnError": true,
+    "strict": true,
+    "moduleResolution": "node",
+    "sourceMap": false,
+    "outDir": "build",
+    "rootDir": "src",
+    "removeComments": false,
+    "noImplicitAny": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true
+  },
+  "exclude": ["node_modules", "temp"]
+}
