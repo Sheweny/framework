@@ -4,10 +4,10 @@
 
 <div align="center">
 
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/Smaug6739/Spiritus)
-[![made-with-Typescript](https://img.shields.io/badge/Made%20with-Typescript-1f425f.svg)](http://commonmark.org)
-[![GitHub license](https://img.shields.io/github/license/Sheweny/framework.svg)](https://github.com/Smaug6739/master/LICENSE)
-[![GitHub tag](https://img.shields.io/github/tag/Sheweny/framework.svg)](https://github.com/Sheweny/framework/tags/)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg?style=flat-square)](https://github.com/Sheweny/Spiritus)
+[![made-with-Typescript](https://img.shields.io/badge/Made%20with-Typescript-1f425f.svg?style=flat-square)](http://commonmark.org)
+[![GitHub license](https://img.shields.io/github/license/Sheweny/framework.svg?style=flat-square)](https://github.com/Sheweny/framework/LICENSE)
+[![GitHub tag](https://img.shields.io/github/tag/Sheweny/framework.svg?style=flat-square)](https://github.com/Sheweny/framework/tags/)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
 </div>
