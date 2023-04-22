@@ -1,0 +1,38 @@
+{
+  "name": "@sheweny/markdown",
+  "version": "1.0.0",
+  "description": "A module for manage and parse markdown syntax of discord.",
+  "main": "lib/index.js",
+  "types": "./types/index.d.ts",
+  "private": false,
+  "directories": {
+    "lib": "lib"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc",
+    "build:typing": "tsc --build tsconfig.typing.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Smaug6739/discord-markdown.git"
+  },
+  "keywords": [
+    "discord",
+    "markdown",
+    "discord-markdown",
+    "syntax",
+    "util"
+  ],
+  "author": "Smaug6739",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Smaug6739/discord-markdown/issues"
+  },
+  "homepage": "https://github.com/Smaug6739/discord-markdown#readme",
+  "devDependencies": {
+    "@types/node": "^16.4.11"
+  }
+}
