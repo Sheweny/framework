@@ -1,0 +1,39 @@
+{
+  "name": "@sheweny/resolve",
+  "version": "1.3.3",
+  "description": "This module groups together functions to retrieve data from different types of arguments",
+  "main": "lib/index.js",
+  "types": "./typing/index.d.ts",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "discord.js": "^14.0.2",
+    "@types/node": "^18.0.0",
+    "@types/ws": "^8.2.2"
+  },
+  "scripts": {
+    "build": "tsc",
+    "build:typing": "tsc --build tsconfig.typing.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sheweny/discord-resolve.git"
+  },
+  "keywords": [
+    "discord",
+    "discord.js",
+    "bot",
+    "resolve-data",
+    "data",
+    "discord-data"
+  ],
+  "author": "Smaug6739",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Sheweny/discord-resolve/issues"
+  },
+  "homepage": "https://github.com/Sheweny/discord-resolve#readme"
+}
