@@ -2,12 +2,9 @@
   "name": "@sheweny/markdown",
   "version": "1.0.0",
   "description": "A module for manage and parse markdown syntax of discord.",
-  "main": "lib/index.js",
-  "types": "./types/index.d.ts",
+  "main": "build/index.js",
+  "types": "./typings/index.d.ts",
   "private": false,
-  "directories": {
-    "lib": "lib"
-  },
   "publishConfig": {
     "access": "public"
   },
