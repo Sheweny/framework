@@ -16,7 +16,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "build:typing": "tsc --build tsconfig.typing.json"
+    "build:typing": "tsc --build tsconfig.typings.json"
   },
   "repository": {
     "type": "git",
