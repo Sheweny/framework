@@ -11,17 +11,13 @@ import {
 } from 'discord.js';
 
 export class DiscordResolve {
-  client;
-  constructor(client: Client) {
-    this.client = client;
-  }
   /**
    *
    * @param {Guild} guild The guild
    * @param {string} arg The argument (id, mention, username, start of username )
    * @returns {GuildMember}
    */
-  resolveMember = async (guild: Guild, arg: string) => {
+  static resolveMember = async (guild: Guild, arg: string) => {
     if (!arg || !guild || !guild.available) {
       return;
     }
@@ -52,11 +48,11 @@ export class DiscordResolve {
    * @param {string} arg The argument (id, mention, username, username and discriminator, start of username )
    * @returns {User}
    */
-  resolveUser = async (arg: string) => {
+  static resolveUser = async (client: Client, arg: string) => {
     if (!arg) {
       return;
     }
-    let user = this.client.users.cache.find(
+    let user = client.users.cache.find(
       (u: User) =>
         u.id === arg.replace('!', '').replace(/<@|>/g, '') ||
         u.username.toLowerCase() === arg.toLowerCase() ||
@@ -66,8 +62,8 @@ export class DiscordResolve {
     if (!user) {
       try {
         const id = arg.replace('!', '').replace(/<@|>/g, '');
-        return await this.client.users.fetch(id);
-      } catch {
+        user = await client.users.fetch(id);
+      } catch (e) {
         return undefined;
       }
     }
@@ -79,7 +75,7 @@ export class DiscordResolve {
    * @param {string} arg The argument (id, mention, name)
    * @returns {GuildChannel}
    */
-  resolveChannel = (guild: Guild, arg: string) => {
+  static resolveChannel = (guild: Guild, arg: string) => {
     if (!guild || !arg) {
       return;
     }
@@ -97,9 +93,9 @@ export class DiscordResolve {
    * @param {string} arg The argument (id, name)
    * @returns {Guild}
    */
-  resolveGuild = (arg: string) => {
+  static resolveGuild = (client: Client, arg: string) => {
     if (!arg) return null;
-    const guild = this.client.guilds.cache.find((g: Guild) => g.id === arg || g.name === arg.toLowerCase());
+    const guild = client.guilds.cache.find((g: Guild) => g.id === arg || g.name === arg.toLowerCase());
     return guild;
   };
   /**
@@ -108,7 +104,7 @@ export class DiscordResolve {
    * @param {string} arg The argument (id, mention, name, start of name )
    * @returns
    */
-  resolveRole = (guild: Guild, arg: string) => {
+  static resolveRole = (guild: Guild, arg: string) => {
     if (!guild || !arg) return null;
     const role = guild.roles.cache.find(
       (r: Role) =>
@@ -126,7 +122,7 @@ export class DiscordResolve {
    * @param {string} arg The argument (id, name, emoji )
    * @returns {GuildEmoji}
    */
-  resolveGuildEmoji = (guild: Guild, arg: string) => {
+  static resolveGuildEmoji = (guild: Guild, arg: string) => {
     if (!guild || !arg) return null;
     const emoji =
       guild.emojis.cache.find((e: GuildEmoji) => e.id == arg || e.name == arg) ||
@@ -138,7 +134,7 @@ export class DiscordResolve {
    * @param {GuildMember} member
    * @returns {boolean}
    */
-  resolveModo = (member: GuildMember) => {
+  static resolveModo = (member: GuildMember) => {
     if (
       member.permissions.has(PermissionFlagsBits.Administrator) ||
       member.permissions.has(PermissionFlagsBits.ManageGuild) ||
