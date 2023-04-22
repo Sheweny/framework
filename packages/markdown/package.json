@@ -13,7 +13,8 @@
   },
   "scripts": {
     "build": "tsc",
-    "build:typing": "tsc --build tsconfig.typings.json"
+    "build:typing": "tsc --build tsconfig.typings.json",
+    "test": "vitest"
   },
   "repository": {
     "type": "git",
@@ -33,6 +34,7 @@
   },
   "homepage": "https://github.com/Smaug6739/discord-markdown#readme",
   "devDependencies": {
-    "@types/node": "^16.4.11"
+    "@types/node": "^16.4.11",
+    "vitest": "^0.30.1"
   }
 }
