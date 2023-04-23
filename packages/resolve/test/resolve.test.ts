@@ -65,6 +65,7 @@ const client: PartialClient = {
 
 
 const guild: PartialGuild = {
+  available: true,
   roles: {
     cache: new Collection<string, PartialRole>([
       ['000000000000000000', { id: '000000000000000000', name: 'role1' }],
@@ -95,7 +96,10 @@ const guild: PartialGuild = {
   members: {
     cache: new Collection<string, PartialGuildMember>([
       ['000000000000000000', { id: '000000000000000000', displayName: "display_user1", user: { id: '000000000000000000', username: 'user1', discriminator: '1111' } }],
-      
+      ['000000000000000001', { id: '000000000000000001', displayName: "display_user22", user: { id: '000000000000000001', username: 'user22', discriminator: '2222' } }],
+      ['000000000000000002', { id: '000000000000000002', displayName: "display_user333", user: { id: '000000000000000002', username: 'user333', discriminator: '3333' } }],
+      ['000000000000000003', { id: '000000000000000003', displayName: "display_user4444", user: { id: '000000000000000003', username: 'user4444', discriminator: '4444' } }],
+      ['000000000000000004', { id: '000000000000000004', displayName: "display_user55555", user: { id: '000000000000000004', username: 'user55555', discriminator: '5555' } }]
     ]),
   },
 };
@@ -219,5 +223,43 @@ describe('resolveGuildEmoji (by id, name, mention)', () => {
     expect(resolve.resolveGuildEmoji(fakeGuild, '<a:emoji1:000000000000000000>')).toEqual({ id: '000000000000000000', name: 'emoji1' });
     expect(resolve.resolveGuildEmoji(fakeGuild, '<a:emoji22:000000000000000001>')).toEqual({ id: '000000000000000001', name: 'emoji22' });
     expect(resolve.resolveGuildEmoji(fakeGuild, '<a:emoji0:000>')).toBeUndefined();
+  });
+});
+
+describe('resolveMember (by id, mention, nickname, name, start of name, name + discriminator)', () => {
+  test('finds the member by ID', async() => {
+    expect(await resolve.resolveMember(fakeGuild, '000000000000000000')).toEqual({ id: '000000000000000000', displayName: "display_user1", user: { id: '000000000000000000', username: 'user1', discriminator: '1111' }});
+    expect(await resolve.resolveMember(fakeGuild, '000000000000000001')).toEqual({ id: '000000000000000001', displayName: "display_user22", user: { id: '000000000000000001', username: 'user22', discriminator: '2222' }});
+    expect(await resolve.resolveMember(fakeGuild, '000')).toBeUndefined();
+  });
+  test('finds the member by (member) mention', async() => {
+    expect(await resolve.resolveMember(fakeGuild, '<@000000000000000000>')).toEqual({ id: '000000000000000000', displayName: "display_user1", user: { id: '000000000000000000', username: 'user1', discriminator: '1111' }});
+    expect(await resolve.resolveMember(fakeGuild, '<@000000000000000001>')).toEqual({ id: '000000000000000001', displayName: "display_user22", user: { id: '000000000000000001', username: 'user22', discriminator: '2222' }});
+    expect(await resolve.resolveMember(fakeGuild, '<@000>')).toBeUndefined();
+  });
+  test('finds the member by (nickname) mention', async() => {
+    expect(await resolve.resolveMember(fakeGuild, '<@!000000000000000000>')).toEqual({ id: '000000000000000000', displayName: "display_user1", user: { id: '000000000000000000', username: 'user1', discriminator: '1111' }});
+    expect(await resolve.resolveMember(fakeGuild, '<@!000000000000000001>')).toEqual({ id: '000000000000000001', displayName: "display_user22", user: { id: '000000000000000001', username: 'user22', discriminator: '2222' }});
+    expect(await resolve.resolveMember(fakeGuild, '<@!000>')).toBeUndefined();
+  });
+  test('finds the member by nickname (displayName)', async() => { 
+    expect(await resolve.resolveMember(fakeGuild, 'display_user1')).toEqual({ id: '000000000000000000', displayName: "display_user1", user: { id: '000000000000000000', username: 'user1', discriminator: '1111' } });
+    expect(await resolve.resolveMember(fakeGuild, 'display_user22')).toEqual({ id: '000000000000000001', displayName: "display_user22", user: { id: '000000000000000001', username: 'user22', discriminator: '2222' } });
+    expect(await resolve.resolveMember(fakeGuild, 'display_user0')).toBeUndefined();
+  });
+  test('finds the member by name (username)', async() => {
+    expect(await resolve.resolveMember(fakeGuild, 'user1')).toEqual({ id: '000000000000000000', displayName: "display_user1", user: { id: '000000000000000000', username: 'user1', discriminator: '1111' } });
+    expect(await resolve.resolveMember(fakeGuild, 'user22')).toEqual({ id: '000000000000000001', displayName: "display_user22", user: { id: '000000000000000001', username: 'user22', discriminator: '2222' } });
+    expect(await resolve.resolveMember(fakeGuild, 'user0')).toBeUndefined();
+  });
+  test('finds the member by start of name (username)', async() => {
+    expect(await resolve.resolveMember(fakeGuild, 'user')).toEqual({ id: '000000000000000000', displayName: "display_user1", user: { id: '000000000000000000', username: 'user1', discriminator: '1111' } });
+    expect(await resolve.resolveMember(fakeGuild, 'user2')).toEqual({ id: '000000000000000001', displayName: "display_user22", user: { id: '000000000000000001', username: 'user22', discriminator: '2222' } });
+    expect(await resolve.resolveMember(fakeGuild, 'user0')).toBeUndefined();
+  });
+  test('finds the member by name and discriminator (user#tag)', async() => {
+    expect(await resolve.resolveMember(fakeGuild, 'user1#1111')).toEqual({ id: '000000000000000000', displayName: "display_user1", user: { id: '000000000000000000', username: 'user1', discriminator: '1111' } });
+    expect(await resolve.resolveMember(fakeGuild, 'user22#2222')).toEqual({ id: '000000000000000001', displayName: "display_user22", user: { id: '000000000000000001', username: 'user22', discriminator: '2222' } });
+    expect(await resolve.resolveMember(fakeGuild, 'user0#0000')).toBeUndefined();
   });
 });
