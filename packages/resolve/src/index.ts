@@ -17,32 +17,30 @@ export class DiscordResolve {
    * @param {string} arg The argument (id, mention, username, start of username )
    * @returns {GuildMember}
    */
-  static resolveMember = async (guild: Guild, arg: string) => {
+  static resolveMember = async (guild: Guild, arg: string): Promise<GuildMember | undefined> => {
     if (!arg || !guild || !guild.available) {
       return;
     }
-
     let member = guild.members.cache.find(
       (mem: GuildMember) =>
-        mem.id === arg.replace('!', '').replace(/<@|>/g, '') || // Mention
-        mem.displayName.toLowerCase() === arg.toLowerCase() ||
+        mem.id === arg.replace('!', '').replace(/<@|>/g, '') || // Mention or id
+        mem.displayName.toLowerCase() === arg.toLowerCase() || // Nickname
         mem.user.username.toLowerCase() === arg.toLowerCase() || // Username
         `${mem.user.username.toLowerCase()}#${mem.user.discriminator}` === arg.toLowerCase() || // Username + discriminator
         mem.user.username.toLowerCase().startsWith(arg.toLowerCase()),
     ); // Starts with
     if (!member) {
       try {
-        member = await (await guild.members.fetch({ query: arg, limit: 1 })).first();
+        member = (await guild.members.fetch({ query: arg, limit: 1 })).first();
         if (!member) {
           const id = arg.replace('!', '').replace(/<@|>/g, '');
           member = await guild.members.fetch(id);
         }
-
-        return member;
       } catch {
         return undefined;
       }
-    } else return member;
+    }
+    return member;
   };
   /**
    *
