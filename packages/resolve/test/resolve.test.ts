@@ -117,5 +117,31 @@ describe('resolveUser', () => {
     expect(await resolve.resolveUser(fakeClient, 'user2')).toEqual({id: '000000000000000001', username: 'user22', discriminator: '2222', });
     expect(await resolve.resolveUser(fakeClient, '000')).toBeUndefined();
   });
-
+  describe('resolveChannel', () => {
+  test('finds the channel by ID', () => {
+    expect(resolve.resolveChannel(fakeGuild, '000000000000000000')).toEqual({ id: '000000000000000000', name: 'channel1' });
+    expect(resolve.resolveChannel(fakeGuild, '000000000000000001')).toEqual({ id: '000000000000000001', name: 'channel22' });
+    expect(resolve.resolveChannel(fakeGuild, '000')).toBeUndefined();
+  });
+  test('finds the channel by mention', () => {
+    expect(resolve.resolveChannel(fakeGuild, '<#000000000000000000>')).toEqual({ id: '000000000000000000', name: 'channel1' });
+    expect(resolve.resolveChannel(fakeGuild, '<#000000000000000001>')).toEqual({ id: '000000000000000001', name: 'channel22' });
+    expect(resolve.resolveChannel(fakeGuild, '<#000>')).toBeUndefined();
+  });
+  test('finds the channel by name', () => {
+    expect(resolve.resolveChannel(fakeGuild, 'channel1')).toEqual({ id: '000000000000000000', name: 'channel1' });
+    expect(resolve.resolveChannel(fakeGuild, 'channel2')).toEqual({ id: '000000000000000001', name: 'channel22' });
+    expect(resolve.resolveChannel(fakeGuild, 'channel3')).toEqual({ id: '000000000000000002', name: 'channel333' });
+    expect(resolve.resolveChannel(fakeGuild, 'channel4')).toEqual({ id: '000000000000000003', name: 'channel4444' });
+    expect(resolve.resolveChannel(fakeGuild, 'channel0')).toBeUndefined();
+  });
+  test('finds the channel by start of name', () => {
+    expect(resolve.resolveChannel(fakeGuild, 'channel')).toEqual({ id: '000000000000000000', name: 'channel1' });
+    expect(resolve.resolveChannel(fakeGuild, 'channel2')).toEqual({ id: '000000000000000001', name: 'channel22' });
+    expect(resolve.resolveChannel(fakeGuild, 'channel33')).toEqual({ id: '000000000000000002', name: 'channel333' });
+    expect(resolve.resolveChannel(fakeGuild, 'channel4')).toEqual({ id: '000000000000000003', name: 'channel4444' });
+    expect(resolve.resolveChannel(fakeGuild, 'channel5')).toEqual({ id: '000000000000000004', name: 'channel55555' });
+    expect(resolve.resolveChannel(fakeGuild, 'channel0')).toBeUndefined();
+  });
+});
 });
