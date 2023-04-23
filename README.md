@@ -10,118 +10,75 @@
 [![GitHub tag](https://img.shields.io/github/tag/Sheweny/framework.svg?style=flat-square)](https://github.com/Sheweny/framework/tags/)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
+![Compatible JS](https://img.shields.io/badge/Compatible-Typescript-informational?style=flat&logo=Code&logoColor=white&color=2bbc8a)
+![Compatible TS](https://img.shields.io/badge/Compatible-Javascript-informational?style=flat&logo=Code&logoColor=white&color=2bbc8a)
+
 </div>
 
-Sheweny is a framework for create discord bots with javascript (or typescript).
+## About
 
-- [Sheweny](#sheweny)
-- [Main feactures](#main-features-)
-- [Getting started](#getting-started-)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-  - [Command Line Interface](#command-line-interface)
-- [Useful links](#useful-links-)
-- [Example](#example-)
-- [Contributing](#contributing-)
-- [Contributors](#contributors-)
-- [Help](#help-)
+Sheweny is a framework for creating Discord bots in TypeScript. This repository contains multiple packages with separate releases.
 
-## Main features ✨
+## Packages
 
-- Modular and reloadable commands, inhibitors, events and interactions.
+- [@sheweny/framework](./packages/sheweny/) - The main package of the framework.
+- [@sheweny/heweny](./packages/heweny) - A package to create structures (commands, events, buttons etc.) with objects.
+- [@sheweny/resolve](./packages/resolve/) - A package to parse strings and isolate structures from names, mentions, tags, parts etc. of users, guilds, channemls, roles etc.
+- [@sheweny/markdown](./packages/markdown/) - A package to parse & create markdown strings with Discord markdown style.
+- [@sheweny/mistial](./packages/mistial/) - A package to interact with databases (MongoDB, MySQL, PostgreSQL, SQLite...).
+- [@sheweny/utils](./packages/utils/) - A package with multiple utilities functions.
 
-- Flexible command handling and creation.
+## Examples
 
-- Interactions support like slash-commands, buttons, select-menus, modals.
-
-- Powerful and thorough command arguments parsing.
-
-- Development mode to limit errors.
-
-- Full javascript and typescript support.
-
-## Getting Started 🎈
-
-### Prerequisites
-
-Node.js 16.9.0 or newer is required.
-
-### Installation
-
-With npm :
-
-```sh-session
-npm install sheweny
-```
-
-With yarn :
-
-```sh-session
-yarn add sheweny
-```
-
-### Command Line interface
-
-You can also use our official [Command Line Interface](https://github.com/Sheweny/CLI) for create your bot and/or add components like commands, events etc.
-
-![image](https://user-images.githubusercontent.com/59796136/143768918-3ddf97df-e67e-47a9-89d6-5d56815f2287.png)
-
-## Useful links 📖
-
-- [Website](https://sheweny.js.org)
-- [Documentation](https://sheweny.js.org/doc)
-- [Guide](https://sheweny.js.org/guide)
-- [NPM Registry](https://www.npmjs.com/package/sheweny)
-- [Discord server](https://discord.gg/qgd85nEf5a)
-- [GitHub organization](https://github.com/Sheweny)
-
-## Example 👀
+### Simple client
 
 ```js
-const { ShewenyClient } = require('sheweny');
-const config = require('./config.json');
+import { ShewenyClient } from '@sheweny/framework';
 
 const client = new ShewenyClient({
-  admins: ['611468402263064577'],
-  intents: ['Guilds', 'GuildMembers'],
-  partials: ['GUILD_MEMBER'],
-  mode: 'development',
+  intents: ['Guilds', 'GuildMembers', 'GuildMessages'],
   managers: {
     commands: {
       directory: './commands',
-      guildId: ['877090306103840778'],
-      prefix: '!',
+      applicationPermissions: true, // Enable slash-commands permissions
     },
     events: {
       directory: './events',
     },
     buttons: {
-      directory: './interactions/buttons',
-    },
-    selectMenus: {
-      directory: './interactions/selectMenus',
+      directory: './buttons',
     },
   },
 });
-
-client.login(config.token);
 ```
 
-## Contributing 🌍
+### Simple command
+
+```js
+const { Command } = require('sheweny');
+const { CommandInteraction } = require('discord.js');
+
+class PingCommand extends Command {
+  constructor(client) {
+    super(client, {
+      name: 'ping',
+      description: 'Ping Pong',
+      type: 'SLASH_COMMAND',
+      cooldown: 5, // 5 seconds
+    });
+  }
+
+  async execute(interaction) {
+    interaction.reply({ content: 'Pong!' });
+  }
+}
+
+module.exports = PingCommand;
+```
 
 This project has an MIT license. And you are welcome to contribute.
 For more details on contributions, please read the [CONTRIBUTING.md](./CONTRIBUTING.md) file.
 
-## Contributors 💡
+## Help
 
-- [Smaug6739](https://github.com/Smaug6739) - Developer and project owner.
-- [Natchi59](https://github.com/Natchi59) - Old Sheweny developer
-- [Ludo-Code](https://github.com/Ludo-code) - Tester of the framework and helper
-
-## Help 👍
-
-If you need help with the framework or your bot you can open an issue for bugs report or [join the discord server](https://discord.gg/qgd85nEf5a) for the questions.
-
----
-
-> Thank you to everyone who contributes to the project. Thanks also to all the people who use it. ❤️
+If you need help with the framework or your bot you can open an issue for bugs report or [join the discord server](https://discord.gg/qgd85nEf5a) for questions.
