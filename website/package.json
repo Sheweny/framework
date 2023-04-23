@@ -1,5 +1,5 @@
 {
-  "name": "square-website",
+  "name": "sheweny-website",
   "version": "0.0.1",
   "description": "Square is a components library",
   "main": "none",
@@ -10,12 +10,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Smaug6739/square.git"
+    "url": "git+https://github.com/Sheweny/sheweny.git"
   },
   "keywords": [
     "website",
     "vue",
-    "square",
+    "sheweny",
     "components",
     "ui",
     "vue3"
@@ -23,10 +23,11 @@
   "author": "Smaug#6739",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Smaug6739/square/issues"
+    "url": "https://github.com/Sheweny/sheweny/issues"
   },
-  "homepage": "https://github.com/Smaug6739/square#readme",
+  "homepage": "https://github.com/Sheweny/sheweny#readme",
   "devDependencies": {
+    "@types/node": "^18.16.0",
     "vitepress": "^1.0.0-alpha.27",
     "vue": "^3.2.47"
   }
