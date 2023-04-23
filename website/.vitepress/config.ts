@@ -9,6 +9,9 @@ if (process.env.ALGOLIA_APP_ID && process.env.ALGOLIA_API_KEY)
     appId: process.env.ALGOLIA_APP_ID || '',
     apiKey: process.env.ALGOLIA_API_KEY || '',
     indexName: 'framework',
+    searchParameters: {
+      facetFilters: ['sheweny.js.org/*'],
+    },
   };
 
 export default defineConfig({
