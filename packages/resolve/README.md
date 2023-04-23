@@ -2,7 +2,7 @@
 
 Sheweny plugin
 
-This module groups together functions to retrieve data from different types of arguments. The functions group together all the possible cases each time (id, mention, name, start of name, name + tag). This module can also be used with slash-commands to give several options to a user.
+This module groups functions to retrieve data from different types of arguments. The functions group together all the possible cases each time (id, mention, name, start of name, name + tag). This module can also be used with slash-commands to give several options to a user.
 
 ## Getting Started
 
@@ -31,13 +31,13 @@ Import the module from node_modules :
 With CommonJS syntax :
 
 ```js
-const { DiscordResolve } = require("@sheweny/resolve");
+const { DiscordResolve } = require('@sheweny/resolve');
 ```
 
 With module syntax :
 
 ```js
-import { DiscordResolve } from "@sheweny/resolve";
+import { DiscordResolve } from '@sheweny/resolve';
 ```
 
 Create a new instance of DiscordResolve with the client has a parameter.
@@ -61,7 +61,7 @@ Parameters :
 Return : User or undefined
 
 ```js
-const user = await resolve.resolveUser("@Sheweny#1234");
+const user = await resolve.resolveUser('@Sheweny#1234');
 ```
 
 ## resolveGuild(arg)
@@ -90,7 +90,7 @@ Parameters :
 Return : GuildMember or undefined
 
 ```js
-const member = await resolve.resolveMember(guild, "@Sheweny#1234");
+const member = await resolve.resolveMember(guild, '@Sheweny#1234');
 ```
 
 ## resolveChannel(guild, arg)
@@ -105,7 +105,7 @@ Parameters :
 Return : GuildChannel or undefined
 
 ```js
-const channel = resolve.resolveChannel(guild, "general");
+const channel = resolve.resolveChannel(guild, 'general');
 ```
 
 ## resolveRole(guild, arg)
@@ -120,7 +120,7 @@ Parameters :
 Return : Role or undefined
 
 ```js
-const role = resolve.resolveRole(guild, "@everyone");
+const role = resolve.resolveRole(guild, '@everyone');
 ```
 
 ## resolveGuildEmoji(guild, arg)
@@ -135,7 +135,7 @@ Parameters :
 Return : GuildEmoji or undefined
 
 ```js
-const emoji = resolve.resolveGuildEmoji(guild, ":smile:");
+const emoji = resolve.resolveGuildEmoji(guild, ':smile:');
 ```
 
 ## resolveModo(member)
@@ -155,15 +155,15 @@ const isModo = resolve.resolveModo(member);
 ## Example
 
 ```js
-const { DiscordResolve } = require("@sheweny/resolve");
-const { Client, Intents } = require("discord.js");
+const { DiscordResolve } = require('@sheweny/resolve');
+const { Client, Intents } = require('discord.js');
 
 const client = new Client({
   intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
 });
 const util = new DiscordResolve(client);
-client.on("messageCreate", async (msg) => {
-  const args = msg.content.split(" ");
+client.on('messageCreate', async msg => {
+  const args = msg.content.split(' ');
   const user = await util.resolveUser(args[0]); // args[0] accept id, mention, name, start of name and username + discriminator.
   const guild = util.resolveGuild(args[1]); // args[1] accept id, and name.
   const member = await util.resolveMember(msg.guild, args[2]); // args[2] accept id, mention, username, start of username.
@@ -171,5 +171,5 @@ client.on("messageCreate", async (msg) => {
   const role = util.resolveRole(msg.guild, args[4]); // args[4] accept id, mention, name and start of name.
   const emoji = util.resolveGuildEmoji(msg.guild, args[5]); // args[5] accept id, name and emoji.
 });
-client.login("token");
+client.login('token');
 ```
