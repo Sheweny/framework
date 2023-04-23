@@ -7,24 +7,27 @@ import {
   type Guild, 
   type GuildChannel, 
   type Role, 
-  type GuildEmoji } from 'discord.js';
+  type GuildEmoji, 
+  type GuildMember} from 'discord.js';
 
 type Modify<T, R> = Omit<T, keyof R> & R;
 
 type PartialClient = Partial<Modify<Client, { users: PartialCustomUserManager, guilds: PartialCustomGuildManager }>>;
-type PartialGuild = Partial<Omit<Modify<Guild, {channels: PartialCustomGuildChannelManager, roles: PartialCustomRoleManager, emojis: PartialCustomGuildEmojiManager}>, 'valueOf'>>;
+type PartialGuild = Partial<Omit<Modify<Guild, {channels: PartialCustomGuildChannelManager, roles: PartialCustomRoleManager, emojis: PartialCustomGuildEmojiManager, members: PartialCustomGuildMemberManager}>, 'valueOf'>>;
 
 
 // Partial managers (partials managers without valueOf)
-type PartialCustomUserManager = Partial<Omit<CustomUsermanager, 'valueOf'>>;
-type PartialCustomGuildManager = Partial<Omit<CustomGuildmanager, 'valueOf'>>;
+type PartialCustomUserManager = Partial<Omit<CustomUserManager, 'valueOf'>>;
+type PartialCustomGuildMemberManager = Partial<Omit<CustomGuildMemberManager, 'valueOf'>>;
+type PartialCustomGuildManager = Partial<Omit<CustomGuildManager, 'valueOf'>>;
 type PartialCustomGuildChannelManager = Partial<Omit<CustomGuildChannelManager, 'valueOf'>>;
 type PartialCustomGuildEmojiManager = Partial<Omit<CustomGuildEmojiManager, 'valueOf'>>;
 type PartialCustomRoleManager = Partial<Omit<CustomRoleManager, 'valueOf'>>;
 
 // Custom managers (managers with custom cache)
-type CustomUsermanager = Modify<Client['users'], { cache: Collection<string, PartialUser> }>;
-type CustomGuildmanager = Modify<Client['guilds'], { cache: Collection<string, PartialGuild> }>;
+type CustomUserManager = Modify<Client['users'], { cache: Collection<string, PartialUser> }>;
+type CustomGuildMemberManager = Modify<Guild['members'], { cache: Collection<string, PartialGuildMember> }>;
+type CustomGuildManager = Modify<Client['guilds'], { cache: Collection<string, PartialGuild> }>;
 type CustomGuildChannelManager = Modify<Guild['channels'], { cache: Collection<string, PartialGuildChannel> }>;
 type CustomGuildEmojiManager = Modify<Guild['emojis'], { cache: Collection<string, PartialGuildEmoji> }>;
 type CustomRoleManager = Modify<Guild['roles'], { cache: Collection<string, PartialRole> }>;
@@ -32,6 +35,7 @@ type CustomRoleManager = Modify<Guild['roles'], { cache: Collection<string, Part
 
 // Partial structures (channels, roles, users, etc.) without toString and valueOf (discord.js custom methods)
 type PartialUser = Partial<Omit<User, 'toString' | 'valueOf'>>;
+type PartialGuildMember = Partial<Omit<Modify<GuildMember, {user: PartialUser}>, 'toString' | 'valueOf'>>;
 type PartialGuildChannel = Partial<Omit<GuildChannel, 'toString' | 'valueOf'>>;
 type PartialGuildEmoji = Partial<Omit<GuildEmoji, 'toString' | 'valueOf'>>;
 type PartialRole = Partial<Omit<Role, 'toString' | 'valueOf'>>;
@@ -87,7 +91,13 @@ const guild: PartialGuild = {
       ['000000000000000003', { id: '000000000000000003', name: 'emoji4444' }],
       ['000000000000000004', { id: '000000000000000004', name: 'emoji55555' }],
     ]),
-  }
+  },
+  members: {
+    cache: new Collection<string, PartialGuildMember>([
+      ['000000000000000000', { id: '000000000000000000', displayName: "display_user1", user: { id: '000000000000000000', username: 'user1', discriminator: '1111' } }],
+      
+    ]),
+  },
 };
 
 const fakeClient = client as unknown as Client;
@@ -210,4 +220,4 @@ describe('resolveGuildEmoji (by id, name, mention)', () => {
     expect(resolve.resolveGuildEmoji(fakeGuild, '<a:emoji22:000000000000000001>')).toEqual({ id: '000000000000000001', name: 'emoji22' });
     expect(resolve.resolveGuildEmoji(fakeGuild, '<a:emoji0:000>')).toBeUndefined();
   });
-})
+});

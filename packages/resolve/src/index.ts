@@ -25,6 +25,7 @@ export class DiscordResolve {
     let member = guild.members.cache.find(
       (mem: GuildMember) =>
         mem.id === arg.replace('!', '').replace(/<@|>/g, '') || // Mention
+        mem.displayName.toLowerCase() === arg.toLowerCase() ||
         mem.user.username.toLowerCase() === arg.toLowerCase() || // Username
         `${mem.user.username.toLowerCase()}#${mem.user.discriminator}` === arg.toLowerCase() || // Username + discriminator
         mem.user.username.toLowerCase().startsWith(arg.toLowerCase()),
