@@ -56,7 +56,6 @@ const client = new ShewenyClient({
 
 ```js
 const { Command } = require('sheweny');
-const { CommandInteraction } = require('discord.js');
 
 class PingCommand extends Command {
   constructor(client) {
