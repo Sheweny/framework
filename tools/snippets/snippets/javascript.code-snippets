@@ -1,0 +1,161 @@
+{
+	"Event": {
+		"prefix": "shw:event",
+		"description": "Event",
+		"body": [
+			"const { Event } = require(\"sheweny\");",
+			"",
+			"module.exports = class ${1:className} extends Event {",
+			"  constructor(client) {",
+			"    super(client, \"${2:eventName}\", {",
+			"      once: ${3:false},",
+			"    });",
+			"  }",
+			"  ",
+			"  execute(${4:eventParameters}) {",
+			"    ${5:// Your code here}",
+			"  }",
+			"};"
+		]
+	},
+	"SelectMenu": {
+		"prefix": "shw:selectmenu",
+		"description": "SelectMenu",
+		"body": [
+			"const { SelectMenu } = require(\"sheweny\");",
+			"",
+			"module.exports = class ${1:className} extends SelectMenu {",
+			"  constructor(client) {",
+			"    super(client, [\"${2:selectMenuId}\"]);",
+			"  }",
+			"",
+			"  execute(selectMenu) {",
+			"    ${3:// Your code here}",
+			"  }",
+			"};"
+		]
+	},
+	"Button": {
+		"prefix": "shw:button",
+		"description": "Button",
+		"body": [
+			"const { Button } = require(\"sheweny\");",
+			"",
+			"module.exports = class ${1:className} extends Button {",
+			"  constructor(client) {",
+			"    super(client, [\"${2:buttonId}\"]);",
+			"  }",
+			"  ",
+			"  execute(button) {",
+			"    ${3:// Your code here}",
+			"  }",
+			"};"
+		]
+	},
+	"Inhibitor": {
+		"prefix": "shw:inhibitor",
+		"description": "Inhibitor",
+		"body": [
+			"const { Inhibitor } = require(\"sheweny\");",
+			"",
+			"module.exports =  class ${1:className} extends Inhibitor {",
+			"  constructor(client) {",
+			"    super(client, \"${2:inhibitorName}\", {",
+			"      type: [\"${3:ALL}\"],",
+			"    });",
+			"  }",
+			"",
+			"  execute(client, interaction) {",
+			"    return ![\"877090306103840778\"].includes(interaction.guildId!);",
+			"  }",
+			"",
+			"  onFailure(client, interaction) {",
+			"    interaction.reply(\"Your guild is blacklisted.\");",
+			"  }",
+			"}"
+		]
+	},
+	"SlashCommand": {
+		"prefix": "shw:slashcommand",
+		"description": "SlashCommand",
+		"body": [
+			"const { Command } = require(\"sheweny\");",
+			"",
+			"module.exports = class ${1:className} extends Command {",
+			"  constructor(client) {",
+			"    super(client, {",
+			"      type: \"SLASH_COMMAND\",",
+			"      name: \"${2:commandName}\",",
+			"      description: \"${3:commandDescription}\",",
+			"    });",
+			"  }",
+			"  execute(interaction) {",
+			"    ${4:// Your code here}",
+			"  }",
+			"};"
+		]
+	},
+	"UserContextMenu": {
+		"prefix": "shw:user:contextmenu",
+		"description": "UserContextMenu",
+		"body": [
+			"const { Command } = require(\"sheweny\");",
+			"",
+			"module.exports = class ${1:className} extends Command {",
+			"  constructor(client) {",
+			"    super(client, {",
+			"      type: \"CONTEXT_MENU_USER\",",
+			"      name: \"${2:contextMenuName}\",",
+			"      description: \"${3:contextMenuDescription}\",",
+			"    });",
+			"  }",
+			"",
+			"  execute(interaction) {",
+			"    ${4:// Your code here}",
+			"  }",
+			"};"
+		]
+	},
+	"MessageContextMenu": {
+		"prefix": "shw:message:contextmenu",
+		"description": "MessageContextMenu",
+		"body": [
+			"const { Command } = require(\"sheweny\");",
+			"",
+			"module.exports = class ${1:className} extends Command {",
+			"  constructor(client) {",
+			"    super(client, {",
+			"      type: \"CONTEXT_MENU_MESSAGE\",",
+			"      name: \"${2:contextMenuName}\",",
+			"      description: \"${3:contextMenuDescription}\",",
+			"    });",
+			"  }",
+			"",
+			"  execute(interaction) {",
+			"    ${4:// Your code here}",
+			"  }",
+			"};"
+		]
+	},
+	"MessageCommand": {
+		"prefix": "shw:message:command",
+		"description": "MessageCommand",
+		"body": [
+			"const { Command } = require(\"sheweny\");",
+			"",
+			"module.exports = class ${1:className} extends Command {",
+			"  constructor(client) {",
+			"    super(client, {",
+			"      name: \"${2:commandName}\",",
+			"      description: \"${3:commandDescription}\",",
+			"      category: \"${4:commandCategory}\",",
+			"    });",
+			"  }",
+			"",
+			"  execute(message, args) {",
+			"    ${5:// Your code here}",
+			"  }",
+			"};"
+		]
+	}
+}

@@ -1,0 +1,153 @@
+{
+	"Event": {
+		"prefix": "shw:event",
+		"description": "Event",
+		"body": [
+			"import { Event } from \"sheweny\";",
+			"import type { ShewenyClient } from \"sheweny\";",
+			"",
+			"export class ${1:className} extends Event {",
+			"  constructor(client: ShewenyClient) {",
+			"    super(client, \"${2:eventName}\", {",
+			"      once: ${3:false},",
+			"    });",
+			"  }",
+			"",
+			"  execute(${4:eventParameters}) {",
+			"    ${5:// Your code here}",
+			"  }",
+			"}"
+		]
+	},
+	"SelectMenu": {
+		"prefix": "shw:selectmenu",
+		"description": "SelectMenu",
+		"body": [
+			"import { SelectMenu } from \"sheweny\";",
+			"import type { ShewenyClient } from \"sheweny\";",
+			"import type { SelectMenuInteraction } from \"discord.js\";",
+			"",
+			"export class ${1:className} extends SelectMenu {",
+			"  constructor(client: ShewenyClient) {",
+			"    super(client, [\"${2:selectMenuId}\"]);",
+			"  }",
+			"",
+			"  execute(selectMenu: SelectMenuInteraction) {",
+			"    ${3:// Your code here}",
+			"  }",
+			"}"
+		]
+	},
+	"Button": {
+		"prefix": "shw:button",
+		"description": "Button",
+		"body": [
+			"import { Button } from \"sheweny\";",
+			"import type { ShewenyClient } from \"sheweny\";",
+			"import type { ButtonInteraction } from \"discord.js\";",
+			"",
+			"export class ${1:className} extends Button {",
+			"  constructor(client: ShewenyClient) {",
+			"    super(client, [\"${2:buttonId}\"]);",
+			"  }",
+			"",
+			"  execute(button: ButtonInteraction) {",
+			"    ${3:// Your code here}",
+			"  }",
+			"}"
+		]
+	},
+	"Inhibitor": {
+		"prefix": "shw:inhibitor",
+		"description": "Inhibitor",
+		"body": [
+			"import { Inhibitor } from \"sheweny\";",
+			"import type { ShewenyClient } from \"sheweny\";",
+			"import type { CommandInteraction } from \"discord.js\";",
+			"",
+			"export class ${1:className} extends Inhibitor {",
+			"  constructor(client: ShewenyClient) {",
+			"    super(client, \"${2:inhibitorName}\", {",
+			"      type: [\"${3:APPLICATION_COMMAND}\"],",
+			"    });",
+			"  }",
+			"",
+			"  execute(client: ShewenyClient, interaction: CommandInteraction) {",
+			"    return ![\"877090306103840778\"].includes(interaction.guildId!);",
+			"  }",
+			"",
+			"  onFailure(client: ShewenyClient, interaction: CommandInteraction) {",
+			"    interaction.reply(\"Your guild is blacklisted.\");",
+			"  }",
+			"}"
+		]
+	},
+	"SlashCommand": {
+		"prefix": "shw:slashcommand",
+		"description": "SlashCommand",
+		"body": [
+			"import { Command } from \"sheweny\";",
+			"import type { ShewenyClient } from \"sheweny\";",
+			"import type { CommandInteraction } from \"discord.js\";",
+			"",
+			"export class ${1:className} extends Command {",
+			"  constructor(client: ShewenyClient) {",
+			"    super(client, {",
+			"      type: \"SLASH_COMMAND\",",
+			"      name: \"${2:commandName}\",",
+			"      description: \"${3:commandDescription}\",",
+			"    });",
+			"  }",
+			"  execute(i: CommandInteraction) {",
+			"    ${4:// Your code here}",
+			"  }",
+			"}"
+		]
+	},
+	"UserContextMenu": {
+		"prefix": "shw:user:contextmenu",
+		"description": "UserContextMenu",
+		"body": [
+			"import { Command } from \"sheweny\";",
+			"import type { ShewenyClient } from \"sheweny\";",
+			"import type { ContextMenuInteraction } from \"discord.js\";",
+			"",
+			"export class ${1:className} extends Command {",
+			"  constructor(client: ShewenyClient) {",
+			"    super(client, {",
+			"      type: \"CONTEXT_MENU_USER\",",
+			"      name: \"${2:contextMenuName}\",",
+			"      description: \"${3:contextMenuDescription}\",",
+			"    });",
+			"  }",
+			"",
+			"  execute(i: ContextMenuInteraction) {",
+			"    ${4:// Your code here}",
+			"  }",
+			"}"
+		]
+	},
+	"MessageContextMenu": {
+		"prefix": "shw:message:contextmenu",
+		"description": "MessageContextMenu",
+		"body": [
+			"import { Command } from \"sheweny\";",
+			"import type { ShewenyClient } from \"sheweny\";",
+			"import type { ContextMenuInteraction } from \"discord.js\";",
+			"",
+			"export class ${1:className} extends Command {",
+			"  constructor(client: ShewenyClient) {",
+			"    super(client, {",
+			"      type: \"CONTEXT_MENU_MESSAGE\",",
+			"      name: \"${2:contextMenuName}\",",
+			"      description: \"${3:contextMenuDescription}\",",
+			"    });",
+			"  }",
+			"",
+			"  execute(i: ContextMenuInteraction) {",
+			"    ${4:// Your code here}",
+			"  }",
+			"}"
+		]
+	}
+}
